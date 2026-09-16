@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str4 {stroke:black;stroke-width:4}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M485 450c0,0 -53,-154 -246,-228 0,0 -90,-36 -142,-36 0,0 -127,1 -77,124l25 53c0,0 21,42 24,68 0,0 -5,72 31,104 0,0 46,62 136,18 0,0 102,-45 251,-37l-2 -66z" id="crop0"/>
+  <path class="fil0 str6" d="M505 645c0,0 -38,101 -121,176 0,0 -50,62 -128,28 0,0 -71,-32 -119,-149 0,0 -33,-86 39,-122 0,0 129,-72 311,-62 0,0 -4,36 18,129z" id="crop0"/>
+  <path class="fil0 str6" d="M466 651c0,0 -28,75 -90,131 0,0 -38,46 -96,21 0,0 -54,-24 -89,-112 0,0 -25,-64 29,-91 0,0 97,-54 233,-46 0,0 -3,26 13,97z" id="crop0"/>
+  <ellipse class="fil0 str4" rx="51" ry="26" transform="matrix(1.09287 0.805712 -0.805712 1.09287 377.847 412.361)" id="crop0"/>
+  <circle class="fil0 str6" cx="205" cy="454" r="71" id="crop0"/>
+  <circle class="fil0 str6" cx="230" cy="310" r="47" id="crop0"/>
+  <path class="fil0 str6" d="M541 450c0,0 53,-154 246,-228 0,0 89,-36 141,-36 0,0 128,1 77,124l-24 53c0,0 -22,42 -25,68 0,0 6,72 -31,104 0,0 -46,62 -136,18 0,0 -101,-45 -251,-37l3 -66z" id="crop0"/>
+  <path class="fil0 str6" d="M521 645c0,0 38,101 120,176 0,0 51,62 128,28 0,0 72,-32 120,-149 0,0 32,-86 -40,-122 0,0 -129,-72 -311,-62 0,0 4,36 -17,129z" id="crop0"/>
+  <path class="fil0 str6" d="M559 651c0,0 29,75 91,131 0,0 37,46 95,21 0,0 54,-24 90,-112 0,0 24,-64 -30,-91 0,0 -96,-54 -233,-46 0,0 4,26 -13,97z" id="crop0"/>
+  <ellipse class="fil0 str4" rx="51" ry="26" transform="matrix(-1.09287 0.805712 0.805712 1.09287 647.65 412.361)" id="crop0"/>
+  <circle class="fil0 str6" cx="821" cy="454" r="71" id="crop0"/>
+  <circle class="fil0 str6" cx="796" cy="310" r="47" id="crop0"/>
+  <path class="fil0 str6" d="M523 811c0,0 -6,20 -18,1l-7 -171c0,0 -45,-176 2,-216 0,0 -14,-14 2,-29 0,0 -15,-49 -65,-91 0,0 -27,-3 -41,-36 0,0 29,4 48,30 0,0 50,44 64,94 0,0 8,-1 12,1 0,0 19,-59 69,-98 0,0 7,-21 42,-25 0,0 -12,27 -36,32 0,0 -45,29 -68,94 0,0 15,11 0,28 0,0 44,15 0,212l-4 174z" id="crop0"/>
+</svg>

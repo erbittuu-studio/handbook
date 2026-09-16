@@ -1,0 +1,96 @@
+{
+  "id": 21,
+  "items": [
+    {
+      "id": 2101,
+      "title": {
+        "en": "Arms"
+      },
+      "asset": "images/body-arms.png"
+    },
+    {
+      "id": 2102,
+      "title": {
+        "en": "Ears"
+      },
+      "asset": "images/body-ears.png"
+    },
+    {
+      "id": 2103,
+      "title": {
+        "en": "Eyes"
+      },
+      "asset": "images/body-eyes.png"
+    },
+    {
+      "id": 2104,
+      "title": {
+        "en": "Feet"
+      },
+      "asset": "images/body-feet.png"
+    },
+    {
+      "id": 2105,
+      "title": {
+        "en": "Hair"
+      },
+      "asset": "images/body-hair.png"
+    },
+    {
+      "id": 2106,
+      "title": {
+        "en": "Hands"
+      },
+      "asset": "images/body-hands.png"
+    },
+    {
+      "id": 2107,
+      "title": {
+        "en": "Head"
+      },
+      "asset": "images/body-head.png"
+    },
+    {
+      "id": 2108,
+      "title": {
+        "en": "Legs"
+      },
+      "asset": "images/body-legs.png"
+    },
+    {
+      "id": 2109,
+      "title": {
+        "en": "Lips"
+      },
+      "asset": "images/body-lips.png"
+    },
+    {
+      "id": 2110,
+      "title": {
+        "en": "Mouth"
+      },
+      "asset": "images/body-mouth.png"
+    },
+    {
+      "id": 2111,
+      "title": {
+        "en": "Nose"
+      },
+      "asset": "images/body-nose.png"
+    },
+    {
+      "id": 2112,
+      "title": {
+        "en": "Teeth"
+      },
+      "asset": "images/body-teeth.png"
+    },
+    {
+      "id": 2113,
+      "title": {
+        "en": "Tongue"
+      },
+      "asset": "images/body-tongue.png"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "sections": [
+    {
+      "id": "opening",
+      "verses": [
+        { "id": 1, "first": "Jai Ganpati Sadgun Sadan, Kavivar Badan Kripal", "second": "Vighna Haran Mangal Karan, Jai Jai Girijalal" }
+      ]
+    },
+    {
+      "id": "chaupai",
+      "verses": [
+        { "id": 2, "first": "Jai Jai Jai Ganpati Ganrajoo", "second": "Mangal Bharan Karan Shubh Kajoo" },
+        { "id": 3, "first": "Jai Gajbadan Sadan Sukhdata", "second": "Vishwa Vinayaka Buddhi Vidhata" },
+        { "id": 4, "first": "Vakra Tunda Shuchi Shunda Suhavana", "second": "Tilak Tripund Bhal Man Bhavan" },
+        { "id": 5, "first": "Rajat Mani Muktan Ur Mala", "second": "Swarn Mukut Shir Nayan Vishala" },
+        { "id": 6, "first": "Pustak Pani Kuthar Trishoolam", "second": "Modak Bhog Sugandhit Phoolam" },
+        { "id": 7, "first": "Sundar Pitambar Tan Sajit", "second": "Charan Paduka Muni Man Rajit" },
+        { "id": 8, "first": "Dhani Shiv Suvan Shadanan Bhrata", "second": "Gauri Lalan Vishwa-Vikhyata" },
+        { "id": 9, "first": "Riddhi-Siddhi Tav Chanvar Sudhare", "second": "Mushak Vahan Sohat Dware" },
+        { "id": 10, "first": "Kahau Janma Shubh Katha Tumhari", "second": "Ati Shuchi Pavan Mangalkari" },
+        { "id": 11, "first": "Ek Samay Giriraj Kumari", "second": "Putra Hetu Tap Keenha Bhari" },
+        { "id": 12, "first": "Bhayo Yagya Jab Poorna Anoopa", "second": "Tab Pahunchyo Tum Dhari Dwij Roopa" },
+        { "id": 13, "first": "Atithi Jani Ke Gauri Sukhari", "second": "Bahuvidhi Seva Kari Tumhari" },
+        { "id": 14, "first": "Ati Prasanna Havai Tum Var Deenha", "second": "Matu Putra Hit Jo Tap Keenha" },
+        { "id": 15, "first": "Milahi Putra Tuhi, Buddhi Vishala", "second": "Bina Garbh Dharan Yahi Kala" },
+        { "id": 16, "first": "Gananayak Gun Gyan Nidhana", "second": "Poojit Pratham Roop Bhagwana" },
+        { "id": 17, "first": "As Kahi Antardhan Roop Havai", "second": "Palna Par Balak Swaroop Havai" },
+        { "id": 18, "first": "Bani Shishu Rudan Jabahin Tum Thana", "second": "Lakhi Mukh Sukh Nahin Gauri Samana" },
+        { "id": 19, "first": "Sakal Magan, Sukhmangal Gavahin", "second": "Nabh Te Suran, Suman Varshavahin" },
+        { "id": 20, "first": "Shambhu, Uma, Bahudan Lutavahin", "second": "Sur Munijan, Sut Dekhan Avahin" },
+        { "id": 21, "first": "Lakhi Ati Anand Mangal Saja", "second": "Dekhan Bhi Aaye Shani Raja" },
+        { "id": 22, "first": "Nij Avagun Guni Shani Man Mahin", "second": "Balak, Dekhan Chahat Nahin" },
+        { "id": 23, "first": "Girija Kachhu Man Bhed Badhayo", "second": "Utsav Mor, Na Shani Tuhi Bhayo" },
+        { "id": 24, "first": "Kahat Lage Shani, Man Sakuchai", "second": "Ka Karihau, Shishu Mohi Dikhai" },
+        { "id": 25, "first": "Nahin Vishwas, Uma Ur Bhayau", "second": "Shani Son Balak Dekhan Kahyau" },
+        { "id": 26, "first": "Padtahin Shani Drig Kon Prakasha", "second": "Balak Sir Udi Gayo Akasha" },
+        { "id": 27, "first": "Girija Giri Vikal Havai Dharani", "second": "So Dukh Dasha Gayo Nahin Varani" },
+        { "id": 28, "first": "Hahakar Machyau Kailasha", "second": "Shani Keenho Lakhi Sut Ko Nasha" },
+        { "id": 29, "first": "Turat Garud Chadhi Vishnu Sidhayo", "second": "Kati Chakra So Gaj Sir Laye" },
+        { "id": 30, "first": "Balak Ke Dhad Oopar Dharyo", "second": "Pran Mantra Padhi Shankar Daryo" },
+        { "id": 31, "first": "Naam Ganesh Shambhu Tab Keenhe", "second": "Pratham Poojya Buddhi Nidhi, Var Deenhe" },
+        { "id": 32, "first": "Buddhi Pariksha Jab Shiv Keenha", "second": "Prithvi Kar Pradakshina Leenha" },
+        { "id": 33, "first": "Chale Shadanan, Bharmi Bhulai", "second": "Rache Baith Tum Buddhi Upai" },
+        { "id": 34, "first": "Charan Matu-Pitu Ke Dhar Leenhe", "second": "Tinke Saat Pradakshin Keenhe" },
+        { "id": 35, "first": "Dhani Ganesh Kahi Shiv Hiye Harshe", "second": "Nabh Te Suran Suman Bahu Barse" },
+        { "id": 36, "first": "Tumhari Mahima Buddhi Badai", "second": "Shesh Sahasmukh Sake Na Gai" },
+        { "id": 37, "first": "Main Matiheen Maleen Dukhari", "second": "Karahun Kaun Vidhi Vinay Tumhari" },
+        { "id": 38, "first": "Bhajat Ramsundar Prabhudasa", "second": "Jag Prayag, Kakra, Durvasa" },
+        { "id": 39, "first": "Ab Prabhu Daya Deena Par Kije", "second": "Apni Shakti Bhakti Kuchh Dije" }
+      ]
+    },
+    {
+      "id": "closing",
+      "verses": [
+        { "id": 40, "first": "Shri Ganesh Yah Chalisa, Path Karai Kar Dhyan", "second": "Nit Nav Mangal Grah Basai, Lahe Jagat Sanman" },
+        { "id": 41, "first": "Sambandh Apne Sahasra Dash, Rishi Panchami Dinesh", "second": "Pooran Chalisa Bhayo, Mangal Moorti Ganesh" }
+      ]
+    }
+  ]
+}

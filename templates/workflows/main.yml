@@ -1,0 +1,519 @@
+# Store and content pushes.
+#
+# One file, three independent jobs, each gated on the paths that concern it —
+# a metadata merge never touches screenshots, a data merge never touches
+# either.
+#
+# Branch rules differ per job (PLAYBOOK §5):
+#   - metadata + screenshots also run on release/* pushes, because App Store
+#     text has to be in App Store Connect before you submit, and the merge to
+#     main now happens after Apple approves — too late.
+#
+# Content hosting lives in the shared handbook repo — no app stages or
+# deploys its own site.
+#
+# The manual button takes a `job` input so you can still run one of these on
+# its own.
+name: Main
+
+on:
+  push:
+    branches: [main, 'release/**']
+    paths:
+      - "fastlane/metadata/**"
+      - "fastlane/Deliverfile"
+      - "fastlane/Appfile"
+      - "fastlane/Fastfile"
+      - "fastlane/project.rb"
+      - "fastlane/screenshots/**"
+      # Project.json holds store.locales, which the Deliverfile's languages()
+      # reads to decide which localizations deliver activates on the store.
+      - "Project.json"
+      - "App/Source/**"
+      - "App/Packages/**"
+      - "App/Vendor/**"
+      - "App/{{PROJECT_NAME}}.xcodeproj/**"
+      - ".swiftlint.yml"
+      # The automation's own files — without these, a broken workflow reaches
+      # main and sits there until an unrelated push fails. verify-ci below
+      # gives a run on these paths something to actually do.
+      - ".github/workflows/**"
+      - "scripts/**"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Which job to run"
+        type: choice
+        default: all
+        options: [all, metadata, screenshots, xcode-cloud]
+
+permissions:
+  contents: read
+
+jobs:
+  # Decides which jobs run. The paths filter runs on every branch, so a
+  # release push that touches no listing text doesn't reupload the listing.
+  #
+  # On the first push to a brand-new branch there's nothing to diff against,
+  # so the filter answers neither true nor false — `decide` below turns that
+  # into a run, since a new release branch should sync everything anyway.
+  #
+  # On workflow_dispatch there's no diff either, so the `job` input decides.
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      metadata: ${{ steps.decide.outputs.metadata }}
+      screenshots: ${{ steps.decide.outputs.screenshots }}
+      code: ${{ steps.decide.outputs.code }}
+      ci: ${{ steps.decide.outputs.ci }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # paths-filter resolves `base` with git, so the commit it diffs
+          # against has to be in the clone — depth 1 isn't enough for a
+          # multi-commit push.
+          fetch-depth: 0
+
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
+        id: filter
+        if: github.event_name == 'push'
+        with:
+          # Diff THIS PUSH, not the whole branch. `base` defaults to the
+          # default branch, which on release/* compared against main and
+          # reported every file the release had ever touched — every job ran
+          # on every push. An empty base on a brand-new branch (before is all
+          # zeros) falls back to the default-branch comparison, which is
+          # correct there too: report and run everything.
+          base: ${{ github.event.before != '0000000000000000000000000000000000000000' && github.event.before || '' }}
+          filters: |
+            metadata:
+              - 'fastlane/metadata/**'
+              - 'fastlane/Deliverfile'
+              - 'fastlane/Appfile'
+              - 'fastlane/Fastfile'
+              - 'fastlane/project.rb'
+              - 'Project.json'
+            screenshots:
+              - 'fastlane/screenshots/**'
+              - 'Project.json'
+            code:
+              - 'App/Source/**'
+              - 'App/Packages/**'
+              - 'App/Vendor/**'
+              - 'App/{{PROJECT_NAME}}.xcodeproj/**'
+              - '.swiftlint.yml'
+            ci:
+              - '.github/workflows/**'
+              - 'scripts/**'
+
+      - name: Decide what to run
+        id: decide
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            WANT="${{ inputs.job }}"
+            for j in metadata screenshots ci; do
+              if [ "$WANT" = "all" ] || [ "$WANT" = "$j" ]; then
+                echo "$j=true" >> "$GITHUB_OUTPUT"
+              else
+                echo "$j=false" >> "$GITHUB_OUTPUT"
+              fi
+            done
+          else
+            # `decide` handles the case where the filter answers neither true
+            # nor false (first push to a new branch, nothing to diff against —
+            # the outputs come back empty). Unknown means run it: a release
+            # branch with every job skipped and a green tick over a listing
+            # nobody pushed is the one failure this file avoids.
+            decide() {
+              case "$2" in
+                true|false)
+                  echo "$1=$2" >> "$GITHUB_OUTPUT"
+                  ;;
+                *)
+                  echo "::warning::paths-filter gave no answer for '$1' (got '${2:-<empty>}') — assuming it changed, because doing nothing quietly is worse than doing it twice"
+                  echo "$1=true" >> "$GITHUB_OUTPUT"
+                  ;;
+              esac
+            }
+
+            decide metadata    "${{ steps.filter.outputs.metadata }}"
+            decide screenshots "${{ steps.filter.outputs.screenshots }}"
+            decide code        "${{ steps.filter.outputs.code }}"
+            decide ci          "${{ steps.filter.outputs.ci }}"
+          fi
+
+  # ── Verify ───────────────────────────────────────────────────────────────
+  # Every deploy below waits on the check that covers it. These same checks
+  # run in pr.yml, but that only fires on pull_request — a push straight to a
+  # release branch would otherwise reach App Store Connect unchecked.
+
+  # The automation checking itself: a bad workflow expression, a CI script
+  # that no longer parses, or a check that stopped importing would otherwise
+  # reach main and wait for an unrelated push to expose them.
+  #
+  # Deliberately read-only and cheap — it doesn't push to App Store Connect or
+  # deploy. What it proves is that the automation still loads and runs;
+  # runtime behaviour against Apple is proved by `workflow_dispatch`.
+  verify-ci:
+    needs: changes
+    if: needs.changes.outputs.ci == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      # Pinned and fetched from the release, not piped from curl — actionlint
+      # is the only thing here that reads workflows the way GitHub does.
+      - name: Lint the workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v1.7.7 --repo rhysd/actionlint \
+            --pattern 'actionlint_*_linux_amd64.tar.gz' --output /tmp/actionlint.tgz
+          tar -xzf /tmp/actionlint.tgz -C /tmp actionlint
+          /tmp/actionlint -color
+
+      - name: Every CI script still parses
+        run: |
+          set -o pipefail
+          fail=0
+          for f in scripts/ci/*.rb fastlane/Fastfile fastlane/Deliverfile fastlane/Appfile; do
+            [ -f "$f" ] || continue
+            ruby -c "$f" > /dev/null || { echo "::error file=$f::does not parse"; fail=1; }
+          done
+          while IFS= read -r f; do
+            python3 -m py_compile "$f" || { echo "::error file=$f::does not compile"; fail=1; }
+          done < <(find scripts -name '*.py' -not -path '*/__pycache__/*')
+          [ "$fail" = "0" ] || exit 1
+          echo "all CI scripts parse"
+
+      # scripts/checks/ lives under scripts/, so a change here can break the
+      # check harness itself — this is the only thing that proves the checks
+      # still find their targets.
+      - name: The check harness still runs
+        run: python3 scripts/validate.py
+
+
+  verify-metadata:
+    needs: changes
+    if: needs.changes.outputs.metadata == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - name: Store text parses and fits Apple's limits
+        run: bundle exec fastlane validate_metadata
+
+  verify-screenshots:
+    needs: changes
+    if: needs.changes.outputs.screenshots == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Screenshots are the sizes and count Apple accepts
+        run: python3 scripts/validate.py screenshots
+
+  verify-app:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: SwiftLint
+        run: |
+          brew list swiftlint >/dev/null 2>&1 || brew install swiftlint
+          # Not --strict: the app carries pre-existing style warnings, and
+          # failing every push over them trains you to ignore this check.
+          swiftlint lint App
+
+      - name: Analytics events follow the enum rules
+        run: python3 scripts/validate.py analytics_events
+
+      - name: The app adopts SYSKit rather than re-implementing it
+        run: python3 scripts/validate.py sys_adoption
+
+      # The archive itself is Xcode Cloud's job — building here too would pay
+      # for the same compile twice.
+
+  # Push App Store metadata (TEXT ONLY) to App Store Connect.
+  # Runs on main and on release/* — the text must land before you submit.
+  store-metadata:
+    needs: [changes, verify-metadata]
+    if: needs.changes.outputs.metadata == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: store-metadata
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      # deliver has no diff — it PATCHes every localization on every run
+      # whether or not a word changed. So the inputs that decide what deliver
+      # actually sends are fingerprinted, and the fingerprint remembered on a
+      # successful push. A cache miss re-pushes identical text (costs a
+      # minute, changes nothing); only a successful push writes the marker.
+      - name: Fingerprint what deliver would send
+        id: fp
+        run: |
+          HASH=$(sha256sum fastlane/metadata/*.json fastlane/app_rating_config.json fastlane/Deliverfile fastlane/project.rb fastlane/Fastfile Project.json | sort | sha256sum | cut -c1-32)
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+          echo "fingerprint: $HASH"
+
+      - name: Already pushed this exact listing?
+        id: seen
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .asc-pushed-metadata
+          key: asc-metadata-v1-${{ steps.fp.outputs.hash }}
+
+      # Once a version is submitted, App Store Connect stops offering an
+      # editable one and deliver dies on it. The script exits 0 whether or not
+      # a version is editable, and 1 only when it couldn't find out — so a
+      # skip needs both a successful check AND a false answer; "couldn't
+      # tell" stays red.
+      - name: Is there a version to write to?
+        id: asc
+        if: steps.seen.outputs.cache-hit != 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: bundle exec ruby scripts/ci/asc_release_state.rb
+
+      - name: Push metadata to App Store Connect
+        id: push
+        if: steps.seen.outputs.cache-hit != 'true' && steps.asc.outputs.editable == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: |
+          bundle exec fastlane metadata
+          date -u +%Y-%m-%dT%H:%M:%SZ > .asc-pushed-metadata
+
+      - name: Remember this listing as pushed
+        if: steps.push.outcome == 'success'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .asc-pushed-metadata
+          key: asc-metadata-v1-${{ steps.fp.outputs.hash }}
+
+      - name: Say why nothing was pushed
+        if: steps.seen.outputs.cache-hit == 'true'
+        run: |
+          {
+            echo "### Store push skipped"
+            echo ""
+            echo "This exact listing was already pushed — fingerprint \`${{ steps.fp.outputs.hash }}\`."
+            echo "Nothing that decides what deliver sends has changed since."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # Sync screenshots (IMAGES ONLY) to App Store Connect.
+  # Runs on main and on release/* — same reason as metadata.
+  store-screenshots:
+    needs: [changes, verify-screenshots]
+    if: needs.changes.outputs.screenshots == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: store-screenshots
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      # Same fingerprint idea as store-metadata: the sync lane is already
+      # checksum-based and uploads nothing when images match, but this saves
+      # the job doing that comparison at all.
+      - name: Fingerprint the screenshots
+        id: fp
+        run: |
+          HASH=$( { sha256sum fastlane/screenshots/*/*.png; sha256sum Project.json; } | sort | sha256sum | cut -c1-32)
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+          echo "fingerprint: $HASH"
+
+      - name: Already synced these exact images?
+        id: seen
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .asc-pushed-screenshots
+          key: asc-screenshots-v1-${{ steps.fp.outputs.hash }}
+
+      - name: Is there a version to write to?
+        id: asc
+        if: steps.seen.outputs.cache-hit != 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: bundle exec ruby scripts/ci/asc_release_state.rb
+
+      - name: Sync screenshots to App Store Connect
+        id: push
+        if: steps.seen.outputs.cache-hit != 'true' && steps.asc.outputs.editable == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: |
+          bundle exec fastlane screenshots
+          date -u +%Y-%m-%dT%H:%M:%SZ > .asc-pushed-screenshots
+
+      - name: Remember these screenshots as synced
+        if: steps.push.outcome == 'success'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .asc-pushed-screenshots
+          key: asc-screenshots-v1-${{ steps.fp.outputs.hash }}
+
+      - name: Say why nothing was synced
+        if: steps.seen.outputs.cache-hit == 'true'
+        run: |
+          {
+            echo "### Screenshot sync skipped"
+            echo ""
+            echo "These exact images were already synced — fingerprint \`${{ steps.fp.outputs.hash }}\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+  # ── Xcode Cloud workflow exists and archives correctly ──────────────────
+  #
+  # Automatic — read-only, so unlike the audience fix below it needs no
+  # dispatch gate. A workflow under the wrong name, or stuck on TestFlight
+  # (Internal Testing Only), has no other symptom until someone tries Add
+  # Build months later. github_auto_release is the one name every app's
+  # automation agrees on (PLAYBOOK §12); nothing here creates it, so a
+  # renamed or missing workflow needs to fail loud on the first push.
+  xcode-cloud-check:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+      - name: github_auto_release exists, is enabled, and archives to the App Store
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: ruby scripts/ci/xcode_cloud_workflow.rb --check github_auto_release
+
+  # ── Xcode Cloud archive audience ────────────────────────────────────────
+  #
+  # Manual only, never part of `all` — this setting decides whether a build
+  # can be attached to an App Store version at all. An archive action left on
+  # "TestFlight (Internal Testing Only)" stamps every build INTERNAL_ONLY, and
+  # App Store Connect silently refuses to select any of them for Add Build.
+  #
+  # Writes to App Store Connect, so gated behind explicit dispatch. The script
+  # backs the workflow up, writes, reads back, and fails if the PATCH reported
+  # success but changed nothing.
+  xcode-cloud:
+    name: Set the Xcode Cloud archive to App Store Connect
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' && inputs.job == 'xcode-cloud'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: xcode-cloud-workflow
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+
+      # `set -o pipefail` is load-bearing — piping straight into tee once let
+      # a script death on an unparseable key exit the pipeline 0, going green
+      # having changed nothing.
+      #
+      # Read first, write only if the reading is wrong. The script exits 2 for
+      # one specific thing: Apple unconditionally refusing the PATCH
+      # (PES-UPSTREAM 17 — the API demands an attribute it won't accept and
+      # never returns on a GET). That refusal only matters if the setting is
+      # actually wrong, so the audience is read first — already eligible means
+      # nothing to do and the refusal never happens.
+      - name: Check the archive audience, and fix it if it is wrong
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+          WORKFLOW: github_auto_release
+        run: |
+          set -o pipefail
+          OUT=$(ruby scripts/ci/xcode_cloud_workflow.rb | tee -a "$GITHUB_STEP_SUMMARY")
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # Only this workflow's archive line — the report lists every
+          # workflow.
+          AUDIENCE=$(printf '%s\n' "$OUT" | awk -v w="  workflow: $WORKFLOW " '
+            index($0, w) == 1 { inside = 1; next }
+            /^  workflow: /   { inside = 0 }
+            inside && /archive -> / { print; exit }')
+
+          if [ -z "$AUDIENCE" ]; then
+            # $OUT only reached $GITHUB_STEP_SUMMARY until now — tee's stdout
+            # copy is swallowed by the surrounding $(...) capture, and a Step
+            # Summary isn't fetchable through the REST API at all.
+            echo "$OUT"
+            echo "::error::no workflow named '$WORKFLOW' in the report above"
+            exit 1
+          fi
+          echo "current: $AUDIENCE"
+
+          case "$AUDIENCE" in
+            *"App Store Connect"*)
+              echo "Already App Store eligible — nothing to change."
+              echo "- archive audience: already App Store Connect, no write attempted" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+              ;;
+          esac
+
+          echo "::warning::archive audience is not App Store eligible — attempting to set it"
+          set +e
+          ruby scripts/ci/xcode_cloud_workflow.rb --app-store "$WORKFLOW" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+          RC=${PIPESTATUS[0]}
+          set -e
+
+          case "$RC" in
+            0) echo "Archive audience set to App Store Connect." ;;
+            2)
+              echo "::error::the archive is not App Store eligible and App Store Connect refused the change — this one has to be set by hand, and no build made before it is fixed can be submitted"
+              exit 1
+              ;;
+            *) exit "$RC" ;;
+          esac
+
+      - name: Report every build App Store Connect currently holds
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: |
+          set -o pipefail
+          ruby scripts/ci/asc_builds.rb | tee -a "$GITHUB_STEP_SUMMARY"

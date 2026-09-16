@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <rect class="fil0" y="492" width="1024" height="448"/>
+  <line class="fil1 str6" x1="-1" y1="490" x2="1023" y2="490"/>
+  <line class="fil1 str6" x1="-1" y1="939" x2="1023" y2="939"/>
+  <circle class="fil0 str6" cx="881" cy="572" r="117" id="crop0"/>
+  <circle class="fil0 str6" cx="881" cy="572" r="57" id="crop0"/>
+  <circle class="fil0 str6" cx="211" cy="572" r="117" id="crop0"/>
+  <circle class="fil0 str6" cx="211" cy="572" r="57" id="crop0"/>
+  <path class="fil0 str6" d="M111 381l-32 -2 -45 29 0 39 15 0c0,0 23,-34 62,-66z" id="crop0"/>
+  <path class="fil0 str6" d="M180 302l313 0c0,0 34,4 14,21 0,0 -70,40 -82,122 -13,82 158,81 158,81 0,0 134,3 163,-124 0,0 6,-92 -54,-217 0,0 -16,-35 -6,-47l40 -17c0,0 36,-36 76,-31 0,0 26,42 -11,77 0,0 -11,10 -37,2 0,0 -34,-3 -27,16l7 10c0,0 60,80 71,145 0,0 8,46 -3,82 0,0 -19,119 -121,136l-653 -12c0,0 -19,2 -14,-16 0,0 15,-111 139,-176 0,0 30,-30 27,-52z" id="crop0"/>
+  <path class="fil0 str6" d="M1007 472c0,0 -36,-95 -141,-80 0,0 -104,4 -137,160 0,0 48,8 98,-34 0,0 32,-36 125,-37 0,0 55,0 55,-9z" id="crop0"/>
+  <path class="fil0 str6" d="M374 553c0,0 48,-89 11,-154 0,0 -42,-65 -163,-33 0,0 -149,39 -188,180l340 7z" id="crop0"/>
+  <polygon class="fil0 str6" points="422,302 453,284 496,282 496,303" id="crop0"/>
+  <path class="fil0 str6" d="M530 282c0,0 -90,22 -138,-17 0,0 -37,0 -59,-32l-17 -21c0,0 14,-27 55,7 0,0 65,37 152,14 0,0 31,29 7,49z" id="crop0"/>
+  <polygon class="fil0 str6" points="184,298 184,244 305,244 305,303 184,303" id="crop0"/>
+  <path class="fil0 str6" d="M805 95c0,0 -40,23 -10,69 0,0 29,-24 10,-69z" id="crop0"/>
+  <path class="fil0 str6" d="M720 140l-92 17c0,0 -20,17 -3,32l95 -25c0,0 17,-12 0,-24z" id="crop0"/>
+</svg>

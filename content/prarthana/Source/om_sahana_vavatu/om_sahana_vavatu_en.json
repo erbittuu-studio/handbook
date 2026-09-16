@@ -1,0 +1,12 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Om Sahana Vavatu", "second": "Sahanau Bhunaktu" },
+        { "id": 2, "first": "Saha Veeryam Karavavahai", "second": "Tejasvi Navadhitamastu" },
+        { "id": 3, "first": "Ma Vidvishavahai", "second": "Om Shanti Shanti Shantihi" }
+      ]
+    }
+  ]
+}

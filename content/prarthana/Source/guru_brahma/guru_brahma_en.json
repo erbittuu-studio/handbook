@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Guru Brahma Guru Vishnu", "second": "Guru Devo Maheshwara" },
+        { "id": 2, "first": "Guru Sakshat Parabrahma", "second": "Tasmai Shri Gurave Namah" }
+      ]
+    }
+  ]
+}

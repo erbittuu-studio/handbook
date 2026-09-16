@@ -1,0 +1,24 @@
+{
+  "sections": [
+    {
+      "id": "stotram",
+      "verses": [
+        { "id": 1, "first": "Ayi Giri Nandini Nanditamedini", "second": "Vishwa Vinodini Nandanute" },
+        { "id": 2, "first": "Girivar Vindhya Shirodhi Nivasini", "second": "Vishnu Vilasini Jishnunute" },
+        { "id": 3, "first": "Bhagavati He Shitikantha Kutumbini", "second": "Bhuri Kutumbini Bhuri Krute" },
+        { "id": 4, "first": "Jaya Jaya He Mahishasura Mardini", "second": "Ramya Kapardini Shailasute" },
+        { "id": 5, "first": "Suravaravarshini Durdhara Dharshini", "second": "Durmukha Marshini Harsharate" },
+        { "id": 6, "first": "Tribhuvana Poshini Shankara Toshini", "second": "Kilbisha Moshini Ghosharate" },
+        { "id": 7, "first": "Danujaniroshini Ditisuta Roshini", "second": "Durmada Shoshini Sindhu Sute" },
+        { "id": 8, "first": "Jaya Jaya He Mahishasura Mardini", "second": "Ramya Kapardini Shailasute" },
+        { "id": 9, "first": "Ayi Jagadamba Madamba Kadambavana", "second": "Priyavasa Vivasivadhu Jute" },
+        { "id": 10, "first": "Shikhari Shiromani Tungahimalaya", "second": "Shrunga Nijalaya Madhya Gute" },
+        { "id": 11, "first": "Madhumadhure Madhukaitabhabhanjini", "second": "Kaitabha Bhanjini Rasarate" },
+        { "id": 12, "first": "Jaya Jaya He Mahishasura Mardini", "second": "Ramya Kapardini Shailasute" },
+        { "id": 13, "first": "Ayi Shataakhanda Vikhanditarunda Vitunditashunda", "second": "Gajaadhipate Ripugajaganda Vidaarana" },
+        { "id": 14, "first": "Chanda Paraakrama Shunda Mrugaadhipate", "second": "Nijabhuja Danda Nipaatita Khanda" },
+        { "id": 15, "first": "Vipatita Munda Bhataadhipate", "second": "Jaya Jaya He Mahishasura Mardini Ramya Kapardini Shailasute" }
+      ]
+    }
+  ]
+}

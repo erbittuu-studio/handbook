@@ -1,0 +1,249 @@
+{
+  "app": {
+    "name": {
+      "en": "ABC Learning"
+    },
+    "tagline": {
+      "en": "Alphabet, Numbers & Colors"
+    },
+    "supportEmail": "utsavhacker@gmail.com"
+  },
+  "data": {
+    "contentVersion": 2,
+    "minAppVersion": "1.0"
+  },
+  "config": {
+    "forceUpdate": false,
+    "maintenanceMode": false,
+    "showAds": false
+  },
+  "languages": {
+    "en": true
+  },
+  "groups": [
+    {
+      "id": 1,
+      "name": {
+        "en": "Let's Learn"
+      },
+      "packs": [
+        {
+          "id": 11,
+          "name": {
+            "en": "ABC"
+          },
+          "path": "packs/11/index.json",
+          "bundle": "packs/11.zip"
+        },
+        {
+          "id": 12,
+          "name": {
+            "en": "Numbers"
+          },
+          "path": "packs/12/index.json",
+          "bundle": "packs/12.zip"
+        },
+        {
+          "id": 13,
+          "name": {
+            "en": "Colors"
+          },
+          "path": "packs/13/index.json",
+          "bundle": "packs/13.zip"
+        },
+        {
+          "id": 14,
+          "name": {
+            "en": "Shapes"
+          },
+          "path": "packs/14/index.json",
+          "bundle": "packs/14.zip"
+        },
+        {
+          "id": 15,
+          "name": {
+            "en": "First Words"
+          },
+          "path": "packs/15/index.json",
+          "bundle": "packs/15.zip"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": {
+        "en": "My Body & Clothes"
+      },
+      "packs": [
+        {
+          "id": 21,
+          "name": {
+            "en": "Body Parts"
+          },
+          "path": "packs/21/index.json",
+          "bundle": "packs/21.zip"
+        },
+        {
+          "id": 22,
+          "name": {
+            "en": "Clothes"
+          },
+          "path": "packs/22/index.json",
+          "bundle": "packs/22.zip"
+        },
+        {
+          "id": 23,
+          "name": {
+            "en": "Getting Dressed"
+          },
+          "path": "packs/23/index.json",
+          "bundle": "packs/23.zip"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": {
+        "en": "Animals"
+      },
+      "packs": [
+        {
+          "id": 31,
+          "name": {
+            "en": "Farm Animals"
+          },
+          "path": "packs/31/index.json",
+          "bundle": "packs/31.zip"
+        },
+        {
+          "id": 32,
+          "name": {
+            "en": "Wild Animals"
+          },
+          "path": "packs/32/index.json",
+          "bundle": "packs/32.zip"
+        },
+        {
+          "id": 33,
+          "name": {
+            "en": "Birds"
+          },
+          "path": "packs/33/index.json",
+          "bundle": "packs/33.zip"
+        },
+        {
+          "id": 34,
+          "name": {
+            "en": "Insects"
+          },
+          "path": "packs/34/index.json",
+          "bundle": "packs/34.zip"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": {
+        "en": "Food"
+      },
+      "packs": [
+        {
+          "id": 41,
+          "name": {
+            "en": "Fruits"
+          },
+          "path": "packs/41/index.json",
+          "bundle": "packs/41.zip"
+        },
+        {
+          "id": 42,
+          "name": {
+            "en": "Vegetables"
+          },
+          "path": "packs/42/index.json",
+          "bundle": "packs/42.zip"
+        },
+        {
+          "id": 43,
+          "name": {
+            "en": "Foods & Snacks"
+          },
+          "path": "packs/43/index.json",
+          "bundle": "packs/43.zip"
+        },
+        {
+          "id": 44,
+          "name": {
+            "en": "Everyday Food"
+          },
+          "path": "packs/44/index.json",
+          "bundle": "packs/44.zip"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": {
+        "en": "Community"
+      },
+      "packs": [
+        {
+          "id": 51,
+          "name": {
+            "en": "Community Helpers"
+          },
+          "path": "packs/51/index.json",
+          "bundle": "packs/51.zip"
+        },
+        {
+          "id": 52,
+          "name": {
+            "en": "School"
+          },
+          "path": "packs/52/index.json",
+          "bundle": "packs/52.zip"
+        },
+        {
+          "id": 53,
+          "name": {
+            "en": "Musical Instruments"
+          },
+          "path": "packs/53/index.json",
+          "bundle": "packs/53.zip"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": {
+        "en": "Fun & Sea"
+      },
+      "packs": [
+        {
+          "id": 61,
+          "name": {
+            "en": "Toys"
+          },
+          "path": "packs/61/index.json",
+          "bundle": "packs/61.zip"
+        },
+        {
+          "id": 62,
+          "name": {
+            "en": "My Toys"
+          },
+          "path": "packs/62/index.json",
+          "bundle": "packs/62.zip"
+        },
+        {
+          "id": 63,
+          "name": {
+            "en": "Sea Creatures"
+          },
+          "path": "packs/63/index.json",
+          "bundle": "packs/63.zip"
+        }
+      ]
+    }
+  ]
+}

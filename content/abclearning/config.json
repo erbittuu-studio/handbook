@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "updatedAt": "1970-01-01T00:00:00Z",
+  "update": {
+    "minimumVersion": "1.0.0",
+    "recommendedVersion": "1.0.0",
+    "message": {
+      "en": "A new version is available with the latest improvements."
+    }
+  },
+  "maintenance": {
+    "enabled": false,
+    "message": {
+      "en": "We're doing a little maintenance. Please try again shortly."
+    }
+  },
+  "flags": {},
+  "rating": {
+    "minSessions": 5,
+    "minDaysSinceInstall": 3
+  },
+  "urls": {
+    "support": "https://erbittuu-studio.web.app/apps/abclearning/support",
+    "privacy": "https://erbittuu-studio.web.app/apps/abclearning/privacy",
+    "terms": "https://erbittuu-studio.web.app/apps/abclearning/terms"
+  },
+  "whatsNew": {},
+  "crossPromo": {
+    "enabled": false,
+    "apps": []
+  },
+  "app": {}
+}

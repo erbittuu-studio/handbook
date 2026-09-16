@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <rect class="fil0 str6" width="344" height="334" transform="matrix(1.05044 -0.0750796 0.0750796 1.05044 301.073 404.827)"/>
+  <path class="fil0 str6" d="M168 796l-14 25c0,0 -18,20 -20,-13 0,0 -19,15 -21,-14 0,0 -15,6 -16,-14 0,0 -32,4 -6,-27l26 -21 -21 5c0,0 -23,-6 -2,-27l33 -12c0,0 36,-6 69,62l-28 36z"/>
+  <path class="fil0 str6" d="M849 789l16 23c0,0 20,18 18,-14 0,0 22,13 20,-16 0,0 16,5 15,-16 0,0 32,2 4,-27l-28 -19 21 3c0,0 22,-8 0,-27l-35 -9c0,0 -36,-3 -63,68l32 34z"/>
+  <path class="fil0 str6" d="M454 474c0,0 -50,-22 -184,97l-136 124c0,0 42,25 63,65 0,0 88,-92 150,-132l107 -154z"/>
+  <path class="fil0 str6" d="M549 476c0,0 50,-22 188,92l140 119c0,0 -41,26 -61,68 0,0 -91,-90 -155,-128l-112 -151z"/>
+  <path class="fil0 str6" d="M602 481c0,0 38,93 48,166 0,0 59,47 45,109 0,0 32,34 41,88 0,0 92,-23 117,29 0,0 39,80 -153,103 0,0 -77,20 -71,-64 0,0 -18,-13 -25,-50 0,0 -20,-9 -25,-56 0,0 -41,-35 -45,-62 0,0 -36,7 -45,3 0,0 -9,45 -34,74 0,0 4,30 -18,66 0,0 11,25 -1,50 0,0 28,52 -24,81 0,0 -84,12 -170,-49 0,0 -75,-57 34,-89 0,0 18,-7 36,2l5 -76c0,0 -5,-78 36,-130l33 -179c0,0 114,28 216,-16z"/>
+  <circle class="fil0 str6" cx="478" cy="268" r="247"/>
+  <path class="fil0 str6" d="M408 139l134 0c0,0 110,16 120,157 0,0 10,140 -120,172l-137 0c0,0 -100,0 -117,-160 0,0 -6,-141 120,-169z"/>
+  <rect class="fil0 str6" width="150" height="120" transform="matrix(0.997464 -0.0711712 0.0711712 0.997464 429.92 558.49)"/>
+  <circle class="fil0 str6" cx="479" cy="585" r="19"/>
+  <circle class="fil0 str6" cx="538" cy="583" r="19"/>
+  <circle class="fil0 str6" cx="479" cy="639" r="19"/>
+  <circle class="fil0 str6" cx="538" cy="636" r="19"/>
+</svg>

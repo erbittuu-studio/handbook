@@ -1,0 +1,18 @@
+{
+  "sections": [
+    {
+      "id": "main",
+      "verses": [
+        { "id": 1, "first": "Om Jai Shiv Omkara, Swami Jai Shiv Omkara", "second": "Brahma Vishnu Sadashiv, Ardhangi Dhara || Om Jai Shiv Omkara ||" },
+        { "id": 2, "first": "Ekanan Chaturanan Panchanan Raje", "second": "Hansasan Garudasan Vrishvahan Saje || Om Jai Shiv Omkara ||" },
+        { "id": 3, "first": "Do Bhuj Char Chaturbhuj Das Bhuj Ati Sohe", "second": "Trigun Roop Nirakhte Tribhuvan Jan Mohe || Om Jai Shiv Omkara ||" },
+        { "id": 4, "first": "Akshamala Vanmala Mundmala Dhari", "second": "Chandan Mrigmad Sohai Bhale Shashidhari || Om Jai Shiv Omkara ||" },
+        { "id": 5, "first": "Shvetambar Pitambar Baghambhar Ange", "second": "Sankadik Garunadik Bhutadik Sange || Om Jai Shiv Omkara ||" },
+        { "id": 6, "first": "Kar Ke Madhya Kamandalu Chakra Trishul Dharta", "second": "Jagkarta Jagbharta Jag Sanharakarta || Om Jai Shiv Omkara ||" },
+        { "id": 7, "first": "Brahma Vishnu Sadashiv Janat Aviveka", "second": "Pranavakshar Mein Shobhit Ye Teeno Eka || Om Jai Shiv Omkara ||" },
+        { "id": 8, "first": "Kashi Mein Vishwanath Virajat Nandi Brahmachari", "second": "Nit Uthi Bhole Darshan Pavat Mahima Ati Bhari || Om Jai Shiv Omkara ||" },
+        { "id": 9, "first": "Trigunswami Ji Ki Aarti Jo Koi Nar Gave", "second": "Kahat Shivanand Swami Manvanchhit Phal Pave || Om Jai Shiv Omkara ||" }
+      ]
+    }
+  ]
+}

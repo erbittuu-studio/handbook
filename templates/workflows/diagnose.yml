@@ -1,0 +1,30 @@
+# Manual only. Read-only questions about App Store Connect, answered from CI
+# because that is where the API key lives.
+#
+# Nothing here writes to App Store Connect, uploads anything, or touches the
+# repo. It exists because the "Add Build" dialog refuses a build without ever
+# saying why, and every reason it could have is a field the API returns.
+name: Diagnose
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  builds:
+    name: Why App Store Connect will or will not take a build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+      - name: Ask App Store Connect about every build
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: ruby scripts/ci/asc_builds.rb | tee -a "$GITHUB_STEP_SUMMARY"

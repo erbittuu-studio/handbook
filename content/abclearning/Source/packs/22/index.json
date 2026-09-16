@@ -1,0 +1,159 @@
+{
+  "id": 22,
+  "items": [
+    {
+      "id": 2201,
+      "title": {
+        "en": "Bib"
+      },
+      "asset": "images/clothes-bib.png"
+    },
+    {
+      "id": 2202,
+      "title": {
+        "en": "Bodysuit"
+      },
+      "asset": "images/clothes-bodysuit.png"
+    },
+    {
+      "id": 2203,
+      "title": {
+        "en": "Boots"
+      },
+      "asset": "images/clothes-boots.png"
+    },
+    {
+      "id": 2204,
+      "title": {
+        "en": "Coat"
+      },
+      "asset": "images/clothes-coat.png"
+    },
+    {
+      "id": 2205,
+      "title": {
+        "en": "Dress"
+      },
+      "asset": "images/clothes-dress.png"
+    },
+    {
+      "id": 2206,
+      "title": {
+        "en": "Glasses"
+      },
+      "asset": "images/clothes-glasses.png"
+    },
+    {
+      "id": 2207,
+      "title": {
+        "en": "Gloves"
+      },
+      "asset": "images/clothes-gloves.png"
+    },
+    {
+      "id": 2208,
+      "title": {
+        "en": "Hat"
+      },
+      "asset": "images/clothes-hat.png"
+    },
+    {
+      "id": 2209,
+      "title": {
+        "en": "Jacket"
+      },
+      "asset": "images/clothes-jacket.png"
+    },
+    {
+      "id": 2210,
+      "title": {
+        "en": "Jumper"
+      },
+      "asset": "images/clothes-jumper.png"
+    },
+    {
+      "id": 2211,
+      "title": {
+        "en": "Pants"
+      },
+      "asset": "images/clothes-pant.png"
+    },
+    {
+      "id": 2212,
+      "title": {
+        "en": "Pajamas"
+      },
+      "asset": "images/clothes-payjamas.png"
+    },
+    {
+      "id": 2213,
+      "title": {
+        "en": "Romper"
+      },
+      "asset": "images/clothes-romper.png"
+    },
+    {
+      "id": 2214,
+      "title": {
+        "en": "Scarf"
+      },
+      "asset": "images/clothes-scarf.png"
+    },
+    {
+      "id": 2215,
+      "title": {
+        "en": "Shirt"
+      },
+      "asset": "images/clothes-shirt.png"
+    },
+    {
+      "id": 2216,
+      "title": {
+        "en": "Shoes"
+      },
+      "asset": "images/clothes-shoes.png"
+    },
+    {
+      "id": 2217,
+      "title": {
+        "en": "Shorts"
+      },
+      "asset": "images/clothes-shorts.png"
+    },
+    {
+      "id": 2218,
+      "title": {
+        "en": "Skirt"
+      },
+      "asset": "images/clothes-skirt.png"
+    },
+    {
+      "id": 2219,
+      "title": {
+        "en": "Socks"
+      },
+      "asset": "images/clothes-socks.png"
+    },
+    {
+      "id": 2220,
+      "title": {
+        "en": "Sun Hat"
+      },
+      "asset": "images/clothes-sun_hat.png"
+    },
+    {
+      "id": 2221,
+      "title": {
+        "en": "T-Shirt"
+      },
+      "asset": "images/clothes-t-shirt.png"
+    },
+    {
+      "id": 2222,
+      "title": {
+        "en": "Trousers"
+      },
+      "asset": "images/clothes-trousers.png"
+    }
+  ]
+}

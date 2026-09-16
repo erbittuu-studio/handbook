@@ -1,0 +1,7 @@
+.DS_Store
+*.swp
+
+# Swift build artefacts from SPM/ — never committed
+.build/
+.swiftpm/
+*.xcodeproj/xcuserdata/

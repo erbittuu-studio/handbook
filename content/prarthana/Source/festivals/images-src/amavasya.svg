@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="38%" r="78%">
+      <stop offset="0%" stop-color="#2E2F5B"/>
+      <stop offset="100%" stop-color="#1A1B38"/>
+    </radialGradient>
+    <radialGradient id="dark" cx="45%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#26274C"/>
+      <stop offset="100%" stop-color="#141530"/>
+    </radialGradient>
+    <radialGradient id="diyaglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD873" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFD873" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#E8802A"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#sky)"/>
+
+  <!-- rich star field -->
+  <g fill="#D8D9F0">
+    <circle cx="110" cy="140" r="3.5"/>
+    <circle cx="170" cy="86" r="2.5"/>
+    <circle cx="404" cy="132" r="3"/>
+    <circle cx="356" cy="90" r="2.5"/>
+    <circle cx="430" cy="236" r="3.5"/>
+    <circle cx="82" cy="248" r="3"/>
+    <circle cx="140" cy="310" r="2.5"/>
+    <circle cx="386" cy="308" r="2.5"/>
+    <path d="M338 168 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 Z"/>
+    <path d="M136 196 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z"/>
+    <path d="M300 70 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4 Z"/>
+  </g>
+
+  <!-- dark new moon, faintly rimmed -->
+  <circle cx="256" cy="204" r="96" fill="url(#dark)" stroke="#4A4C86" stroke-width="3"/>
+
+  <!-- a single diya below: light in the darkness -->
+  <circle cx="256" cy="368" r="66" fill="url(#diyaglow)"/>
+  <path d="M256 330 C 268 348, 273 359, 273 370 C 273 381 266 388 256 388
+           C 246 388 239 381 239 370 C 239 359 244 348 256 330 Z" fill="url(#flame)"/>
+  <path d="M212 392 L300 392 C 299 414, 280 428, 256 428 C 232 428 213 414 212 392 Z"
+        fill="#8C2F1B"/>
+  <ellipse cx="256" cy="392" rx="44" ry="9" fill="#C0561B"/>
+</svg>

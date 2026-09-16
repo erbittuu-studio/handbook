@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+    .str14 {stroke:black;stroke-width:14}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M61 864l-16 10c0,0 -22,18 18,20 0,0 39,2 85,17 0,0 147,46 186,-58 0,0 -57,-44 -82,-106 0,0 -14,-3 -22,24l-12 38c0,0 -5,18 -33,13 0,0 -33,-3 -37,5 0,0 -4,8 5,10 0,0 -20,-4 -37,5 0,0 -11,7 0,15 0,0 -16,-14 -33,-6l-22 13z"/>
+  <path class="fil0 str6" d="M283 213c0,0 20,-29 42,-6 0,0 31,43 81,70 0,0 57,25 77,71 0,0 19,48 7,98 0,0 -27,59 -3,91 0,0 17,37 75,51l92 31c0,0 63,12 98,86 0,0 24,65 21,91l57 -2c0,0 54,-12 63,29 0,0 47,5 42,47 0,0 62,13 53,60 0,0 -9,29 -60,4l-60 -27c0,0 -30,-13 -75,-11 0,0 -73,-6 -148,12 0,0 -191,24 -284,-38 0,0 -101,-46 -146,-188 0,0 -20,-62 10,-147l21 -60c0,0 16,-40 4,-71 0,0 -37,-85 8,-159 0,0 12,-20 25,-32z" id="a_line1"/>
+  <path class="fil0 str6" d="M533 716c0,0 -5,115 1,126 0,0 -1,10 15,14 0,0 54,14 87,47 0,0 14,13 5,15 0,0 -6,4 -18,4 0,0 26,3 31,12 0,0 14,16 -19,16 0,0 26,3 57,23 0,0 25,27 -18,38 0,0 -9,7 -71,-34 0,0 -41,-27 -126,-36 0,0 -75,0 -88,-66 0,0 5,-90 -11,-107 0,0 -38,-101 75,-99 0,0 62,0 80,47z"/>
+  <circle class="fil0 str6" cx="291" cy="111" r="86"/>
+  <circle class="fil0 str6" cx="392" cy="343" r="45"/>
+  <circle class="fil0 str14" cx="385" cy="330" r="17"/>
+  <path class="fil1 str6" d="M257 286c0,0 -5,31 33,44" id="line1_a"/>
+  <path class="fil1 str6" d="M205 111c0,0 -1,-81 86,-86 0,0 82,-2 87,86 0,0 -28,27 -78,-8 0,0 -42,40 -95,8z"/>
+</svg>

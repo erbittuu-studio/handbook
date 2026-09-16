@@ -1,0 +1,245 @@
+require_relative "project"
+
+# PES Fastfile — store content only (build/sign/deliver is Xcode Cloud's
+# job). Runs in GitHub Actions; local runs are the fallback (fastlane/.env).
+# Every known ASC API landmine is already defused here — see MIGRATE.md
+# gotchas before "improving" anything.
+
+default_platform(:ios)
+
+platform :ios do
+
+  # ── Generate deliver's txt files from per-locale JSON ────────────────────
+  # fastlane/metadata/<locale>.json is the single source of truth.
+  private_lane :generate_metadata do
+    require 'json'
+    require 'fileutils'
+
+    # CWD differs between Fastfile code and deliver's actions — anchor to
+    # this Fastfile's own location so the glob can never silently miss.
+    metadata_root = File.expand_path("metadata", __dir__)
+
+    # Only the store locales. `validate_metadata` already filtered this way and
+    # this lane did not, which is a difference that cost a red build: every
+    # *.json here became a directory named after it, and a non-locale file put
+    # in metadata/ therefore became a directory deliver rejects with
+    # "Unsupported directory name(s) for screenshots/metadata". The file is the
+    # mistake, but silently turning it into a broken locale is this lane's.
+    store_locales = project_config["store"]["locales"]
+
+    jsons = Dir.glob(File.join(metadata_root, "*.json")).select do |path|
+      locale = File.basename(path, ".json")
+      next true if store_locales.include?(locale)
+      UI.important("Skipping #{File.basename(path)} — not a store locale, so not metadata")
+      false
+    end
+    UI.user_error!("No locale JSON files found in #{metadata_root}") if jsons.empty?
+
+    jsons.each do |path|
+      locale = File.basename(path, ".json")
+      fields = JSON.parse(File.read(path))
+
+      dir = File.join(metadata_root, locale)
+      FileUtils.mkdir_p(dir)
+
+      fields.each do |field, value|
+        value = value.join("\n") if value.is_a?(Array)
+        File.write(File.join(dir, "#{field}.txt"), value)
+      end
+
+      UI.message("Generated #{fields.keys.count} fields for #{locale}")
+    end
+
+    UI.success("Metadata txt files generated from per-locale JSON files")
+  end
+
+  private_lane :setup_api_key do
+    app_store_connect_api_key(
+      key_id:      ENV["ASC_KEY_ID"],
+      issuer_id:   ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY_CONTENT"],
+      in_house:    false
+    )
+  end
+
+  # ── Validate metadata JSON without pushing anything (PR check) ──────────
+  # Dry run of generate_metadata's parsing, plus every App Store Connect
+  # rejection worth catching before merge: emoji in What's New, leftover
+  # placeholder text, bad URLs, over-limit fields, unsupported locales.
+  # No network call. Locales come from Project.json, as they do everywhere.
+  desc "Validate metadata JSON without pushing anything (PR check)"
+  lane :validate_metadata do
+    require 'json'
+
+    metadata_root = File.expand_path("metadata", __dir__)
+    # One source of truth, read rather than restated. This lane used to hold
+    # its own copy of the locale list plus two regex drift-checks — one that
+    # scraped Deliverfile, and one that scraped a Python file for a constant.
+    # That second one had been pointing at a path that no longer exists, so it
+    # had quietly stopped checking anything.
+    store_locales = project_config["store"]["locales"]
+
+    char_limits = {
+      "name"             => 30,
+      "subtitle"         => 30,
+      "keywords"         => 100,
+      "promotional_text" => 170,
+      "description"      => 4000,
+      "release_notes"    => 4000
+    }
+    required_fields = %w[name subtitle keywords support_url privacy_url release_notes description]
+    emoji_pattern = /[\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F300}-\u{1FAFF}]/
+
+    jsons = Dir.glob(File.join(metadata_root, "*.json"))
+    UI.user_error!("No locale JSON files found in #{metadata_root}") if jsons.empty?
+
+    errors = []
+
+    # Coverage, not just correctness. Every locale in Project.json is a
+    # localization deliver will activate on the store; one with no JSON file
+    # beside it becomes a live, empty listing in that language, and nothing
+    # below would notice, because the loop only ever sees the files that exist.
+    present = jsons.map { |path| File.basename(path, ".json") }
+    (store_locales - present).each do |locale|
+      errors << "#{locale} is a store locale but fastlane/metadata/#{locale}.json does not exist — deliver would activate an empty listing"
+    end
+
+    jsons.each do |path|
+      locale = File.basename(path, ".json")
+      fields = JSON.parse(File.read(path))
+
+      unless store_locales.include?(locale)
+        UI.message("Skipping #{locale}.json — not a store locale (#{store_locales.join(', ')})")
+        next
+      end
+
+      required_fields.each do |field|
+        value = fields[field]
+        text = value.is_a?(Array) ? value.join : value.to_s
+        errors << "#{locale}: missing required field '#{field}'" if text.strip.empty?
+      end
+
+      char_limits.each do |field, max|
+        value = fields[field]
+        next unless value
+        text = value.is_a?(Array) ? value.join("\n") : value.to_s
+        errors << "#{locale}: '#{field}' is #{text.length} chars, over the #{max}-char App Store limit" if text.length > max
+      end
+
+      # marketing_url is optional in App Store Connect, so it is only checked
+      # when present — but a malformed one is rejected exactly like the two
+      # that are required.
+      %w[support_url privacy_url marketing_url].each do |field|
+        next if field == "marketing_url" && fields[field].to_s.strip.empty?
+        value = fields[field].to_s
+        errors << "#{locale}: '#{field}' is not a valid URL: #{value.inspect}" unless value =~ %r{\Ahttps?://\S+\z}
+      end
+
+      # The scaffolded metadata file is valid JSON of the right shape, so
+      # nothing above objects to it — an app can ship "First paragraph of the
+      # store description." to the live listing and every check stays green.
+      # These are the exact strings templates/fastlane/metadata-locale.template.json
+      # seeds; if that template changes, change these with it.
+      placeholders = [
+        "First paragraph of the store description.",
+        "Second paragraph. Arrays join with newlines.",
+        "comma,separated,max,100,chars",
+        "Changeable anytime without a release (170 chars max).",
+        "What's new in this version.",
+        "NOTE: Apple rejects emoji in this field.",
+        "UPDATE THIS"
+      ]
+
+      fields.each do |field, value|
+        text = value.is_a?(Array) ? value.join("\n") : value.to_s
+        placeholders.each do |ph|
+          errors << "#{locale}: '#{field}' is still scaffold text (#{ph.inspect}) — write the real copy before it reaches the store" if text.include?(ph)
+        end
+        errors << "#{locale}: '#{field}' still contains an unsubstituted {{PLACEHOLDER}}" if text =~ /\{\{.*\}\}/
+        errors << "#{locale}: '#{field}' contains an emoji — Apple rejects these in store text" if text =~ emoji_pattern
+      end
+    end
+
+    if errors.empty?
+      UI.success("Metadata validation passed for #{jsons.count} locale file(s)")
+    else
+      UI.error("Metadata validation failed:")
+      errors.each { |e| UI.error("  - #{e}") }
+      UI.user_error!("#{errors.count} metadata problem(s) found — fix before merging")
+    end
+  end
+
+  desc "Push metadata (text only) to App Store Connect"
+  lane :metadata do
+    generate_metadata
+    setup_api_key
+    deliver(
+      skip_binary_upload: true,
+      # Never touch screenshots from the metadata lane: with empty local
+      # screenshot folders, overwrite can wipe the listing (fastlane #19935).
+      skip_screenshots:   true,
+      force:              true
+    )
+  end
+
+  desc "Sync screenshots to App Store Connect (checksum-based, idempotent)"
+  lane :screenshots do
+    setup_api_key
+    ENV["FASTLANE_ENABLE_BETA_DELIVER_SYNC_SCREENSHOTS"] = "1"
+    deliver(
+      skip_binary_upload: true,
+      skip_metadata:      true,
+      skip_screenshots:   false,
+      sync_screenshots:   true,
+      force:              true
+    )
+  end
+
+  # ── Manual lanes below — run locally, never called by CI ─────────────────
+
+  # Promotional text can change anytime without a new build or review.
+  desc "Push promotional text only (no build required, e.g. seasonal updates)"
+  lane :promo do
+    generate_metadata
+    setup_api_key
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots:   true,
+      force:              true
+    )
+  end
+
+  # Common tiers: 0=Free, 1=$0.99, 2=$1.99, 3=$2.99, 4=$3.99, 5=$4.99.
+  # IAP prices are NOT managed by deliver — those live in App Store Connect.
+  desc "Update app price tier in App Store Connect"
+  lane :pricing do |options|
+    tier = options[:tier] || 0
+    setup_api_key
+    deliver(
+      price_tier:         tier,
+      skip_binary_upload: true,
+      skip_screenshots:   true,
+      skip_metadata:      true,
+      force:              true
+    )
+    UI.success("Price tier updated to #{tier}")
+  end
+
+  desc "Push app review information to App Store Connect"
+  lane :review_notes do
+    setup_api_key
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots:   true,
+      skip_metadata:      true,
+      force:              true,
+      app_review_information: {
+        first_name:    ENV["REVIEW_FIRST_NAME"] || "{{OWNER_FIRST_NAME}}",
+        last_name:     ENV["REVIEW_LAST_NAME"]  || "{{OWNER_LAST_NAME}}",
+        phone_number:  ENV["REVIEW_PHONE"],
+        email_address: ENV["REVIEW_EMAIL"] || ENV["FASTLANE_APPLE_ID"],
+        notes:         File.read(File.join(__dir__, "metadata", "review_notes.txt")).strip
+      }
+    )
+  end
+end

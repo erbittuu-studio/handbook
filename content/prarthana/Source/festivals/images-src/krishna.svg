@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#FFF3E2"/>
+      <stop offset="100%" stop-color="#F7D9A4"/>
+    </radialGradient>
+    <linearGradient id="flute" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F2B33D"/>
+      <stop offset="100%" stop-color="#C98A1E"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#bg)"/>
+
+  <!-- peacock feather -->
+  <g transform="translate(310 118) rotate(24)">
+    <path d="M0 150 C -8 90, -6 40, 0 -10" stroke="#3E7C4F" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-30" rx="46" ry="64" fill="#2E8B6A"/>
+    <ellipse cx="0" cy="-30" rx="32" ry="46" fill="#3FA7CB"/>
+    <ellipse cx="0" cy="-32" rx="20" ry="30" fill="#274B8F"/>
+    <ellipse cx="0" cy="-36" rx="10" ry="15" fill="#12295C"/>
+    <!-- barbs -->
+    <g stroke="#3E7C4F" stroke-width="4" stroke-linecap="round" opacity="0.75">
+      <path d="M-12 60 C -34 52, -46 40, -54 26"/>
+      <path d="M12 60 C 34 52, 46 40, 54 26"/>
+      <path d="M-14 92 C -34 86, -44 76, -52 64"/>
+      <path d="M14 92 C 34 86, 44 76, 52 64"/>
+    </g>
+  </g>
+
+  <!-- bansuri (flute), diagonal -->
+  <g transform="translate(256 300) rotate(-22)">
+    <rect x="-150" y="-16" width="300" height="32" rx="16" fill="url(#flute)"/>
+    <rect x="-150" y="-16" width="300" height="10" rx="5" fill="#FFE9B8" opacity="0.6"/>
+    <!-- binding rings -->
+    <rect x="-130" y="-18" width="10" height="36" rx="5" fill="#8C2F1B"/>
+    <rect x="118" y="-18" width="10" height="36" rx="5" fill="#8C2F1B"/>
+    <!-- finger holes -->
+    <g fill="#6B3A0F">
+      <circle cx="-58" cy="0" r="7"/>
+      <circle cx="-26" cy="0" r="7"/>
+      <circle cx="6" cy="0" r="7"/>
+      <circle cx="38" cy="0" r="7"/>
+      <circle cx="70" cy="0" r="7"/>
+    </g>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#E8802A">
+    <path d="M120 180 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 Z"/>
+    <path d="M396 300 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z"/>
+    <path d="M150 330 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4 Z"/>
+  </g>
+</svg>

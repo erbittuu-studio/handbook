@@ -1,0 +1,93 @@
+# Xcode Cloud control panel.
+#
+# Xcode Cloud is set to manual-only, so it never starts a build by itself.
+# GitHub decides instead — main.yml already works out exactly what a push
+# contained, so a colouring page or a screenshot caption no longer burns an
+# archive and a build number.
+#
+# This workflow is how that setting is applied and inspected, so it lives in git
+# rather than in somebody's memory of which checkbox they ticked.
+#
+#   show     print each workflow and its start conditions. Changes nothing.
+#   manual   clear the start conditions, making it manual-only.
+#   build    start a build now, by hand.
+#
+# `manual` backs the workflow up to an artifact before writing and verifies the
+# result afterwards, so a wrong outcome is both visible and undoable.
+name: Xcode Cloud
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "What to do"
+        type: choice
+        default: show
+        options: [show, manual, build]
+      workflow_name:
+        description: "Xcode Cloud workflow name"
+        type: string
+        default: Release
+      branch:
+        description: "Branch to build (action = build)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+
+      - name: ${{ inputs.action }}
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: |
+          set -o pipefail
+          case "${{ inputs.action }}" in
+            show)
+              ruby scripts/ci/xcode_cloud_workflow.rb --show | tee output.txt
+              ;;
+            manual)
+              ruby scripts/ci/xcode_cloud_workflow.rb \
+                --manual "${{ inputs.workflow_name }}" | tee output.txt
+              ;;
+            build)
+              BRANCH="${{ inputs.branch }}"
+              [ -n "$BRANCH" ] || { echo "::error::branch is required for action=build"; exit 1; }
+              ruby scripts/ci/start_xcode_cloud_build.rb \
+                "${{ inputs.workflow_name }}" "$BRANCH" | tee output.txt
+              ;;
+          esac
+
+      # The backup is the undo. Keep it even when the step failed — especially
+      # then, because that is when it is needed.
+      - name: Keep the backup
+        if: always() && inputs.action == 'manual'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: xcode-cloud-backup
+          path: xcode-cloud-*.json
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: Summarise
+        if: always()
+        run: |
+          {
+            echo "### Xcode Cloud — ${{ inputs.action }}"
+            echo ""
+            echo '```'
+            cat output.txt 2>/dev/null || echo "no output"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#FFF3E2"/>
+      <stop offset="100%" stop-color="#F9DDB4"/>
+    </radialGradient>
+    <linearGradient id="petalOuter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2A9B4"/>
+      <stop offset="100%" stop-color="#D96C87"/>
+    </linearGradient>
+    <linearGradient id="petalInner" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FBD3DA"/>
+      <stop offset="100%" stop-color="#EE93A5"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#bg)"/>
+  <circle cx="256" cy="252" r="150" fill="url(#halo)"/>
+
+  <!-- lotus: outer petals -->
+  <g fill="url(#petalOuter)">
+    <path d="M256 236 C 216 258, 152 262, 108 322 C 152 350 216 344 256 316 Z"/>
+    <path d="M256 236 C 296 258, 360 262, 404 322 C 360 350 296 344 256 316 Z"/>
+    <path d="M256 220 C 222 228, 174 216, 140 250 C 176 296 232 300 256 292 Z"/>
+    <path d="M256 220 C 290 228, 338 216, 372 250 C 336 296 280 300 256 292 Z"/>
+  </g>
+  <!-- inner petals -->
+  <g fill="url(#petalInner)">
+    <path d="M256 176 C 226 204, 196 236, 200 286 C 232 296 252 280 256 262 Z"/>
+    <path d="M256 176 C 286 204, 316 236, 312 286 C 280 296 260 280 256 262 Z"/>
+    <path d="M256 156 C 240 196, 240 244, 256 282 C 272 244 272 196 256 156 Z"/>
+  </g>
+  <!-- golden heart of the lotus -->
+  <ellipse cx="256" cy="300" rx="58" ry="26" fill="#F2B33D"/>
+  <g fill="#D98A24">
+    <circle cx="232" cy="298" r="5"/>
+    <circle cx="256" cy="302" r="5"/>
+    <circle cx="280" cy="298" r="5"/>
+  </g>
+
+  <!-- calm water line -->
+  <g fill="none" stroke="#E8B06B" stroke-width="9" stroke-linecap="round" opacity="0.8">
+    <path d="M140 386 q 30 -18 60 0 t 60 0 t 60 0 t 52 0"/>
+    <path d="M178 418 q 30 -16 60 0 t 60 0 t 36 0"/>
+  </g>
+</svg>

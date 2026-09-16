@@ -1,0 +1,3204 @@
+{
+  "year": 2027,
+  "generatedAt": "2026-07-16T16:44:04Z",
+  "count": 220,
+  "types": [
+    {
+      "id": "festival",
+      "label": "Festivals",
+      "image": "festivals/images/festival.png",
+      "order": 1,
+      "showLabel": false,
+      "notifyDefault": true
+    },
+    {
+      "id": "ekadashi",
+      "label": "Ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "order": 2,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "purnima",
+      "label": "Purnima",
+      "image": "festivals/images/purnima.png",
+      "order": 3,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "amavasya",
+      "label": "Amavasya",
+      "image": "festivals/images/amavasya.png",
+      "order": 4,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "sankashti",
+      "label": "Sankashti",
+      "image": "festivals/images/sankashti.png",
+      "order": 5,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "vinayaka",
+      "label": "Vinayaka Chaturthi",
+      "image": "festivals/images/sankashti.png",
+      "order": 6,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "pradosh",
+      "label": "Pradosh Vrat",
+      "image": "festivals/images/pradosh.png",
+      "order": 7,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "shivaratri",
+      "label": "Shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "order": 8,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "durgashtami",
+      "label": "Durgashtami",
+      "image": "festivals/images/durga.png",
+      "order": 9,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "sashti",
+      "label": "Skanda Sashti",
+      "image": "festivals/images/skanda.png",
+      "order": 10,
+      "showLabel": true,
+      "notifyDefault": true
+    },
+    {
+      "id": "kalashtami",
+      "label": "Kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "order": 11,
+      "showLabel": true,
+      "notifyDefault": true
+    }
+  ],
+  "festivals": [
+    {
+      "id": "saphala_ekadashi_2027",
+      "name": "Saphala Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-01-03",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "bhauma_pradosh_vrat_0105_2027",
+      "name": "Bhauma Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-01-05",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_01_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-01-05",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "pausha_amavasya_2027",
+      "name": "Pausha Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-01-07",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "vighneshvara_chaturthi_01_2027",
+      "name": "Vighneshvara Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-01-11",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_01_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-01-13",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "lohri_2027",
+      "name": "Lohri",
+      "description": "Bonfire festival marking the end of winter. Gather around the sacred fire in the evening, offer til, gud, rewri and popcorn, and sing folk songs.",
+      "date": "2027-01-14",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "makar_sankranti_2027",
+      "name": "Makar Sankranti (Pongal)",
+      "description": "The Sun enters Makara rashi; also celebrated as Pongal and Uttarayan. Take a holy bath, offer water to Surya at sunrise, donate til-gud, and fly kites.",
+      "date": "2027-01-15",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "masik_durgashtami_0116_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-01-16",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "pausha_putrada_ekadashi_2027",
+      "name": "Pausha Putrada Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-01-18",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "budha_pradosh_vrat_0120_2027",
+      "name": "Budha Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-01-20",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "pausha_purnima_2027",
+      "name": "Pausha Purnima",
+      "description": "Full moon day. Take a holy bath, observe the Purnima vrat if you can, worship Lord Vishnu and Goddess Lakshmi in the evening, and offer prayers under the full moon.",
+      "date": "2027-01-22",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "thaipusam_2027",
+      "name": "Thaipusam",
+      "description": "Tamil festival of Lord Murugan — the day Parvati gave him the Vel to vanquish evil. Devotees carry kavadi and offer prayers for protection.",
+      "date": "2027-01-22",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "sakat_chauth_lambodara_sankashti_2027",
+      "name": "Sakat Chauth (Lambodara Sankashti)",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-01-25",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0129_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-01-29",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "shattila_ekadashi_2027",
+      "name": "Shattila Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-02-02",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "budha_pradosh_vrat_0203_2027",
+      "name": "Budha Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-02-03",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_02_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-02-04",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "magha_amavasya_mauni_2027",
+      "name": "Magha Amavasya (Mauni)",
+      "description": "Mauni Amavasya. Observe silence (maun vrat) as long as possible, take a holy bath, and make offerings for your ancestors.",
+      "date": "2027-02-06",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "magha_gupt_navratri_2027",
+      "name": "Magha Gupt Navratri",
+      "description": "Gupt Navratri — nine nights of the Goddess observed quietly by sadhaks. Recite Devi Kavach and Durga Saptashati and keep a satvik routine.",
+      "date": "2027-02-07",
+      "prayerIds": [
+        "devi_kavach",
+        "durga_saptashati",
+        "navdurga_stuti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "endDate": "2027-02-15",
+      "deity": "durga"
+    },
+    {
+      "id": "ganesha_jayanti_(gauriganesha_chaturthi)_02_2027",
+      "name": "Ganesha Jayanti (Gauriganesha Chaturthi)",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-02-10",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "vasant_panchami_2027",
+      "name": "Vasant Panchami",
+      "description": "Worship Goddess Saraswati with yellow flowers and wear yellow. An auspicious day to begin learning something new. Recite Saraswati Vandana.",
+      "date": "2027-02-11",
+      "prayerIds": [
+        "saraswati_vandana",
+        "saraswati_namastubhyam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/saraswati.png"
+    },
+    {
+      "id": "skanda_sashti_02_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-02-12",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "kumbha_sankranti_2027",
+      "name": "Kumbha Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-02-13",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "ratha_saptami_2027",
+      "name": "Ratha Saptami",
+      "description": "Surya Jayanti — the Sun God turns his chariot northward. Offer arghya at sunrise and chant the Gayatri Mantra.",
+      "date": "2027-02-13",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "bhishma_ashtami_2027",
+      "name": "Bhishma Ashtami",
+      "description": "Remembrance of Bhishma Pitamah, who left his body on this day. Offer tarpan and remember his vow of righteousness.",
+      "date": "2027-02-14",
+      "prayerIds": [
+        "achyutam_keshavam",
+        "hare_krishna_mahamantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "masik_durgashtami_0214_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-02-14",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "jaya_ekadashi_2027",
+      "name": "Jaya Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-02-17",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "guru_pradosh_vrat_0218_2027",
+      "name": "Guru Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-02-18",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "magha_purnima_2027",
+      "name": "Magha Purnima",
+      "description": "Full moon day. Take a holy bath, observe the Purnima vrat if you can, worship Lord Vishnu and Goddess Lakshmi in the evening, and offer prayers under the full moon.",
+      "date": "2027-02-20",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "dwijapriya_sankashti_2027",
+      "name": "Dwijapriya Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-02-24",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0228_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-02-28",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "vijaya_ekadashi_2027",
+      "name": "Vijaya Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-03-04",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "shukra_pradosh_vrat_0305_2027",
+      "name": "Shukra Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-03-05",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "maha_shivaratri_2027",
+      "name": "Maha Shivaratri",
+      "description": "The great night of Shiva. Fast during the day, offer bilva leaves and water/milk abhishek on the Shivling, and keep a night vigil chanting Om Namah Shivaya.",
+      "date": "2027-03-06",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "phalguna_amavasya_2027",
+      "name": "Phalguna Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-03-07",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "dhundhiraja_chaturthi_03_2027",
+      "name": "Dhundhiraja Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-03-12",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_03_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-03-13",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "meena_sankranti_2027",
+      "name": "Meena Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-03-15",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "masik_durgashtami_0316_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-03-16",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "amalaki_ekadashi_2027",
+      "name": "Amalaki Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-03-18",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "shani_pradosh_vrat_0320_2027",
+      "name": "Shani Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-03-20",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "holika_dahan_2027",
+      "name": "Holika Dahan (Chhoti Holi)",
+      "description": "Phalguna Purnima. Gather for the Holika bonfire after sunset to mark the victory of devotion (Prahlad) over evil. Remember Lord Vishnu with the Hare Krishna Mahamantra.",
+      "date": "2027-03-21",
+      "prayerIds": [
+        "achyutam_keshavam",
+        "hare_krishna_mahamantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "holi_2027",
+      "name": "Holi",
+      "description": "Festival of colors. Celebrate with family and friends, forgive and reconnect, and sing bhajans of Lord Krishna.",
+      "date": "2027-03-22",
+      "prayerIds": [
+        "krishna_aarti",
+        "madhurashtakam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "bhalachandra_sankashti_2027",
+      "name": "Bhalachandra Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-03-25",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0329_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-03-29",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "sheetala_ashtami_2027",
+      "name": "Sheetala Ashtami (Basoda)",
+      "description": "Worship Sheetala Mata with food cooked the previous day (basoda); no fresh cooking today. Pray for health and protection from disease.",
+      "date": "2027-03-30",
+      "prayerIds": [
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "papamochani_ekadashi_2027",
+      "name": "Papamochani Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-04-02",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "ravi_pradosh_vrat_0404_2027",
+      "name": "Ravi Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-04-04",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_04_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-04-05",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "chaitra_amavasya_2027",
+      "name": "Chaitra Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-04-06",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "chaitra_navratri_2027",
+      "name": "Chaitra Navratri",
+      "description": "Nine nights of Goddess Durga begin with Ghatasthapana. Recite Navdurga Stuti and Durga Chalisa daily; many devotees fast for all nine days.",
+      "date": "2027-04-07",
+      "prayerIds": [
+        "navdurga_stuti",
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "endDate": "2027-04-15",
+      "deity": "durga"
+    },
+    {
+      "id": "ugadi_gudi_padwa_2027",
+      "name": "Ugadi / Gudi Padwa (Hindu New Year)",
+      "description": "Chaitra Shukla Pratipada — the Hindu lunar new year (Nutan Varsh). Raise the gudi, make neem-jaggery pachadi, and begin the year with prayer.",
+      "date": "2027-04-07",
+      "prayerIds": [
+        "gayatri_mantra",
+        "shubham_karoti",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "gangaur_2027",
+      "name": "Gangaur (Gauri Puja)",
+      "description": "Women worship Gauri (Parvati) for marital happiness with decorated clay idols, mehendi and processions.",
+      "date": "2027-04-09",
+      "prayerIds": [
+        "durga_aarti",
+        "jay_adhya_shakti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "vasudeva_chaturthi_04_2027",
+      "name": "Vasudeva Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-04-10",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_04_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-04-12",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "yamuna_chhath_2027",
+      "name": "Yamuna Chhath",
+      "description": "Birthday of River Yamuna. Take a holy dip or offer arghya to Yamuna Maiya and chant the Gayatri Mantra.",
+      "date": "2027-04-12",
+      "prayerIds": [
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "masik_durgashtami_0414_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-04-14",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "mesha_sankranti_baisakhi_solar_new_year_2027",
+      "name": "Mesha Sankranti (Baisakhi / Solar New Year)",
+      "description": "Solar new year — the Sun enters Mesha rashi; celebrated as Baisakhi in Punjab and as new year across many regions. Holy bath, surya arghya and charity.",
+      "date": "2027-04-14",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "rama_navami_2027",
+      "name": "Rama Navami",
+      "description": "Birthday of Lord Rama. Visit a temple, read or listen to the Ramayana, and chant the name of Rama through the day.",
+      "date": "2027-04-15",
+      "prayerIds": [
+        "achyutam_keshavam",
+        "hanuman_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "swaminarayan_jayanti_2027",
+      "name": "Swaminarayan Jayanti",
+      "description": "Birth anniversary of Bhagwan Swaminarayan. Devotees fast till evening and celebrate with kirtan.",
+      "date": "2027-04-15",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "kamada_ekadashi_2027",
+      "name": "Kamada Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-04-17",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "ravi_pradosh_vrat_0418_2027",
+      "name": "Ravi Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-04-18",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "hanuman_jayanti_2027",
+      "name": "Hanuman Jayanti",
+      "description": "Birthday of Lord Hanuman on Chaitra Purnima. Recite Hanuman Chalisa and Bajrang Baan, offer sindoor and boondi laddu.",
+      "date": "2027-04-20",
+      "prayerIds": [
+        "hanuman_chalisa",
+        "hanuman_aarti",
+        "bajrang_baan",
+        "sankat_mochan"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/hanuman.png",
+      "deity": "hanuman"
+    },
+    {
+      "id": "vikata_sankashti_2027",
+      "name": "Vikata Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-04-24",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0428_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-04-28",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "varuthini_ekadashi_2027",
+      "name": "Varuthini Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-05-02",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "soma_pradosh_vrat_0503_2027",
+      "name": "Soma Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-05-03",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_05_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-05-04",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "vaishakha_amavasya_2027",
+      "name": "Vaishakha Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-05-06",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "parashurama_jayanti_2027",
+      "name": "Parashurama Jayanti",
+      "description": "Birth anniversary of Lord Parashurama, sixth avatar of Vishnu. Worship Lord Vishnu and observe a satvik day.",
+      "date": "2027-05-08",
+      "prayerIds": [
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png"
+    },
+    {
+      "id": "akshaya_tritiya_2027",
+      "name": "Akshaya Tritiya",
+      "description": "The most auspicious day for new beginnings — its merits never diminish. Worship Lakshmi-Narayana and give charity.",
+      "date": "2027-05-09",
+      "prayerIds": [
+        "lakshmi_aarti",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/lakshmi.png",
+      "deity": "lakshmi"
+    },
+    {
+      "id": "sankarshana_chaturthi_05_2027",
+      "name": "Sankarshana Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-05-09",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_05_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-05-11",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "ganga_saptami_2027",
+      "name": "Ganga Saptami",
+      "description": "Rebirth day of Goddess Ganga. Take a holy bath, offer arghya to the river, and chant the Gayatri Mantra.",
+      "date": "2027-05-12",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "masik_durgashtami_0513_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-05-13",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "sita_navami_2027",
+      "name": "Sita Navami",
+      "description": "Appearance day of Goddess Sita. Married women fast for their husband's long life and worship Sita-Rama.",
+      "date": "2027-05-14",
+      "prayerIds": [
+        "achyutam_keshavam",
+        "hanuman_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "vrishabha_sankranti_2027",
+      "name": "Vrishabha Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-05-15",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "mohini_ekadashi_2027",
+      "name": "Mohini Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-05-16",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "soma_pradosh_vrat_0517_2027",
+      "name": "Soma Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-05-17",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "narasimha_jayanti_2027",
+      "name": "Narasimha Jayanti",
+      "description": "Appearance day of Lord Narasimha, protector of devotees. Fast till sunset and worship at twilight.",
+      "date": "2027-05-18",
+      "prayerIds": [
+        "achyutam_keshavam",
+        "hare_krishna_mahamantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png"
+    },
+    {
+      "id": "buddha_purnima_vaishakha_2027",
+      "name": "Buddha Purnima (Vaishakha)",
+      "description": "Vaishakha Purnima. A day for holy bathing, charity and reflection; also observed as Buddha's birth anniversary.",
+      "date": "2027-05-20",
+      "prayerIds": [
+        "asato_ma",
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "narada_jayanti_2027",
+      "name": "Narada Jayanti",
+      "description": "Birth anniversary of Devarshi Narada, the eternal messenger of devotion. Sing kirtan and chant the holy names.",
+      "date": "2027-05-21",
+      "prayerIds": [
+        "hare_krishna_mahamantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "ekadanta_sankashti_2027",
+      "name": "Ekadanta Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-05-23",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0528_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-05-28",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "apara_ekadashi_2027",
+      "name": "Apara Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-06-01",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "budha_pradosh_vrat_0602_2027",
+      "name": "Budha Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-06-02",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_06_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-06-03",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "jyeshtha_amavasya_2027",
+      "name": "Jyeshtha Amavasya",
+      "description": "Jyeshtha Amavasya — Shani Jayanti and Vat Savitri vrat. Offer mustard oil to Shani Dev; married women worship the banyan tree.",
+      "date": "2027-06-04",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "pradyumna_chaturthi_06_2027",
+      "name": "Pradyumna Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-06-08",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_06_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-06-09",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "masik_durgashtami_0611_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-06-11",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "ganga_dussehra_2027",
+      "name": "Ganga Dussehra",
+      "description": "Descent of Goddess Ganga to earth. A holy dip on this day is believed to wash away ten lifetimes of sins; give charity by the water.",
+      "date": "2027-06-13",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "nirjala_ekadashi_2027",
+      "name": "Nirjala Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-06-14",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "mithuna_sankranti_2027",
+      "name": "Mithuna Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-06-15",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "budha_pradosh_vrat_0616_2027",
+      "name": "Budha Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-06-16",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "jyeshtha_purnima_2027",
+      "name": "Jyeshtha Purnima",
+      "description": "Jyeshtha Purnima — Vat Purnima vrat in many regions: married women worship the banyan tree for their husband's long life. Holy bath and charity recommended.",
+      "date": "2027-06-18",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "krishnapingala_sankashti_2027",
+      "name": "Krishnapingala Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-06-22",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0627_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-06-27",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "yogini_ekadashi_2027",
+      "name": "Yogini Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-06-30",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "guru_pradosh_vrat_0701_2027",
+      "name": "Guru Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-07-01",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_07_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-07-02",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "ashadha_amavasya_2027",
+      "name": "Ashadha Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-07-04",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "ashadha_gupt_navratri_2027",
+      "name": "Ashadha Gupt Navratri",
+      "description": "Gupt Navratri — nine nights of the Goddess observed quietly by sadhaks. Recite Devi Kavach and Durga Saptashati and keep a satvik routine.",
+      "date": "2027-07-04",
+      "prayerIds": [
+        "devi_kavach",
+        "durga_saptashati",
+        "navdurga_stuti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "endDate": "2027-07-11",
+      "deity": "durga"
+    },
+    {
+      "id": "jagannath_rathyatra_2027",
+      "name": "Jagannath Rath Yatra",
+      "description": "Lord Jagannath's chariot festival. Pull or witness the rath, sing kirtan, and chant Jai Jagannath!",
+      "date": "2027-07-05",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "govinda_namalu",
+        "krishna_aarti"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "aniruddha_chaturthi_07_2027",
+      "name": "Aniruddha Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-07-07",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_07_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-07-08",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "masik_durgashtami_0711_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-07-11",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "devshayani_ekadashi_2027",
+      "name": "Devshayani Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-07-14",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "gauri_vrat_2027",
+      "name": "Gauri Vrat",
+      "description": "Five-day Gujarati vrat: unmarried girls worship Goddess Gauri from Ashadha Ekadashi to Purnima for a good life partner, eating only salt-free food.",
+      "date": "2027-07-14",
+      "prayerIds": [
+        "durga_aarti",
+        "jay_adhya_shakti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "endDate": "2027-07-18",
+      "deity": "durga"
+    },
+    {
+      "id": "vasudeva_dwadashi_2027",
+      "name": "Vasudeva Dwadashi",
+      "description": "Ashadha Shukla Dwadashi — worship Lord Vasudeva (Krishna) with the Hare Krishna Mahamantra for the family's protection.",
+      "date": "2027-07-14",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "guru_pradosh_vrat_0715_2027",
+      "name": "Guru Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-07-15",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "jayaparvati_vrat_2027",
+      "name": "Jaya Parvati Vrat",
+      "description": "Five-day Gujarati vrat to Jaya (Parvati): women avoid salt, wheat and certain vegetables, worship Shiva-Parvati, and keep the final night's jagran.",
+      "date": "2027-07-16",
+      "prayerIds": [
+        "durga_aarti",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "endDate": "2027-07-21",
+      "deity": "durga"
+    },
+    {
+      "id": "karka_sankranti_2027",
+      "name": "Karka Sankranti",
+      "description": "The Sun turns southward (Dakshinayana begins). Holy bath, surya arghya and charity.",
+      "date": "2027-07-17",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "guru_purnima_2027",
+      "name": "Guru Purnima",
+      "description": "Ashadha Purnima, dedicated to the Guru. Offer gratitude to your teachers and elders and recite the Guru Brahma shloka.",
+      "date": "2027-07-18",
+      "prayerIds": [
+        "guru_brahma",
+        "om_sahana_vavatu"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "gajanana_sankashti_2027",
+      "name": "Gajanana Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-07-22",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0726_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-07-26",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "kamika_ekadashi_2027",
+      "name": "Kamika Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-07-29",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "sawan_shivaratri_07_2027",
+      "name": "Sawan Shivaratri",
+      "description": "Shivaratri of the holy Shravana month — second only to Maha Shivaratri. Perform jalabhishek on the Shivling and keep night vigil.",
+      "date": "2027-07-31",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "shani_pradosh_vrat_0731_2027",
+      "name": "Shani Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-07-31",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "shravana_amavasya_hariyali_somavati_2027",
+      "name": "Shravana Amavasya (Hariyali, Somavati)",
+      "description": "Hariyali Amavasya falling on a Monday (Somavati). Plant a tree, worship Lord Shiva, and make offerings for your ancestors.",
+      "date": "2027-08-02",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "hariyali_teej_2027",
+      "name": "Hariyali Teej",
+      "description": "Hariyali Teej: women worship Shiva and Parvati for marital happiness, wear green, apply mehendi, and enjoy swings and folk songs. Many observe a nirjala fast.",
+      "date": "2027-08-04",
+      "prayerIds": [
+        "durga_aarti",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "durva_ganapati_chaturthi_08_2027",
+      "name": "Durva Ganapati Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-08-05",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "nag_panchami_2027",
+      "name": "Nag Panchami",
+      "description": "Worship of the Nag Devta. Offer milk and flowers to snake idols and pray to Lord Shiva for protection.",
+      "date": "2027-08-06",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "skanda_sashti_08_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-08-07",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "masik_durgashtami_0809_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-08-09",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "shravana_putrada_ekadashi_2027",
+      "name": "Shravana Putrada Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-08-12",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "varalakshmi_vrat_2027",
+      "name": "Varalakshmi Vrat",
+      "description": "South Indian vrat to Goddess Varalakshmi, the boon-giver. Married women worship the kalash-Lakshmi for family prosperity.",
+      "date": "2027-08-13",
+      "prayerIds": [
+        "lakshmi_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/lakshmi.png",
+      "deity": "lakshmi"
+    },
+    {
+      "id": "shani_pradosh_vrat_0814_2027",
+      "name": "Shani Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-08-14",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "gayatri_jayanti_2027",
+      "name": "Gayatri Jayanti",
+      "description": "Appearance day of Goddess Gayatri, mother of the Vedas. Chant the Gayatri Mantra 108 times.",
+      "date": "2027-08-17",
+      "prayerIds": [
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/saraswati.png"
+    },
+    {
+      "id": "raksha_bandhan_2027",
+      "name": "Raksha Bandhan (Rakhi)",
+      "description": "Shravana Purnima. Sisters tie rakhi on brothers' wrists; pray for each other's protection and long life. Also Gayatri Jayanti.",
+      "date": "2027-08-17",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "shubham_karoti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "simha_sankranti_2027",
+      "name": "Simha Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-08-17",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "heramba_sankashti_2027",
+      "name": "Heramba Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-08-20",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kajari_teej_2027",
+      "name": "Kajari Teej",
+      "description": "Kajari Teej: women fast and worship Shiva and Parvati for their husband's wellbeing; sing kajari folk songs.",
+      "date": "2027-08-20",
+      "prayerIds": [
+        "durga_aarti",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "kalashtami_0824_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-08-24",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "krishna_janmashtami_2027",
+      "name": "Krishna Janmashtami",
+      "description": "Birth of Lord Krishna. Fast until midnight, decorate the jhula/altar, and celebrate the birth at Nishita (midnight) with Krishna Aarti and kirtan.",
+      "date": "2027-08-25",
+      "prayerIds": [
+        "krishna_aarti",
+        "krishna_chalisa",
+        "hare_krishna_mahamantra",
+        "madhurashtakam",
+        "damodarashtakam",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "aja_ekadashi_2027",
+      "name": "Aja Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-08-28",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "ravi_pradosh_vrat_0829_2027",
+      "name": "Ravi Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-08-29",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_08_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-08-30",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "bhadrapada_amavasya_2027",
+      "name": "Bhadrapada Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-08-31",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "hartalika_teej_2027",
+      "name": "Hartalika Teej",
+      "description": "Hartalika Teej: women observe a strict nirjala fast and worship Shiva and Parvati (Hartalika) for marital bliss, keeping vigil through the night.",
+      "date": "2027-09-03",
+      "prayerIds": [
+        "durga_aarti",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "ganesh_chaturthi_2027",
+      "name": "Ganesh Chaturthi",
+      "description": "Welcome Lord Ganesha home. Install the murti, offer modak and durva grass, and perform aarti morning and evening through the ten-day utsav.",
+      "date": "2027-09-04",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/sankashti.png",
+      "endDate": "2027-09-14",
+      "deity": "ganesh"
+    },
+    {
+      "id": "rishi_panchami_2027",
+      "name": "Rishi Panchami",
+      "description": "Honor the Sapta Rishis. Observe purity, offer prayers to the seven sages, and recite the Guru Brahma shloka.",
+      "date": "2027-09-04",
+      "prayerIds": [
+        "guru_brahma",
+        "om_sahana_vavatu"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "skanda_sashti_09_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-09-05",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "balarama_jayanti_2027",
+      "name": "Balarama Jayanti",
+      "description": "Appearance day of Lord Balarama, elder brother of Krishna. Worship for strength and family wellbeing.",
+      "date": "2027-09-06",
+      "prayerIds": [
+        "krishna_aarti",
+        "hare_krishna_mahamantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "masik_durgashtami_0908_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-09-08",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "radha_ashtami_2027",
+      "name": "Radha Ashtami",
+      "description": "Appearance day of Shrimati Radharani. Sing Madhurashtakam and celebrate the divine love of Radha-Krishna.",
+      "date": "2027-09-08",
+      "prayerIds": [
+        "madhurashtakam",
+        "krishna_aarti",
+        "hare_krishna_mahamantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "parsva_ekadashi_2027",
+      "name": "Parsva Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-09-11",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "onam_2027",
+      "name": "Onam",
+      "description": "Kerala's harvest festival welcoming King Mahabali, blessed by Lord Vamana. Lay pookalam, prepare Onam sadya, and celebrate with family.",
+      "date": "2027-09-12",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "soma_pradosh_vrat_0913_2027",
+      "name": "Soma Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-09-13",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "anant_chaturdashi_2027",
+      "name": "Anant Chaturdashi (Ganesh Visarjan)",
+      "description": "Final day of Ganesh utsav — Ganpati visarjan. Perform the last aarti and bid farewell: Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya!",
+      "date": "2027-09-14",
+      "prayerIds": [
+        "ganesh_aarti",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "bhadrapada_purnima_2027",
+      "name": "Bhadrapada Purnima",
+      "description": "Full moon day. Take a holy bath, observe the Purnima vrat if you can, worship Lord Vishnu and Goddess Lakshmi in the evening, and offer prayers under the full moon.",
+      "date": "2027-09-15",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "pitru_paksha_begins_2027",
+      "name": "Pitru Paksha Begins",
+      "description": "The fortnight of the ancestors begins. Perform shraddha and tarpan, feed the needy, and remember your forefathers daily until Sarva Pitru Amavasya.",
+      "date": "2027-09-16",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "vishwakarma_puja_2027",
+      "name": "Vishwakarma Puja (Kanya Sankranti)",
+      "description": "Worship of Vishwakarma, the divine architect. Clean and worship your tools, instruments and vehicles.",
+      "date": "2027-09-17",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "shubham_karoti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "vighnaraja_sankashti_2027",
+      "name": "Vighnaraja Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-09-19",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "kalashtami_0923_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-09-23",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "indira_ekadashi_2027",
+      "name": "Indira Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-09-26",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "soma_pradosh_vrat_0927_2027",
+      "name": "Soma Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-09-27",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_09_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-09-28",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "sarva_pitru_amavasya_ashwina_2027",
+      "name": "Sarva Pitru Amavasya (Ashwina)",
+      "description": "Sarva Pitru Amavasya — the last day of Pitru Paksha. Perform shraddha/tarpan for all ancestors, feed brahmins, cows, crows and the needy.",
+      "date": "2027-09-29",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "sharad_navratri_2027",
+      "name": "Sharad Navratri",
+      "description": "Nine nights of Goddess Durga begin with Ghatasthapana. Recite Durga Chalisa and Devi Kavach daily, join garba/dandiya, and fast if you can.",
+      "date": "2027-09-30",
+      "prayerIds": [
+        "navdurga_stuti",
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti",
+        "jay_adhya_shakti",
+        "durga_saptashati"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "endDate": "2027-10-08",
+      "deity": "durga"
+    },
+    {
+      "id": "kapardisha_chaturthi_10_2027",
+      "name": "Kapardisha Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-10-03",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "skanda_sashti_10_2027",
+      "name": "Skanda Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-10-05",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "durga_ashtami_2027",
+      "name": "Durga Ashtami",
+      "description": "Maha Ashtami. Perform Kanya Pujan, recite Mahishasura Mardini and Devi Kavach, and offer special prasad to the Goddess.",
+      "date": "2027-10-07",
+      "prayerIds": [
+        "durga_aarti",
+        "mahishasura_mardini",
+        "devi_kavach"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "saraswati_puja_2027",
+      "name": "Saraswati Puja (Navratri)",
+      "description": "Navratri worship of Goddess Saraswati. Place books and instruments at her altar and recite Saraswati Vandana.",
+      "date": "2027-10-07",
+      "prayerIds": [
+        "saraswati_vandana",
+        "saraswati_namastubhyam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/saraswati.png"
+    },
+    {
+      "id": "maha_navami_2027",
+      "name": "Maha Navami",
+      "description": "The ninth night of Navratri — worship Goddess Siddhidatri, perform Kanya Pujan and havan, and conclude the Navratri vrat.",
+      "date": "2027-10-08",
+      "prayerIds": [
+        "durga_aarti",
+        "navdurga_stuti",
+        "mahishasura_mardini"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "dussehra_2027",
+      "name": "Dussehra (Vijayadashami)",
+      "description": "Victory of good over evil — Rama over Ravana, Durga over Mahishasura. Perform Shami/Aparajita puja and start new ventures.",
+      "date": "2027-10-09",
+      "prayerIds": [
+        "durga_aarti",
+        "mahishasura_mardini"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "papankusha_ekadashi_2027",
+      "name": "Papankusha Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-10-11",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "bhauma_pradosh_vrat_1012_2027",
+      "name": "Bhauma Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-10-12",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "sharad_purnima_2027",
+      "name": "Sharad Purnima (Kojagara Puja)",
+      "description": "The moon shines with all sixteen kalas. Keep kheer under moonlight overnight and offer it as prasad; worship Goddess Lakshmi who roams asking 'Ko jagarti?' — who is awake?",
+      "date": "2027-10-14",
+      "prayerIds": [
+        "lakshmi_aarti",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/lakshmi.png",
+      "deity": "lakshmi"
+    },
+    {
+      "id": "ashwina_purnima_2027",
+      "name": "Ashwina Purnima",
+      "description": "Full moon day. Take a holy bath, observe the Purnima vrat if you can, worship Lord Vishnu and Goddess Lakshmi in the evening, and offer prayers under the full moon.",
+      "date": "2027-10-15",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "karwa_chauth_2027",
+      "name": "Karwa Chauth",
+      "description": "Married women fast from sunrise to moonrise for their husband's long life, breaking the fast after offering arghya to the moon.",
+      "date": "2027-10-18",
+      "prayerIds": [
+        "shubham_karoti",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "tula_sankranti_2027",
+      "name": "Tula Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-10-18",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "vakratunda_sankashti_2027",
+      "name": "Vakratunda Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-10-18",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "ahoi_ashtami_2027",
+      "name": "Ahoi Ashtami",
+      "description": "Mothers fast from dawn until star-sighting for the wellbeing of their children and worship Ahoi Mata.",
+      "date": "2027-10-22",
+      "prayerIds": [
+        "durga_aarti",
+        "shubham_karoti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "kalashtami_1022_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-10-22",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "rama_ekadashi_2027",
+      "name": "Rama Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-10-25",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "govatsa_dwadashi_2027",
+      "name": "Govatsa Dwadashi",
+      "description": "Worship of the cow and calf (Nandini vrat). Offer them food and gratitude before Diwali begins.",
+      "date": "2027-10-26",
+      "prayerIds": [
+        "krishna_aarti",
+        "govinda_namalu"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "budha_pradosh_vrat_1027_2027",
+      "name": "Budha Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-10-27",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "dhanteras_2027",
+      "name": "Dhanteras",
+      "description": "Diwali begins. Worship Lord Dhanvantari and Goddess Lakshmi, buy gold/silver or new utensils, and light the first diya.",
+      "date": "2027-10-27",
+      "prayerIds": [
+        "lakshmi_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/lakshmi.png",
+      "deity": "lakshmi"
+    },
+    {
+      "id": "kali_chaudas_2027",
+      "name": "Kali Chaudas",
+      "description": "Worship Maha Kali to destroy inner negativity; light a diya facing south in the evening.",
+      "date": "2027-10-27",
+      "prayerIds": [
+        "mahishasura_mardini",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "masik_shivaratri_10_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-10-27",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "narak_chaturdashi_2027",
+      "name": "Narak Chaturdashi (Choti Diwali)",
+      "description": "Krishna's victory over Narakasura. Take an early oil bath (abhyanga snan), light diyas, and prepare for Lakshmi Puja tomorrow.",
+      "date": "2027-10-28",
+      "prayerIds": [
+        "krishna_aarti",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "diwali_2027",
+      "name": "Diwali (Lakshmi Puja)",
+      "description": "Festival of lights on Kartika Amavasya. Clean and decorate the home with diyas and rangoli, and perform Lakshmi Puja during Pradosh Kaal in the evening.",
+      "date": "2027-10-29",
+      "prayerIds": [
+        "lakshmi_aarti",
+        "om_jai_jagdish_hare",
+        "shubham_karoti"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/lakshmi.png",
+      "deity": "lakshmi"
+    },
+    {
+      "id": "govardhan_puja_2027",
+      "name": "Govardhan Puja",
+      "description": "Worship Govardhan hill and Lord Krishna with Annakut — an offering of many food items. Sing Govinda Namalu.",
+      "date": "2027-10-30",
+      "prayerIds": [
+        "govinda_namalu",
+        "damodarashtakam",
+        "krishna_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "bhai_dooj_2027",
+      "name": "Bhai Dooj",
+      "description": "Sisters apply tilak on brothers' foreheads and pray for their long life; brothers give gifts and a promise of protection.",
+      "date": "2027-10-31",
+      "prayerIds": [
+        "shubham_karoti",
+        "twameva_mata"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "labh_chaturthi_11_2027",
+      "name": "Labh Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-11-02",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "chhath_puja_2027",
+      "name": "Chhath Puja",
+      "description": "Offer arghya to the setting and rising Sun standing in water. A rigorous 36-hour nirjala vrat for family wellbeing.",
+      "date": "2027-11-04",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "soora_samharam_11_2027",
+      "name": "Soora Samharam",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-11-04",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "masik_durgashtami_1106_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-11-06",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "kansa_vadh_2027",
+      "name": "Kansa Vadh",
+      "description": "Krishna's victory over the tyrant Kansa. Celebrated with processions in Braj; remember that dharma always prevails.",
+      "date": "2027-11-08",
+      "prayerIds": [
+        "krishna_aarti",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "devutthana_ekadashi_2027",
+      "name": "Devutthana Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-11-10",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "guru_pradosh_vrat_1111_2027",
+      "name": "Guru Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-11-11",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "tulasi_vivah_2027",
+      "name": "Tulasi Vivah",
+      "description": "Ceremonial marriage of Tulasi Devi with Lord Vishnu (Shaligram) — the start of the wedding season. Decorate the Tulsi plant and perform the vivah puja.",
+      "date": "2027-11-11",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "kartika_purnima_2027",
+      "name": "Kartika Purnima",
+      "description": "Kartika Purnima — Dev Deepawali. Light diyas by a river or at home in the evening, take a holy bath, and worship Lord Shiva and Lord Vishnu.",
+      "date": "2027-11-14",
+      "prayerIds": [
+        "shiv_aarti",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "ganadhipa_sankashti_2027",
+      "name": "Ganadhipa Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-11-17",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "vrishchika_sankranti_2027",
+      "name": "Vrishchika Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-11-17",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "kalabhairav_jayanti_2027",
+      "name": "Kalabhairav Jayanti",
+      "description": "Appearance day of Kala Bhairava, the fierce form of Shiva and lord of time. Worship at night with mustard-oil diyas.",
+      "date": "2027-11-20",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "utpanna_ekadashi_2027",
+      "name": "Utpanna Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-11-24",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "guru_pradosh_vrat_1125_2027",
+      "name": "Guru Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-11-25",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "masik_shivaratri_11_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-11-26",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "margashirsha_amavasya_2027",
+      "name": "Margashirsha Amavasya",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-11-28",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "krichchhra_chaturthi_12_2027",
+      "name": "Krichchhra Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-12-02",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "subrahmanya_sashti_12_2027",
+      "name": "Subrahmanya Sashti",
+      "description": "Skanda Sashti: Shukla Sashti of Lord Kartikeya (Murugan). Fast and worship Skanda for courage and victory over obstacles.",
+      "date": "2027-12-03",
+      "prayerIds": [
+        "om_sahana_vavatu",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sashti",
+      "image": "festivals/images/skanda.png"
+    },
+    {
+      "id": "vivah_panchami_2027",
+      "name": "Vivah Panchami",
+      "description": "Wedding anniversary of Lord Rama and Goddess Sita. Recite the Ramayana's wedding episode and pray for marital harmony.",
+      "date": "2027-12-03",
+      "prayerIds": [
+        "achyutam_keshavam",
+        "hanuman_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "masik_durgashtami_1206_2027",
+      "name": "Masik Durgashtami",
+      "description": "Masik Durgashtami: monthly Shukla Ashtami of Goddess Durga. Fast, recite Durga Chalisa and Devi Kavach, and offer red flowers to the Goddess.",
+      "date": "2027-12-06",
+      "prayerIds": [
+        "durga_chalisa",
+        "devi_kavach",
+        "durga_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "durgashtami",
+      "image": "festivals/images/durga.png",
+      "deity": "durga"
+    },
+    {
+      "id": "gita_jayanti_2027",
+      "name": "Gita Jayanti",
+      "description": "The day Lord Krishna spoke the Bhagavad Gita at Kurukshetra. Read a chapter of the Gita and reflect on its teaching.",
+      "date": "2027-12-09",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "krishna_chalisa",
+        "achyutam_keshavam"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/krishna.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "mokshada_ekadashi_2027",
+      "name": "Mokshada Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-12-09",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "shani_pradosh_vrat_1211_2027",
+      "name": "Shani Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-12-11",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "karthigai_deepam_2027",
+      "name": "Karthigai Deepam",
+      "description": "Tamil festival of lamps on Karthigai Nakshatra. Light rows of agal vilakku at dusk; the great Mahadeepam is lit on Thiruvannamalai hill.",
+      "date": "2027-12-12",
+      "prayerIds": [
+        "shiv_aarti",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 2,
+      "type": "festival",
+      "image": "festivals/images/festival.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "dattatreya_jayanti_2027",
+      "name": "Dattatreya Jayanti",
+      "description": "Birth anniversary of Lord Dattatreya — Brahma, Vishnu and Shiva combined as the Adi Guru. Recite the Guru Brahma shloka.",
+      "date": "2027-12-13",
+      "prayerIds": [
+        "guru_brahma",
+        "om_sahana_vavatu"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/festival.png"
+    },
+    {
+      "id": "margashirsha_purnima_2027",
+      "name": "Margashirsha Purnima",
+      "description": "Full moon day. Take a holy bath, observe the Purnima vrat if you can, worship Lord Vishnu and Goddess Lakshmi in the evening, and offer prayers under the full moon.",
+      "date": "2027-12-13",
+      "prayerIds": [
+        "om_jai_jagdish_hare",
+        "gayatri_mantra"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "purnima",
+      "image": "festivals/images/purnima.png"
+    },
+    {
+      "id": "akhuratha_sankashti_2027",
+      "name": "Akhuratha Sankashti",
+      "description": "Sankashti Chaturthi: fast from sunrise, worship Lord Ganesha in the evening, and break the fast after sighting the moon. Offer modak and durva grass.",
+      "date": "2027-12-16",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "sankashti",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    },
+    {
+      "id": "dhanu_sankranti_2027",
+      "name": "Dhanu Sankranti",
+      "description": "The Sun enters a new rashi. An auspicious day for a holy bath, surya arghya at sunrise, japa, and charity.",
+      "date": "2027-12-16",
+      "prayerIds": [
+        "gayatri_mantra",
+        "karagre_vasate"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "festival",
+      "image": "festivals/images/surya.png"
+    },
+    {
+      "id": "kalashtami_1220_2027",
+      "name": "Kalashtami",
+      "description": "Kalashtami: Krishna Ashtami of Kala Bhairava, the fierce guardian form of Shiva. Worship at night with a mustard-oil diya and chant Om Namah Shivaya.",
+      "date": "2027-12-20",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "kalashtami",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "saphala_ekadashi_margashirsha_2027",
+      "name": "Saphala Ekadashi",
+      "description": "Ekadashi vrat: fast from grains, rice and beans; worship Lord Vishnu, offer Tulsi leaves, and chant the Hare Krishna Mahamantra. Break the fast (Parana) after sunrise the next day.",
+      "date": "2027-12-23",
+      "prayerIds": [
+        "hare_krishna_mahamantra",
+        "achyutam_keshavam",
+        "om_jai_jagdish_hare"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "ekadashi",
+      "image": "festivals/images/ekadashi.png",
+      "deity": "krishna"
+    },
+    {
+      "id": "masik_shivaratri_12_2027",
+      "name": "Masik Shivaratri",
+      "description": "Masik Shivaratri: monthly night of Shiva. Fast, perform abhishek on the Shivling with water or milk, and keep vigil chanting Om Namah Shivaya at midnight.",
+      "date": "2027-12-25",
+      "prayerIds": [
+        "shiv_chalisa",
+        "shiv_tandav",
+        "shiv_aarti"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "shivaratri",
+      "image": "festivals/images/shivaratri.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "shani_pradosh_vrat_1225_2027",
+      "name": "Shani Pradosh Vrat",
+      "description": "Pradosh vrat: fast during the day and worship Lord Shiva during Pradosh Kaal, the twilight period just after sunset. Offer bilva leaves and chant Om Namah Shivaya.",
+      "date": "2027-12-25",
+      "prayerIds": [
+        "shiv_aarti",
+        "shiv_chalisa"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "pradosh",
+      "image": "festivals/images/pradosh.png",
+      "deity": "shiva"
+    },
+    {
+      "id": "pausha_amavasya_somavati_2027",
+      "name": "Pausha Amavasya (Somavati)",
+      "description": "New moon day. Take a holy bath, remember and make offerings for your ancestors (pitru tarpan), light a diya in the evening, and chant the Gayatri Mantra.",
+      "date": "2027-12-27",
+      "prayerIds": [
+        "gayatri_mantra",
+        "asato_ma"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "amavasya",
+      "image": "festivals/images/amavasya.png"
+    },
+    {
+      "id": "vighneshvara_chaturthi_12_2027",
+      "name": "Vighneshvara Chaturthi",
+      "description": "Vinayaka Chaturthi: Shukla-paksha chaturthi of Lord Ganesha. Fast till midday, worship Ganesha at noon (Madhyahna), and offer modak and durva grass.",
+      "date": "2027-12-31",
+      "prayerIds": [
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ],
+      "notifyDaysBefore": 1,
+      "type": "vinayaka",
+      "image": "festivals/images/sankashti.png",
+      "deity": "ganesh"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "sections": [
+    {
+      "id": "opening",
+      "verses": [
+        { "id": 1, "first": "Nishchay Prem Pratiti Te, Binay Karein Sanmaan", "second": "Tehi Ke Kaaraj Sakal Shubh, Siddh Karein Hanuman" },
+        { "id": 2, "first": "Jai Hanumant Sant Hitkari", "second": "Suni Leejai Prabhu Araj Hamari" },
+        { "id": 3, "first": "Jan Ke Kaaj Bilamb Na Keejai", "second": "Aatur Dauri Maha Sukh Deejai" }
+      ]
+    },
+    {
+      "id": "main",
+      "verses": [
+        { "id": 4, "first": "Jai Jai Jai Hanuman Gosai", "second": "Kripa Karahu Gurudev Ki Naai" },
+        { "id": 5, "first": "Jai Giridhar Jai Jai Sukh Sagar", "second": "Jai Jai Sevak Raj Karagar" },
+        { "id": 6, "first": "Jai Jai Bajrangi Hanumana", "second": "Jai Jai Dev Pawan Balwana" },
+        { "id": 7, "first": "Om Hanu Hanu Hanu Hanumant Hatheele", "second": "Bairihi Maru Bajra Ki Keele" },
+        { "id": 8, "first": "Gada Bajra Lai Bairihi Maro", "second": "Maharaj Nij Das Ubaro" },
+        { "id": 9, "first": "Om Hreem Hreem Hreem Hanumant Kapeesa", "second": "Om Hum Hum Hum Hanu Ari Ur Seesa" },
+        { "id": 10, "first": "Satya Hohu Hari Shapath Pai Kai", "second": "Ram Doot Dharu Maru Dhai Kai" },
+        { "id": 11, "first": "Jai Anjani Kumar Balwanta", "second": "Shankar Suvan Veer Hanumanta" },
+        { "id": 12, "first": "Badan Karal Kaal Kul Ghalak", "second": "Ram Sahay Sada Pratipalak" },
+        { "id": 13, "first": "Bhoot Pret Pishach Nishachar", "second": "Agni Betal Kaal Mari Mar" },
+        { "id": 14, "first": "Inse Sab Mam Peeda Haro", "second": "Sakal Kalesh Manodukh Taro" },
+        { "id": 15, "first": "Hanuman Shakti Te Bhaybheeta", "second": "Ho Javen Sab Pret Paleeta" },
+        { "id": 16, "first": "Khal Bairihi Maro Mahishashan", "second": "Ram Doot Sankat Ko Nashan" },
+        { "id": 17, "first": "Khay Lai Phal Bhumi Kampavai", "second": "Bajra Ki Kilki Bairi Bhagavai" },
+        { "id": 18, "first": "Om Hneem Hneem Hneem Hanuman Dhao", "second": "Jahan Raho Wahan Jan Bali Pao" },
+        { "id": 19, "first": "Hath Bajra So Bairihi Pooro", "second": "Nakh Dant Se Dusht Bidaro" },
+        { "id": 20, "first": "Om Kleem Kleem Kleem Kleem Bajrangi", "second": "Mohi Dukh Se Rakho Jangi" },
+        { "id": 21, "first": "Om Shatrun Kshobhay Kshobhay Shatrun", "second": "Bhutanam Bhay Darshay Darshay" },
+        { "id": 22, "first": "Om Hanuman Maro Bajra Se", "second": "Rog Bhoot Ke Bhag Tej Se" },
+        { "id": 23, "first": "Om Hanumate Namah Dukh Haro Ji", "second": "Om Mahavir Vikat Haro Ji" },
+        { "id": 24, "first": "Om Marutaye Namah Sukh Karo Ji", "second": "Om Anjani Sut Bhay Haro Ji" },
+        { "id": 25, "first": "Om Bajra Hanumate Namah", "second": "Om Ram Dootaya Namah" },
+        { "id": 26, "first": "Om Namo Bhagavate Anjani Putraya", "second": "Mahabalaya Swaha" },
+        { "id": 27, "first": "Om Namo Bhagavate Pawan Putraya", "second": "Bhoot Bhavishyat Vartaman" },
+        { "id": 28, "first": "Sab Jag Mahin Pratap Dikhao", "second": "Sakal Kalesh Hamaro Mitao" }
+      ]
+    },
+    {
+      "id": "closing",
+      "verses": [
+        { "id": 29, "first": "Jo Yeh Bajrang Baan Padhaiga", "second": "Tasu Ke Bhay Bhoot Sab Bhagaiga" },
+        { "id": 30, "first": "Grah Bhoot Nikat Nahi Aavai", "second": "Mahavir Jab Naam Sunavai" },
+        { "id": 31, "first": "Tulsidas Sada Hari Chera", "second": "Keejai Nath Hriday Mah Dera" }
+      ]
+    }
+  ]
+}

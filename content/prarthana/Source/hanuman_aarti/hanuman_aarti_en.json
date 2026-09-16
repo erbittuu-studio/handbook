@@ -1,0 +1,20 @@
+{
+  "sections": [
+    {
+      "id": "aarti",
+      "verses": [
+        { "id": 1, "first": "Aarti Keeje Hanuman Lala Ki", "second": "Dushtdalan Raghunath Kala Ki" },
+        { "id": 2, "first": "Jake Bal Se Girivar Kaanpe", "second": "Rog Dosh Jake Nikat Na Jhanke" },
+        { "id": 3, "first": "Anjani Putra Maha Baldaayi", "second": "Santan Ke Prabhu Sada Sahaayi" },
+        { "id": 4, "first": "De Beera Raghunath Pathaye", "second": "Lanka Jari Siya Sudhi Laye" },
+        { "id": 5, "first": "Lanka So Koti Samudra Sihayi", "second": "Jaath Pavanasut Baar Na Layi" },
+        { "id": 6, "first": "Laxman Murchit Pade Sakare", "second": "Aanahu Oushadhi Praan Ubaare" },
+        { "id": 7, "first": "Paith Pataal Tori Jam Kare", "second": "Ahiraavan Ki Bhuja Ukhaare" },
+        { "id": 8, "first": "Baayein Bhuja Giri Sanjeevi", "second": "Daayein Bhuja Ahiraavan Leve" },
+        { "id": 9, "first": "Sur Nar Muni Aarti Utaare", "second": "Jai Jai Jai Hanuman Uchaare" },
+        { "id": 10, "first": "Kanchan Thaar Kapoor Ki Bati", "second": "Aarti Karey Jan Harshe Chhaati" },
+        { "id": 11, "first": "Jo Hanuman Ji Ki Aarti Gaave", "second": "So Baikunth Param Pad Pave" }
+      ]
+    }
+  ]
+}

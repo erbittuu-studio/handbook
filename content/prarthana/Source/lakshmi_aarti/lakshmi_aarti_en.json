@@ -1,0 +1,25 @@
+{
+  "sections": [
+    {
+      "id": "aarti",
+      "verses": [
+        { "id": 1, "first": "Om Jai Lakshmi Mata", "second": "Maiya Jai Lakshmi Mata" },
+        { "id": 2, "first": "Tumko Nishdin Sevat", "second": "Hari Vishnu Dhata" },
+        { "id": 3, "first": "Uma Rama Brahmani", "second": "Tum Hi Jag Mata" },
+        { "id": 4, "first": "Surya Chandrama Dhyavat", "second": "Narad Rishi Gata" },
+        { "id": 5, "first": "Durga Roop Niranjani", "second": "Sukh Sampati Data" },
+        { "id": 6, "first": "Jo Koi Tumko Dhyavat", "second": "Riddhi Siddhi Dhan Pata" },
+        { "id": 7, "first": "Tum Patal Nivasini", "second": "Tum Hi Shubh Data" },
+        { "id": 8, "first": "Karma Prabhaav Prakashini", "second": "Bhavnidhi Ki Trata" },
+        { "id": 9, "first": "Jis Ghar Mein Tum Rahti", "second": "Sab Sadgun Aata" },
+        { "id": 10, "first": "Sab Sambhav Ho Jata", "second": "Man Nahi Ghabrata" },
+        { "id": 11, "first": "Tum Bin Yagya Na Hote", "second": "Vastra Na Koi Pata" },
+        { "id": 12, "first": "Khaan Paan Ka Vaibhav", "second": "Sab Tumse Aata" },
+        { "id": 13, "first": "Shubh Gun Mandir Sundar", "second": "Kshirodadhi Jata" },
+        { "id": 14, "first": "Ratna Chaturdash Tum Bin", "second": "Koi Nahi Pata" },
+        { "id": 15, "first": "Maha Lakshmiji Ki Aarti", "second": "Jo Koi Jan Gata" },
+        { "id": 16, "first": "Ur Anand Samata", "second": "Paap Utar Jata" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "sections": [
+    {
+      "id": "kavach",
+      "verses": [
+        { "id": 1, "first": "Om Namashchandikayai", "second": "Markandeya Uvacha" },
+        { "id": 2, "first": "Om Yadguhyam Paramam Loke", "second": "Sarvaraksha Karam Nrinam" },
+        { "id": 3, "first": "Yanna Kasyachidakhyatam", "second": "Tanme Bruhi Pitamaha" },
+        { "id": 4, "first": "Brahmovacha", "second": "Asti Guhyatamam Vipra" },
+        { "id": 5, "first": "Sarvabhutopkarankam", "second": "Devyastu Kavacham Punyam" },
+        { "id": 6, "first": "Tachhrinu Shivardhakam", "second": "Prathamam Shailputri Cha" },
+        { "id": 7, "first": "Dvitiyam Brahmacharini", "second": "Tritiyam Chandraghanteti" },
+        { "id": 8, "first": "Kushmandeti Chaturthakam", "second": "Panchamam Skandmateti" },
+        { "id": 9, "first": "Shashtham Katyayani Tatha", "second": "Saptamam Kalaratrishcha" },
+        { "id": 10, "first": "Mahagauricha Ashtamam", "second": "Navamam Siddhidatri Cha" },
+        { "id": 11, "first": "Navadurgah Prakirtitah", "second": "Uktanyetani Namani" },
+        { "id": 12, "first": "Brahmanaiwa Mahatmana", "second": "Agninaa Dahyamaanastu" },
+        { "id": 13, "first": "Shatrumadhe Gato Rane", "second": "Vishame Durgame Chaiva" },
+        { "id": 14, "first": "Bhayartah Sharanam Gatah", "second": "Na Tesham Jayate Kinchid" },
+        { "id": 15, "first": "Ashubham Ranasankate", "second": "Napadam Tasya Pashyami" },
+        { "id": 16, "first": "Shoka Dukham Bhayam Nahi", "second": "Yaistu Bhaktya Smrita Nityam" }
+      ]
+    }
+  ]
+}

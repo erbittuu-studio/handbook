@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+ <polygon class="fil0" points="212.0,765.0 245.0,765.0 270.0,773.0 284.0,781.0 297.0,793.0 308.0,811.0 316.0,838.0 317.0,858.0 315.0,870.0 309.0,890.0 301.0,903.0 290.0,917.0 272.0,930.0 245.0,938.0 219.0,939.0 185.0,930.0 167.0,917.0 156.0,903.0 148.0,890.0 142.0,870.0 142.0,833.0 148.0,813.0 157.0,797.0 169.0,784.0 178.0,778.0 197.0,769.0"/>
+ <polygon class="fil0" points="602.0,765.0 635.0,765.0 660.0,773.0 674.0,781.0 687.0,793.0 698.0,811.0 706.0,838.0 707.0,858.0 705.0,870.0 699.0,890.0 691.0,903.0 680.0,917.0 662.0,930.0 635.0,938.0 609.0,939.0 576.0,930.0 558.0,917.0 547.0,903.0 539.0,890.0 533.0,870.0 533.0,833.0 539.0,813.0 548.0,797.0 560.0,784.0 569.0,778.0 590.0,768.0"/>
+  <rect class="fil0 str6" x="25" y="385" width="796.864" height="40.7637" id="crop0"/>
+  <path class="fil0 str6" d="M50 459c0,0 45,224 334,255 288,32 394,-204 408,-242 14,-39 16,-46 16,-46l-771 0c0,0 9,16 13,33z" id="crop0"/>
+  <path class="fil0 str6" d="M782 385c0,0 13,-135 165,-124l0 29c0,0 -115,-14 -135,95l-30 0z" id="crop0"/>
+  <circle class="fil0 str6" cx="968" cy="276" r="42" id="crop0"/>
+  <polygon class="fil0 str6" points="404,716 318,774 299,785 310,799 422,725 533,797 540,781 441,717" id="crop0"/>
+  <path class="fil0 str6" d="M229 734c65,0 118,53 118,118 0,65 -53,117 -118,117 -65,0 -118,-52 -118,-117 0,-65 53,-118 118,-118zm0 30c49,0 88,39 88,88 0,48 -39,88 -88,88 -49,0 -88,-40 -88,-88 0,-49 39,-88 88,-88z" id="crop0"/>
+  <path class="fil0 str6" d="M619 734c66,0 118,53 118,118 0,65 -52,118 -118,118 -65,0 -117,-53 -117,-118 0,-65 52,-118 117,-118zm0 30c49,0 88,39 88,88 0,48 -39,88 -88,88 -48,0 -87,-40 -87,-88 0,-49 39,-88 87,-88z" id="crop0"/>
+  <path class="fil0 str6" d="M423 385l0 -323c0,0 -83,-48 -141,24l141 299z" id="crop0"/>
+  <path class="fil0 str6" d="M423 385l-263 -228c0,0 0,-99 122,-71l141 299z" id="crop0"/>
+  <path class="fil0 str6" d="M423 385l-351 -126c0,0 -28,-102 88,-102l263 228z" id="crop0"/>
+  <path class="fil0 str6" d="M423 385l-377 0c0,0 -74,-70 26,-126l351 126z" id="crop0"/>
+</svg>

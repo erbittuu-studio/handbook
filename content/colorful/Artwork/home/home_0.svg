@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <rect class="fil0" y="589" width="1024" height="436"/>
+  <line class="fil1 str6" x1="1" y1="590" x2="1025" y2="590"/>
+  <path class="fil0 str6" d="M508 942l37 20c0,0 7,6 19,1l0 43 -38 -21 -18 -43z"/>
+  <polygon class="fil0 str6" points="619,930 599,982 564,1006 564,963"/>
+  <polygon class="fil1 str6" points="374,891 345,874 333,836 402,857 399,880"/>
+  <polygon class="fil0 str6" points="856,816 853,855 818,838 818,829"/>
+  <polygon class="fil0 str6" points="906,792 884,840 853,855 856,816"/>
+  <path class="fil0 str6" d="M545 962c0,0 8,-127 -49,-196 0,0 -99,-104 -235,-138 0,0 -47,83 74,215l210 119z"/>
+  <path class="fil0 str6" d="M829 609l-4 226 -261 128c0,0 -12,5 -19,-1 0,0 9,-124 -49,-196 0,0 56,-62 155,-96l178 -61z"/>
+  <path class="fil0 str6" d="M599 509l230 100 -158 54c0,0 -97,25 -175,103 0,0 -107,-107 -235,-138 0,0 8,-45 40,-59 0,0 134,-78 298,-60z"/>
+  <path class="fil0 str6" d="M928 282l-99 327 -230 -100c0,0 -26,-179 100,-336 0,0 20,-31 122,-21l187 47c0,0 -31,0 -80,83z"/>
+  <path class="fil0 str6" d="M915 791l-90 44 4 -226 97 -319c0,0 33,-75 82,-91l-93 592z"/>
+  <rect class="fil0 str6" x="96" y="71" width="394" height="394"/>
+  <rect class="fil0 str6" x="124" y="99" width="150" height="150"/>
+  <rect class="fil0 str6" x="310" y="99" width="150" height="150"/>
+  <rect class="fil0 str6" x="124" y="281" width="150" height="150"/>
+  <rect class="fil0 str6" x="310" y="281" width="150" height="150"/>
+</svg>

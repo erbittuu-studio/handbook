@@ -1,0 +1,6 @@
+# Fastlane via Bundler — always `bundle exec fastlane …`.
+# Commit Gemfile.lock (generate with Homebrew Ruby, never system Ruby).
+# Local installs: bundle config set --local path vendor/bundle
+source "https://rubygems.org"
+
+gem "fastlane"

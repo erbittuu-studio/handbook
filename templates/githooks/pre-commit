@@ -1,0 +1,95 @@
+#!/bin/sh
+# PES pre-commit hook — blocks what should never enter a commit at all.
+#
+# On GitHub Free a private repo gets no branch protection, so CI checks report
+# but never block a merge. These hooks are the only place something can actually
+# be stopped, so they cover the cases where catching it later is too late.
+#
+# Deliberately cheap. Anything slower belongs in pre-push.
+# Bypass (deliberately, not by accident): git commit --no-verify
+set -u
+
+ROOT=$(git rev-parse --show-toplevel) || exit 0
+cd "$ROOT" || exit 0
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$STAGED" ] && exit 0
+fail=0
+
+# ── never committable, by name ──────────────────────────────────────────
+# Cheaper and more reliable than a scanner for the files that leak most often.
+BLOCKED=$(printf '%s\n' "$STAGED" | grep -E "(^|/)\.DS_Store$|(^|/)\.env$|\.p8$|\.p12$|\.mobileprovision$|\.certSigningRequest$" || true)
+if [ -n "$BLOCKED" ]; then
+  echo "✗ These files must never be committed:"
+  printf '    %s\n' $BLOCKED
+  echo "  They are covered by .gitignore — unstage with: git restore --staged <file>"
+  fail=1
+fi
+
+# ── vendored third-party is never hand-edited (PLAYBOOK §8) ─────────────
+# App/Vendor/ is only ever true third-party, so every edit there qualifies.
+# App/Packages/ is the pre-App/Vendor-split layout some apps still carry —
+# SYSKit and SYSFirebase are ours and live there too, so they are exempt.
+# .vendor-version is PES metadata that update.sh writes into vendored packages,
+# not upstream source — blocking it made our own tooling unable to commit.
+VENDORED=$(printf '%s\n' "$STAGED" | grep -E "^App/Vendor/|^App/Packages/" | grep -vE "^App/Packages/SYS|/\.vendor-version$" || true)
+if [ -n "$VENDORED" ]; then
+  echo "⚠ Editing vendored third-party source:"
+  printf '    %s\n' $VENDORED
+  echo "  Only correct when re-vendoring an upstream release."
+  echo "  If that is what you are doing: git commit --no-verify"
+  fail=1
+fi
+
+# ── large files ─────────────────────────────────────────────────────────
+# A secret can be rotated; a 300MB blob is in history forever and every future
+# clone pays for it. One of our apps carries a vendored folder 300x the size of
+# the same library elsewhere — this is how that happens.
+MAX=$((5 * 1024 * 1024))
+for f in $STAGED; do
+  [ -f "$f" ] || continue
+  size=$(wc -c < "$f" | tr -d ' ')
+  if [ "$size" -gt "$MAX" ]; then
+    echo "✗ $f is $((size / 1024 / 1024))MB (limit 5MB)"
+    fail=1
+  fi
+done
+
+# ── secrets ─────────────────────────────────────────────────────────────
+# A secret pushed to GitHub is compromised even if the branch is deleted a
+# minute later. The CI guard only fires once that has already happened.
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --no-banner --redact >/dev/null 2>&1 || {
+    echo "✗ gitleaks found a secret in the staged changes"
+    fail=1
+  }
+fi
+
+# ── remote SwiftPM packages ─────────────────────────────────────────────
+# Easy to reintroduce by accident when Xcode adds one through its UI.
+if printf '%s\n' "$STAGED" | grep -q 'project.pbxproj'; then
+  if grep -q "isa = XCRemoteSwiftPackageReference" App/*.xcodeproj/project.pbxproj 2>/dev/null; then
+    echo "✗ project.pbxproj references a remote Swift package (PLAYBOOK §8)"
+    fail=1
+  fi
+fi
+
+# ── remote config ───────────────────────────────────────────────────────
+# It reaches every user at once, so it is worth checking at the keystroke.
+if printf '%s\n' "$STAGED" | grep -q 'Hosting/config.json' && [ -f scripts/validate.py ]; then
+  python3 scripts/validate.py config >/dev/null 2>&1 || {
+    echo "✗ config.json failed validation — run: python3 scripts/validate.py config"
+    fail=1
+  }
+fi
+
+# ── lint only what changed ──────────────────────────────────────────────
+SWIFT=$(printf '%s\n' "$STAGED" | grep -E "^App/Source/.*\.swift$" || true)
+if [ -n "$SWIFT" ] && command -v swiftlint >/dev/null 2>&1; then
+  for f in $SWIFT; do
+    [ -f "$f" ] && swiftlint lint --quiet "$f"
+  done
+fi
+
+[ "$fail" -eq 0 ] || echo "  commit blocked — fix the above, or bypass with --no-verify"
+exit "$fail"

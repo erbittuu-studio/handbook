@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Om Asato Ma Sadgamaya", "second": "Tamaso Ma Jyotirgamaya" },
+        { "id": 2, "first": "Mrityor Ma Amritamgamaya", "second": "Om Shanti Shanti Shantihi" }
+      ]
+    }
+  ]
+}

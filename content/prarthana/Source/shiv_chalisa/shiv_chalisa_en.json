@@ -1,0 +1,63 @@
+{
+  "sections": [
+    {
+      "id": "doha",
+      "verses": [
+        { "id": 1, "first": "Jai Ganesh Girija Suvan, Mangal Mool Sujaan", "second": "Kahat Ayodhyadas Tum, Dehu Abhay Vardaan" },
+        { "id": 2, "first": "Jai Girija Pati Deen Dayala", "second": "Sada Karat Santan Pratipala" }
+      ]
+    },
+    {
+      "id": "main",
+      "verses": [
+        { "id": 1, "first": "Bhal Chandrama Sohat Neeke", "second": "Kanan Kundal Nagphani Ke" },
+        { "id": 2, "first": "Ang Gaur Shir Gang Bahaye", "second": "Mundmal Tan Chhar Lagaye" },
+        { "id": 3, "first": "Vastra Khal Baghambhar Sohe", "second": "Chhavi Ko Dekh Naag Muni Mohe" },
+        { "id": 4, "first": "Maina Matu Ki Have Dulari", "second": "Vaam Ang Sohat Chhavi Nyari" },
+        { "id": 5, "first": "Kar Trishul Sohat Chhavi Bhari", "second": "Karat Sada Shatrun Chhaykari" },
+        { "id": 6, "first": "Nandi Ganesh Sohai Tahan Kaise", "second": "Sagar Madhya Kamal Hai Jaise" },
+        { "id": 7, "first": "Kartik Shyam Aur Ganrau", "second": "Ya Chhavi Ko Kahi Jaat Na Kau" },
+        { "id": 8, "first": "Devan Jabhin Jaay Pukara", "second": "Tab Hi Dukh Prabhu Aap Nivara" },
+        { "id": 9, "first": "Kiya Upadrav Tarak Bhari", "second": "Devan Sab Mili Tumhin Juhari" },
+        { "id": 10, "first": "Turat Shadanan Aap Pathayau", "second": "Lavnimesh Mahan Mari Girayau" },
+        { "id": 11, "first": "Aap Jalandhar Asur Sanhara", "second": "Suyash Tumhar Vidit Sansara" },
+        { "id": 12, "first": "Tripurasur San Yuddh Machai", "second": "Sabhin Kripa Kar Leen Bachai" },
+        { "id": 13, "first": "Kiya Tapahin Bhagirath Bhari", "second": "Purav Pratigya Tasu Purari" },
+        { "id": 14, "first": "Danin Mahan Tum Sam Kou Nahin", "second": "Sevak Stuti Karat Sadahin" },
+        { "id": 15, "first": "Ved Naam Mahima Tav Gaai", "second": "Akath Anadi Bhed Nahin Paai" },
+        { "id": 16, "first": "Pragat Udadhi Manthan Mein Jwala", "second": "Jarat Surasur Bhaye Vihala" },
+        { "id": 17, "first": "Keen Daya Tahan Kari Sahai", "second": "Neelkanth Tab Naam Kahai" },
+        { "id": 18, "first": "Poojan Ramchandra Jab Keenha", "second": "Jeet Ke Lanka Vibhishan Deenha" },
+        { "id": 19, "first": "Sahas Kamal Mein Ho Rahe Dhari", "second": "Keenha Pareeksha Tabhin Purari" },
+        { "id": 20, "first": "Ek Kamal Prabhu Rakheu Joi", "second": "Kamal Nayan Poojan Chahan Soi" },
+        { "id": 21, "first": "Kathin Bhakti Dekhi Prabhu Shankar", "second": "Bhaye Prasann Diye Ichchhit Var" },
+        { "id": 22, "first": "Jai Jai Jai Anant Avinashi", "second": "Karat Kripa Sab Ke Ghat Vasi" },
+        { "id": 23, "first": "Dusht Sakal Nit Mohi Satave", "second": "Bhramat Rahe Mohi Chain Na Aave" },
+        { "id": 24, "first": "Trahi Trahi Main Nath Pukaro", "second": "Yahi Avasar Mohi Aan Ubaro" },
+        { "id": 25, "first": "Lai Trishul Shatrun Ko Maro", "second": "Sankat Te Mohi Aan Ubaro" },
+        { "id": 26, "first": "Matu Pita Bhrata Sab Koi", "second": "Sankat Mein Poochhat Nahin Koi" },
+        { "id": 27, "first": "Swami Ek Hai Aas Tumhari", "second": "Aay Harahu Ab Sankat Bhari" },
+        { "id": 28, "first": "Dhan Nirdhan Ko Det Sadahin", "second": "Jo Koi Janche So Phal Pahin" },
+        { "id": 29, "first": "Astuti Kehi Vidhi Karaun Tumhari", "second": "Kshamahu Nath Ab Chook Hamari" },
+        { "id": 30, "first": "Shankar Ho Sankat Ke Nashan", "second": "Mangalkari Vighn Vinashan" },
+        { "id": 31, "first": "Yogi Yati Muni Dhyan Lagaven", "second": "Sharad Narad Sheesh Navaven" },
+        { "id": 32, "first": "Namo Namo Jai Namo Shivay", "second": "Sur Brahmadik Paar Na Paay" },
+        { "id": 33, "first": "Jo Yah Path Kare Man Lai", "second": "Ta Par Hot Hai Shambhu Sahai" },
+        { "id": 34, "first": "Riniya Jo Koi Ho Adhikari", "second": "Path Kare So Pavan Hari" },
+        { "id": 35, "first": "Putraheen Jo Ichchha Karei", "second": "Nishchay Shiv Prasad Tehi Milei" },
+        { "id": 36, "first": "Pandit Trayodashi Ko Lave", "second": "Dhyan Purvak Hom Karave" },
+        { "id": 37, "first": "Trayodashi Vrat Kare Hamesha", "second": "Tan Nahin Take Rahe Kalesha" },
+        { "id": 38, "first": "Dhoop Deep Naivedya Chadhave", "second": "Shankar Sammukh Path Sunave" },
+        { "id": 39, "first": "Janm Janm Ki Paap Nashave", "second": "Antvas Shivpur Mein Pave" },
+        { "id": 40, "first": "Kahen Ayodhyadas Aas Tumhari", "second": "Jaani Sakal Dukh Harahu Hamari" }
+      ]
+    },
+    {
+      "id": "doha_end",
+      "verses": [
+        { "id": 1, "first": "Nit Nem Kar Pratah Hi, Path Karo Chalis", "second": "Tum Meri Manokamana, Poorn Karo Jagdish" },
+        { "id": 2, "first": "|| Iti Shri Shiv Chalisa Samapt ||", "second": "" }
+      ]
+    }
+  ]
+}

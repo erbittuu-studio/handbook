@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "baseUrl": "https://raw.githubusercontent.com/erbittuu-studio/handbook/main/content",
+  "apps": [
+    {
+      "id": "abclearning",
+      "name": "ABC Learning: Kids Games",
+      "tagline": "",
+      "iconPath": "icon.jpg",
+      "bundleId": "com.make4india.junglebook",
+      "appStoreUrl": "https://apps.apple.com/us/app/abc-learning-kids-games/id1597421237",
+      "category": "kids"
+    },
+    {
+      "id": "colorful",
+      "name": "Colorful: Kids Coloring Book",
+      "tagline": "",
+      "iconPath": "icon.jpg",
+      "bundleId": "com.make4india.scanr",
+      "appStoreUrl": "https://apps.apple.com/us/app/colorful-kids-coloring-book/id1597789030",
+      "category": "kids"
+    },
+    {
+      "id": "prarthana",
+      "name": "Prarthana: Daily Hindu Prayers",
+      "tagline": "",
+      "iconPath": "icon.jpg",
+      "bundleId": "com.make4india.hinduprayer",
+      "appStoreUrl": "https://apps.apple.com/us/app/prarthana-daily-hindu-prayers/id1597899453",
+      "category": "lifestyle"
+    }
+  ]
+}

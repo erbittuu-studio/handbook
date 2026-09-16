@@ -1,0 +1,63 @@
+{
+  "sections": [
+    {
+      "id": "doha",
+      "verses": [
+        { "id": 1, "first": "Namo Namo Durge Sukh Karani", "second": "Namo Namo Ambe Dukh Harani" },
+        { "id": 2, "first": "Nirankar Hai Jyoti Tumhari", "second": "Tihu Lok Pheli Ujiyari" }
+      ]
+    },
+    {
+      "id": "chaupai",
+      "verses": [
+        { "id": 3, "first": "Shashi Lalat Mukh Mahavishala", "second": "Netra Laal Bhrikuti Vikarala" },
+        { "id": 4, "first": "Roop Matu Ko Adhik Suhave", "second": "Daras Karat Jan Ati Sukh Pave" },
+        { "id": 5, "first": "Tum Sansar Shakti Laya Keena", "second": "Palan Hetu Anna Dhan Deena" },
+        { "id": 6, "first": "Annapurna Hui Jag Pala", "second": "Tumhi Adi Sundari Bala" },
+        { "id": 7, "first": "Pralayakaal Sab Nashan Haari", "second": "Tum Gauri Shiv Shankar Pyaari" },
+        { "id": 8, "first": "Shiv Yogi Tumhre Gun Gaaven", "second": "Brahma Vishnu Tumhe Nit Dhyaaven" },
+        { "id": 9, "first": "Roop Saraswati Ko Tum Dhaara", "second": "De Subuddhi Rishi Munin Ubaara" },
+        { "id": 10, "first": "Dharyo Roop Narsimha Ko Amba", "second": "Pragat Bhayi Phar Kar Ke Khamba" },
+        { "id": 11, "first": "Raksha Kari Prahlad Bachayo", "second": "Hiranyakush Ko Swarga Pathayo" },
+        { "id": 12, "first": "Lakshmi Roop Dharo Jag Maahi", "second": "Shree Narayan Anga Samaahi" },
+        { "id": 13, "first": "Ksheer Sindhu Mein Karat Vilasa", "second": "Daya Sindhu Deeje Man Aasa" },
+        { "id": 14, "first": "Hingalaj Mein Tumhi Bhavani", "second": "Mahima Amit Na Jaat Bakhani" },
+        { "id": 15, "first": "Matangi Dhoomavati Mata", "second": "Bhuvneshwari Bagala Sukhdata" },
+        { "id": 16, "first": "Shree Bhairav Tara Jag Tarani", "second": "Chhinn Bhaal Bhav Dukh Nivarani" },
+        { "id": 17, "first": "Kehari Vaahan Soh Bhavani", "second": "Langur Veer Chalat Agavani" },
+        { "id": 18, "first": "Kar Mein Khappar Khadag Viraaje", "second": "Jako Dekh Kaal Dar Bhaje" },
+        { "id": 19, "first": "Sohe Astra Aur Trishula", "second": "Jase Uth Kaal Kapal Phoola" },
+        { "id": 20, "first": "Nagarkot Mein Tumhi Virajat", "second": "Tihu Lok Mein Danka Bajat" },
+        { "id": 21, "first": "Shumbh Nishumbh Danuj Tum Maare", "second": "Rakta Beej Shankhana Sanghaare" },
+        { "id": 22, "first": "Mahishasur Nrip Ati Abhimaani", "second": "Jehi Agha Bhar Mahi Akualaani" },
+        { "id": 23, "first": "Roop Karal Kaalika Dhaara", "second": "Sen Sahit Tum Tihi Sanghaara" },
+        { "id": 24, "first": "Pari Gadh Par Santan Rakhi", "second": "Rup Chaandi Ka Tum Dhari Sakhhi" },
+        { "id": 25, "first": "Maha Kaal Shankar Kahi Gaye", "second": "Aaj Bhi Nit Tumhre Gun Gaye" },
+        { "id": 26, "first": "Jhaandu Jhaandaa Aur Nagaraa", "second": "Sunti Dunddubhi Dhwani Saghaara" },
+        { "id": 27, "first": "Tera Shakti Shansar Saara", "second": "Kahi Na Sake Guna Paar Tumhaara" },
+        { "id": 28, "first": "Chausath Yogini Mangal Gaavein", "second": "Nritya Karat Tum Suran Suhavein" },
+        { "id": 29, "first": "Tumko Nirkhein Gauri Lakhi", "second": "Chandra Chakra Dono Mein Dhakh" },
+        { "id": 30, "first": "Kar Jode Sab Bhagat Tumhare", "second": "Sankat Mein Jo Tumi Pukare" },
+        { "id": 31, "first": "Sankat Turat Door Karahu Maa", "second": "Sharan Gaya Ko Kaahu Na Dahu Maa" },
+        { "id": 32, "first": "Swarg Se Lekar Aayi", "second": "Swayam Sindhu Bhagirathi Devi" },
+        { "id": 33, "first": "Paap Karat Hai Paatak Bhari", "second": "Swarg Mein Hai Path Karni" },
+        { "id": 34, "first": "Chahat Sukh Aishwarya Ananta", "second": "Ma Tumhi Aadi Devi Shakti Mahanta" },
+        { "id": 35, "first": "Durga Strot Paath Kar Koi", "second": "Na Rahe Dukhi Dharti Soi" },
+        { "id": 36, "first": "Jo Ye Paath Kare Dhari Dhyana", "second": "Unke Binu Grahan Kalyaan" },
+        { "id": 37, "first": "Karta Re Paave Lakshmi", "second": "Sukh Sampati Bahut Ki Dikhi" },
+        { "id": 38, "first": "Putraheen Jo Paath Karani", "second": "Putravati Woh Maat Kehlayi" },
+        { "id": 39, "first": "Matu Tumhri Hai Yahi Shakti", "second": "Aur Anand De Nahi Mukhti" },
+        { "id": 40, "first": "Jab Meri Dukh Sahe Na Jaaye", "second": "Tab Meri Sudhi Lena Mata Aaye" },
+        { "id": 41, "first": "Durga Paath Nishdin Jo Gave", "second": "Sankat Mukh Sukh Sampati Pave" },
+        { "id": 42, "first": "Devidas Sharan Nij Jaani", "second": "Karo Kripa Jagdamb Bhavani" }
+      ]
+    },
+    {
+      "id": "doha_closing",
+      "verses": [
+        { "id": 43, "first": "Maat Pita Tum Mere Sharan Gahun", "second": "Kiski Aur Na Aanch Kahun" },
+        { "id": 44, "first": "Tum Bin Aur Na Koi Hamara", "second": "Bhavsagar Se Utra Le Pyara" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M745 976c0,0 -43,-39 -11,-110 0,0 32,90 113,79 0,0 -4,-82 -66,-115 0,0 45,-39 100,37 0,0 28,-87 -97,-143l-133 133c0,0 -15,104 94,119z" id="crop0"/>
+  <polygon class="fil0 str6" points="666,579 831,696 606,897 519,686 644,560" id="crop0"/>
+  <polygon class="fil0 str6" points="754,309 981,517 749,505 594,319" id="crop0"/>
+  <polygon class="fil0 str6" points="451,770 418,986 239,747 278,579" id="crop0"/>
+  <path class="fil0 str6" d="M71 26c0,0 440,107 678,479l-298 265c0,0 -325,-250 -380,-744z" id="crop0"/>
+  <circle class="fil0 str6" r="80" transform="matrix(1.16294 -0.466184 0.466184 1.16294 298.233 286.205)" id="crop0"/>
+  <rect class="fil0 str6" width="45.9992" height="360" transform="matrix(0.651565 0.758593 -0.758593 0.651565 609.562 369.271)" id="crop0"/>
+  <rect class="fil0 str6" width="45.9992" height="360" transform="matrix(0.651565 0.758593 -0.758593 0.651565 661.561 431.271)" id="crop0"/>
+</svg>

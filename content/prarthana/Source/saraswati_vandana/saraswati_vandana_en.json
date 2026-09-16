@@ -1,0 +1,13 @@
+{
+  "sections": [
+    {
+      "id": "vandana",
+      "verses": [
+        { "id": 1, "first": "Ya Kundendu Tushara Hara Dhavala", "second": "Ya Shubhra Vastravrita" },
+        { "id": 2, "first": "Ya Veena Vara Danda Manditakara", "second": "Ya Shweta Padmasana" },
+        { "id": 3, "first": "Ya Brahmachyuta Shankara Prabhritibhir", "second": "Devaihi Sada Vandita" },
+        { "id": 4, "first": "Sa Mam Patu Saraswati Bhagavati", "second": "Nihshesha Jadyapaha" }
+      ]
+    }
+  ]
+}

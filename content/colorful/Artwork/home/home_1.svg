@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <polygon class="fil0 str6" points="646,68 418,68 249,233 249,459 355,570 355,880 527,976 703,873 703,568 812,459 812,231" id="crop0"/>
+  <rect class="fil0 str6" x="517" y="572" width="20.9225" height="203.366" id="crop0"/>
+  <circle class="fil1 str6" cx="527" cy="346" r="226" id="crop0"/>
+  <circle class="fil0 str6" cx="527" cy="346" r="203" id="crop0"/>
+  <circle class="fil0 str6" cx="531" cy="817" r="54" id="crop0"/>
+  <line class="fil1 str6" x1="527" y1="154" x2="527" y2="210" id="crop0"/>
+  <line class="fil1 str6" x1="527" y1="484" x2="527" y2="541" id="crop0"/>
+  <line class="fil1 str6" x1="722" y1="348" x2="665" y2="348" id="crop0"/>
+  <line class="fil1 str6" x1="389" y1="347" x2="332" y2="347" id="crop0"/>
+  <line class="fil1 str6" x1="378" y1="256" x2="406" y2="275" id="crop0"/>
+  <line class="fil1 str6" x1="436" y1="198" x2="455" y2="226" id="crop0"/>
+  <line class="fil1 str6" x1="680" y1="262" x2="652" y2="280" id="crop0"/>
+  <line class="fil1 str6" x1="620" y1="198" x2="602" y2="226" id="crop0"/>
+  <line class="fil1 str6" x1="679" y1="432" x2="651" y2="413" id="crop0"/>
+  <line class="fil1 str6" x1="621" y1="491" x2="603" y2="463" id="crop0"/>
+  <line class="fil1 str6" x1="375" y1="430" x2="402" y2="411" id="crop0"/>
+  <line class="fil1 str6" x1="435" y1="494" x2="454" y2="467" id="crop0"/>
+  <path class="fil1 str6" d="M527 219l6 131c0,0 -3,5 -6,0l0 -131z" id="crop0"/>
+  <path class="fil1 str6" d="M481 426l52 -76c0,0 0,-10 -6,-4l-46 80z" id="crop0"/>
+  <circle class="fil1 str6" cx="529" cy="348" r="8" id="crop0"/>
+</svg>

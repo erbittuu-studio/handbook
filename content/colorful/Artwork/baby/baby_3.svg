@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+    .str20 {stroke:black;stroke-width:20}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M473 19c0,0 -23,14 -18,40 0,0 -1,25 44,29 0,0 108,1 112,43 0,0 20,32 -26,65 0,0 -92,56 -92,127l73 0c0,0 8,-32 67,-81 0,0 70,-53 42,-128 0,0 -12,-88 -152,-103 0,0 -36,-5 -50,8z"/>
+  <ellipse class="fil0 str6" cx="544" cy="643" rx="276" ry="322"/>
+  <path class="fil0 str6" d="M325 273c0,0 75,10 113,73 0,0 87,-66 217,2 0,0 17,-56 110,-77 0,0 44,-10 32,34 0,0 -3,76 -58,110 0,0 67,103 42,211 0,0 -79,268 -354,154 0,0 -164,-82 -121,-272 0,0 4,-36 40,-89 0,0 -43,-26 -55,-113 0,0 -15,-47 34,-33z" id="a_line"/>
+  <path class="fil0 str6" d="M528 644l29 0c0,0 28,-1 27,27 0,0 0,34 -39,40 0,0 -36,4 -43,-40 0,0 -4,-23 26,-27z"/>
+  <path class="fil1 str6" d="M406 635c0,0 -28,147 134,104 0,0 146,57 139,-106" id="line_a"/>
+  <path class="fil0 str6" d="M776 294c0,0 -1,94 -60,105 0,0 -34,7 -26,-39 0,0 26,-61 86,-66z"/>
+  <path class="fil0 str6" d="M309 294c0,0 1,94 60,105 0,0 34,7 26,-39 0,0 -26,-61 -86,-66z"/>
+  <path class="fil0 str6" d="M559 950c0,0 -3,-89 99,-97 0,0 91,-1 98,97 0,0 13,47 -53,54l-94 0c0,0 -56,0 -50,-54z"/>
+  <path class="fil0 str6" d="M527 950c0,0 2,-89 -99,-97 0,0 -91,-1 -98,97 0,0 -13,47 53,54l94 0c0,0 56,0 50,-54z"/>
+  <path class="fil1 str6" d="M625 660c0,0 44,19 93,-12" id="line_a"/>
+  <path class="fil1 str6" d="M619 691c0,0 57,23 94,-3" id="line_a"/>
+  <path class="fil1 str6" d="M612 720c0,0 55,27 84,2" id="line_a"/>
+  <path class="fil1 str6" d="M456 660c0,0 -45,19 -94,-12" id="line_a"/>
+  <path class="fil1 str6" d="M461 691c0,0 -57,23 -94,-3" id="line_a"/>
+  <path class="fil1 str6" d="M468 720c0,0 -55,27 -84,2" id="line_a"/>
+  <ellipse class="fil0 str6" cx="621" cy="532" rx="50" ry="75"/>
+  <ellipse class="fil0 str20" cx="621" cy="543" rx="21" ry="32"/>
+  <ellipse class="fil0 str6" cx="460" cy="532" rx="50" ry="75"/>
+  <ellipse class="fil0 str20" cx="460" cy="543" rx="21" ry="32"/>
+</svg>

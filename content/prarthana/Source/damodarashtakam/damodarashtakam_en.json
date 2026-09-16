@@ -1,0 +1,25 @@
+{
+  "sections": [
+    {
+      "id": "stotram",
+      "verses": [
+        { "id": 1, "first": "Namamisvaram Saccidananda Rupam", "second": "Lasat Kundalam Gokule Bhrajamanam" },
+        { "id": 2, "first": "Yasoda Bhiyolukhalad Dhavamanam", "second": "Paramrishtam Atyantato Drutya Gopya" },
+        { "id": 3, "first": "Rudantam Muhur Netra Yugmam Mrijantam", "second": "Karambhoja Yugmena Satanka Netram" },
+        { "id": 4, "first": "Muhuh Svasa Kampa Trirekhaanka Kantha", "second": "Sthita Graivam Damodaram Bhakti Baddham" },
+        { "id": 5, "first": "Itidrik Sva Lilabhir Ananda Kunde", "second": "Sva Ghosham Nimajjantam Akhyapayantam" },
+        { "id": 6, "first": "Tadiyeshita Jneshu Bhaktair Jitatvam", "second": "Punah Prematas Tam Shatavritta Vande" },
+        { "id": 7, "first": "Varam Deva Moksham Na Moksavadhim Va", "second": "Na Chanyam Vrine Aham Vareshad Apiha" },
+        { "id": 8, "first": "Idam Te Vapur Natha Gopala Balam", "second": "Sada Me Manasy Avirastam Kim Anyaih" },
+        { "id": 9, "first": "Idam Te Mukhambhojam Atyanta Nilair", "second": "Vritam Kuntalaih Snigdha Raktaishcha Gopya" },
+        { "id": 10, "first": "Muhush Chumbitam Bimba Raktadharam Me", "second": "Manasy Avirastam Alam Laksha Labhaih" },
+        { "id": 11, "first": "Namo Deva Damodarananta Vishno", "second": "Prasida Prabho Duhkha Jalabdhi Magnam" },
+        { "id": 12, "first": "Kripa Drishti Vrishtyati Dinam Batanu", "second": "Grihanesh Mam Ajnam Edhy Akshi Drishyah" },
+        { "id": 13, "first": "Kuveratmajau Baddha Murtyaiva Yadvat", "second": "Tvaya Mochitau Bhakti Bhajau Kritau Cha" },
+        { "id": 14, "first": "Tatha Prema Bhaktim Svakam Me Prayachchha", "second": "Na Mokshe Graho Me Asti Damodareha" },
+        { "id": 15, "first": "Namas Te Astu Damne Sphurad Dipti Dhamne", "second": "Tvadiyodarayatha Vishvasya Dhamne" },
+        { "id": 16, "first": "Namo Radhikayai Tvadiya Priyayai", "second": "Namo Ananta Lilaya Devaya Tubhyam" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "sections": [
+    {
+      "id": "aarti",
+      "verses": [
+        { "id": 1, "first": "Jai Ambe Gauri Maiya Jai Shyama Gauri", "second": "Tumko Nishdin Dhyavat Hari Brahma Shivri" },
+        { "id": 2, "first": "Maang Sindoor Virajat Tiko Mrigamad Ko", "second": "Ujjwal Se Dou Naina Chandravadan Neeko" },
+        { "id": 3, "first": "Kanak Samaan Kalevar Raktambar Raaje", "second": "Raktapushp Gal Mala Kanthan Par Saaje" },
+        { "id": 4, "first": "Kehari Vahan Raajat Khadg Khappar Dhaari", "second": "Sur Nar Munijan Sevat Tinke Dukhahaari" },
+        { "id": 5, "first": "Kaanan Kundal Shobhit Nasagre Moti", "second": "Kotik Chandra Divaakar Raajat Sam Jyoti" },
+        { "id": 6, "first": "Shumbh Nishumbh Bidaare Mahishasur Ghaati", "second": "Dhumra Vilochan Naina Nishdin Madmaati" },
+        { "id": 7, "first": "Chand Mund Sanhaare Shonit Beej Haare", "second": "Madhu Kaitabh Dou Maare Sur Bhayahin Taare" },
+        { "id": 8, "first": "Brahmani Rudrani Tum Kamla Rani", "second": "Aagam Nigam Bakhaani Tum Shiv Patrani" },
+        { "id": 9, "first": "Chaunsath Yogini Gaavat Nritya Karat Bhairon", "second": "Baajat Taal Mridanga Aur Baajat Damroon" },
+        { "id": 10, "first": "Tum Ho Jag Ki Maata Tum Hi Ho Bharata", "second": "Bhaktan Ki Dukh Harata Sukh Sampati Karata" },
+        { "id": 11, "first": "Bhuja Char Ati Shobhit Var Mudra Dhaari", "second": "Manvanchit Phal Paavat Sevat Nar Naari" },
+        { "id": 12, "first": "Kanchan Thaal Virajat Agar Kapoor Baati", "second": "Shrimaal Ketuki Mein Rajat Koti Ratan Jyoti" },
+        { "id": 13, "first": "Shri Ambeji Ki Aarti Jo Koi Nar Gaave", "second": "Kahat Shivanand Swami Sukh Sampati Paave" }
+      ]
+    }
+  ]
+}

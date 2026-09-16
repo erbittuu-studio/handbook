@@ -1,0 +1,215 @@
+{
+  "manifestVersion": 1,
+  "generatedAt": "2026-09-17T15:13:03Z",
+  "items": [
+    {
+      "id": "baby",
+      "required": true,
+      "title": "baby",
+      "pageCount": 8,
+      "pages": [
+        "baby_0",
+        "baby_1",
+        "baby_2",
+        "baby_3",
+        "baby_4",
+        "baby_5",
+        "baby_6",
+        "baby_7"
+      ],
+      "bundle": "/packs/baby-8f713c7f.json",
+      "bytes": 25465,
+      "sha256": "8f713c7fcbca4efc646a6645d01e4ba3fd19bb3ac3cc2cfe0becffd1385cb35e"
+    },
+    {
+      "id": "bugs",
+      "required": true,
+      "title": "bugs",
+      "pageCount": 8,
+      "pages": [
+        "bugs_0",
+        "bugs_1",
+        "bugs_2",
+        "bugs_3",
+        "bugs_4",
+        "bugs_5",
+        "bugs_6",
+        "bugs_7"
+      ],
+      "bundle": "/packs/bugs-a3965f9c.json",
+      "bytes": 27393,
+      "sha256": "a3965f9cd13d825d57bb8f733b1e85e7deda736dd0737869147031aa283f16fd"
+    },
+    {
+      "id": "climate_weather",
+      "required": true,
+      "title": "climate_weather",
+      "pageCount": 8,
+      "pages": [
+        "climate_weather_0",
+        "climate_weather_1",
+        "climate_weather_2",
+        "climate_weather_3",
+        "climate_weather_4",
+        "climate_weather_5",
+        "climate_weather_6",
+        "climate_weather_7"
+      ],
+      "bundle": "/packs/climate_weather-9502ddf4.json",
+      "bytes": 27421,
+      "sha256": "9502ddf49b9a38433db3b5c01420e4fdee37d537b748d8babce3c53595d23168"
+    },
+    {
+      "id": "food",
+      "required": true,
+      "title": "food",
+      "pageCount": 8,
+      "pages": [
+        "food_0",
+        "food_1",
+        "food_2",
+        "food_3",
+        "food_4",
+        "food_5",
+        "food_6",
+        "food_7"
+      ],
+      "bundle": "/packs/food-39c1bb85.json",
+      "bytes": 25900,
+      "sha256": "39c1bb8579a10ce11e50ca192322b180db0c7809948d61415647cfcca6d80a19"
+    },
+    {
+      "id": "home",
+      "required": true,
+      "title": "home",
+      "pageCount": 8,
+      "pages": [
+        "home_0",
+        "home_1",
+        "home_2",
+        "home_3",
+        "home_4",
+        "home_5",
+        "home_6",
+        "home_7"
+      ],
+      "bundle": "/packs/home-a7335035.json",
+      "bytes": 26438,
+      "sha256": "a73350358e35884eee6943a807a80b4ee57881d7b5d4f85b939e5bab035bb2e4"
+    },
+    {
+      "id": "school",
+      "required": true,
+      "title": "school",
+      "pageCount": 8,
+      "pages": [
+        "school_0",
+        "school_1",
+        "school_2",
+        "school_3",
+        "school_4",
+        "school_5",
+        "school_6",
+        "school_7"
+      ],
+      "bundle": "/packs/school-8eca5378.json",
+      "bytes": 27686,
+      "sha256": "8eca5378e06c9bc11ef5a618c8cea9c67545861bba038dea10e9491533aa5822"
+    },
+    {
+      "id": "seaworld",
+      "required": true,
+      "title": "seaworld",
+      "pageCount": 8,
+      "pages": [
+        "seaworld_0",
+        "seaworld_1",
+        "seaworld_2",
+        "seaworld_3",
+        "seaworld_4",
+        "seaworld_5",
+        "seaworld_6",
+        "seaworld_7"
+      ],
+      "bundle": "/packs/seaworld-63688c1a.json",
+      "bytes": 32475,
+      "sha256": "63688c1a7ca4f571a35ecc5077bc5973c2f3e7721514675adbea62a27240e13b"
+    },
+    {
+      "id": "space",
+      "required": true,
+      "title": "space",
+      "pageCount": 8,
+      "pages": [
+        "space_0",
+        "space_1",
+        "space_2",
+        "space_3",
+        "space_4",
+        "space_5",
+        "space_6",
+        "space_7"
+      ],
+      "bundle": "/packs/space-e662b110.json",
+      "bytes": 26107,
+      "sha256": "e662b110fbfd55889054564ccd8899bead200a59682de3aad32abd1e9688cbfd"
+    },
+    {
+      "id": "sports",
+      "required": true,
+      "title": "sports",
+      "pageCount": 8,
+      "pages": [
+        "sports_0",
+        "sports_1",
+        "sports_2",
+        "sports_3",
+        "sports_4",
+        "sports_5",
+        "sports_6",
+        "sports_7"
+      ],
+      "bundle": "/packs/sports-01e4c429.json",
+      "bytes": 35585,
+      "sha256": "01e4c429f0b677fb643d6bfc57e36d3e8b515e357258e1d19ec3a168dca61eb0"
+    },
+    {
+      "id": "toys",
+      "required": true,
+      "title": "toys",
+      "pageCount": 8,
+      "pages": [
+        "toys_0",
+        "toys_1",
+        "toys_2",
+        "toys_3",
+        "toys_4",
+        "toys_5",
+        "toys_6",
+        "toys_7"
+      ],
+      "bundle": "/packs/toys-e00233a1.json",
+      "bytes": 23394,
+      "sha256": "e00233a124f071b7b89381c5fe96df8a5d094869342cd8e614acac0b050e82fa"
+    },
+    {
+      "id": "vehicles",
+      "required": true,
+      "title": "vehicles",
+      "pageCount": 8,
+      "pages": [
+        "vehicles_0",
+        "vehicles_1",
+        "vehicles_2",
+        "vehicles_3",
+        "vehicles_4",
+        "vehicles_5",
+        "vehicles_6",
+        "vehicles_7"
+      ],
+      "bundle": "/packs/vehicles-c64a1b78.json",
+      "bytes": 31006,
+      "sha256": "c64a1b7823841a1c50e06b146fd6e9529cf21008d856813f9f9f18a31ca57094"
+    }
+  ]
+}

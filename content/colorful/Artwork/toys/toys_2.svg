@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <rect class="fil0" y="610" width="1024" height="415"/>
+  <line class="fil1 str6" x1="0" y1="612" x2="1024" y2="612"/>
+  <path class="fil0 str6" d="M757 640c0,0 131,95 48,228 0,0 -55,121 -300,114 0,0 -205,-2 -219,-173 0,0 -9,-93 63,-150 0,0 199,-121 408,-19z"/>
+  <path class="fil0 str6" d="M721 577c0,0 46,23 40,109 0,0 -2,104 -184,125 0,0 -228,34 -239,-123 0,0 -2,-84 72,-120 0,0 180,-74 311,9z"/>
+  <path class="fil0 str6" d="M343 380l194 72c0,0 118,-32 186,10l-38 17 131 62 -118 -9 67 40 -158 17 -36 127 -97 -104 -125 83 13 -127 -131 -46 137 -43 -68 -114 43 15z"/>
+  <path class="fil0 str6" d="M535 131l87 247c0,0 38,97 -32,141 0,0 -68,49 -144,-8 0,0 -40,-27 -23,-135l36 -256 74 -4 2 15z" id="a_line1"/>
+  <path class="fil0 str6" d="M547 370c0,0 11,31 28,23 0,0 -25,19 -46,4 0,0 -19,27 -43,21 0,0 7,-8 2,-23 0,0 -40,15 -46,2 0,0 31,-7 36,-27 0,0 42,8 69,0z"/>
+  <path class="fil0 str6" d="M603 338c0,0 -13,25 -45,29 0,0 -90,24 -131,-24l32 -223 74 -4 73 216 -3 6z"/>
+  <circle class="fil0 str6" cx="463" cy="433" r="13"/>
+  <circle class="fil0 str6" cx="562" cy="433" r="13"/>
+  <circle class="fil0 str6" cx="514" cy="469" r="19"/>
+  <circle class="fil0 str6" cx="495" cy="82" r="62"/>
+  <path class="fil1 str6" d="M459 485c0,0 60,68 129,-8" id="line1_a"/>
+  <circle class="fil0 str6" cx="594" cy="467" r="13"/>
+  <circle class="fil0 str6" cx="450" cy="476" r="13"/>
+</svg>

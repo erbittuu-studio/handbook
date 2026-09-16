@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Karagre Vasate Lakshmi", "second": "Karamadhye Saraswati" },
+        { "id": 2, "first": "Karamoole Tu Govinda", "second": "Prabhate Karadarshanam" }
+      ]
+    }
+  ]
+}

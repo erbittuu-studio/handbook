@@ -1,0 +1,253 @@
+# Every PR check, in one workflow.
+#
+# One file, many jobs — GitHub reports a status per *job*, so this shows the
+# same individual checks a file-per-check layout would, with boilerplate
+# (triggers, permissions, concurrency) in one place.
+#
+# Triggers are never path-filtered — a required check with no run at all
+# blocks a merge forever. Every job runs and skips its own work via
+# dorny/paths-filter instead.
+#
+# Each guard here exists because of something that actually happened on a
+# real app — see MIGRATE.md's gotcha table.
+name: PR
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read   # dorny/paths-filter needs this to list changed files
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Style ────────────────────────────────────────────────────────────────
+  # SwiftLint on the whole App tree. .swiftlint.yml excludes App/Vendor —
+  # true third-party — but not App/Packages, where SYSKit and SYSFirebase
+  # live: those are ours, so they stay linted.
+  swiftlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
+        id: changes
+        with:
+          filters: |
+            swift:
+              - 'App/**/*.swift'
+
+      - name: Install SwiftLint
+        if: steps.changes.outputs.swift == 'true'
+        run: |
+          curl -sSL -o swiftlint.zip \
+            https://github.com/realm/SwiftLint/releases/download/0.65.0/swiftlint_linux_amd64.zip
+          unzip -q swiftlint.zip -d swiftlint-bin
+
+      # Not --strict on a fresh migration: an app moving onto this system
+      # brings its own pre-existing style debt, and failing every PR on
+      # day one over unrelated legacy warnings just trains you to ignore
+      # this check. Flip to --strict once the backlog is clean.
+      - name: Run SwiftLint
+        if: steps.changes.outputs.swift == 'true'
+        run: ./swiftlint-bin/swiftlint lint App
+
+  # ── Guards ───────────────────────────────────────────────────────────────
+  # No secrets committed — private repos don't get GitHub's free secret
+  # scanning. Scans the working tree at HEAD, not per-commit history — every
+  # PR here squash-merges, so only the final diff lands on main.
+  secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Install gitleaks
+        run: |
+          curl -sSL -o gitleaks.tar.gz \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          tar -xzf gitleaks.tar.gz gitleaks
+
+      - name: Scan working tree for secrets
+        run: ./gitleaks detect --source . --no-banner --redact --no-git
+
+  # Zero remote packages, ever (PLAYBOOK §4) — catches one being added back
+  # through Xcode's UI.
+  dependency-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: No remote Swift packages in the project
+        run: |
+          if grep -q "isa = XCRemoteSwiftPackageReference" App/*.xcodeproj/project.pbxproj; then
+            echo "::error::project.pbxproj references a remote Swift package — everything vendors locally (PLAYBOOK.md §4)"
+            exit 1
+          fi
+
+      - name: No committed Package.resolved
+        run: |
+          FOUND=$(find . -name "Package.resolved" -not -path "*/.build/*")
+          if [ -n "$FOUND" ]; then
+            echo "::error::Package.resolved found — dependencies must resolve to local vendored packages only"
+            echo "$FOUND"
+            exit 1
+          fi
+
+  # {{ OPTIONAL — delete if the app has no GoogleService-Info.plist. Catches
+  #    IS_ANALYTICS_ENABLED sitting at false, which silently drops every
+  #    analytics event with no error anywhere. }}
+  firebase-config-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: IS_ANALYTICS_ENABLED must be true
+        run: |
+          python3 -c "
+          import plistlib
+          with open('App/Resources/GoogleService-Info.plist', 'rb') as f:
+              data = plistlib.load(f)
+          assert data.get('IS_ANALYTICS_ENABLED') is True, 'IS_ANALYTICS_ENABLED must be true'
+          "
+
+  # {{ OPTIONAL — only relevant with the AnalyticsManager pattern from
+  #    PLAYBOOK §7. Firebase silently drops events/params that violate its
+  #    own limits instead of erroring. See scripts/validate.py analytics_events. }}
+  analytics-event-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - run: python3 scripts/validate.py analytics_events
+
+  # ── Store content ────────────────────────────────────────────────────────
+  # Landmines from MIGRATE.md's gotcha table: emoji in release notes,
+  # placeholder text, over-limit fields, unsupported locales. No network
+  # call — see the Fastfile's validate_metadata lane.
+  validate-metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
+        id: changes
+        with:
+          filters: |
+            metadata:
+              - 'fastlane/metadata/**'
+              - 'fastlane/Deliverfile'
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        if: steps.changes.outputs.metadata == 'true'
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - if: steps.changes.outputs.metadata == 'true'
+        run: bundle exec fastlane validate_metadata
+
+      # Well-formed isn't enough — a scaffolded URL 404s until published, and
+      # Apple rejects a dead privacy URL at submission, long after this went green.
+      - name: Check the URLs we ship actually resolve
+        if: steps.changes.outputs.metadata == 'true'
+        run: python3 scripts/validate.py urls
+
+  # SYSKit only delivers consistency while apps actually use it — nothing
+  # stops reaching for UserDefaults or URLSession directly instead.
+  sys-adoption:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - run: python3 scripts/validate.py sys_adoption
+
+  # Build settings that compile fine and still ship broken: a literal
+  # Info.plist version overriding the one CI stamps, Firebase vendored
+  # without -ObjC, SYSKit vendored but never linked. See
+  # scripts/shared/build_settings.py.
+  build-settings:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - run: python3 scripts/validate.py build_settings
+
+  # Exact pixel dimensions per device class, complete locale sets, no
+  # corrupt files. See scripts/validate.py screenshots — update the
+  # REQUIRED dict there to match the device sizes you actually ship.
+  validate-screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
+        id: changes
+        with:
+          filters: |
+            screenshots:
+              - 'fastlane/screenshots/**'
+
+      - if: steps.changes.outputs.screenshots == 'true'
+        run: python3 scripts/validate.py screenshots
+
+  # ── Release readiness ────────────────────────────────────────────────────
+  # Scoped to release/* branches: is the version actually higher than the
+  # last one shipped? Guards the one moment that creates a permanent,
+  # unmovable tag (see release.yml). Skips (passes trivially) on any other
+  # branch.
+  validate-release:
+    if: startsWith(github.head_ref, 'release/') && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Check branch name shape
+        # Through `env:`, not interpolated — a branch name is
+        # attacker-controlled text and pasting it into a shell makes it executable.
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          VERSION="${BRANCH#release/}"
+
+          case "$VERSION" in
+            [0-9]*.[0-9]*.[0-9]*) ;;
+            *)
+              echo "::error::branch '$BRANCH' doesn't match release/X.Y.Z"
+              exit 1
+              ;;
+          esac
+
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Verify version is newer than the latest shipped release
+        # GitHub Releases, not local git tags — a tag is repo-local state and
+        # a force-push or deleted tag would silently read as "no previous
+        # version, anything passes".
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Exit code kept separate from emptiness: no releases yet exits 0
+          # (allowed through); an API/auth failure exits non-zero (must fail loud).
+          TAGS=$(gh release list --repo "${{ github.repository }}" --json tagName --jq '.[].tagName') || {
+            echo "::error::could not list this repo's GitHub Releases — cannot verify $VERSION is newer"
+            exit 1
+          }
+          LATEST=$(printf '%s\n' "$TAGS" | sed 's/^v//' | sort -V | tail -1)
+          if [ -n "$LATEST" ]; then
+            HIGHEST=$(printf '%s\n%s\n' "$LATEST" "$VERSION" | sort -V | tail -1)
+            if [ "$VERSION" = "$LATEST" ] || [ "$HIGHEST" != "$VERSION" ]; then
+              echo "::error::release/$VERSION is not newer than the latest shipped release, v$LATEST"
+              exit 1
+            fi
+          fi
+

@@ -1,0 +1,8 @@
+# The public pages are meant to be found; the content the app downloads is not
+# useful to a crawler and only wastes its time and our egress.
+# {{ EDIT — Disallow whatever this app serves under Hosting/ besides the
+# public pages (data bundles, manifests, config). }}
+User-agent: *
+Disallow: /config.json
+
+Sitemap: {{REAL_HTTPS_URL}}sitemap.xml

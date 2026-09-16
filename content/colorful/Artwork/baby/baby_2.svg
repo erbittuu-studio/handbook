@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M372 29c0,0 -92,32 -284,187 0,0 -17,3 76,112 0,0 10,11 40,70 0,0 11,27 44,3l10 -14c0,0 -76,274 -65,434 0,0 133,73 166,157 0,0 15,33 52,33l172 0c0,0 44,0 60,-30 0,0 17,-68 174,-160 0,0 -6,-214 -63,-431l19 16c0,0 14,17 33,-2 0,0 46,-96 116,-166 0,0 11,-19 -10,-30 0,0 -218,-168 -272,-179 0,0 1,112 -135,104 0,0 -125,5 -133,-104z" id="crop0"/>
+  <polygon class="fil0 str6" points="241,158 258,203 313,202 269,230 286,275 241,247 196,275 214,230 169,202 224,203" id="crop0"/>
+  <polygon class="fil0 str6" points="303,688 320,733 375,733 330,761 347,806 303,778 258,806 275,761 230,733 286,733" id="crop0"/>
+  <polygon class="fil0 str6" points="464,261 507,283 548,246 533,297 576,319 524,328 509,378 492,333 440,342 482,306" id="crop0"/>
+  <polygon class="fil0 str6" points="432,849 474,871 515,834 501,885 543,907 491,916 477,966 460,921 408,931 449,894" id="crop0"/>
+  <polygon class="fil0 str6" points="709,125 738,163 791,147 756,186 786,224 735,211 701,251 704,203 653,189 706,173" id="crop0"/>
+  <polygon class="fil0 str6" points="610,411 640,449 693,432 658,472 688,510 637,496 603,536 606,488 555,475 608,459" id="crop0"/>
+  <polygon class="fil0 str6" points="413,446 418,494 471,508 421,524 426,572 390,533 340,549 368,510 332,471 385,486" id="crop0"/>
+  <polygon class="fil0 str6" points="698,730 703,778 756,792 706,807 711,855 675,817 625,832 653,793 617,755 670,769" id="crop0"/>
+</svg>

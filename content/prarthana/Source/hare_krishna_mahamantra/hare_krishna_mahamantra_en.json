@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "mantra",
+      "verses": [
+        { "id": 1, "first": "Hare Krishna Hare Krishna", "second": "Krishna Krishna Hare Hare" },
+        { "id": 2, "first": "Hare Rama Hare Rama", "second": "Rama Rama Hare Hare" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "sections": [
+    {
+      "id": "aarti",
+      "verses": [
+        { "id": 1, "first": "Aarti Kunj Bihari Ki", "second": "Shri Girdhar Krishna Murari Ki" },
+        { "id": 2, "first": "Gale Mein Baijanti Mala", "second": "Bajave Murali Madhur Bala" },
+        { "id": 3, "first": "Shravan Mein Kundal Jhalakala", "second": "Nand Ke Anand Nandlala" },
+        { "id": 4, "first": "Gagan Sam Ang Kanti Kali", "second": "Radhika Chamak Rahi Aali" },
+        { "id": 5, "first": "Latan Mein Thade Banmali", "second": "Bhramat Rahe Nand Ke Lala" },
+        { "id": 6, "first": "Kanhaiya Aarti Karat", "second": "Yashoda Harshit Hoy" },
+        { "id": 7, "first": "Kanak Thaar Deepak Bhar", "second": "Aavat Mein Lakhi Joy" },
+        { "id": 8, "first": "Bhanvar Ghunghat Pat Khol", "second": "Radhika Roop Nihare" },
+        { "id": 9, "first": "Mohni Murti Sanware", "second": "Nayan Bane Rasiya Ki" },
+        { "id": 10, "first": "Aarti Kunj Bihari Ki", "second": "Shri Girdhar Krishna Murari Ki" }
+      ]
+    }
+  ]
+}

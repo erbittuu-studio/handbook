@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <polygon class="fil0 str6" points="165,409 165,659 620,659 620,345 413,345 413,459 257,459 257,407" id="crop0"/>
+  <polygon class="fil0 str6" points="461,374 461,513 580,513 580,374" id="crop0"/>
+  <polygon class="fil0 str6" points="387,312 644,312 644,347 387,347" id="crop0"/>
+  <polygon class="fil0 str6" points="11,697 11,720 165,720 165,478" id="crop0"/>
+  <path class="fil0 str6" d="M164 381l97 0c0,0 9,1 10,9l0 8c0,0 2,9 -8,11l-98 0c0,0 -8,2 -11,-8l0 -11c0,0 0,-8 10,-9z" id="crop0"/>
+  <polygon class="fil0 str6" points="620,659 639,659 639,698 165,698 165,659" id="crop0"/>
+  <polygon class="fil0 str6" points="140,556 140,687 46,687" id="crop0"/>
+  <circle class="fil0 str6" cx="189" cy="688" r="68" id="crop0"/>
+  <circle class="fil0 str6" cx="335" cy="688" r="68" id="crop0"/>
+  <circle class="fil0 str6" cx="518" cy="687" r="97" id="crop0"/>
+  <rect class="fil0 str6" x="657" y="429" width="355.901" height="35.3545" id="crop0"/>
+  <rect class="fil0 str6" x="665" y="464" width="341" height="191" id="crop0"/>
+  <rect class="fil0 str6" x="658" y="655" width="354.723" height="43.6043" id="crop0"/>
+  <circle class="fil0 str6" cx="752" cy="688" r="68" id="crop0"/>
+  <circle class="fil0 str6" cx="903" cy="688" r="68" id="crop0"/>
+  <circle class="fil0 str6" cx="189" cy="688" r="40" id="crop0"/>
+  <circle class="fil0 str6" cx="334" cy="688" r="40" id="crop0"/>
+  <circle class="fil0 str6" cx="752" cy="688" r="40" id="crop0"/>
+  <circle class="fil0 str6" cx="903" cy="688" r="40" id="crop0"/>
+  <circle class="fil0 str6" cx="518" cy="687" r="70" id="crop0"/>
+  <rect class="fil0 str6" x="188" y="680" width="146.049" height="16.6477" id="crop0"/>
+  <rect class="fil0 str6" x="188" y="216" width="42.3272" height="163.769" id="crop0"/>
+  <ellipse class="fil0 str6" cx="269" cy="160" rx="35" ry="32" id="crop0"/>
+  <ellipse class="fil0 str6" cx="418" cy="112" rx="58" ry="54" id="crop0"/>
+  <circle class="fil0 str6" cx="612" cy="114" r="78" id="crop0"/>
+</svg>

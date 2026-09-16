@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Shubham Karoti Kalyanam", "second": "Arogyam Dhana Sampadah" },
+        { "id": 2, "first": "Shatru Buddhi Vinashaya", "second": "Deepa Jyotir Namostute" }
+      ]
+    }
+  ]
+}

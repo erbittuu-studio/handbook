@@ -1,0 +1,25 @@
+{
+  "sections": [
+    {
+      "id": "stotram",
+      "verses": [
+        { "id": 1, "first": "Adharam Madhuram Vadanam Madhuram", "second": "Nayanam Madhuram Hasitam Madhuram" },
+        { "id": 2, "first": "Hridayam Madhuram Gamanam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 3, "first": "Vachanam Madhuram Charitam Madhuram", "second": "Vasanam Madhuram Valitam Madhuram" },
+        { "id": 4, "first": "Chalitam Madhuram Bhramitam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 5, "first": "Venur Madhuro Renur Madhurah", "second": "Panir Madhurah Padau Madhurau" },
+        { "id": 6, "first": "Nrityam Madhuram Sakhyam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 7, "first": "Geetam Madhuram Peetam Madhuram", "second": "Bhuktam Madhuram Suptam Madhuram" },
+        { "id": 8, "first": "Roopam Madhuram Tilakam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 9, "first": "Karanam Madhuram Taranam Madhuram", "second": "Haranam Madhuram Ramanam Madhuram" },
+        { "id": 10, "first": "Vamitam Madhuram Shamitam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 11, "first": "Gunja Madhura Mala Madhura", "second": "Yamuna Madhura Veechi Madhura" },
+        { "id": 12, "first": "Salilam Madhuram Kamalam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 13, "first": "Gopi Madhura Leela Madhura", "second": "Yuktam Madhuram Muktam Madhuram" },
+        { "id": 14, "first": "Drishtam Madhuram Shishtam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" },
+        { "id": 15, "first": "Gopa Madhura Gavo Madhura", "second": "Yashtir Madhura Srishtir Madhura" },
+        { "id": 16, "first": "Dalitam Madhuram Phalitam Madhuram", "second": "Madhuradhipater Akhilam Madhuram" }
+      ]
+    }
+  ]
+}

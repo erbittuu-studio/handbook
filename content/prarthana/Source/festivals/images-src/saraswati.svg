@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#FFFBEA"/>
+      <stop offset="100%" stop-color="#F5E3AE"/>
+    </radialGradient>
+    <linearGradient id="veena" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C98A1E"/>
+      <stop offset="100%" stop-color="#8C5A0E"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#bg)"/>
+
+  <!-- veena body -->
+  <g transform="translate(256 256) rotate(-32)">
+    <!-- dandi (neck) -->
+    <rect x="-170" y="-13" width="330" height="26" rx="13" fill="url(#veena)"/>
+    <!-- main gourd resonator -->
+    <circle cx="140" cy="26" r="64" fill="url(#veena)"/>
+    <circle cx="140" cy="26" r="44" fill="#E8A93C"/>
+    <circle cx="140" cy="26" r="16" fill="#6B4226"/>
+    <!-- second gourd -->
+    <circle cx="-140" cy="30" r="42" fill="url(#veena)"/>
+    <circle cx="-140" cy="30" r="28" fill="#E8A93C"/>
+    <!-- strings -->
+    <g stroke="#FFF3D6" stroke-width="3">
+      <line x1="-168" y1="-6" x2="158" y2="-6"/>
+      <line x1="-168" y1="0" x2="158" y2="0"/>
+      <line x1="-168" y1="6" x2="158" y2="6"/>
+    </g>
+    <!-- tuning pegs -->
+    <g fill="#6B4226">
+      <circle cx="-160" cy="-20" r="7"/>
+      <circle cx="-138" cy="-22" r="7"/>
+      <circle cx="-116" cy="-24" r="7"/>
+    </g>
+    <!-- scroll end -->
+    <path d="M-170 0 a 18 18 0 1 0 -18 -18" stroke="#8C5A0E" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- white lotus accents (Saraswati's flower) -->
+  <g fill="#FFFFFF" stroke="#E5C9D2" stroke-width="3">
+    <path d="M120 372 C 110 352, 112 336, 122 322 C 132 336 134 352 128 370 Z"/>
+    <path d="M104 376 C 88 366, 80 352, 80 338 C 96 344 106 356 112 372 Z"/>
+    <path d="M136 376 C 152 366, 160 352, 160 338 C 144 344 134 356 128 372 Z"/>
+  </g>
+  <circle cx="120" cy="380" r="8" fill="#F2B33D"/>
+
+  <!-- music notes as small sparkles -->
+  <g fill="#C98A1E">
+    <path d="M390 130 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 Z"/>
+    <path d="M414 210 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4 Z"/>
+    <path d="M118 140 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4 Z"/>
+  </g>
+</svg>

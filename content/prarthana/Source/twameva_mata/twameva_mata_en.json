@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Twameva Mata Cha Pita Twameva", "second": "Twameva Bandhu Cha Sakha Twameva" },
+        { "id": 2, "first": "Twameva Vidya Dravinam Twameva", "second": "Twameva Sarvam Mama Deva Deva" }
+      ]
+    }
+  ]
+}

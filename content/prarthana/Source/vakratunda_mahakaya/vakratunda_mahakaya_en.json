@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Vakratunda Mahakaya", "second": "Suryakoti Samaprabha" },
+        { "id": 2, "first": "Nirvighnam Kuru Me Deva", "second": "Sarva Karyeshu Sarvada" }
+      ]
+    }
+  ]
+}

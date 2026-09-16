@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "shloka",
+      "verses": [
+        { "id": 1, "first": "Saraswati Namastubhyam", "second": "Varade Kamarupini" },
+        { "id": 2, "first": "Vidyarambham Karishyami", "second": "Siddhir Bhavatu Me Sada" }
+      ]
+    }
+  ]
+}

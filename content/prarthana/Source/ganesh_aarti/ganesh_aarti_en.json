@@ -1,0 +1,18 @@
+{
+  "sections": [
+    {
+      "id": "main",
+      "verses": [
+        { "id": 1, "first": "Jai Ganesh Jai Ganesh Jai Ganesh Deva", "second": "Mata Jaki Parvati Pita Mahadeva" },
+        { "id": 2, "first": "Ek Dant Dayavant Char Bhuja Dhari", "second": "Mathe Par Tilak Sohe Muse Ki Sawari" },
+        { "id": 3, "first": "Paan Chadhe Phool Chadhe Aur Chadhe Meva", "second": "Ladduan Ka Bhog Lage Sant Karein Seva" },
+        { "id": 4, "first": "Jai Ganesh Jai Ganesh Jai Ganesh Deva", "second": "Mata Jaki Parvati Pita Mahadeva" },
+        { "id": 5, "first": "Andhan Ko Aankh Det Kodhin Ko Kaya", "second": "Banjhan Ko Putra Det Nirdhan Ko Maya" },
+        { "id": 6, "first": "Soor Shyam Sharan Aaye Safal Kije Seva", "second": "Mata Jaki Parvati Pita Mahadeva" },
+        { "id": 7, "first": "Jai Ganesh Jai Ganesh Jai Ganesh Deva", "second": "Mata Jaki Parvati Pita Mahadeva" },
+        { "id": 8, "first": "Dinan Ki Laaj Rakho Shambhu Sutvari", "second": "Kamna Ko Poorn Karo Jag Balihari" },
+        { "id": 9, "first": "Jai Ganesh Jai Ganesh Jai Ganesh Deva", "second": "Mata Jaki Parvati Pita Mahadeva" }
+      ]
+    }
+  ]
+}

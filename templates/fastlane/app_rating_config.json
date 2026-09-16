@@ -1,0 +1,30 @@
+{
+  "//": "The age rating questionnaire, answered once and kept in git. It was previously clicked through by hand in App Store Connect, where nothing recorded what was answered or why — and a wrong answer here is a rejection, not a warning. Every content descriptor is NONE: the app is 88 line drawings of weather, animals, food and vehicles, with no text, no characters and no narrative. deliver reads this via app_rating_config_path.",
+
+  "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+  "contests": "NONE",
+  "gamblingSimulated": "NONE",
+  "horrorOrFearThemes": "NONE",
+  "matureOrSuggestiveThemes": "NONE",
+  "medicalOrTreatmentInformation": "NONE",
+  "profanityOrCrudeHumor": "NONE",
+  "sexualContentGraphicAndNudity": "NONE",
+  "sexualContentOrNudity": "NONE",
+  "violenceCartoonOrFantasy": "NONE",
+  "violenceRealistic": "NONE",
+  "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+
+  "//behaviour": "The booleans are the ones that actually decide whether Apple treats this as a children's app, and every one of them is the reason the listing can honestly say what it says. They match the App Review reply and PrivacyInfo.xcprivacy word for word — if one of these ever changes, all three change together.",
+
+  "gambling": false,
+  "unrestrictedWebAccess": false,
+  "userGeneratedContent": false,
+  "messagingAndChat": false,
+  "socialMedia": false,
+  "advertising": false,
+  "lootBox": false,
+  "parentalControls": false,
+  "healthOrWellnessTopics": false,
+
+  "//kidsAgeBand": "Deliberately absent. Setting it is what puts an app in the Kids category, and the Deliverfile explains at length why this one stays out of it: the Kids category forbids third-party data collection without verifiable parental consent, and this app ships Firebase Analytics and Crashlytics. Adding a kidsAgeBand here would silently contradict that decision and make the analytics a violation."
+}

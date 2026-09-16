@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  
+   <path class="fil0 str6" d="M967 98c0,0 0,-25 -31,-43 -30,-18 -74,-33 -74,-33 0,0 -39,-15 -76,7 0,0 -33,13 -83,64 0,0 -75,66 -115,93 0,0 -98,69 -139,94 0,0 -84,36 -50,80l94 127 82 -86 129 -128c0,0 93,-105 120,-149 0,0 31,-54 63,-60 0,0 40,-17 80,34z"/>
+   <path class="fil0 str6" d="M968 100l3 3c0,0 28,21 28,73 0,0 3,28 -21,100l-37 95c0,0 -68,157 -107,232 -37,71 115,-256 122,-285 0,0 36,-110 24,-174 0,0 -8,-33 -46,-15 0,0 -25,13 -67,68 0,0 -25,29 -80,78l-93 85 -100 80c0,0 -89,67 -99,48 0,0 -1,-5 7,-14 9,-8 195,-193 195,-193l74 -85 42 -53 29 -45c0,0 40,-53 83,-34 0,0 23,10 39,32 0,0 1,1 4,4z"/>
+   <path class="fil0 str6" d="M622 524l89 -180 82 -74 66 -64c0,0 67,-89 95,-82 0,0 31,-2 28,45 -3,48 -7,84 -20,138l-133 304 -207 -87z"/>
+  <path class="fil0 str6" d="M533 602c0,0 50,-12 70,28 0,0 23,52 -19,76 0,0 -249,110 -380,245 0,0 -34,40 -71,9 0,0 -36,-39 -18,-83l418 -275z" id="crop0"/>
+  <path class="fil0 str6" d="M533 602c0,0 -142,-262 -391,-147l0 0c-2,23 -22,42 -47,42 -2,0 -4,0 -5,0 -27,33 -55,89 -53,180 0,0 7,126 78,200l418 -275z" id="crop0"/>
+  <path class="fil0 str6" d="M142 455c0,0 82,-42 159,-27l-6 11 -55 -5 -7 50 -59 -7 -9 58 -57 -7 -3 47 -54 -5c0,0 11,-43 39,-73 0,0 49,3 52,-42z" id="crop0"/>
+  <ellipse class="fil0 str6" cx="95" cy="452" rx="47" ry="45" id="crop0"/>
+  <path class="fil0 str6" d="M435 565l-64 -2 -11 66 -84 -9 -3 69 -78 -8 -3 58 -75 -8 -20 70 -33 -9c0,0 -48,-90 -13,-222l54 5 3 -47 57 7 9 -58 59 7 7 -50 55 5 6 -11c0,0 74,6 149,74l-15 63z" id="crop0"/>
+</svg>

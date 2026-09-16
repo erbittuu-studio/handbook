@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+    .str7 {stroke:black;stroke-width:7}
+    .str8 {stroke:black;stroke-width:8}
+    .str9 {stroke:black;stroke-width:9}
+    .str19 {stroke:black;stroke-width:19}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+ <polygon class="fil0" points="750.0,513.0 758.0,513.0 759.0,515.0 778.0,571.0 777.0,589.0 763.0,612.0 602.0,612.0 590.0,590.0 590.0,584.0 609.0,585.0 635.0,579.0"/>
+  <rect class="fil0" y="610" width="1024" height="415"/>
+  <line class="fil1 str6" x1="0" y1="612" x2="1024" y2="612"/>
+  <ellipse class="fil0 str6" rx="139" ry="163" transform="matrix(0.882328 0.0283533 0.00940647 0.822294 493.152 667.338)" id="crop0"/>
+  <ellipse class="fil0 str9" rx="139" ry="163" transform="matrix(0.670504 0.0215464 0.00714823 0.624883 493.152 667.338)" id="crop0"/>
+  <ellipse class="fil0 str19" rx="139" ry="163" transform="matrix(0.266965 0.00857882 0.00284611 0.248801 493.153 667.338)" id="crop0"/>
+  <path class="fil0 str6" d="M254 716c0,0 18,-41 81,-30 0,0 45,1 59,-12l22 -17c0,0 17,-4 27,-1l51 6 6 35c0,0 -50,54 -217,91 0,0 -12,-40 -29,-72z" id="crop0"/>
+  <ellipse class="fil1 str6" rx="131" ry="177" transform="matrix(0.942227 -0.334976 0.334976 0.942227 853.113 796.906)" id="crop0"/>
+  <ellipse class="fil0 str7" rx="131" ry="177" transform="matrix(0.735147 -0.261356 0.261356 0.735147 853.113 796.906)" id="crop0"/>
+  <ellipse class="fil0 str19" rx="131" ry="177" transform="matrix(0.288292 -0.102492 0.102492 0.288292 848.17 796.906)" id="crop0"/>
+  <path class="fil0 str6" d="M828 587l21 206c0,0 2,17 -8,21 0,0 -18,9 -24,-14l-19 -190c0,0 14,-20 29,-29l1 6z" id="crop0"/>
+  <path class="fil0 str6" d="M757 616c0,0 -77,74 -69,138 0,0 22,8 32,-6 0,0 14,-91 74,-111 0,0 51,-9 96,26l50 -21c0,0 -4,-11 -17,-17l-40 -22c0,0 -38,-21 -46,-67 0,0 -37,-157 -43,-168l-52 12c0,0 -34,22 -17,43 0,0 5,7 15,7l6 30 -104 67c0,0 -19,13 -42,7 0,0 -80,-35 -141,-9 0,0 -74,15 -122,151 0,0 -12,23 17,31 0,0 14,4 29,-25l50 -86c0,0 12,-26 43,-26l106 12c0,0 40,9 63,-8l111 -64 20 55c0,0 12,25 -19,51z" id="crop0"/>
+  <path class="fil0 str6" d="M422 311l-31 12c0,0 -31,8 -20,62l19 74c0,0 12,71 113,69 0,0 65,5 134,-12 0,0 60,-16 65,-51 0,0 12,-46 -74,-97 0,0 -74,-48 -145,-58 0,0 -38,-8 -61,1z" id="crop0"/>
+  <path class="fil0 str6" d="M459 430l46 -16c0,0 28,-12 72,-3l115 36 -53 30c0,0 -36,19 -80,-1l-100 -46z" id="crop0"/>
+  <path class="fil0 str6" d="M417 351l26 -9c0,0 16,-6 22,6l8 23c0,0 4,12 -3,16l-28 10c0,0 -11,5 -19,0 0,0 -10,-15 -13,-32 0,0 -4,-9 7,-14z" id="crop0"/>
+  <ellipse class="fil0 str6" rx="139" ry="163" transform="matrix(0.895165 -0.252733 0.252733 0.895165 155.67 801.134)" id="crop0"/>
+  <ellipse class="fil0 str8" rx="139" ry="163" transform="matrix(0.680259 -0.192059 0.192059 0.680259 155.67 801.134)" id="crop0"/>
+  <ellipse class="fil0 str19" rx="139" ry="163" transform="matrix(0.270849 -0.0764692 0.0764692 0.270849 155.67 801.134)" id="crop0"/>
+  <path class="fil0 str6" d="M756 374c0,0 0,-57 20,-75 0,0 -37,6 -70,-51l-21 -45c0,0 -8,-23 -46,-26l-42 0 -6 -30 51 1c0,0 43,-5 61,39 0,0 27,92 71,100l48 -2c0,0 -34,20 -42,86l-24 6 0 -3z" id="crop0"/>
+  <path class="fil0 str6" d="M862 130c0,0 0,-17 11,-28 0,0 -7,-23 18,-28 0,0 11,-1 17,5l17 -9c0,0 17,-7 28,21 0,0 12,22 -19,36l-14 1 -14 8c0,0 -15,7 -15,-6 0,0 -11,17 -9,24l-20 -24z" id="crop0"/>
+  <path class="fil0 str6" d="M483 162l93 -14c0,0 0,-15 7,-15 0,0 14,-2 14,44 0,0 2,20 -6,20 0,0 -6,2 -9,-10l-89 15c0,0 -2,14 -14,11 0,0 -19,1 -20,-33 0,0 -2,-33 24,-18z" id="crop0"/>
+  <path class="fil0 str6" d="M669 186c0,0 -10,16 -10,22 0,0 0,6 17,23l24 34c0,0 25,34 52,29 0,0 -31,-16 -44,-44l-14 -28 -5 -10c0,0 -4,-19 -20,-26z" id="crop0"/>
+  <path class="fil0 str6" d="M822 285c0,0 52,-8 58,-83l3 -39c0,0 -1,-30 -27,-40 0,0 -34,-21 -86,-6 0,0 -61,11 -84,45 0,0 14,10 20,33 0,0 15,41 25,55 0,0 21,37 49,36l42 -1z" id="crop0"/>
+</svg>

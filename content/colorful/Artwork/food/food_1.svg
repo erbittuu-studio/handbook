@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <ellipse class="fil0 str6" cx="508" cy="708" rx="491" ry="144" id="crop0"/>
+  <ellipse class="fil0 str6" cx="501" cy="692" rx="337" ry="76" id="crop0"/>
+  <path class="fil0 str6" d="M198 683c0,0 252,124 601,0l0 -131c0,0 12,-35 -79,-43 0,0 -218,-19 -449,2 0,0 -75,3 -73,40l0 132z" id="crop0"/>
+  <path class="fil0 str6" d="M268 413l0 105c0,0 207,104 458,0l0 -104c0,0 10,-31 -70,-37 0,0 -112,-12 -317,0 0,0 -79,8 -71,36z" id="crop0"/>
+  <path class="fil0 str6" d="M336 304l0 82c0,0 145,76 323,0l0 -83c0,0 3,-15 -46,-21 0,0 -142,-10 -230,2 0,0 -53,4 -47,20z" id="crop0"/>
+  <path class="fil0 str6" d="M380 220l0 67c0,0 104,59 236,0l0 -70c0,0 -1,-25 -112,-22 0,0 -121,-5 -124,25z" id="crop0"/>
+  <circle class="fil0 str6" cx="501" cy="209" r="8" id="crop0"/>
+  <path class="fil0 str6" d="M588 184c0,0 -34,-14 -64,8 0,0 -15,9 -9,19 0,0 6,10 37,-7 0,0 23,-19 36,-20z" id="crop0"/>
+  <path class="fil0 str6" d="M552 118c0,0 -11,19 -15,38 0,0 -9,35 -26,42 0,0 -9,4 -8,-7 0,0 -8,-34 49,-73z" id="crop0"/>
+  <path class="fil0 str6" d="M463 109c0,0 10,28 23,40 0,0 21,25 13,46 0,0 -7,7 -15,-4 0,0 -25,-22 -21,-82z" id="crop0"/>
+  <path class="fil0 str6" d="M417 181c0,0 28,31 52,31 0,0 19,2 21,-5 0,0 4,-9 -18,-18 0,0 -6,-2 -24,-2 0,0 -13,1 -31,-6z" id="crop0"/>
+</svg>

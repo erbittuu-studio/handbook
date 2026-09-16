@@ -1,0 +1,67 @@
+{
+  "sections": [
+    {
+      "id": "opening",
+      "verses": [
+        { "id": 1, "first": "Matu Lakshmi Kari Kripa, Karo Hriday Mein Vaas", "second": "Manokamna Siddh Kari, Paruvahu Meri Aas" }
+      ]
+    },
+    {
+      "id": "sortha",
+      "verses": [
+        { "id": 2, "first": "Yahi Mor Ardas, Hath Jod Vinati Karun", "second": "Sab Vidhi Karau Suvas, Jai Janani Jagdambika" }
+      ]
+    },
+    {
+      "id": "chaupai",
+      "verses": [
+        { "id": 3, "first": "Sindhu Suta Main Sumirau Tohi", "second": "Gyan, Buddhi, Vidya Do Mohi" },
+        { "id": 4, "first": "Tum Saman Nahin Koi Upkari", "second": "Sab Vidhi Purvahu Aas Hamari" },
+        { "id": 5, "first": "Jai Jai Jagat Janani Jagdamba", "second": "Sabki Tum Hi Ho Avlamba" },
+        { "id": 6, "first": "Tum Hi Ho Sab Ghat Ghat Vasi", "second": "Vinati Yahi Hamari Khasi" },
+        { "id": 7, "first": "Jagjanani Jai Sindhu Kumari", "second": "Deenan Ki Tum Ho Hitkari" },
+        { "id": 8, "first": "Vinavau Nitya Tumhin Maharani", "second": "Kripa Karau Jag Janani Bhavani" },
+        { "id": 9, "first": "Kehi Vidhi Stuti Karaun Tihari", "second": "Sudhi Leeje Aparadh Bisari" },
+        { "id": 10, "first": "Kripa Drishti Chitvavo Mam Ori", "second": "Jagjanani Vinati Sun Mori" },
+        { "id": 11, "first": "Gyan Buddhi Jai Sukh Ki Data", "second": "Sankat Haro Hamari Mata" },
+        { "id": 12, "first": "Ksheersindhu Jab Vishnu Mathayo", "second": "Chaudah Ratna Sindhu Mein Payo" },
+        { "id": 13, "first": "Chaudah Ratna Mein Tum Sukhrasi", "second": "Seva Kiyo Prabhu Bani Dasi" },
+        { "id": 14, "first": "Jab Jab Janma Jahan Prabhu Leenha", "second": "Roop Badal Tahan Seva Keenha" },
+        { "id": 15, "first": "Swayam Vishnu Jab Nar Tanu Dhara", "second": "Leenheu Avadhpuri Avatara" },
+        { "id": 16, "first": "Tab Tum Pragat Janakpur Mahin", "second": "Seva Kiyo Hriday Pulkahin" },
+        { "id": 17, "first": "Apnaya Tohi Antaryami", "second": "Vishwa Vidit Tribhuvan Ki Swami" },
+        { "id": 18, "first": "Tum Sam Prabal Shakti Nahin Aani", "second": "Kahan Lau Mahima Kahaun Bakhani" },
+        { "id": 19, "first": "Man Kram Vachan Karai Sevakai", "second": "Man Ichchhit Vanchhit Phal Pai" },
+        { "id": 20, "first": "Taji Chhal Kapat Aur Chaturai", "second": "Poojahin Vividh Bhanti Manlai" },
+        { "id": 21, "first": "Aur Haal Main Kahaun Bujhai", "second": "Jo Yah Path Karai Man Lai" },
+        { "id": 22, "first": "Tako Koi Kashta Na Hoi", "second": "Man Ichchhit Pavai Phal Soi" },
+        { "id": 23, "first": "Trahi Trahi Jai Dukh Nivarini", "second": "Trividh Tap Bhav Bandhan Harini" },
+        { "id": 24, "first": "Jo Chalisa Padhai Padhavai", "second": "Dhyan Lagakar Sunai Sunavai" },
+        { "id": 25, "first": "Tako Koi Na Rog Satavai", "second": "Putra Aadi Dhan Sampatti Pavai" },
+        { "id": 26, "first": "Putraheen Aru Sampati Heena", "second": "Andh Badhir Kodhi Ati Deena" },
+        { "id": 27, "first": "Vipra Bolay Kai Path Karavai", "second": "Shanka Dil Mein Kabhi Na Lavai" },
+        { "id": 28, "first": "Path Karavai Din Chalisa", "second": "Ta Par Kripa Karain Gaurisa" },
+        { "id": 29, "first": "Sukh Sampatti Bahut Si Pavai", "second": "Kami Nahin Kahu Ki Avai" },
+        { "id": 30, "first": "Barah Maas Karai Jo Pooja", "second": "Tehi Sam Dhanya Aur Nahin Dooja" },
+        { "id": 31, "first": "Pratidin Path Karai Man Mahi", "second": "Un Sam Koi Jag Mein Kahun Nahin" },
+        { "id": 32, "first": "Bahuvidhi Kya Main Karaun Badai", "second": "Ley Pareeksha Dhyan Lagai" },
+        { "id": 33, "first": "Kari Vishwas Karai Vrat Nema", "second": "Hoy Siddh Upjai Ur Prema" },
+        { "id": 34, "first": "Jai Jai Jai Lakshmi Bhavani", "second": "Sab Mein Vyapit Ho Gun Khani" },
+        { "id": 35, "first": "Tumharo Tej Prabal Jag Mahin", "second": "Tum Sam Kou Dayalu Kahun Nahin" },
+        { "id": 36, "first": "Mohi Anath Ki Sudhi Ab Leeje", "second": "Sankat Kati Bhakti Mohi Deeje" },
+        { "id": 37, "first": "Bhool Chook Kari Kshama Hamari", "second": "Darshan Dijai Dasha Nihari" },
+        { "id": 38, "first": "Bin Darshan Vyakul Adhikari", "second": "Tumahi Achhat Dukh Sahte Bhari" },
+        { "id": 39, "first": "Nahin Mohin Gyan Buddhi Hai Tan Mein", "second": "Sab Janat Ho Apne Man Mein" },
+        { "id": 40, "first": "Roop Chaturbhuj Karke Dharan", "second": "Kashta Mor Ab Karahu Nivaran" },
+        { "id": 41, "first": "Kehi Prakar Main Karaun Badai", "second": "Gyan Buddhi Mohi Nahin Adhikai" }
+      ]
+    },
+    {
+      "id": "closing",
+      "verses": [
+        { "id": 42, "first": "Trahi Trahi Dukh Harini, Haro Vegi Sab Tras", "second": "Jayati Jayati Jai Lakshmi, Karo Shatru Ko Nash" },
+        { "id": 43, "first": "Ramdas Dhari Dhyan Nit, Vinay Karat Kar Jor", "second": "Matu Lakshmi Das Par, Karahu Daya Ki Kor" }
+      ]
+    }
+  ]
+}

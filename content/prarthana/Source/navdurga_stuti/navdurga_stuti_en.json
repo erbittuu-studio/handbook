@@ -1,0 +1,21 @@
+{
+  "sections": [
+    {
+      "id": "stuti",
+      "verses": [
+        { "id": 1, "first": "Prathamam Shailputri Cha", "second": "Dvitiyam Brahmacharini" },
+        { "id": 2, "first": "Tritiyam Chandraghanta Eti", "second": "Kushmanda Iti Chaturthakam" },
+        { "id": 3, "first": "Panchamam Skandamata Cha", "second": "Shashtham Katyayani Tatha" },
+        { "id": 4, "first": "Saptamam Kalaratri Cha", "second": "Mahagauri Cha Ashtamam" },
+        { "id": 5, "first": "Navamam Siddhidatri Cha", "second": "Navdurga Prakirtitah" },
+        { "id": 6, "first": "Uktanyetani Namani", "second": "Brahmanaiwa Mahatmana" },
+        { "id": 7, "first": "Shailputri Shubham Dadyat", "second": "Brahmacharini Satam" },
+        { "id": 8, "first": "Chandraghanta Shubham Dadyat", "second": "Kushmanda Aarogyam Eva Cha" },
+        { "id": 9, "first": "Skandamata Sukham Dadyat", "second": "Katyayani Yasho Balam" },
+        { "id": 10, "first": "Kalaratri Shubham Dadyat", "second": "Mahagauri Tu Nishkalam" },
+        { "id": 11, "first": "Siddhidatri Cha Siddhim", "second": "Dadyat Punyam Tatha" },
+        { "id": 12, "first": "Navdurga Namasyami", "second": "Navdurga Mahotsavam" }
+      ]
+    }
+  ]
+}

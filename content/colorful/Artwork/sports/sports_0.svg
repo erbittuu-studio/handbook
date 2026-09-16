@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str2 {stroke:black;stroke-width:2}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <polygon class="fil0 str6" points="522,491 729,782 731,803 879,1006 921,974 777,777 759,769 551,472"/>
+  <ellipse class="fil0 str2" rx="56" ry="72" transform="matrix(3.15565 -2.0374 2.0374 3.15565 384.902 263.095)"/>
+  <ellipse class="fil0 str2" rx="56" ry="72" transform="matrix(2.74918 -1.77497 1.77497 2.74918 384.903 263.095)"/>
+  <polygon class="fil0 str6" points="288,556 612,693 616,730 571,740 274,564" id="crop0"/>
+  <polygon class="fil0 str6" points="571,740 574,771 526,785 244,590 274,564" id="crop0"/>
+  <polygon class="fil0 str6" points="517,838 471,854 225,608 244,590 526,785" id="crop0"/>
+  <polygon class="fil0 str6" points="461,904 417,917 206,623 225,608 471,854" id="crop0"/>
+  <polygon class="fil0 str6" points="407,951 377,954 191,641 206,623 417,917" id="crop0"/>
+  <polygon class="fil0 str6" points="360,989 328,977 180,669 191,641 377,954" id="crop0"/>
+  <path class="fil0 str6" d="M288 556c0,0 -76,53 -108,113l-20 -18c0,0 41,-83 112,-114l16 19z" id="crop0"/>
+  <path class="fil0 str6" d="M160 651c0,0 -71,-65 -25,-117 0,0 42,-84 137,3 0,0 -66,28 -112,114z" id="crop0"/>
+  <path class="fil0 str6" d="M355 584c0,0 -84,59 -143,151l-10 -20c0,0 53,-99 135,-138l18 7z" id="crop0"/>
+  <path class="fil0 str6" d="M397 602c0,0 -112,61 -167,171l10 21c0,0 59,-114 179,-183l-22 -9z" id="crop0"/>
+  <line class="fil1 str6" x1="336" y1="41" x2="583" y2="341"/>
+  <line class="fil1 str6" x1="278" y1="52" x2="562" y2="409"/>
+  <line class="fil1 str6" x1="226" y1="90" x2="527" y2="452"/>
+  <line class="fil1 str6" x1="195" y1="146" x2="472" y2="481"/>
+  <line class="fil1 str6" x1="187" y1="240" x2="394" y2="481"/>
+  <line class="fil1 str6" x1="431" y1="65" x2="575" y2="249"/>
+  <line class="fil1 str6" x1="407" y1="54" x2="185" y2="214"/>
+  <line class="fil1 str6" x1="467" y1="89" x2="198" y2="290"/>
+  <line class="fil1 str6" x1="511" y1="129" x2="228" y2="355"/>
+  <line class="fil1 str6" x1="544" y1="175" x2="272" y2="411"/>
+  <line class="fil1 str6" x1="569" y1="227" x2="325" y2="453"/>
+  <line class="fil1 str6" x1="583" y1="292" x2="385" y2="479"/>
+</svg>

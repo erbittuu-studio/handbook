@@ -1,0 +1,49 @@
+# PES standard SwiftLint config.
+# Philosophy: default rules, tiny delta. If you're tempted to add rules,
+# ask whether SwiftFormat or a code review habit already covers it.
+# Requires: SwiftLint (brew install swiftlint). Formatting itself is
+# SwiftFormat's job — rules that conflict with it are disabled here.
+
+disabled_rules:
+  - trailing_whitespace     # owned by SwiftFormat/.editorconfig
+  - todo                    # TODOs are allowed; issues track real work
+
+opt_in_rules:
+  - empty_count
+  - first_where
+  - contains_over_filter_is_empty
+  - redundant_nil_coalescing
+  - toggle_bool
+
+excluded:
+  - .build
+  - .swiftpm
+  - DerivedData
+  # Vendored third-party source lives in App/Vendor/, kept apart from
+  # App/Packages/ precisely so this can exclude it by folder instead of by
+  # name — SYSKit and SYSFirebase live in App/Packages/ too and are ours, so
+  # excluding App/Packages/ wholesale would leave the library shared by every
+  # app as the only code nobody lints.
+  - App/Vendor
+
+line_length:
+  warning: 130
+  error: 200
+  ignores_comments: true
+  ignores_urls: true
+
+function_body_length:
+  warning: 60
+
+type_body_length:
+  warning: 300
+
+file_length:
+  warning: 500
+
+identifier_name:
+  min_length: 2
+  excluded: [x, y, z, i, id, db, vm]
+
+force_unwrapping:
+  severity: warning

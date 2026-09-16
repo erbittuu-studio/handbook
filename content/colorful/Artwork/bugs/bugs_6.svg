@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str3 {stroke:black;stroke-width:3}
+    .str6 {stroke:black;stroke-width:6}
+    .str16 {stroke:black;stroke-width:16}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M577 167c0,0 14,-102 91,-134 0,0 70,-11 67,46 0,0 -11,-16 -31,-16 0,0 -32,9 -16,43 0,0 36,34 54,-18 0,0 25,-63 -62,-69 0,0 -87,-1 -112,143l9 5z"/>
+  <path class="fil0 str6" d="M453 169c0,0 -14,-102 -91,-134 0,0 -70,-11 -67,45 0,0 11,-16 31,-16 0,0 32,9 16,43 0,0 -36,34 -54,-18 0,0 -25,-62 62,-68 0,0 87,-2 112,143l-9 5z"/>
+  <ellipse class="fil0 str6" cx="514" cy="366" rx="199" ry="209"/>
+  <ellipse class="fil0 str6" cx="516" cy="701" rx="321" ry="311"/>
+  <path class="fil0 str6" d="M54 876c0,0 133,22 280,-82 148,-104 204,-303 177,-428 0,0 -224,-72 -373,86 0,0 -127,127 -84,424z"/>
+  <circle class="fil0 str6" cx="392" cy="464" r="72"/>
+  <circle class="fil0 str6" cx="321" cy="667" r="59"/>
+  <circle class="fil0 str6" cx="153" cy="713" r="38"/>
+  <path class="fil0 str6" d="M973 876c0,0 -133,22 -281,-82 -147,-104 -203,-303 -176,-428 0,0 224,-72 373,86 0,0 127,127 84,424z"/>
+  <circle class="fil0 str6" cx="635" cy="464" r="72"/>
+  <circle class="fil0 str6" cx="706" cy="667" r="59"/>
+  <circle class="fil0 str6" cx="874" cy="713" r="38"/>
+  <ellipse class="fil0 str3" rx="17" ry="23" transform="matrix(2.22227 0.427649 -0.427649 2.22227 461.604 239.667)"/>
+  <circle class="fil0 str16" cx="466" cy="218" r="16"/>
+  <ellipse class="fil0 str3" rx="17" ry="23" transform="matrix(-2.16467 0.659966 0.659966 2.16467 561.179 239.667)"/>
+  <circle class="fil0 str16" cx="555" cy="218" r="16"/>
+  <circle class="fil0 str6" cx="192" cy="532" r="59"/>
+  <circle class="fil0 str6" cx="836" cy="540" r="59"/>
+</svg>

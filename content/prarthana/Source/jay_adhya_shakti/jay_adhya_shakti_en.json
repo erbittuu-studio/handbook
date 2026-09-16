@@ -1,0 +1,17 @@
+{
+  "sections": [
+    {
+      "id": "main",
+      "verses": [
+        { "id": 1, "first": "Jay Adhya Shakti, Ma Jay Adhya Shakti", "second": "Akhand Brahmand Deepavya, Pag Lagya Patal" },
+        { "id": 2, "first": "E Mahisasur Ne Maryo, Mahisasur Maryo Ne", "second": "Rudhire Kidhi Ramjol, E Chand Mund Ne Sanharya" },
+        { "id": 3, "first": "Shumbh Nishumbh Sanharya, Raktabij Ne Rolyo", "second": "E Brahma Vishnu Sadashiv, Pragatya E Pranavakarmaan" },
+        { "id": 4, "first": "Trane E Dev Janya Ne, Ma Trane E Dev Janya", "second": "E Koti Tej Pragatya, Manun Roop Na Jay" },
+        { "id": 5, "first": "Chandra Surya E Trilochan, Ma Chandra Surya E Trilochan", "second": "Adbhut Aa Avtar, E Brahmand Ne Dharya" },
+        { "id": 6, "first": "Sarva Jagat Ne Tarya, Ma Sarva Jagat Ne Tarya", "second": "E Matajini Aarti Je Koi Gashe" },
+        { "id": 7, "first": "E Bhane Vasant Ullasthi, Ma Bhane Vasant Ullasthi", "second": "E Bhakti Shakti Ne Mukti, Bhavsagar Tarshe" },
+        { "id": 8, "first": "Jay Adhya Shakti, Ma Jay Adhya Shakti", "second": "Akhand Brahmand Deepavya, Pag Lagya Patal" }
+      ]
+    }
+  ]
+}

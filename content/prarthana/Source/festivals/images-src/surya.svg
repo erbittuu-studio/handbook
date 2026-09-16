@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="74%">
+      <stop offset="0%" stop-color="#FFEEC9"/>
+      <stop offset="100%" stop-color="#F5C173"/>
+    </radialGradient>
+    <radialGradient id="sun" cx="45%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="60%" stop-color="#F59E2D"/>
+      <stop offset="100%" stop-color="#E8721E"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD873" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFD873" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#bg)"/>
+  <circle cx="256" cy="228" r="170" fill="url(#glow)"/>
+
+  <!-- rays -->
+  <g fill="#E8802A">
+    <path d="M256 74 l 16 44 -32 0 Z"/>
+    <path d="M256 382 l 16 -44 -32 0 Z" transform="rotate(0 256 228)"/>
+    <path d="M102 228 l 44 -16 0 32 Z"/>
+    <path d="M410 228 l -44 -16 0 32 Z"/>
+    <path d="M147 119 l 42 20 -22 22 Z"/>
+    <path d="M365 119 l -42 20 22 22 Z"/>
+    <path d="M147 337 l 42 -20 -22 -22 Z"/>
+    <path d="M365 337 l -42 -20 22 -22 Z"/>
+  </g>
+
+  <!-- sun disc -->
+  <circle cx="256" cy="228" r="92" fill="url(#sun)"/>
+  <circle cx="256" cy="228" r="92" fill="none" stroke="#C9611A" stroke-width="6"/>
+
+  <!-- offering water stream (arghya) -->
+  <g stroke="#7FB3DE" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M180 396 q 76 30 152 0"/>
+    <path d="M208 428 q 48 18 96 0"/>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#C0561B">
+    <path d="M116 168 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z"/>
+    <path d="M400 300 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4 Z"/>
+  </g>
+</svg>

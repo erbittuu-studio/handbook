@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+ <polygon class="fil0" points="664.0,378.0 673.0,378.0 700.0,394.0 726.0,404.0 754.0,408.0 754.0,451.0 731.0,454.0 725.0,457.0 720.0,463.0 725.0,473.0 743.0,486.0 743.0,492.0 726.0,513.0 714.0,536.0 705.0,562.0 702.0,580.0 444.0,580.0 444.0,434.0 549.0,434.0 552.0,431.0 552.0,386.0 559.0,386.0 589.0,394.0 606.0,394.0 634.0,389.0"/>
+ <polygon class="fil0" points="168.0,434.0 392.0,434.0 392.0,580.0 168.0,580.0"/>
+  <rect class="fil0" y="580" width="1024" height="445"/>
+  <line class="fil1 str6" x1="2" y1="580" x2="1026" y2="580"/>
+  <rect class="fil0 str6" x="19" y="309" width="532" height="125"/>
+  <rect class="fil0 str6" x="117" y="433" width="50.0647" height="144.089"/>
+  <rect class="fil0 str6" x="393" y="433" width="50.0647" height="144.089"/>
+  <rect class="fil0 str6" x="106" y="241" width="249.236" height="61.8891"/>
+  <polygon class="fil0 str6" points="95,222 106,241 355,241 345,222"/>
+  <polygon class="fil0 str6" points="106,303 106,241 95,222 95,287"/>
+  <rect class="fil0 str6" x="106" y="303" width="249.236" height="61.8891"/>
+  <polygon class="fil0 str6" points="106,364 106,303 95,284 95,349"/>
+  <rect class="fil0 str6" x="407" y="112" width="50.1814" height="252.58"/>
+  <polygon class="fil0 str6" points="476,100 458,112 458,364 476,353"/>
+  <polygon class="fil0 str6" points="407,112 458,112 476,100 428,100"/>
+  <rect class="fil0 str6" x="357" y="112" width="50.1814" height="252.58"/>
+  <polygon class="fil0 str6" points="357,112 407,112 426,100 378,100"/>
+  <polygon class="fil1 str6" points="687,801 643,1001" id="crop0"/>
+  <polygon class="fil1 str6" points="833,801 878,1001" id="crop0"/>
+  <ellipse class="fil0 str6" cx="765" cy="750" rx="209" ry="55" id="crop0"/>
+  <path class="fil0 str6" d="M819 467c0,0 0,-15 -45,-15 0,0 -59,-3 -54,14 0,0 2,11 26,22 0,0 -47,43 -45,120 0,0 -1,40 36,71 0,0 11,9 10,20 0,0 1,6 -14,13l-22 11c0,0 -14,8 12,19 0,0 37,18 96,0 0,0 27,-12 10,-20l-28 -13c0,0 -8,-4 -7,-10 0,0 -2,-7 10,-19 12,-11 35,-41 33,-74 0,0 1,-79 -46,-116l25 -18 3 -5z" id="crop0"/>
+  <path class="fil0 str6" d="M783 389l0 73c0,0 -12,9 -28,0l0 -74 28 1z" id="crop0"/>
+  <path class="fil0 str6" d="M806 81c0,0 -2,160 53,296 0,0 -88,73 -191,0 0,0 46,-138 50,-296 0,0 42,-49 88,0z" id="crop0"/>
+  <path class="fil0 str6" d="M1001 353c0,0 -26,77 -142,24 0,0 -51,-107 -53,-296 0,0 37,-40 90,-11 0,0 11,125 105,283z" id="crop0"/>
+  <path class="fil0 str6" d="M718 81c0,0 -26,-49 -88,-18 0,0 -24,171 -110,292 0,0 36,70 148,22 0,0 46,-145 50,-296z" id="crop0"/>
+</svg>

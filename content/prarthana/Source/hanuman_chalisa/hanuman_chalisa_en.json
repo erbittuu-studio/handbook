@@ -1,0 +1,62 @@
+{
+  "sections": [
+    {
+      "id": "opening",
+      "verses": [
+          { "id": 1, "first": "Shri Guru Charan Saroj Raj, Nij Manmukuru Sudhaari", "second": "Baranau Raghuvar Bimal Jasu, Jo Daayaku Phal Chaari" },
+          {  "id": 2, "first": "Buddhiheen Tanu Jaanike, Sumirau Pavan Kumar", "second": "Bal Buddhi Vidya Dehu Mohi, Harahu Kalesh Vikaar" }
+      ]
+    },
+    {
+      "id": "chaupai",
+      "verses": [
+        { "id": 3, "first": "Jai Hanuman Gyaan Gun Saagar", "second": "Jai Kapis Tihun Lok Ujaagar" },
+        { "id": 4, "first": "Ramdoot Atulit Bal Dhaama", "second": "Anjani Putra Pavan Sut Naama" },
+        { "id": 5, "first": "Mahaveer Vikram Bajrangi", "second": "Kumati Nivaar Sumati Ke Sangi" },
+        { "id": 6, "first": "Kanchan Baran Biraj Subesa", "second": "Kaanan Kundal Kunchit Kesa" },
+        { "id": 7, "first": "Haath Bajra Aur Dhwaja Biraaje", "second": "Kaandhe Moonj Janeu Saaje" },
+        { "id": 8, "first": "Shankar Suvan Kesari Nandan", "second": "Tej Prataap Maha Jag Bandan" },
+        { "id": 9, "first": "Vidyavaan Guni Ati Chaatur", "second": "Ram Kaaj Karibe Ko Aatur" },
+        { "id": 10, "first": "Prabhu Charitra Sunibe Ko Rasiya", "second": "Ram Lakhan Sita Man Basiya" },
+        { "id": 11, "first": "Sukshma Roop Dhari Siyahi Dikhava", "second": "Bikat Roop Dhari Lanka Jarava" },
+        { "id": 12, "first": "Bheem Roop Dhari Asur Sanghaare", "second": "Ramchandra Ke Kaaj Sanvaare" },
+        { "id": 13, "first": "Laaye Sanjeevan Lakhan Jiyaave", "second": "Shri Raghuveer Harashi Ur Laaye" },
+        { "id": 14, "first": "Raghupati Keenhi Bahut Badaai", "second": "Tum Mam Priya Bharat Hi Sam Bhaai" },
+        { "id": 15, "first": "Sahas Badan Tumharo Jas Gaave", "second": "Asa Kahi Shripati Kanth Lagaave" },
+        { "id": 16, "first": "Sankadik Brahmaadi Muneesa", "second": "Narad Saarad Sahit Aheesa" },
+        { "id": 17, "first": "Jam Kuber Digpaal Jahaan Te", "second": "Kavi Kovid Kahi Sake Kahaan Te" },
+        { "id": 18, "first": "Tum Upkaar Sugreevahin Keenha", "second": "Ram Milaaye Raajpad Deenha" },
+        { "id": 19, "first": "Tumharo Mantra Vibheeshan Maana", "second": "Lankeshwar Bhaye Sab Jag Jaana" },
+        { "id": 20, "first": "Jug Sahasra Jojan Par Bhaanu", "second": "Leelyo Taahi Madhur Phal Jaanu" },
+        { "id": 21, "first": "Prabhu Mudrika Meli Mukh Maahi", "second": "Jaladhi Laanghi Gaye Achraj Naahi" },
+        { "id": 22, "first": "Durgam Kaaj Jagat Ke Jete", "second": "Sugam Anugrah Tumhare Tete" },
+        { "id": 23, "first": "Ram Duaare Tum Rakhvaare", "second": "Hot Na Aagya Binu Paisaare" },
+        { "id": 24, "first": "Sab Sukh Lahe Tumhari Sharna", "second": "Tum Rakshak Kaahu Ko Darna" },
+        { "id": 25, "first": "Aapan Tej Samhaaro Aapai", "second": "Teeno Lok Haank Te Kaampai" },
+        { "id": 26, "first": "Bhoot Pishaach Nikat Nahi Aave", "second": "Mahaveer Jab Naam Sunaave" },
+        { "id": 27, "first": "Naase Rog Hare Sab Peera", "second": "Japat Nirantar Hanumat Beera" },
+        { "id": 28, "first": "Sankat Te Hanuman Chhudaave", "second": "Man Kram Vachan Dhyaan Jo Laave" },
+        { "id": 29, "first": "Sab Par Ram Tapasvi Raaja", "second": "Tin Ke Kaaj Sakal Tum Saaja" },
+        { "id": 30, "first": "Aur Manorath Jo Koi Laave", "second": "Soi Amit Jeevan Phal Paave" },
+        { "id": 31, "first": "Chaaron Jug Prataap Tumhaara", "second": "Hai Prasiddh Jagat Ujiyaara" },
+        { "id": 32, "first": "Saadhu Sant Ke Tum Rakhvaare", "second": "Asur Nikandan Ram Dulaare" },
+        { "id": 33, "first": "Ashta Siddhi Nav Nidhi Ke Daata", "second": "Asa Bar Deen Janaki Maata" },
+        { "id": 34, "first": "Ram Rasaayan Tumhare Paasa", "second": "Sada Raho Raghupati Ke Daasa" },
+        { "id": 35, "first": "Tumhare Bhajan Ram Ko Paave", "second": "Janam Janam Ke Dukh Bisraave" },
+        { "id": 36, "first": "Antakaal Raghuvar Pur Jaayi", "second": "Jahaan Janam Hari Bhakt Kahaayi" },
+        { "id": 37, "first": "Aur Devta Chitt Na Dharai", "second": "Hanumat Sei Sarva Sukh Karai" },
+        { "id": 38, "first": "Sankat Kate Mite Sab Peera", "second": "Jo Sumire Hanumat Balbeera" },
+        { "id": 39, "first": "Jai Jai Jai Hanuman Gosai", "second": "Kripa Karahu Gurudev Ki Naai" },
+        { "id": 40, "first": "Jo Sat Baar Paath Kar Koi", "second": "Chhootahi Bandhi Maha Sukh Hoi" },
+        { "id": 41, "first": "Jo Yeh Padhe Hanuman Chalisa", "second": "Hoye Siddhi Saakhi Gaurisa" },
+        { "id": 42, "first": "Tulsidas Sada Hari Chera", "second": "Keejai Naath Hriday Mah Dera" }
+      ]
+    },
+    {
+      "id": "closing",
+      "verses": [
+        { "id": 43, "first": "Pavan Tanay Sankat Haran, Mangal Murti Roop", "second": "Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop" }
+      ]
+    }
+  ]
+}

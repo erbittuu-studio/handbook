@@ -1,0 +1,117 @@
+{
+  "id": 14,
+  "items": [
+    {
+      "id": 1401,
+      "title": {
+        "en": "Circle"
+      },
+      "asset": "images/shapes-circle.png"
+    },
+    {
+      "id": 1402,
+      "title": {
+        "en": "Diamond"
+      },
+      "asset": "images/shapes-diamond.png"
+    },
+    {
+      "id": 1403,
+      "title": {
+        "en": "Heart"
+      },
+      "asset": "images/shapes-heart.png"
+    },
+    {
+      "id": 1404,
+      "title": {
+        "en": "Hexagon"
+      },
+      "asset": "images/shapes-hexagon.png"
+    },
+    {
+      "id": 1405,
+      "title": {
+        "en": "Oval"
+      },
+      "asset": "images/shapes-oval.png"
+    },
+    {
+      "id": 1406,
+      "title": {
+        "en": "Pentagon"
+      },
+      "asset": "images/shapes-pentagon.png"
+    },
+    {
+      "id": 1407,
+      "title": {
+        "en": "Rectangle"
+      },
+      "asset": "images/shapes-rectangle.png"
+    },
+    {
+      "id": 1408,
+      "title": {
+        "en": "Square"
+      },
+      "asset": "images/shapes-square.png"
+    },
+    {
+      "id": 1409,
+      "title": {
+        "en": "Star"
+      },
+      "asset": "images/shapes-star.png"
+    },
+    {
+      "id": 1410,
+      "title": {
+        "en": "Triangle"
+      },
+      "asset": "images/shapes-triangle.png"
+    },
+    {
+      "id": 1411,
+      "title": {
+        "en": "Arrow"
+      },
+      "asset": "images/shapes-arrow.png"
+    },
+    {
+      "id": 1412,
+      "title": {
+        "en": "Cross"
+      },
+      "asset": "images/shapes-cross.png"
+    },
+    {
+      "id": 1413,
+      "title": {
+        "en": "Kite"
+      },
+      "asset": "images/shapes-kite.png"
+    },
+    {
+      "id": 1414,
+      "title": {
+        "en": "Ring"
+      },
+      "asset": "images/shapes-ring.png"
+    },
+    {
+      "id": 1415,
+      "title": {
+        "en": "Semicircle"
+      },
+      "asset": "images/shapes-semicircle.png"
+    },
+    {
+      "id": 1416,
+      "title": {
+        "en": "Tick"
+      },
+      "asset": "images/shapes-tick.png"
+    }
+  ]
+}

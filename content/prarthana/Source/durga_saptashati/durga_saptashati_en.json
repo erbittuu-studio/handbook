@@ -1,0 +1,40 @@
+{
+  "sections": [
+    {
+      "id": "kavach",
+      "verses": [
+        { "id": 1, "first": "Om Asya Shri Chandi Kavachasya", "second": "Brahma Rishi Anushtup Chhandah" },
+        { "id": 2, "first": "Chamunda Devata", "second": "Anganyasa Uktam Matram" },
+        { "id": 3, "first": "Navarna Mantro Bijam", "second": "Shri Shakti Saptashati Pathe Viniyogah" }
+      ]
+    },
+    {
+      "id": "dhyan",
+      "verses": [
+        { "id": 4, "first": "Om Jaya Twam Devi Chamunde", "second": "Jaya Bhuta Apahaarini" },
+        { "id": 5, "first": "Jaya Sarva Gate Devi", "second": "Kaal Raatri Namo Stu Te" }
+      ]
+    },
+    {
+      "id": "path",
+      "verses": [
+        { "id": 6, "first": "Shulum Shulawati Rakshatu", "second": "Musalam Musali Tatha" },
+        { "id": 7, "first": "Khadgam Khadgini Rakshatu", "second": "Ghantam Ghantini Chakrinkam" },
+        { "id": 8, "first": "Praachyam Rakshatu Mam Aindri", "second": "Agneyam Agnidewata" },
+        { "id": 9, "first": "Dakshine Avatu Varahi", "second": "Nairyatam Khadgadharini" },
+        { "id": 10, "first": "Pratichyam Varuni Rakshed", "second": "Vayavyam Mruga Vahini" },
+        { "id": 11, "first": "Udichyam Patu Kaumari", "second": "Aishanyam Shula Dharini" },
+        { "id": 12, "first": "Urdhvam Brahmani Me Rakshed", "second": "Adhastaat Vaishnavi Tatha" },
+        { "id": 13, "first": "Evam Dash Disho Rakshech", "second": "Chamunda Shava Vahana" }
+      ]
+    },
+    {
+      "id": "phalashruti",
+      "verses": [
+        { "id": 14, "first": "Ya Idam Kavacham Devi", "second": "Patheth Siddhi Yukto Bhavet" },
+        { "id": 15, "first": "Na Tasya Jayate Kinchit", "second": "Ashubham Ranasankate" },
+        { "id": 16, "first": "Naapadam Tasya Pashyami", "second": "Shoka Dukha Bhayam Na Hi" }
+      ]
+    }
+  ]
+}

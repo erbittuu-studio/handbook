@@ -1,0 +1,18 @@
+{
+  "sections": [
+    {
+      "id": "main",
+      "verses": [
+        { "id": 1, "first": "Om Jai Jagdish Hare, Swami Jai Jagdish Hare", "second": "Bhakt Janon Ke Sankat, Das Janon Ke Sankat, Kshan Mein Door Kare || Om Jai Jagdish Hare ||" },
+        { "id": 2, "first": "Jo Dhyave Phal Pave, Dukh Binse Man Ka", "second": "Sukh Sampatti Ghar Aave, Sukh Sampatti Ghar Aave, Kasht Mite Tan Ka || Om Jai Jagdish Hare ||" },
+        { "id": 3, "first": "Mat Pita Tum Mere, Sharan Gahun Main Kiski", "second": "Tum Bin Aur Na Dooja, Tum Bin Aur Na Dooja, Aas Karun Main Jiski || Om Jai Jagdish Hare ||" },
+        { "id": 4, "first": "Tum Pooran Parmatma, Tum Antaryami", "second": "Parabrahm Parmeshwar, Parabrahm Parmeshwar, Tum Sabke Swami || Om Jai Jagdish Hare ||" },
+        { "id": 5, "first": "Tum Karuna Ke Sagar, Tum Palankarta", "second": "Main Moorakh Phalkami, Main Sevak Tum Swami, Kripa Karo Bharta || Om Jai Jagdish Hare ||" },
+        { "id": 6, "first": "Tum Ho Ek Agochar, Sabke Pranpati", "second": "Kis Vidhi Milun Dayamay, Kis Vidhi Milun Dayamay, Tumko Main Kumati || Om Jai Jagdish Hare ||" },
+        { "id": 7, "first": "Deenbandhu Dukhharta, Thakur Tum Mere", "second": "Apne Hath Uthao, Apne Sharan Lagao, Dwar Pada Tere || Om Jai Jagdish Hare ||" },
+        { "id": 8, "first": "Vishay Vikar Mitao, Paap Haro Deva", "second": "Shraddha Bhakti Badhao, Shraddha Bhakti Badhao, Santan Ki Seva || Om Jai Jagdish Hare ||" },
+        { "id": 9, "first": "Om Jai Jagdish Hare, Swami Jai Jagdish Hare", "second": "Bhakt Janon Ke Sankat, Das Janon Ke Sankat, Kshan Mein Door Kare || Om Jai Jagdish Hare ||" }
+      ]
+    }
+  ]
+}

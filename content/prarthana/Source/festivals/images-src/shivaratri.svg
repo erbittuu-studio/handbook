@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="36%" r="76%">
+      <stop offset="0%" stop-color="#35386E"/>
+      <stop offset="100%" stop-color="#20213F"/>
+    </radialGradient>
+    <linearGradient id="ling" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8A8FA8"/>
+      <stop offset="100%" stop-color="#5A5F78"/>
+    </linearGradient>
+    <linearGradient id="yoni" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C0561B"/>
+      <stop offset="100%" stop-color="#8C2F1B"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#sky)"/>
+
+  <!-- crescent moon -->
+  <path d="M362 96 a 44 44 0 1 0 30 76 a 36 36 0 1 1 -30 -76 Z" fill="#F4D98B"/>
+  <g fill="#D8D9F0">
+    <circle cx="128" cy="112" r="3.5"/>
+    <circle cx="180" cy="76" r="2.5"/>
+    <circle cx="96" cy="196" r="3"/>
+    <circle cx="428" cy="220" r="3"/>
+    <path d="M150 160 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z"/>
+  </g>
+
+  <!-- shivling dome -->
+  <path d="M196 320 L196 232 C 196 186, 222 158, 256 158 C 290 158, 316 186, 316 232 L316 320 Z"
+        fill="url(#ling)"/>
+  <!-- tripundra: three sacred lines -->
+  <g stroke="#F5F1E6" stroke-width="12" stroke-linecap="round" fill="none">
+    <path d="M212 216 Q 256 232 300 216"/>
+    <path d="M212 248 Q 256 264 300 248"/>
+    <path d="M212 280 Q 256 296 300 280"/>
+  </g>
+  <circle cx="256" cy="250" r="9" fill="#C0561B"/>
+
+  <!-- yoni base -->
+  <path d="M132 320 L380 320 C 380 352, 344 372, 256 372 C 168 372 132 352 132 320 Z"
+        fill="url(#yoni)"/>
+  <ellipse cx="256" cy="320" rx="124" ry="20" fill="#D98A24"/>
+  <rect x="182" y="372" width="148" height="16" rx="8" fill="#6B2414"/>
+
+  <!-- bilva leaf on top -->
+  <g fill="#5E8C4A">
+    <path d="M256 158 C 244 130, 222 116, 200 116 C 210 146, 232 160, 252 162 Z"/>
+    <path d="M256 158 C 268 130, 290 116, 312 116 C 302 146, 280 160, 260 162 Z"/>
+    <path d="M256 160 C 250 128, 252 104, 256 88 C 260 104, 262 128, 256 160 Z"/>
+  </g>
+
+  <!-- water drops from above (abhishek) -->
+  <g fill="#9FC3E8">
+    <path d="M256 44 c 6 10, 9 16, 9 21 a 9 9 0 1 1 -18 0 c 0 -5 3 -11 9 -21 Z"/>
+    <path d="M234 66 c 4 7, 6 11, 6 15 a 6 6 0 1 1 -12 0 c 0 -4 2 -8 6 -15 Z"/>
+    <path d="M278 66 c 4 7, 6 11, 6 15 a 6 6 0 1 1 -12 0 c 0 -4 2 -8 6 -15 Z"/>
+  </g>
+</svg>

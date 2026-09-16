@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+    .str10 {stroke:black;stroke-width:10}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M202 592c0,0 14,103 150,204 0,0 88,77 221,84 0,0 54,-1 73,-27 0,0 -247,-99 -440,-318 0,0 -14,6 -4,57z" id="crop0"/>
+  <path class="fil0 str6" d="M204 532c0,0 169,221 442,321 0,0 179,76 369,93 0,0 -379,-130 -581,-275 0,0 -208,-163 -423,-473 0,0 52,178 193,334z" id="crop0"/>
+  <path class="fil0 str6" d="M11 198c0,0 264,-38 622,233 0,0 322,226 382,515 0,0 -366,-115 -560,-261 0,0 -213,-131 -444,-487z" id="crop0"/>
+  <path class="fil0 str6" d="M728 283c0,0 136,87 137,229 0,141 -83,169 -83,169 0,0 -71,3 -180,-72 0,0 -85,-56 -141,-106 0,0 -129,-104 -113,-168 0,0 141,-217 380,-52z" id="crop0"/>
+  <path class="fil0 str6" d="M470 508c0,0 -1,-42 48,-75 0,0 0,-15 -17,-16 0,0 -8,-1 -24,9 0,0 -34,31 -91,-39 0,0 72,57 126,-5 0,0 4,-20 24,-2 0,0 17,16 14,39 0,0 13,-3 21,0 0,0 6,-51 65,-59 0,0 42,-53 -12,-81 0,0 -14,17 -30,-4 0,0 -2,-20 23,-19 0,0 9,3 8,13 0,0 34,13 38,44 0,0 4,18 -14,49 0,0 24,-4 40,27 0,0 30,-34 62,-19 33,14 34,30 34,30 0,0 23,-3 11,24 0,0 -13,16 -26,-4 0,0 -4,-12 6,-16 0,0 -26,-58 -83,-6 0,0 19,47 -32,85 0,0 5,15 3,19 0,0 19,-10 44,1 0,0 21,7 9,25 0,0 -43,69 29,122 0,0 -80,-30 -63,-76 0,0 15,-30 -9,-37l-11 -1c0,0 -7,51 -61,73 0,0 -107,-73 -132,-101z" id="crop0"/>
+  <ellipse class="fil0 str6" rx="22" ry="24" transform="matrix(1.03631 0.770667 -0.770667 1.03631 643.584 408.494)" id="crop0"/>
+  <ellipse class="fil1 str10" rx="22" ry="24" transform="matrix(0.362356 0.269471 -0.269471 0.362356 639.149 414.175)" id="crop0"/>
+  <ellipse class="fil0 str6" rx="45" ry="19" transform="matrix(1.03631 0.770667 -0.770667 1.03631 457.935 614.852)" id="crop0"/>
+  <ellipse class="fil0 str6" rx="45" ry="19" transform="matrix(1.18644 0.510123 -0.510123 1.18644 865.225 837.614)" id="crop0"/>
+  <ellipse class="fil0 str6" rx="45" ry="19" transform="matrix(-0.829996 -0.98943 -0.98943 0.829996 184.779 326.415)" id="crop0"/>
+  <polygon class="fil0 str6" points="309,41 324,87 373,77 339,112 373,147 324,137 309,183 294,137 245,147 279,112 245,77 294,87"/>
+  <polygon class="fil0 str6" points="813,68 831,126 891,113 850,158 891,203 831,190 813,248 795,190 735,203 776,158 735,113 795,126"/>
+  <polygon class="fil0 str6" points="254,809 274,874 341,859 295,909 341,959 274,945 254,1009 234,945 168,959 213,909 168,859 234,874"/>
+  <path class="fil0 str6" d="M597 419c0,0 12,45 53,36 0,0 -67,36 -53,-36z" id="crop0"/>
+</svg>

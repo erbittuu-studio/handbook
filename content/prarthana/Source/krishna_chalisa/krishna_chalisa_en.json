@@ -1,0 +1,43 @@
+{
+  "sections": [
+    {
+      "id": "doha",
+      "verses": [
+        { "id": 1, "first": "Shri Krishna Chandra Ke Charnan Mein", "second": "Man Vachan Karam Dhyaan" },
+        { "id": 2, "first": "Sab Vidhi Mein Seva Karun", "second": "Karahu Kripa Bhagwan" }
+      ]
+    },
+    {
+      "id": "chaupai",
+      "verses": [
+        { "id": 3, "first": "Jai Jai Shri Krishna Chandra Bhagwan", "second": "Jai Devaki Nandan Jai Bhagwan" },
+        { "id": 4, "first": "Jai Yashoda Ke Pran Adhaar", "second": "Jai Nand Ke Nayan Taar" },
+        { "id": 5, "first": "Navneet Chor Makhan Khavaiyan", "second": "Gwal Baal Sang Khel Machaiyan" },
+        { "id": 6, "first": "Putna Ko Moksha Diyo Daan", "second": "Jab Tum The Aati Bal Bhagwan" },
+        { "id": 7, "first": "Shakat Asur Mard Gaye", "second": "Trinavat Ko Mud Gaye" },
+        { "id": 8, "first": "Bakasur Aghasur Marde", "second": "Brajvasi Ke Man Harsh Bharde" },
+        { "id": 9, "first": "Kaliya Naag Ko Nath Liya", "second": "Bansi Bajaye Braj Ko Reet Diya" },
+        { "id": 10, "first": "Govardhan Parvat Ko Dhari", "second": "Lagi Indra Ki Mat Sudhari" },
+        { "id": 11, "first": "Kansa Ko Vadh Kiya Bhagwan", "second": "Ugrasena Ko Diya Raj Daan" },
+        { "id": 12, "first": "Devaki Vasudeva Ko Bandhan Tore", "second": "Karagaar Se Bahar Nikale" },
+        { "id": 13, "first": "Dwarka Nagari Basaye", "second": "Rukmini Sang Vivah Rachaye" },
+        { "id": 14, "first": "Sudama Ko Diya Maan Badhaai", "second": "Daridra Mita Aishwarya Aai" },
+        { "id": 15, "first": "Arjun Ke Saarthi Bane", "second": "Mahabharat Mein Dharam Sambhale" },
+        { "id": 16, "first": "Geeta Gyan Jagat Ko Diya", "second": "Jag Ka Moh Bharam Har Liya" },
+        { "id": 17, "first": "Draupadi Ki Laaj Bachayi", "second": "Cheerharan Mein Sharan Aayi" },
+        { "id": 18, "first": "Bhakt Prahlad Ko Bachayo", "second": "Narasimha Roop Mein Aayo" },
+        { "id": 19, "first": "Vishnu Ke Avatar Tumhi Ho", "second": "Jagat Ke Palanhaar Tumhi Ho" },
+        { "id": 20, "first": "Radha Ke Man Basne Wale", "second": "Murli Ki Dhun Sunane Wale" },
+        { "id": 21, "first": "Gopi Jan Ke Pran Pyare", "second": "Ras Leela Rachne Wale" },
+        { "id": 22, "first": "Shri Krishna Chalisa Jo Gaave", "second": "Sukh Sampatti Ghar Laave" }
+      ]
+    },
+    {
+      "id": "doha_closing",
+      "verses": [
+        { "id": 23, "first": "Krishna Bhakti Mein Jo Leen Rahe", "second": "Sankat Sab Dur Jahe" },
+        { "id": 24, "first": "Jo Yeh Paath Kare Man Laai", "second": "Krishna Kripa Uspe Sadaa Chhaai" }
+      ]
+    }
+  ]
+}

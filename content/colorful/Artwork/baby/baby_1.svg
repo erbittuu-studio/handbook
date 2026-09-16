@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M510 229c62,-115 125,-172 250,-172 137,0 249,103 249,230 0,230 -249,460 -499,690 -250,-230 -499,-460 -499,-690 0,-127 112,-230 249,-230 125,0 188,57 250,172z" id="crop0"/>
+  <path class="fil0 str6" d="M631 407c0,0 -90,8 -95,99 0,0 -5,23 40,52 0,0 34,31 16,73 0,0 -6,24 -67,55 0,0 -61,27 -36,75 0,0 35,53 104,27 0,0 29,-9 68,-46 0,0 48,-43 81,-99 0,0 31,-56 31,-100 -1,-43 -36,-84 -36,-84 0,0 -51,-56 -106,-52z" id="crop0"/>
+  <ellipse class="fil0 str6" cx="779" cy="449" rx="31" ry="28" id="crop0"/>
+  <ellipse class="fil0 str6" rx="30" ry="20" transform="matrix(-0.919762 -0.426184 -0.740595 1.48044 730.963 394.305)" id="crop0"/>
+  <ellipse class="fil0 str6" rx="30" ry="20" transform="matrix(-1.04276 0.124443 0.164898 1.6934 664.301 356.652)" id="crop0"/>
+  <ellipse class="fil0 str6" cx="806" cy="514" rx="28" ry="25" id="crop0"/>
+  <path class="fil0 str6" d="M357 286c0,0 91,8 96,99 0,0 4,23 -41,52 0,0 -34,31 -15,73 0,0 6,24 67,55 0,0 61,28 36,75 0,0 -36,53 -105,27 0,0 -28,-9 -68,-46 0,0 -48,-43 -80,-99 0,0 -32,-56 -31,-99 0,-44 36,-85 36,-85 0,0 51,-56 105,-52z" id="crop0"/>
+  <ellipse class="fil0 str6" cx="209" cy="328" rx="31" ry="28" id="crop0"/>
+  <ellipse class="fil0 str6" rx="30" ry="20" transform="matrix(0.919762 -0.426184 0.740595 1.48044 257.357 273.482)" id="crop0"/>
+  <ellipse class="fil0 str6" rx="30" ry="20" transform="matrix(1.04276 0.124443 -0.164898 1.6934 324.019 235.828)" id="crop0"/>
+  <ellipse class="fil0 str6" cx="183" cy="393" rx="28" ry="25" id="crop0"/>
+  <ellipse class="fil0 str6" cx="567" cy="355" rx="49" ry="53" id="crop0"/>
+  <ellipse class="fil0 str6" cx="421" cy="234" rx="49" ry="53" id="crop0"/>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#FFF1DE"/>
+      <stop offset="100%" stop-color="#F6CFA0"/>
+    </radialGradient>
+    <linearGradient id="vel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2B33D"/>
+      <stop offset="100%" stop-color="#C9821E"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#bg)"/>
+
+  <!-- peacock feather (Murugan's vahana motif), behind vel -->
+  <g transform="translate(168 190) rotate(-18)">
+    <path d="M0 130 C -6 80, -4 40, 0 -6" stroke="#3E7C4F" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-24" rx="38" ry="52" fill="#2E8B6A"/>
+    <ellipse cx="0" cy="-24" rx="26" ry="37" fill="#3FA7CB"/>
+    <ellipse cx="0" cy="-26" rx="16" ry="24" fill="#274B8F"/>
+    <ellipse cx="0" cy="-29" rx="8" ry="12" fill="#12295C"/>
+    <g stroke="#3E7C4F" stroke-width="3.5" stroke-linecap="round" opacity="0.75">
+      <path d="M-10 50 C -28 44, -38 34, -44 22"/>
+      <path d="M10 50 C 28 44, 38 34, 44 22"/>
+      <path d="M-11 78 C -28 72, -36 64, -42 54"/>
+      <path d="M11 78 C 28 72, 36 64, 42 54"/>
+    </g>
+  </g>
+
+  <!-- vel (divine spear), upright -->
+  <g transform="translate(300 250) rotate(12)">
+    <!-- blade: leaf-shaped -->
+    <path d="M0 -190 C 34 -150, 40 -110, 26 -78 C 16 -58, 8 -50, 0 -46
+             C -8 -50, -16 -58, -26 -78 C -40 -110, -34 -150, 0 -190 Z"
+          fill="url(#vel)"/>
+    <path d="M0 -170 C 16 -142, 20 -116, 12 -90 C 7 -74, 3 -66, 0 -62
+             C -3 -66, -7 -74, -12 -90 C -20 -116, -16 -142, 0 -170 Z"
+          fill="#FFE9B8" opacity="0.75"/>
+    <!-- blade midrib -->
+    <rect x="-3" y="-176" width="6" height="118" rx="3" fill="#A66614"/>
+    <!-- collar -->
+    <rect x="-16" y="-50" width="32" height="16" rx="8" fill="#8C2F1B"/>
+    <!-- shaft -->
+    <rect x="-9" y="-36" width="18" height="216" rx="9" fill="#8C5A36"/>
+    <g fill="#F2B33D">
+      <rect x="-11" y="20" width="22" height="7" rx="3.5"/>
+      <rect x="-11" y="70" width="22" height="7" rx="3.5"/>
+      <rect x="-11" y="120" width="22" height="7" rx="3.5"/>
+    </g>
+    <rect x="-14" y="172" width="28" height="16" rx="8" fill="#8C2F1B"/>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#C0561B">
+    <path d="M112 300 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 Z"/>
+    <path d="M392 120 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z"/>
+    <path d="M150 108 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4 Z"/>
+  </g>
+</svg>

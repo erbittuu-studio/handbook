@@ -1,0 +1,11 @@
+{
+  "sections": [
+    {
+      "id": "mantra",
+      "verses": [
+        { "id": 1, "first": "Om Bhur Bhuva Swaha", "second": "Tat Savitur Varenyam" },
+        { "id": 2, "first": "Bhargo Devasya Dhimahi", "second": "Dhiyo Yo Nah Prachodayat" }
+      ]
+    }
+  ]
+}

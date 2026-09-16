@@ -1,0 +1,18 @@
+{
+  "name": "{{APP_STORE_NAME}}",
+  "subtitle": "{{APP_STORE_SUBTITLE}}",
+  "description": [
+    "First paragraph of the store description.",
+    "",
+    "Second paragraph. Arrays join with newlines."
+  ],
+  "keywords": "comma,separated,max,100,chars",
+  "promotional_text": "Changeable anytime without a release (170 chars max).",
+  "release_notes": [
+    "What's new in this version.",
+    "",
+    "NOTE: Apple rejects emoji in this field."
+  ],
+  "support_url": "{{REAL_HTTPS_URL — placeholders fail upload}}",
+  "privacy_url": "{{REAL_HTTPS_URL}}"
+}

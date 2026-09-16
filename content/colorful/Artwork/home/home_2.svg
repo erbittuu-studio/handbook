@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <rect class="fil0" y="580" width="1024" height="445"/>
+  <line class="fil1 str6" x1="2" y1="580" x2="1026" y2="580"/>
+  <path class="fil0 str6" d="M545 672l0 103 107 22c0,0 41,8 21,49 0,0 -30,40 -161,37 0,0 -130,7 -164,-44 0,0 -25,-43 51,-50l79 -11 0 -108c0,0 36,-35 67,2z"/>
+  <circle class="fil0 str6" cx="440" cy="824" r="13"/>
+  <circle class="fil0 str6" cx="479" cy="824" r="13"/>
+  <circle class="fil0 str6" cx="519" cy="824" r="13"/>
+  <circle class="fil0 str6" cx="569" cy="824" r="22"/>
+  <circle class="fil0 str6" cx="511" cy="363" r="311"/>
+  <circle class="fil0 str6" cx="511" cy="363" r="275" id="a_line1"/>
+  <path class="fil0 str6" d="M504 352c0,0 -85,-9 -121,-125 0,0 -27,-92 98,-100 0,0 83,-3 135,50 53,53 -15,71 -15,71 0,0 -57,28 -65,92l-32 12z"/>
+  <path class="fil0 str6" d="M519 370c0,0 48,-71 167,-48 0,0 95,19 43,133 0,0 -37,75 -108,96 -71,22 -55,-47 -55,-47 0,0 2,-63 -51,-100l4 -34z"/>
+  <path class="fil0 str6" d="M493 360c0,0 42,75 -31,172 0,0 -59,76 -138,-21 0,0 -51,-65 -39,-139 12,-73 67,-29 67,-29 0,0 55,30 112,-1l29 18z"/>
+  <circle class="fil0 str6" cx="510" cy="363" r="80"/>
+  <path class="fil1 str6" d="M550 532c0,0 -26,7 -37,6" id="line1_a"/>
+  <path class="fil1 str6" d="M552 556c0,0 -40,20 -97,5" id="line1_a"/>
+  <path class="fil1 str6" d="M325 301c0,0 5,-26 12,-35" id="line1_a"/>
+  <path class="fil1 str6" d="M303 292c0,0 1,-45 42,-88" id="line1_a"/>
+  <path class="fil1 str6" d="M651 239c0,0 19,18 23,29" id="line1_a"/>
+  <path class="fil1 str6" d="M670 225c0,0 38,25 52,82" id="line1_a"/>
+</svg>

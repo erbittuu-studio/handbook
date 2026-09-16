@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M988 191c0,0 -345,118 -592,360 0,0 -28,60 -85,16 0,0 -15,-10 -37,-48 0,0 -20,-26 30,-61 0,0 343,-227 684,-267z" id="crop0"/>
+  <polygon class="fil0 str6" points="163,119 181,175 241,175 193,210 211,267 163,232 115,267 133,210 85,175 145,175"/>
+  <polygon class="fil0 str6" points="869,834 887,891 947,891 899,926 917,982 869,947 821,982 839,926 791,891 851,891"/>
+  <polygon class="fil0 str6" points="277,275 363,437 544,405 416,536 502,698 338,617 210,750 236,568 71,488 252,456" id="crop0"/>
+  <polygon class="fil0 str6" points="530,818 522,857 557,877 517,881 509,921 493,884 453,889 482,862 466,826 501,845"/>
+  <polygon class="fil0 str6" points="801,628 828,669 875,656 844,694 871,735 826,718 795,756 798,707 752,690 799,677"/>
+  <polygon class="fil0 str6" points="587,559 614,600 661,587 630,625 657,666 612,649 581,687 584,638 538,621 585,608"/>
+  <polygon class="fil0 str6" points="811,391 838,432 885,419 854,457 881,498 836,481 805,519 808,470 762,453 809,440"/>
+  <polygon class="fil0 str6" points="869,53 879,101 928,106 885,130 895,178 859,145 817,169 837,125 801,92 849,98"/>
+  <polygon class="fil0 str6" points="123,826 176,865 229,826 209,888 262,927 197,927 176,989 156,927 90,927 144,888"/>
+  <path class="fil0 str6" d="M719 190c-11,21 -28,39 -49,53 -66,41 -152,21 -193,-45 -39,-62 -24,-143 34,-186 -23,43 -22,96 5,140 41,66 128,86 193,44 4,-2 7,-4 10,-6z" id="crop0"/>
+</svg>

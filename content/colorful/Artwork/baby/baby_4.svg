@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+    .str10 {stroke:black;stroke-width:10}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0 str6" d="M425 358c0,0 13,112 -16,209 0,0 -125,38 -133,196 0,0 0,199 211,210 0,0 201,6 216,-210 0,0 18,-124 -136,-201 0,0 -25,-89 -26,-205l-116 1z"/>
+  <circle class="fil0 str6" cx="457" cy="773" r="50"/>
+  <ellipse class="fil0 str6" cx="536" cy="666" rx="39" ry="41"/>
+  <ellipse class="fil0 str6" cx="605" cy="823" rx="24" ry="31"/>
+  <ellipse class="fil0 str6" rx="21" ry="29" transform="matrix(0.9676 -0.428234 0.428234 0.9676 641.753 687.777)"/>
+  <ellipse class="fil0 str6" rx="27" ry="45" transform="matrix(1.04309 0.177729 -0.177729 1.04309 336.168 708.939)"/>
+  <ellipse class="fil0 str6" cx="455" cy="526" rx="24" ry="38"/>
+  <ellipse class="fil0 str6" cx="513" cy="440" rx="24" ry="33"/>
+  <ellipse class="fil0 str6" cx="356" cy="865" rx="28" ry="29"/>
+  <path class="fil0 str6" d="M348 157c0,0 -74,101 70,212 0,0 63,76 136,1 0,0 148,-69 77,-217 0,0 34,60 122,19 0,0 -38,-97 -160,-60 0,0 -88,-82 -208,0 0,0 -106,-37 -155,61 0,0 61,44 118,-16z"/>
+  <circle class="fil0 str6" cx="428" cy="192" r="44"/>
+  <circle class="fil0 str6" cx="548" cy="190" r="44"/>
+  <ellipse class="fil0 str6" rx="14" ry="19" transform="matrix(0.97884 -0.401879 0.401879 0.97884 462.4 290.979)"/>
+  <ellipse class="fil0 str6" rx="14" ry="19" transform="matrix(-0.97884 -0.401879 -0.401879 0.97884 515.385 290.979)"/>
+  <path class="fil0 str6" d="M423 321c0,0 56,47 138,0 0,0 -37,48 -74,47 0,0 -44,3 -64,-47z"/>
+  <path class="fil0 str6" d="M619 122c0,0 68,-15 111,42 0,0 -61,26 -111,-42z"/>
+  <path class="fil0 str6" d="M360 122c0,0 -68,-15 -111,42 0,0 61,26 111,-42z"/>
+  <path class="fil0 str6" d="M510 977c0,0 1,-56 60,-59 0,0 61,0 59,64 0,0 -2,11 -31,9 0,0 -2,-34 -21,-50 0,0 9,32 5,50 0,0 -78,7 -72,-14z"/>
+  <path class="fil0 str6" d="M475 977c0,0 -1,-56 -60,-58 0,0 -61,0 -59,63 0,0 1,11 31,10 0,0 2,-35 21,-51 0,0 -9,33 -5,51 0,0 78,6 72,-15z"/>
+  <path class="fil0 str6" d="M561 114c0,0 -13,-5 -7,-33 0,0 29,-4 29,-31 0,0 -2,-28 -31,-30 0,0 -27,-2 -29,31 0,0 -2,10 10,26 0,0 -7,21 -22,29 0,0 19,35 50,8z"/>
+  <path class="fil0 str6" d="M418 113c0,0 13,-5 6,-33 0,0 -28,-4 -28,-32 0,0 2,-27 30,-29 0,0 28,-2 30,31 0,0 2,10 -11,26 0,0 8,21 23,29 0,0 -19,34 -50,8z"/>
+  <circle class="fil1 str10" cx="427" cy="196" r="14"/>
+  <circle class="fil1 str10" cx="547" cy="196" r="14"/>
+</svg>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1024px" height="1024px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1024 1024"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:none}
+    .str6 {stroke:black;stroke-width:6}
+    .str20 {stroke:black;stroke-width:20}
+   ]]>
+  </style>
+ </defs>
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="1024" height="1024"/>
+  <path class="fil0" d="M0 634c0,0 255,-164 523,-2 0,0 356,294 501,-16l0 408 -1024 0 0 -390z" id="a_line1"/>
+  <path class="fil1 str6" d="M0 634c0,0 256,-169 531,5 0,0 346,285 493,-23" id="line1_a"/>
+  <path class="fil0 str6" d="M239 407c0,0 -68,88 -45,215 0,0 22,177 120,205 0,0 314,85 483,-109 0,0 81,-103 54,-320l-106 -35 -63 33c0,0 -7,7 -43,4 0,0 -93,-21 -214,5l0 -16c0,0 -4,-7 16,-38 0,0 59,-73 38,-160 0,0 -26,-102 -122,-104 0,0 -171,-5 -148,162 0,0 4,93 39,132l-9 26z" id="crop0"/>
+  <path class="fil0 str6" d="M173 405c0,0 80,-47 132,-56 0,0 10,0 10,-19 0,0 -52,22 -133,-10 0,0 -47,33 -47,66 0,0 -4,33 38,19z" id="crop0"/>
+  <path class="fil0 str6" d="M185 327l-19 15c0,0 -9,9 5,18 0,0 9,5 25,-2 0,0 41,-20 59,-21 0,0 -27,-1 -66,-14l-4 4z" id="crop0"/>
+  <path class="fil0 str6" d="M211 249l104 81c0,0 -48,28 -159,-21l-53 -24c0,0 -40,-24 2,-31 0,0 35,0 59,5 0,0 38,2 47,-10z" id="crop0"/>
+  <path class="fil0 str6" d="M745 363l15 -15c0,0 -14,-84 18,-106 0,0 6,-40 43,-42 0,0 7,0 9,7 0,0 14,-17 33,-16 0,0 21,2 17,32 0,0 43,-7 31,66 0,0 47,29 12,67 0,0 -27,33 -72,42l-106 -35z" id="crop0"/>
+  <path class="fil0 str6" d="M701 561c0,0 41,13 97,-12l49 -33c0,0 16,-10 26,4l19 29c0,0 11,23 -10,35 0,0 15,29 -16,49 0,0 7,34 -22,45 0,0 2,24 -33,43 0,0 -96,85 -238,90 0,0 -145,20 -143,-123 0,0 -12,-148 174,-134 0,0 78,4 97,7z" id="crop0"/>
+  <circle class="fil0 str6" cx="366" cy="214" r="59" id="crop0"/>
+  <circle class="fil0 str20" cx="361" cy="219" r="19" id="crop0"/>
+  <path class="fil1 str6" d="M876 227l-67 157 28 9 74 -104c0,0 8,-43 -6,-57 0,0 -14,-17 -29,-5z" id="crop0"/>
+  <path class="fil1 str6" d="M828 212l-39 166 20 6 71 -164c0,0 4,-27 -19,-29 0,0 -22,-3 -33,21z" id="crop0"/>
+  <path class="fil1 str6" d="M780 243l-8 129 17 6 41 -171c0,0 -3,-11 -18,-6 0,0 -22,2 -34,38l2 4z" id="crop0"/>
+  <path class="fil1 str6" d="M746 362l26 10 7 -131c0,0 -20,11 -21,50 0,0 -2,34 2,57l-14 14z" id="crop0"/>
+</svg>

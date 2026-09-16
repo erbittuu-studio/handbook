@@ -1,0 +1,23 @@
+{
+  "_comment": "Hosting serves the same config.json the app ships with, so the bundled and served copies cannot drift. Data/build.py stages the COMPLETE site into _hosting before deploying — a Hosting deploy replaces the whole site, so anything missing from the staged directory is deleted from the live site.",
+  "hosting": {
+    "public": "_hosting",
+    "ignore": ["**/.*"],
+    "headers": [
+      {
+        "source": "config.json",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }]
+      },
+      {
+        "_comment": "The index that names every pack. Must not be cached hard, or clients keep resolving content against a stale list and never see anything new.",
+        "source": "manifest.json",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }]
+      },
+      {
+        "_comment": "Content-addressed payloads (name-<sha8>.zip): a given URL's bytes never change, and new content gets a new filename. That is why these can be immutable — the cache is never wrong, and old installs keep resolving the old URL until they refresh the manifest.",
+        "source": "/packs/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      }
+    ]
+  }
+}

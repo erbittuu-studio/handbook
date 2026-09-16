@@ -1,0 +1,125 @@
+{
+  "id": 13,
+  "items": [
+    {
+      "id": 1301,
+      "title": {
+        "en": "Red"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#FF3B30"
+      }
+    },
+    {
+      "id": 1302,
+      "title": {
+        "en": "Blue"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#007AFF"
+      }
+    },
+    {
+      "id": 1303,
+      "title": {
+        "en": "Yellow"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#FFCC00"
+      }
+    },
+    {
+      "id": 1304,
+      "title": {
+        "en": "Green"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#34C759"
+      }
+    },
+    {
+      "id": 1305,
+      "title": {
+        "en": "Orange"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#FF9500"
+      }
+    },
+    {
+      "id": 1306,
+      "title": {
+        "en": "Purple"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#AF52DE"
+      }
+    },
+    {
+      "id": 1307,
+      "title": {
+        "en": "Pink"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#FF2D55"
+      }
+    },
+    {
+      "id": 1308,
+      "title": {
+        "en": "Brown"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#D2691E"
+      }
+    },
+    {
+      "id": 1309,
+      "title": {
+        "en": "Black"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#000000"
+      }
+    },
+    {
+      "id": 1310,
+      "title": {
+        "en": "White"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#FFFFFF"
+      }
+    },
+    {
+      "id": 1311,
+      "title": {
+        "en": "Gray"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#8E8E93"
+      }
+    },
+    {
+      "id": 1312,
+      "title": {
+        "en": "Cyan"
+      },
+      "asset": "images/colorImage.png",
+      "meta": {
+        "hex": "#32D2C5"
+      }
+    }
+  ]
+}

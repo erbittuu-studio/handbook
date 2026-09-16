@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A3D77"/>
+      <stop offset="55%" stop-color="#8A4E7E"/>
+      <stop offset="100%" stop-color="#E8802A"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2B33D"/>
+      <stop offset="100%" stop-color="#D98A24"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" fill="url(#dusk)"/>
+
+  <!-- setting sun on horizon -->
+  <circle cx="256" cy="404" r="58" fill="#FFD873" opacity="0.9"/>
+  <g stroke="#FFD873" stroke-width="10" stroke-linecap="round" opacity="0.55">
+    <path d="M132 420 h 60"/>
+    <path d="M320 420 h 60"/>
+  </g>
+
+  <!-- crescent -->
+  <path d="M368 88 a 40 40 0 1 0 28 70 a 33 33 0 1 1 -28 -70 Z" fill="#F4D98B"/>
+  <g fill="#EDE3B8">
+    <circle cx="132" cy="104" r="3"/>
+    <circle cx="182" cy="70" r="2.5"/>
+    <circle cx="100" cy="176" r="3"/>
+  </g>
+
+  <!-- trishul -->
+  <g fill="url(#gold)">
+    <!-- shaft -->
+    <rect x="244" y="180" width="24" height="230" rx="12"/>
+    <!-- center prong -->
+    <path d="M256 60 C 246 92, 244 120, 244 150 L268 150 C 268 120, 266 92, 256 60 Z"/>
+    <!-- left prong -->
+    <path d="M172 84 C 164 128, 176 164, 208 186 L 226 166 C 200 148, 184 120, 172 84 Z"/>
+    <!-- right prong -->
+    <path d="M340 84 C 348 128, 336 164, 304 186 L 286 166 C 312 148, 328 120, 340 84 Z"/>
+    <!-- crossbar -->
+    <rect x="196" y="176" width="120" height="20" rx="10"/>
+  </g>
+
+  <!-- damru tied at crossbar -->
+  <g>
+    <path d="M300 214 L344 214 L332 238 L312 238 Z" fill="#8C2F1B"/>
+    <path d="M312 238 L332 238 L344 262 L300 262 Z" fill="#8C2F1B"/>
+    <rect x="298" y="210" width="48" height="8" rx="4" fill="#F2B33D"/>
+    <rect x="298" y="258" width="48" height="8" rx="4" fill="#F2B33D"/>
+    <circle cx="352" cy="238" r="5" fill="#F2B33D"/>
+    <path d="M344 238 q 6 -2 8 0" stroke="#F2B33D" stroke-width="3" fill="none"/>
+  </g>
+</svg>

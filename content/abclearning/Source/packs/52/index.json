@@ -1,0 +1,124 @@
+{
+  "id": 52,
+  "items": [
+    {
+      "id": 5201,
+      "title": {
+        "en": "Bag"
+      },
+      "asset": "images/school-bag.png"
+    },
+    {
+      "id": 5202,
+      "title": {
+        "en": "Book"
+      },
+      "asset": "images/school-book.png"
+    },
+    {
+      "id": 5203,
+      "title": {
+        "en": "Chair"
+      },
+      "asset": "images/school-chair.png"
+    },
+    {
+      "id": 5204,
+      "title": {
+        "en": "Computer"
+      },
+      "asset": "images/school-computer.png"
+    },
+    {
+      "id": 5205,
+      "title": {
+        "en": "Crayons"
+      },
+      "asset": "images/school-crayons.png"
+    },
+    {
+      "id": 5206,
+      "title": {
+        "en": "Eraser"
+      },
+      "asset": "images/school-eraser.png"
+    },
+    {
+      "id": 5207,
+      "title": {
+        "en": "Glue"
+      },
+      "asset": "images/school-glue.png"
+    },
+    {
+      "id": 5208,
+      "title": {
+        "en": "Lunchbox"
+      },
+      "asset": "images/school-lunchbox.png"
+    },
+    {
+      "id": 5209,
+      "title": {
+        "en": "Notebook"
+      },
+      "asset": "images/school-notebook.png"
+    },
+    {
+      "id": 5210,
+      "title": {
+        "en": "Paint"
+      },
+      "asset": "images/school-paint.png"
+    },
+    {
+      "id": 5211,
+      "title": {
+        "en": "Pen"
+      },
+      "asset": "images/school-pen.png"
+    },
+    {
+      "id": 5212,
+      "title": {
+        "en": "Pencil"
+      },
+      "asset": "images/school-pencil.png"
+    },
+    {
+      "id": 5213,
+      "title": {
+        "en": "Ruler"
+      },
+      "asset": "images/school-ruler.png"
+    },
+    {
+      "id": 5214,
+      "title": {
+        "en": "Scissors"
+      },
+      "asset": "images/school-scissors.png"
+    },
+    {
+      "id": 5215,
+      "title": {
+        "en": "Table"
+      },
+      "asset": "images/school-table.png"
+    },
+    {
+      "id": 5216,
+      "title": {
+        "en": "Teacher"
+      },
+      "asset": "images/school-teacher.png"
+    },
+    {
+      "id": 5217,
+      "title": {
+        "en": "Whiteboard"
+      },
+      "asset": "images/school-whiteboard.png"
+    }
+  ]
+}

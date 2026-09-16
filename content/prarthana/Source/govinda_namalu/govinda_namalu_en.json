@@ -1,0 +1,23 @@
+{
+  "sections": [
+    {
+      "id": "namalu",
+      "verses": [
+        { "id": 1, "first": "Shuklam Baradaram Vishnum", "second": "Shashivarnam Chaturbhujam" },
+        { "id": 2, "first": "Prasanna Vadanam Dhyayet", "second": "Sarva Vighnopa Shantaye" },
+        { "id": 3, "first": "Govinda Govinda", "second": "Govinda Govinda" },
+        { "id": 4, "first": "Narayana Narayana", "second": "Narayana Narayana" },
+        { "id": 5, "first": "Achyutam Keshavam Vishnum", "second": "Harim Saumyam Janardanam" },
+        { "id": 6, "first": "Hamsam Narayanam Krishnam", "second": "Japed Aapadi Dhairyakrit" },
+        { "id": 7, "first": "Govinda Govinda", "second": "Govinda Govinda" },
+        { "id": 8, "first": "Bhaja Govindam Bhaja Govindam", "second": "Govindam Bhaja Mudha Mate" },
+        { "id": 9, "first": "Samprapte Sannihite Kale", "second": "Na Hi Na Hi Rakshati Dukrn Karane" },
+        { "id": 10, "first": "Govinda Govinda", "second": "Govinda Govinda" },
+        { "id": 11, "first": "Hare Rama Hare Rama", "second": "Rama Rama Hare Hare" },
+        { "id": 12, "first": "Hare Krishna Hare Krishna", "second": "Krishna Krishna Hare Hare" },
+        { "id": 13, "first": "Govinda Govinda", "second": "Govinda Govinda" },
+        { "id": 14, "first": "Narayana Narayana", "second": "Narayana Narayana" }
+      ]
+    }
+  ]
+}
