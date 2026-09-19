@@ -6,16 +6,15 @@ returns 404 until someone enables GitHub Pages and writes the page. An app can
 pass every check, push metadata to App Store Connect, and only discover at
 submission that Apple rejects the listing because the privacy URL is dead.
 
-Two sources, because both ship URLs:
-  - fastlane/metadata/<locale>.json  -> support_url, privacy_url, marketing_url
-  - Hosting/config.json              -> anything URL-shaped under "urls"
+Source: Hosting/config.json -> anything URL-shaped under "urls". (Store listing URLs
+live in Firebase now and are checked by the website repo's data audit.)
 
 A 4xx/5xx is a hard failure: the server answered, and the answer was "no".
 A connection error, DNS failure or timeout is a warning instead — CI runners
 lose the network often enough that failing on it would train everyone to
 re-run checks, and a check people reflexively re-run means nothing.
 
-Placeholders ({{...}}) are skipped; validate_metadata already fails on those.
+Placeholders ({{...}}) are skipped.
 """
 import json
 import ssl
@@ -25,7 +24,6 @@ import urllib.request
 from pathlib import Path
 
 
-METADATA_URL_FIELDS = ("support_url", "privacy_url", "marketing_url")
 TIMEOUT = 15
 ATTEMPTS = 3
 # Some hosts (GitHub Pages included) answer HEAD differently from GET, and a
@@ -42,24 +40,12 @@ def collect_urls(root) -> dict[str, list[str]]:
         if not isinstance(url, str) or not url.strip():
             return
         if "{{" in url or "}}" in url:
-            return  # unsubstituted placeholder — validate_metadata's job
+            return  # unsubstituted placeholder
         if not url.startswith(("http://", "https://")):
-            return  # malformed — validate_metadata's job
+            return  # malformed
         found.setdefault(url.strip(), []).append(source)
 
-    metadata_dir = root / "fastlane" / "metadata"
     config_file = root / "Hosting" / "config.json"
-
-    if metadata_dir.is_dir():
-        for path in sorted(metadata_dir.glob("*.json")):
-            try:
-                fields = json.loads(path.read_text())
-            except (json.JSONDecodeError, OSError):
-                continue  # validate_metadata reports malformed metadata
-            if not isinstance(fields, dict):
-                continue
-            for field in METADATA_URL_FIELDS:
-                note(fields.get(field), f"{path.name}:{field}")
 
     if config_file.is_file():
         try:
@@ -104,9 +90,7 @@ def probe(url: str) -> tuple[str, str]:
 def check(ctx):
     urls = collect_urls(ctx.root)
     if not urls:
-        # Nothing to check is suspicious, not clean: this repo ships URLs in
-        # both metadata and config.json, and finding none means a path moved.
-        return ["found no URLs to check — metadata and Hosting/config.json both look empty"]
+        return []  # no Hosting/config.json, so this app ships no URLs of its own to probe
 
     dead: list[str] = []
 

@@ -388,7 +388,7 @@ condition = workflow.dig("attributes", "branchStartCondition")
 abort "'#{target}' has no branch start condition to narrow" unless condition
 
 # Everything the app is built from lives under App/ — a push touching only
-# Data/, fastlane/ or .github/ shouldn't cost an archive and a build number.
+# Data/ or .github/ shouldn't cost an archive and a build number.
 # Clearing the condition entirely doesn't work (the API accepts a null and
 # leaves it unchanged); narrowing it does.
 updated = condition.merge(

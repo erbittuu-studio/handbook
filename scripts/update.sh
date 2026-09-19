@@ -33,6 +33,10 @@ RETIRED=(
   "scripts/ci/validate_urls.py"
   "scripts/ci/validate_sys_adoption.py"
   "scripts/ci/validate_screenshots.py"
+  # Store content left the app repos (PLAYBOOK §6): the listing lives in Firebase
+  # and fastlane exists only in the website repo.
+  "scripts/shared/screenshots.py"
+  "scripts/ci/asc_release_state.rb"
   # An older generation of nine separate workflow files, since consolidated:
   # pr.yml absorbs the first six, main.yml the rest.
   ".github/workflows/lint.yml"
@@ -78,10 +82,8 @@ MANAGED=(
   "scripts/shared/color_assets.py"
   "scripts/shared/localization.py"
   "scripts/shared/project.py"
-  "scripts/shared/screenshots.py"
   "scripts/shared/urls.py"
   "scripts/ci/asc_builds.rb"
-  "scripts/ci/asc_release_state.rb"
   "scripts/ci/start_xcode_cloud_build.rb"
   "scripts/ci/verify_routing.rb"
   "scripts/ci/xcode_cloud_workflow.rb"
@@ -121,7 +123,7 @@ import json,sys
 try:    print(json.load(open('$TARGET/.firebaserc'))['projects']['default'])
 except Exception: print('')" 2>/dev/null)"
 
-  BUNDLE_ID="$(sed -n 's/.*app_identifier *"\([^"]*\)".*/\1/p' "$TARGET/fastlane/Appfile" 2>/dev/null | head -1)"
+  BUNDLE_ID="$(sed -n 's/.*"bundleId": *"\([^"]*\)".*/\1/p' "$TARGET/Project.json" 2>/dev/null | head -1)"
   CONFIG_URL=""
   [[ -n "$FIREBASE_PROJECT_ID" ]] && CONFIG_URL="https://$FIREBASE_PROJECT_ID.web.app/config.json"
 

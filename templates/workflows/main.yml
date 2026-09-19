@@ -1,33 +1,19 @@
-# Store and content pushes.
+# Automation for pushes to main and release/*.
 #
-# One file, three independent jobs, each gated on the paths that concern it —
-# a metadata merge never touches screenshots, a data merge never touches
-# either.
+# Store content (listing text and screenshots) is not handled in this repo.
+# It lives in Firebase, is synced from App Store Connect by the website
+# repo's App Store Sync workflow, and any publishing back to Apple is done
+# there too — so a listing edit never needs a push here.
 #
-# Branch rules differ per job (PLAYBOOK §5):
-#   - metadata + screenshots also run on release/* pushes, because App Store
-#     text has to be in App Store Connect before you submit, and the merge to
-#     main now happens after Apple approves — too late.
-#
-# Content hosting lives in the shared handbook repo — no app stages or
-# deploys its own site.
-#
-# The manual button takes a `job` input so you can still run one of these on
-# its own.
+# The manual button takes a `job` input so you can run the Xcode Cloud job
+# on its own.
 name: Main
 
 on:
   push:
     branches: [main, 'release/**']
     paths:
-      - "fastlane/metadata/**"
-      - "fastlane/Deliverfile"
-      - "fastlane/Appfile"
-      - "fastlane/Fastfile"
-      - "fastlane/project.rb"
-      - "fastlane/screenshots/**"
-      # Project.json holds store.locales, which the Deliverfile's languages()
-      # reads to decide which localizations deliver activates on the store.
+      # Project.json drives the checks in scripts/, so a change to it should run them.
       - "Project.json"
       - "App/Source/**"
       - "App/Packages/**"
@@ -45,26 +31,24 @@ on:
         description: "Which job to run"
         type: choice
         default: all
-        options: [all, metadata, screenshots, xcode-cloud]
+        options: [all, xcode-cloud]
 
 permissions:
   contents: read
 
 jobs:
   # Decides which jobs run. The paths filter runs on every branch, so a
-  # release push that touches no listing text doesn't reupload the listing.
+  # push only runs the jobs its files concern.
   #
   # On the first push to a brand-new branch there's nothing to diff against,
   # so the filter answers neither true nor false — `decide` below turns that
-  # into a run, since a new release branch should sync everything anyway.
+  # into a run, since a new release branch should run everything anyway.
   #
   # On workflow_dispatch there's no diff either, so the `job` input decides.
   changes:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      metadata: ${{ steps.decide.outputs.metadata }}
-      screenshots: ${{ steps.decide.outputs.screenshots }}
       code: ${{ steps.decide.outputs.code }}
       ci: ${{ steps.decide.outputs.ci }}
     steps:
@@ -87,16 +71,6 @@ jobs:
           # correct there too: report and run everything.
           base: ${{ github.event.before != '0000000000000000000000000000000000000000' && github.event.before || '' }}
           filters: |
-            metadata:
-              - 'fastlane/metadata/**'
-              - 'fastlane/Deliverfile'
-              - 'fastlane/Appfile'
-              - 'fastlane/Fastfile'
-              - 'fastlane/project.rb'
-              - 'Project.json'
-            screenshots:
-              - 'fastlane/screenshots/**'
-              - 'Project.json'
             code:
               - 'App/Source/**'
               - 'App/Packages/**'
@@ -106,13 +80,14 @@ jobs:
             ci:
               - '.github/workflows/**'
               - 'scripts/**'
+              - 'Project.json'
 
       - name: Decide what to run
         id: decide
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             WANT="${{ inputs.job }}"
-            for j in metadata screenshots ci; do
+            for j in ci; do
               if [ "$WANT" = "all" ] || [ "$WANT" = "$j" ]; then
                 echo "$j=true" >> "$GITHUB_OUTPUT"
               else
@@ -123,8 +98,8 @@ jobs:
             # `decide` handles the case where the filter answers neither true
             # nor false (first push to a new branch, nothing to diff against —
             # the outputs come back empty). Unknown means run it: a release
-            # branch with every job skipped and a green tick over a listing
-            # nobody pushed is the one failure this file avoids.
+            # branch with every job skipped and a green tick over code
+            # nobody checked is the one failure this file avoids.
             decide() {
               case "$2" in
                 true|false)
@@ -137,16 +112,13 @@ jobs:
               esac
             }
 
-            decide metadata    "${{ steps.filter.outputs.metadata }}"
-            decide screenshots "${{ steps.filter.outputs.screenshots }}"
             decide code        "${{ steps.filter.outputs.code }}"
             decide ci          "${{ steps.filter.outputs.ci }}"
           fi
 
   # ── Verify ───────────────────────────────────────────────────────────────
-  # Every deploy below waits on the check that covers it. These same checks
-  # run in pr.yml, but that only fires on pull_request — a push straight to a
-  # release branch would otherwise reach App Store Connect unchecked.
+  # These same checks run in pr.yml, but that only fires on pull_request — a
+  # push straight to a release branch would otherwise skip them.
 
   # The automation checking itself: a bad workflow expression, a CI script
   # that no longer parses, or a check that stopped importing would otherwise
@@ -166,7 +138,6 @@ jobs:
       - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "3.3"
-          bundler-cache: true
 
       # Pinned and fetched from the release, not piped from curl — actionlint
       # is the only thing here that reads workflows the way GitHub does.
@@ -183,7 +154,7 @@ jobs:
         run: |
           set -o pipefail
           fail=0
-          for f in scripts/ci/*.rb fastlane/Fastfile fastlane/Deliverfile fastlane/Appfile; do
+          for f in scripts/ci/*.rb; do
             [ -f "$f" ] || continue
             ruby -c "$f" > /dev/null || { echo "::error file=$f::does not parse"; fail=1; }
           done
@@ -198,31 +169,6 @@ jobs:
       # still find their targets.
       - name: The check harness still runs
         run: python3 scripts/validate.py
-
-
-  verify-metadata:
-    needs: changes
-    if: needs.changes.outputs.metadata == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
-        with:
-          ruby-version: "3.3"
-          bundler-cache: true
-      - name: Store text parses and fits Apple's limits
-        run: bundle exec fastlane validate_metadata
-
-  verify-screenshots:
-    needs: changes
-    if: needs.changes.outputs.screenshots == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Screenshots are the sizes and count Apple accepts
-        run: python3 scripts/validate.py screenshots
 
   verify-app:
     needs: changes
@@ -248,155 +194,6 @@ jobs:
       # The archive itself is Xcode Cloud's job — building here too would pay
       # for the same compile twice.
 
-  # Push App Store metadata (TEXT ONLY) to App Store Connect.
-  # Runs on main and on release/* — the text must land before you submit.
-  store-metadata:
-    needs: [changes, verify-metadata]
-    if: needs.changes.outputs.metadata == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    concurrency:
-      group: store-metadata
-      cancel-in-progress: false
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
-        with:
-          ruby-version: "3.3"
-          bundler-cache: true
-
-      # deliver has no diff — it PATCHes every localization on every run
-      # whether or not a word changed. So the inputs that decide what deliver
-      # actually sends are fingerprinted, and the fingerprint remembered on a
-      # successful push. A cache miss re-pushes identical text (costs a
-      # minute, changes nothing); only a successful push writes the marker.
-      - name: Fingerprint what deliver would send
-        id: fp
-        run: |
-          HASH=$(sha256sum fastlane/metadata/*.json fastlane/app_rating_config.json fastlane/Deliverfile fastlane/project.rb fastlane/Fastfile Project.json | sort | sha256sum | cut -c1-32)
-          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
-          echo "fingerprint: $HASH"
-
-      - name: Already pushed this exact listing?
-        id: seen
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: .asc-pushed-metadata
-          key: asc-metadata-v1-${{ steps.fp.outputs.hash }}
-
-      # Once a version is submitted, App Store Connect stops offering an
-      # editable one and deliver dies on it. The script exits 0 whether or not
-      # a version is editable, and 1 only when it couldn't find out — so a
-      # skip needs both a successful check AND a false answer; "couldn't
-      # tell" stays red.
-      - name: Is there a version to write to?
-        id: asc
-        if: steps.seen.outputs.cache-hit != 'true'
-        env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: bundle exec ruby scripts/ci/asc_release_state.rb
-
-      - name: Push metadata to App Store Connect
-        id: push
-        if: steps.seen.outputs.cache-hit != 'true' && steps.asc.outputs.editable == 'true'
-        env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: |
-          bundle exec fastlane metadata
-          date -u +%Y-%m-%dT%H:%M:%SZ > .asc-pushed-metadata
-
-      - name: Remember this listing as pushed
-        if: steps.push.outcome == 'success'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: .asc-pushed-metadata
-          key: asc-metadata-v1-${{ steps.fp.outputs.hash }}
-
-      - name: Say why nothing was pushed
-        if: steps.seen.outputs.cache-hit == 'true'
-        run: |
-          {
-            echo "### Store push skipped"
-            echo ""
-            echo "This exact listing was already pushed — fingerprint \`${{ steps.fp.outputs.hash }}\`."
-            echo "Nothing that decides what deliver sends has changed since."
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  # Sync screenshots (IMAGES ONLY) to App Store Connect.
-  # Runs on main and on release/* — same reason as metadata.
-  store-screenshots:
-    needs: [changes, verify-screenshots]
-    if: needs.changes.outputs.screenshots == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    concurrency:
-      group: store-screenshots
-      cancel-in-progress: false
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
-        with:
-          ruby-version: "3.3"
-          bundler-cache: true
-
-      # Same fingerprint idea as store-metadata: the sync lane is already
-      # checksum-based and uploads nothing when images match, but this saves
-      # the job doing that comparison at all.
-      - name: Fingerprint the screenshots
-        id: fp
-        run: |
-          HASH=$( { sha256sum fastlane/screenshots/*/*.png; sha256sum Project.json; } | sort | sha256sum | cut -c1-32)
-          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
-          echo "fingerprint: $HASH"
-
-      - name: Already synced these exact images?
-        id: seen
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: .asc-pushed-screenshots
-          key: asc-screenshots-v1-${{ steps.fp.outputs.hash }}
-
-      - name: Is there a version to write to?
-        id: asc
-        if: steps.seen.outputs.cache-hit != 'true'
-        env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: bundle exec ruby scripts/ci/asc_release_state.rb
-
-      - name: Sync screenshots to App Store Connect
-        id: push
-        if: steps.seen.outputs.cache-hit != 'true' && steps.asc.outputs.editable == 'true'
-        env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: |
-          bundle exec fastlane screenshots
-          date -u +%Y-%m-%dT%H:%M:%SZ > .asc-pushed-screenshots
-
-      - name: Remember these screenshots as synced
-        if: steps.push.outcome == 'success'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: .asc-pushed-screenshots
-          key: asc-screenshots-v1-${{ steps.fp.outputs.hash }}
-
-      - name: Say why nothing was synced
-        if: steps.seen.outputs.cache-hit == 'true'
-        run: |
-          {
-            echo "### Screenshot sync skipped"
-            echo ""
-            echo "These exact images were already synced — fingerprint \`${{ steps.fp.outputs.hash }}\`."
-          } >> "$GITHUB_STEP_SUMMARY"
   # ── Xcode Cloud workflow exists and archives correctly ──────────────────
   #
   # Automatic — read-only, so unlike the audience fix below it needs no

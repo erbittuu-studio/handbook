@@ -10,8 +10,7 @@ the non-obvious choices (usually a defused landmine — see MIGRATE.md).
 | `github/` | PR template, issue templates, dependabot | `.github/` |
 | `workflows/` | ci-data, deploy-data, store-metadata, store-screenshots, lint, pr-guards, validate-metadata, validate-screenshots, validate-release, release-merge | `.github/workflows/` |
 | `ci_scripts/` | post_clone, pre_xcodebuild (branch→version, ASC→build number), post_xcodebuild (dSYMs) | `App/ci_scripts/` |
-| `scripts/ci/` | PR-check scripts (`validate_screenshots.py`, `validate_analytics_events.py`) | `scripts/ci/` |
-| `fastlane/` | Fastfile (CI lanes `validate_metadata`/`metadata`/`screenshots` — names are a contract with the workflows — plus manual `promo`/`pricing`/`review_notes`), Deliverfile, Appfile, Gemfile, locale JSON template | `fastlane/` + root Gemfile |
+| `scripts/ci/` | PR-check scripts (`validate_analytics_events.py`) | `scripts/ci/` |
 | `docs/` | README / SECURITY / CLAUDE (AI-assistant guidance) skeletons | repo root |
 
 After copying: replace every `{{PLACEHOLDER}}` (`git grep '{{'`), delete

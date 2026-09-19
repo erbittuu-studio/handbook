@@ -28,8 +28,8 @@ for y in templates/workflows/*.yml templates/github/*.yml templates/github/ISSUE
   ruby -ryaml -e "YAML.safe_load(File.read('$y'), aliases: true)" >/dev/null 2>&1 || err "$y invalid YAML"
 done
 
-# 4b. Ruby templates parse (ci_scripts/lib helpers, Fastfile)
-for r in templates/ci_scripts/lib/*.rb templates/fastlane/Fastfile; do
+# 4b. Ruby templates parse (ci_scripts/lib helpers, scripts/ci helpers)
+for r in templates/ci_scripts/lib/*.rb templates/scripts/ci/*.rb; do
   [[ -f "$r" ]] || continue
   ruby -c "$r" >/dev/null 2>&1 || err "$r has syntax errors"
 done

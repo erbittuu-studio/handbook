@@ -23,7 +23,7 @@ for dir in "$APPS_DIR"/*/; do
   remote="$(git -C "$dir" remote get-url origin 2>/dev/null)" || continue
   repo="${remote#https://github.com/}"; repo="${repo%.git}"
 
-  bundle_id="$(sed -n 's/.*app_identifier *"\([^"]*\)".*/\1/p' "$dir/fastlane/Appfile" 2>/dev/null | head -1)"
+  bundle_id="$(sed -n 's/.*"bundleId": *"\([^"]*\)".*/\1/p' "$dir/Project.json" 2>/dev/null | head -1)"
 
   # Live on the App Store — Apple's public lookup, no key required.
   live="-"

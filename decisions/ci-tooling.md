@@ -9,7 +9,7 @@ for the same job.
 |---|---|
 | App Store app build/test/sign/deliver | **Xcode Cloud** |
 | Everything else CI/CD (packages, web, data, functions, direct-distribution macOS) | **GitHub Actions** |
-| Store metadata & screenshots | **Fastlane in GitHub Actions** (local runs = fallback; see PLAYBOOK §6) |
+| Store metadata & screenshots | **Firebase + the App Store Connect API, run from the website repo** — its App Store Sync pulls what Apple has, and fastlane lives only there (see PLAYBOOK §6) |
 
 ---
 
@@ -63,6 +63,10 @@ lifecycle ownership.
 ---
 
 ## Fastlane
+
+In this portfolio fastlane exists in exactly one place: the website repo's
+`store-runner/`, which publishes store content. No app repo carries a Gemfile,
+a `fastlane/` folder or a store workflow. The guidance below is why.
 
 **Use when:** generating localized screenshots (`snapshot`/`frameit`);
 bulk-managing App Store metadata (`deliver`); scripting ASC operations that

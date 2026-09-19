@@ -5,7 +5,7 @@ starts from a default instead of a debate.
 
 | Guide | Answers |
 |---|---|
-| [ci-tooling.md](ci-tooling.md) | When to use GitHub Actions vs Fastlane vs Xcode Cloud |
+| [ci-tooling.md](ci-tooling.md) | When to use GitHub Actions vs Xcode Cloud, and where Fastlane lives (only the website repo) |
 | [firebase-services.md](firebase-services.md) | Hosting, Firestore, Realtime Database, Remote Config, Cloud Functions — or just static JSON |
 | [architecture.md](architecture.md) | When to modularize, when to split repositories, when one repo is enough |
 | [adr-template.md](adr-template.md) | Template for recording project-level decisions |

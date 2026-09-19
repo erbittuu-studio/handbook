@@ -127,39 +127,6 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - run: python3 scripts/validate.py analytics_events
 
-  # ── Store content ────────────────────────────────────────────────────────
-  # Landmines from MIGRATE.md's gotcha table: emoji in release notes,
-  # placeholder text, over-limit fields, unsupported locales. No network
-  # call — see the Fastfile's validate_metadata lane.
-  validate-metadata:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
-        id: changes
-        with:
-          filters: |
-            metadata:
-              - 'fastlane/metadata/**'
-              - 'fastlane/Deliverfile'
-
-      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
-        if: steps.changes.outputs.metadata == 'true'
-        with:
-          ruby-version: "3.3"
-          bundler-cache: true
-
-      - if: steps.changes.outputs.metadata == 'true'
-        run: bundle exec fastlane validate_metadata
-
-      # Well-formed isn't enough — a scaffolded URL 404s until published, and
-      # Apple rejects a dead privacy URL at submission, long after this went green.
-      - name: Check the URLs we ship actually resolve
-        if: steps.changes.outputs.metadata == 'true'
-        run: python3 scripts/validate.py urls
-
   # SYSKit only delivers consistency while apps actually use it — nothing
   # stops reaching for UserDefaults or URLSession directly instead.
   sys-adoption:
@@ -179,25 +146,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - run: python3 scripts/validate.py build_settings
-
-  # Exact pixel dimensions per device class, complete locale sets, no
-  # corrupt files. See scripts/validate.py screenshots — update the
-  # REQUIRED dict there to match the device sizes you actually ship.
-  validate-screenshots:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
-        id: changes
-        with:
-          filters: |
-            screenshots:
-              - 'fastlane/screenshots/**'
-
-      - if: steps.changes.outputs.screenshots == 'true'
-        run: python3 scripts/validate.py screenshots
 
   # ── Release readiness ────────────────────────────────────────────────────
   # Scoped to release/* branches: is the version actually higher than the
@@ -250,4 +198,3 @@ jobs:
               exit 1
             fi
           fi
-

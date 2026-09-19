@@ -92,10 +92,10 @@ fi
 # the workflows above call by name.
 copy scripts/validate.py                    scripts/validate.py
 for shared in README.md analytics_events.py build_settings.py color_assets.py \
-              localization.py project.py screenshots.py urls.py; do
+              localization.py project.py urls.py; do
   copy "scripts/shared/$shared" "scripts/shared/$shared"
 done
-for rb in asc_builds asc_release_state start_xcode_cloud_build \
+for rb in asc_builds start_xcode_cloud_build \
           verify_routing xcode_cloud_workflow; do
   copy "scripts/ci/$rb.rb" "scripts/ci/$rb.rb"
 done
@@ -124,17 +124,10 @@ for pkg in SYSKit SYSFirebase; do
   fi
 done
 
-# fastlane
-copy fastlane/Gemfile      Gemfile
-copy fastlane/Fastfile     fastlane/Fastfile
-copy fastlane/Appfile      fastlane/Appfile
-copy fastlane/Deliverfile  fastlane/Deliverfile
-copy fastlane/metadata-locale.template.json fastlane/metadata/en-US.json
-
 echo
 echo "Done: $copied created, $skipped skipped."
 echo "Next: scripts/update.sh <dir>   → fills the placeholders PES owns"
 echo "                                    (project name, owner/repo, firebase id)"
-echo "      git grep -n '{{'          → fill the rest by hand (fastlane, docs)"
+echo "      git grep -n '{{'          → fill the rest by hand (docs)"
 echo "      delete unused parts (no Data/ → remove the data jobs, etc.)"
 echo "      then follow MIGRATE.md"

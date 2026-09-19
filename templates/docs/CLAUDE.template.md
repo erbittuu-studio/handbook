@@ -15,7 +15,6 @@ rules you must not break.
 | Xcode project | `App/{{PROJECT_NAME}}.xcodeproj`, scheme `{{PROJECT_NAME}}` |
 | Bundle ID | `{{BUNDLE_ID}}` (NEVER change — store identity) |
 | Firebase | `{{FIREBASE_PROJECT_ID}}` ({{FIREBASE_SERVICES}}) |
-| Store locales | {{STORE_LOCALES}} (must stay in sync across Deliverfile `languages()`, Fastfile `store_locales`, `scripts/ci/validate_screenshots.py` `STORE_LOCALES`) |
 
 ## Build & checks
 
@@ -23,7 +22,7 @@ rules you must not break.
 xcodebuild -project App/{{PROJECT_NAME}}.xcodeproj -scheme {{PROJECT_NAME}} \
   -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
 swiftlint lint App/Source          # 0 errors required; warnings tolerated
-bundle exec fastlane validate_metadata   # parse-only store text check
+python3 scripts/validate.py         # the project's own checks (what pr.yml runs)
 ```
 
 ## Layout (PES PLAYBOOK §1)
@@ -37,8 +36,8 @@ bundle exec fastlane validate_metadata   # parse-only store text check
   lint, never add a remote SwiftPM package (a PR guard blocks
   `XCRemoteSwiftPackageReference`). `App/Packages/` is PES's own
   (SYSKit, SYSFirebase) — ours, edited in place, promoted upstream.
-- `fastlane/metadata/<locale>.json` is the store-text source of truth;
-  the per-locale txt dirs are generated in CI and gitignored.
+- Store listing text and screenshots are NOT in this repo: they live in
+  Firebase and are managed from the website repo (PLAYBOOK §6).
 
 ## Hard rules
 
@@ -46,14 +45,11 @@ bundle exec fastlane validate_metadata   # parse-only store text check
   project is a dev placeholder; releases stamp it from the
   `release/X.Y[.Z]` branch name via `App/ci_scripts/ci_pre_xcodebuild.sh`
   (sed on the pbxproj — agvtool does not work here).
-- Fastlane lane names `validate_metadata` / `metadata` / `screenshots`
-  are a contract with `.github/workflows/` — never rename.
 - `IS_ANALYTICS_ENABLED` in `App/Resources/GoogleService-Info.plist`
   must stay `true` (a PR guard asserts it; `false` silently kills all
   analytics).
 - No secrets in the repo — `.env.example` documents variables, real
-  values live in `fastlane/.env` (gitignored) and GitHub/Xcode Cloud
-  secrets.
+  values live in GitHub/Xcode Cloud secrets.
 - Commits: `type: what it does` (feat/fix/chore/docs/refactor/test/ci).
   Squash-merge PRs into `main`; branches auto-delete.
 

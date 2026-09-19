@@ -37,7 +37,7 @@ finished migration. `scripts/lint-project.sh` and `update.sh` both flag it.
 1. `git init -b main`, copy the standard `.gitignore` first, then one
    snapshot commit of everything as-is.
 2. Restructure to the playbook layout: project + sources + `ci_scripts/`
-   under `App/`, content under `Hosting/`, `fastlane/` + `Gemfile` at root.
+   under `App/`, content under `Hosting/`.
    Each extension target gets its own `App/<Role>/` folder named for what it
    is (`Watch/`, `Widget/`, not `<ProductName>Watch/`) with its own
    entitlements there; the main target's stay in `Resources/` (update
@@ -103,32 +103,33 @@ alerts.
 
 Copy `pr.yml`, `main.yml`, `release.yml` from `templates/workflows/`
 (setup.sh already did this — confirm they're there, delete jobs the app
-doesn't need, fill in `scripts/shared/screenshots.py`'s `STORE_LOCALES` and
-`REQUIRED`). Open a throwaway PR touching each relevant path once to confirm
+doesn't need). Open a throwaway PR touching each relevant path once to confirm
 each check actually *runs* — a check that never fires looks like coverage
 that isn't there.
 
 Private + GitHub Free means no branch protection (classic or Rulesets) —
 checks still run red/green, they just don't block the merge button.
 
-## 6. Store automation (30 min)
+## 6. Store content (10 min)
 
 Set `ASC_KEY_ID` / `ASC_ISSUER_ID` / `ASC_KEY_CONTENT` repo secrets (API key
 from ASC → Integrations, App Manager role; the .p8 goes to the password
-manager, never the repo — same key as step 4, separate copy). Fill
-`fastlane/metadata/<locale>.json`. Run the Store Metadata workflow once, then
-VERIFY on App Store Connect — a green run alone isn't proof, deliver can
-no-op silently (see gotchas).
+manager, never the repo — same key as step 4, separate copy). The helper
+scripts in `scripts/ci/` read them.
+
+The store listing itself is not part of the app repo: it lives in Firebase and
+is managed from the website repo (PLAYBOOK §6). Register the app there and its
+App Store Sync brings in whatever Apple already has.
 
 ## 7. First release
 
 1. `git checkout -b release/X.Y.Z` off `main`.
-2. Add the CHANGELOG section for that version, and update `release_notes` in
-   `fastlane/metadata/<locale>.json` (what users read as "What's New" — a
-   different file from the CHANGELOG, which only reaches GitHub). Push.
+2. Add the CHANGELOG section for that version. Push. (What users read as
+   "What's New" is part of the store listing, managed outside this repo —
+   PLAYBOOK §6.)
 3. Xcode Cloud builds from the branch directly — watch it in App Store
    Connect, not `gh run list`. Fix and push again to the same branch on
-   failure. The same push syncs store text and screenshots.
+   failure.
 4. Build appears in TestFlight → install → test on a real device.
 5. Submit in App Store Connect. Rejected? Fix on the same branch and push
    again — nothing is merged or tagged yet.
@@ -149,7 +150,6 @@ no-op silently (see gotchas).
 | Onboarding wizard stuck on a dependency repo | Still have remote packages — make them local (step 2). Also add a GitHub account in Xcode Settings → Accounts |
 | `agvtool: There are no Xcode project files` in CI | Xcode Cloud starts scripts inside `ci_scripts/` — cd to the project folder first |
 | Archive ships the dev placeholder version even though the pre-build script "ran fine" | agvtool only edits literal Info.plist values — with `GENERATE_INFOPLIST_FILE=YES` it's a silent no-op. Stamp `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION` in the pbxproj with sed — see the template `ci_pre_xcodebuild.sh` |
-| A store workflow goes permanently red: `Could not find lane` | Workflow↔Fastfile lane names are a contract: `validate_metadata`, `metadata`, `screenshots` must exist under exactly those names |
 | Crashlytics reports arrive unsymbolicated; post-build log says `upload-symbols not found` | dSYM script paths must be `App/Vendor/FirebaseKit/Tools/upload-symbols` and `App/Resources/GoogleService-Info.plist` — a missing `App/` prefix warns and `exit 0`s forever |
 | Analytics dashboard empty for weeks, no errors anywhere | `IS_ANALYTICS_ENABLED` sitting at `false` in `GoogleService-Info.plist` — `firebase apps:sdkconfig` can still return `false` even when Analytics is correctly linked, so treat the CLI's value as unreliable. `pr.yml`'s `firebase-config-guard` checks it on every PR |
 | Release workflow never triggers | Branch condition pattern is wrong, or "is prefix" isn't checked — `release/1.8.0` needs to match a `release/` prefix |
@@ -159,15 +159,6 @@ no-op silently (see gotchas).
 | `pr.yml`'s secret-scan flags its own source code | gitleaks' `private-key` rule matches the literal `-----BEGIN PRIVATE KEY-----` string anywhere, including marker text that isn't a real key. Confirm with a local scan, suppress with `# gitleaks:allow` |
 | Secret-scan false positive persists after adding `gitleaks:allow` | gitleaks scans each commit individually — a later-commit comment doesn't clear an earlier one. Scan the working tree at HEAD (`--no-git`, no `--log-opts` range) instead of git history |
 | Tag never triggers the Release workflow | Still using a tag-based trigger — this system is branch-driven (PLAYBOOK §5) |
-| deliver crashes on `price_tier` | Apple removed pricing from that API — manage price in the ASC website, delete price_tier |
-| deliver fails on IAP precheck | API key auth can't check IAPs — `precheck_include_in_app_purchases false` |
-| deliver aborts: `'support_url' value must be a Hash! Found String instead.` | `support_url`/`marketing_url`/`privacy_url` are per-locale localized options — a plain string in the Deliverfile kills every metadata push. Set them in `metadata/<locale>.json` instead |
-| deliver dies with spaceship `No data` on an app whose 1.0 was never released | `phased_release true` — Apple only allows phased release on UPDATES. Set it false until 1.0 ships |
-| deliver says success but ASC shows nothing | Paths resolve from the working directory, not the fastlane folder — use `./fastlane/metadata`, anchor Ruby code with `File.expand_path(..., __dir__)` |
-| Upload rejected: invalid characters | No emoji allowed in "What's New" — `pr.yml`'s `validate-metadata` job catches this before merge |
-| Upload rejected: supportUrl pattern | Placeholder text instead of a real URL — also caught pre-merge |
-| "Language cannot be activated" | Store locale list is fixed by Apple — app languages ≠ store languages (Gujarati is not a store locale) |
-| Every screenshot appears twice | The old `overwrite_screenshots` path double-uploads — use the sync lane, delete duplicates via the ASC API |
 | Screenshots run red: "failures of processing" | Apple processed slowly after a successful upload — check the listing before re-running |
 | Tag pushed by a workflow triggers nothing | GitHub blocks workflow-created tags from firing other workflows — expected, since releases are branch-driven and the tag is meant to trigger nothing |
 | gcloud dies complaining about Python | `export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3.12` |

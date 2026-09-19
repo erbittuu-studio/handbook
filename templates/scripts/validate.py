@@ -53,7 +53,7 @@ class Context:
         self.project = project
 
     def get(self, path: str):
-        """`ctx.get("store.locales")` — dotted lookup into Project.json.
+        """`ctx.get("app.bundleId")` — dotted lookup into Project.json.
 
         Raises rather than returning None. A check reading a key that is not
         there is a broken check, and it should say so loudly instead of

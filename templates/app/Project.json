@@ -15,21 +15,6 @@
     "interface": ["en"]
   },
 
-  "//store": "locales[0] is the primary listing: the fallback for every storefront, and the only one needing screenshots. Apple's locale set is fixed and is not the app's language list — Hindi is a store locale, Gujarati is not.",
-
-  "store": {
-    "locales": ["en-US"]
-  },
-
-  "//screenshots": "Apple's dimensions as published, which is correct for a portrait app. A landscape app transposes them — 6.9\" is 2868x1320, not 1320x2796. deliver accepts the wrong shape and the product page then looks wrong.",
-
-  "screenshots": {
-    "required": {
-      "iPhone-6-9": { "count": 3, "width": 1290, "height": 2796 },
-      "iPad-13":    { "count": 1, "width": 2064, "height": 2752 }
-    }
-  },
-
   "//checks": "Where validate.py looks. The folder says who may edit: scripts/checks is this app's (add it here once it exists — validate.py fails loud on a listed folder that's missing, so don't list it before creating it), scripts/shared is PES's and is overwritten on sync, SYSKit's travel with the package.",
 
   "checks": [

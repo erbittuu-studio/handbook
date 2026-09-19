@@ -39,17 +39,14 @@ my-app/
 │   │                            #   excluded by folder in .swiftlint.yml (§8)
 │   └── ci_scripts/              # must stay next to the .xcodeproj — Apple rule
 │       └── lib/                 # helpers ci_scripts call into (kept out of the three magic filenames)
-├── fastlane/ + Gemfile          # store content tooling, runs in CI
-│   ├── metadata/<locale>.json   # store text — single source of truth
-│   └── screenshots/<locale>/
 └── Hosting/                        # content pipeline, only if the app ships remote content
     ├── build.py  index.json  source/
     └── build/                   # generated, gitignored, CI rebuilds it
 ```
 
 `firebase.json` at root and `ci_scripts/` next to the xcodeproj are fixed by
-the tools. Everything else: App = compile, Data = content, fastlane = store,
-.github = automation.
+the tools. Everything else: App = compile, Data = content,
+.github = automation. Store content is not in the app repo (§6).
 
 No empty folders, no unused files. Bundle IDs never change. No per-app
 decision docs — the reasoning belongs in [decisions/](decisions/), where it
@@ -110,8 +107,6 @@ All of these are jobs inside `pr.yml`.
 | `dependency-guard` | every PR, always | Any `XCRemoteSwiftPackageReference`, and any committed `Package.resolved` |
 | `firebase-config-guard` | every PR, always *(if the app has a `GoogleService-Info.plist`)* | `IS_ANALYTICS_ENABLED` set to false — silently drops every event |
 | `analytics-event-guard` | every PR, always *(if the app has the §7 analytics enum)* | Event/param names Firebase would silently drop |
-| `validate-metadata` | any PR, skips if `fastlane/metadata/` unchanged | Every App Store rejection worth catching before merge: emoji, placeholder text, over-limit fields, unsupported locales |
-| `validate-screenshots` | any PR, skips if `fastlane/screenshots/` unchanged | Wrong pixel dimensions, incomplete locale sets, corrupt files |
 | `data-ci` *(optional)* | any PR, skips if `Hosting/` unchanged | Content that doesn't build — source data and manifest structurally sound |
 | `validate-release` | any PR, skips unless it's from a `release/*` branch | CHANGELOG has a section for this version; the version is actually newer than the last tag |
 
@@ -185,11 +180,10 @@ project is a dev placeholder only.
 To release:
 
 1. `main` already has everything you want to ship. Branch: `release/X.Y.Z`.
-2. Add the CHANGELOG section for that version, and the user-facing
-   `release_notes` in `fastlane/metadata/<locale>.json`. Push the branch.
+2. Add the CHANGELOG section for that version. Push the branch. (The
+   user-facing "What's New" belongs to the store listing — §6.)
 3. Xcode Cloud archives directly from that branch — no tag needed. Push again
-   as many times as TestFlight testing needs. Pushing also syncs store text
-   and screenshots to App Store Connect (`main.yml`).
+   as many times as TestFlight testing needs.
 4. Test on a real device. Submit in App Store Connect (phased release on,
    manual release). If Apple rejects, fix on the same branch and push again —
    nothing is merged or tagged yet.
@@ -225,23 +219,21 @@ very end.
 
 ## 6. Store content
 
-- `fastlane/metadata/<locale>.json` is the source of truth. `generate_metadata`
-  converts it to the txt files deliver needs; `validate_metadata` parses the
-  same files without pushing anything.
-- The metadata lane is text-only. The screenshots lane uses
-  `sync_screenshots` (checksum based, safe to re-run) — never mix them.
-- Lane names are a CONTRACT with the workflows: `validate_metadata`,
-  `metadata`, `screenshots` must exist under exactly those names. Three
-  manual-only lanes: `promo` (promotional text), `pricing` (price tier),
-  `review_notes` (app review contact info).
-- Auth is an App Store Connect API key in repo secrets (`ASC_KEY_ID`,
-  `ASC_ISSUER_ID`, `ASC_KEY_CONTENT`). Never Apple ID login. Xcode Cloud needs
-  no credentials.
+Store text and screenshots are **not** kept in an app repo. There is no
+`fastlane/` folder, no Gemfile, and no store job in `main.yml` or `pr.yml`.
+
+- The listing — per-locale text, screenshots, categories, review notes — lives
+  in Firebase and is shown in the studio portal.
+- The website repo (`ERbittuu/website`) owns everything that talks to App Store
+  Connect. Its *App Store Sync* workflow pulls what Apple has into Firebase
+  every week, and its `store-runner/` (fastlane) is the only place fastlane
+  runs. To add an app: create its Firebase data and register it there.
+- Auth is an App Store Connect API key. An app repo keeps `ASC_KEY_ID`,
+  `ASC_ISSUER_ID` and `ASC_KEY_CONTENT` in its secrets only for the Xcode Cloud
+  helper scripts in `scripts/ci/`; Xcode Cloud itself needs no credentials.
 - Apple rejects: emoji in "What's New", placeholder URLs, store locales that
-  don't exist (Hindi is a store locale, Gujarati is not — app languages and
-  store languages are different lists).
-- Local `bundle exec fastlane ...` works as a fallback with `fastlane/.env`,
-  but CI is the normal path.
+  don't exist (app languages and store languages are different lists). The
+  website repo's checks cover these before anything is published.
 
 ## 7. Firebase
 
@@ -463,7 +455,7 @@ repos by default.
       release that adds any SDK
 - [ ] `Hosting/Web/` privacy/terms/support pages filled in from
       `templates/hosting-web/` and self-hosted (never an external URL in
-      `fastlane/metadata/*.json` or `Hosting/config.json`'s `urls` block) —
+      `Hosting/config.json`'s `urls` block) —
       `scripts/shared/urls.py` fails the build if any of them 404
 - [ ] Crashlytics email alerts on
 - [ ] String catalogs from day one; automatic signing everywhere

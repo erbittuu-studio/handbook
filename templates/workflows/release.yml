@@ -5,9 +5,8 @@
 # branch-triggered instead, never tag-triggered) — and publishes the
 # GitHub Release with auto-generated notes.
 #
-# Store metadata push is NOT handled here — it's fully independent,
-# already triggered by any merge touching fastlane/metadata/** (see
-# main.yml), whether or not that merge came from a release branch.
+# Store content is NOT handled here or anywhere in this repo — the listing
+# lives in Firebase and is managed from the website repo (PLAYBOOK §6).
 name: Release
 
 on:

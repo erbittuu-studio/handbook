@@ -8,11 +8,3 @@ updates:
     directory: /
     schedule:
       interval: monthly
-
-  # fastlane is what talks to App Store Connect, so a stale pin breaks the
-  # store workflows whenever Apple changes an API. Swift dependencies are
-  # vendored and updated deliberately; this is tooling, not app code.
-  - package-ecosystem: bundler
-    directory: /
-    schedule:
-      interval: monthly
