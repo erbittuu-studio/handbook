@@ -1,0 +1,73 @@
+# CI for the standards repo itself.
+#
+# This existed as scripts/validate.sh long before anything ran it, and in that
+# time it accumulated real failures nobody saw: the README version line drifted
+# two releases behind, and PLAYBOOK.md tripped the placeholder check. A repo that
+# ships CI standards while having none is the definition of advisory rules.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Required files, VERSION/README agreement, and every shell, ruby,
+  # python and yaml template parsing.
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - run: bash scripts/validate.sh
+
+  # SYSKit ships to every app, so it is the highest-consequence code here and
+  # the cheapest to test: no dependencies, no simulator, no Xcode.
+  # macOS, not Linux. SYSKit's networking uses URLSession's async API, which
+  # swift-corelibs-foundation does not provide — chasing that would be real work
+  # for a platform SYSKit never ships to. This repo is public, so macOS runners
+  # are free here.
+  syskit-tests:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run SYSKit tests
+        working-directory: SPM/SYSKit
+        run: swift test
+
+  # setup.sh must produce an app that passes its own PR checks. It has failed
+  # this before: a scaffolded app had no AnalyticsManager.swift while the guard
+  # for it ran on every PR, so every new app was red on day one.
+  scaffold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Scaffold a throwaway app
+        run: |
+          mkdir -p /tmp/app && cd /tmp/app && git init -q
+          bash "$GITHUB_WORKSPACE/scripts/setup.sh" /tmp/app
+
+      - name: It passes its own checks
+        working-directory: /tmp/app
+        run: |
+          python3 scripts/validate.py analytics_events
+
+      - name: Its workflows are valid YAML
+        working-directory: /tmp/app
+        run: |
+          for f in .github/workflows/*.yml; do
+            ruby -ryaml -e "YAML.safe_load(File.read('$f'), aliases: true)"
+          done

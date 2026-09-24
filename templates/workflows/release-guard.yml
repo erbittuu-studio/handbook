@@ -1,0 +1,34 @@
+# Release Guard — runs the app's `release_state` check on every pull request into main.
+#
+# What the App Store serves is recorded in .github/release-state.json, and scripts/checks/release_state.py
+# holds that record to its invariants (a version cannot go backwards, a shipped version cannot be
+# rewritten). main.yml runs the full `validate.py` on pushes to main, but nothing runs on a pull request
+# otherwise, so without this job the one moment it matters, a release/ PR before the tag exists, is the one
+# moment nothing checks it. Owned by the handbook and replaced on every sync.
+name: Release Guard
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-state:
+    # Every PR into main, not just release/ ones: an edit that makes the file
+    # self-contradictory is worth catching wherever it comes from, and the
+    # branch-dependent rules inside the check are the ones that skip on their own.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      # GITHUB_HEAD_REF carries the real branch name; the checkout itself is a
+      # detached merge ref, so the check cannot read it from git.
+      - name: Validate release state
+        run: python3 scripts/validate.py release_state

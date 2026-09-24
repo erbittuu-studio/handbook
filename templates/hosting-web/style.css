@@ -1,0 +1,182 @@
+/* {{PROJECT_NAME}} — the public pages.
+ *
+ * One stylesheet for the whole site. No webfonts, no CDN, no analytics: these
+ * pages are read by App Review, by users, and by the URL checker in
+ * scripts/shared/urls.py, and every one of those is better served by a page
+ * that needs a single request and cannot break.
+ *
+ * {{ EDIT — retune the palette to the app's own theme. Assets.xcassets is not
+ * something a browser can read, so these values are written out here rather
+ * than shared; keep them in step by eye. Nothing here is load-bearing for
+ * the app itself. }}
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --top: #8ED8FF;
+  --bottom: #E8F6FF;
+  --ink: #16324F;
+  --ink-soft: #4E6B85;
+  --surface: #FFFFFF;
+  --page: #F3FAFF;
+  --rule: #D9E9F5;
+  --accent: #1479C9;
+  --shadow: rgba(22, 50, 79, 0.10);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --top: #0B2740;
+    --bottom: #071A2B;
+    --ink: #E7F2FA;
+    --ink-soft: #9FB6C8;
+    --surface: #0F2438;
+    --page: #071A2B;
+    --rule: #1E3D57;
+    --accent: #6FC2FF;
+    --shadow: rgba(0, 0, 0, 0.45);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 0 20px 72px;
+  background: linear-gradient(180deg, var(--top) 0%, var(--bottom) 340px) no-repeat, var(--page);
+  color: var(--ink);
+  font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+
+header.top {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 44px 0 28px;
+  text-align: center;
+}
+
+.mark {
+  display: inline-block;
+  margin-bottom: 14px;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+header.top h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+header.top p {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-size: 17px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────── */
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: 22px;
+  padding: 36px 32px 40px;
+  box-shadow: 0 18px 44px var(--shadow);
+}
+
+main > :first-child { margin-top: 0; }
+main > :last-child { margin-bottom: 0; }
+
+h2 {
+  margin: 38px 0 12px;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  margin: 26px 0 8px;
+  font-size: 18px;
+}
+
+p, li { color: var(--ink); }
+
+ul { padding-left: 22px; }
+li { margin: 7px 0; }
+
+a { color: var(--accent); }
+
+strong { font-weight: 650; }
+
+.updated {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin: 0 0 4px;
+}
+
+/* The one-sentence answer, before the detail that supports it. */
+.summary {
+  margin: 24px 0 0;
+  padding: 18px 20px;
+  background: var(--page);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+}
+
+.summary p { margin: 0; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 16px;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+th {
+  color: var(--ink-soft);
+  font-weight: 650;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.wrap { overflow-x: auto; }
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+
+footer {
+  max-width: 720px;
+  margin: 28px auto 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+footer nav a {
+  display: inline-block;
+  margin: 0 10px;
+  white-space: nowrap;
+}
+
+footer .copy { margin-top: 14px; }
+
+@media (max-width: 520px) {
+  body { padding: 0 14px 56px; }
+  header.top { padding: 32px 0 22px; }
+  header.top h1 { font-size: 28px; }
+  main { padding: 26px 20px 30px; border-radius: 18px; }
+}

@@ -1,0 +1,33 @@
+name: Bug report
+description: Something is broken
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open …
+        2. Tap …
+        3. See error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version & environment
+      placeholder: "App 1.4 (123), iOS 19.2, iPhone 16"
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Logs / screenshots
+      description: Anything else that helps.

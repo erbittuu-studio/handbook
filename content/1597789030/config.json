@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-31T00:00:00Z",
+  "update": {
+    "minimumVersion": "1.0.0",
+    "recommendedVersion": "1.0.0"
+  },
+  "maintenance": {
+    "enabled": false
+  },
+  "flags": {
+    "showRatingPrompt": true
+  },
+  "rating": {
+    "minSessions": 5,
+    "minDaysSinceInstall": 3
+  },
+  "urls": {
+    "support": "https://erbittuu-studio.web.app/apps/colorful/support",
+    "privacy": "https://erbittuu-studio.web.app/apps/colorful/privacy",
+    "terms": "https://erbittuu-studio.web.app/apps/colorful/terms"
+  },
+  "supportEmail": "utsavhacker@gmail.com",
+  "whatsNew": {},
+  "manifests": ["content"],
+  "app": {}
+}

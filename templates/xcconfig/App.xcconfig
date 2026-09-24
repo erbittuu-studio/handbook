@@ -1,0 +1,8 @@
+// App.xcconfig — this app's own build settings. Written once by update.sh and yours to edit.
+// The shared settings come from Base.xcconfig, which the handbook keeps up to date.
+
+#include "Base.xcconfig"
+
+// The development placeholder. Releases stamp this line from the release/X.Y.Z branch name
+// (App/ci_scripts/ci_pre_xcodebuild.sh), so it never has to be edited by hand.
+MARKETING_VERSION = 1.0

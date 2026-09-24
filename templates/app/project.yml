@@ -1,0 +1,67 @@
+# project.yml — the facts about this app that more than one tool needs, stated once.
+# scripts/shared/project.py fails the build if anything restates them.
+# Replace every {{PLACEHOLDER}}; delete what this app does not need.
+
+# What PES version this app was last synced to. update.sh keeps this line current.
+pes:
+  version: {{PES_VERSION}}
+
+app:
+  name: {{APP_NAME}}                       # the product name: what the store, the release title and Xcode Cloud call it
+  bundleId: {{BUNDLE_ID}}
+  project: App/{{PROJECT_NAME}}.xcodeproj
+  scheme: {{PROJECT_NAME}}                 # the main scheme
+  schemes: [{{PROJECT_NAME}}]              # every shared scheme; roles are named alike in every app: App, WatchApp, WidgetExtension
+
+# PLAYBOOK §4. Delete `selectable` unless the user picks a language inside the app — those must also
+# be in knownRegions, or no .lproj is built and every lookup silently returns the source language.
+languages:
+  source: en
+  interface: [en]
+
+# Where validate.py looks. The folder says who may edit: scripts/checks is this app's (add it here
+# once it exists — validate.py fails loud on a listed folder that's missing), scripts/shared is PES's
+# and is overwritten on sync, SYSKit's travel with the package.
+checks:
+  - scripts/shared
+  - App/Packages/SYSKit/Scripts/checks
+
+# Opt in to the shared build settings (App/Config/Base.xcconfig). See PLAYBOOK "Shared build settings".
+xcconfig: true
+
+# Which SYSKit features this app uses: true, or the reason it does not. `project.py` holds the code to
+# it, so a feature cannot go unused, or be used without being declared, unnoticed.
+adoption:
+  bootstrap: true
+  analytics: true
+  firebase: true
+  logging: true
+  logFile: no reason yet, remove once decided
+  haptics: true
+  settings: true
+  network: true
+  share: true
+  notifications: true
+  quickActions: true
+  spotlight: true
+  deepLinks: true
+  review: true
+  about: true
+  assets: no reason yet, remove once decided
+  remoteConfig: no reason yet, remove once decided
+  crossPromo: no reason yet, remove once decided
+
+# The checks this app runs, so one cannot quietly go missing. `own` are scripts this app keeps that run with
+# them but are not counted as shared checks. A shared check the app declines goes in `skip` with the reason.
+validation:
+  expected: [release_state, analytics_events, build_settings, color_assets, localization, project, urls, sys_adoption]
+  own: []
+  skip: {}
+
+# Build settings this app sets differently from Base.xcconfig, each with the reason. The project file may
+# not differ on any others.
+overrides: {}
+
+# --- optional -----------------------------------------------------------------------------------
+# ownedPackages: [SharedUI]   # packages under App/Packages that are this app's own code
+# sys: false                  # not built on SYS: no SYSKit/SYSFirebase, no seeded AnalyticsManager

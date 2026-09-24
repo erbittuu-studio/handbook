@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — {{PROJECT_NAME}}</title>
+<meta name="description" content="What {{PROJECT_NAME}} does and does not collect.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!--
+{{ EDIT — this is a starting skeleton, not boilerplate to ship as-is.
+What it says the app does must match PrivacyInfo.xcprivacy, the App Privacy
+answers in App Store Connect, and what the app actually does. Apple treats a
+disagreement between those three as a misrepresentation — change one, change
+all three. See RealAIApp's Hosting/Web/privacy.html for a filled-in example
+covering Firebase Analytics + Crashlytics with no other collection. }}
+-->
+
+<header class="top">
+  <span class="mark" aria-hidden="true">●</span>
+  <h1>Privacy Policy</h1>
+  <p>{{PROJECT_NAME}}</p>
+</header>
+
+<main>
+  <p class="updated">Last updated {{ DATE }} &middot; Effective {{ DATE }}</p>
+
+  <div class="summary">
+    <p><strong>The short version.</strong> {{ EDIT — one or two sentences: what
+    is collected, what never leaves the device, whether there are ads or
+    tracking. This is the sentence App Review and a worried parent both
+    read first. }}</p>
+  </div>
+
+  <h2>Who we are</h2>
+  <p>{{PROJECT_NAME}} is made and published by <strong>{{OWNER_NAME}}</strong>
+  (“we”, “us”), an independent developer. This policy covers the
+  {{PROJECT_NAME}} app and the pages served from
+  <code>{{FIREBASE_PROJECT_ID}}.web.app</code>. Questions go to
+  <a href="mailto:{{OWNER_EMAIL}}">{{OWNER_EMAIL}}</a>.</p>
+
+  <h2>What stays on the device</h2>
+  <p>{{ EDIT — list what is stored locally: preferences, saved content,
+  downloaded data. }}</p>
+
+  <h2>What we do receive</h2>
+  <p>{{ EDIT — describe every SDK that collects anything, and exactly what it
+  collects. If the app vendors SYSFirebase, this is Firebase Analytics and
+  Crashlytics; describe each separately, matching PrivacyInfo.xcprivacy. }}</p>
+
+  <h2>What we never collect</h2>
+  <div class="wrap">
+    <table>
+      <tr><th>Not collected</th><th>Why not</th></tr>
+      <tr><td>{{ EDIT }}</td><td>{{ EDIT }}</td></tr>
+    </table>
+  </div>
+
+  <h2>Tracking, advertising and selling data</h2>
+  <p>{{ EDIT — if there is no ad SDK and no cross-app tracking, say so
+  plainly, and state that ad-personalisation signals are off in Firebase. }}</p>
+
+  <h2>Children</h2>
+  <p>{{ EDIT — state the app's actual audience. An app directed at children
+  needs a COPPA-aware section; a general-audience app needs only a sentence
+  saying it does not knowingly collect from anyone. }}</p>
+
+  <h2>How long it is kept</h2>
+  <p>Analytics events are retained by Google for up to 14 months and then
+  deleted automatically. Crash reports are retained for up to 90 days. Server
+  logs follow Google Cloud's own retention schedule. {{ EDIT — add on-device
+  retention: kept until the app is deleted or the user resets it. }}</p>
+
+  <h2>Who else is involved</h2>
+  <p>Google Ireland Limited and Google LLC process analytics, crash reports
+  and hosting on our behalf, under Google's own terms. Their handling of that
+  data is described in the
+  <a href="https://policies.google.com/privacy" rel="noopener">Google Privacy
+  Policy</a> and the
+  <a href="https://firebase.google.com/support/privacy" rel="noopener">Firebase
+  Privacy and Security</a> notice. Nobody else receives anything.</p>
+
+  <h2>Your rights</h2>
+  <p>Depending on where you live — the EU and UK under the GDPR, California
+  under the CCPA/CPRA, and comparable laws elsewhere — you may have the right
+  to ask what we hold about you, to have it corrected or deleted, to object to
+  it being processed, or to receive a copy. Write to
+  <a href="mailto:{{OWNER_EMAIL}}">{{OWNER_EMAIL}}</a>.</p>
+
+  <h2>Security</h2>
+  <p>Everything the app fetches is fetched over HTTPS. {{ EDIT — where
+  on-device data is stored: the app's own sandbox, protected by iOS. }}</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes we will post the new version on this page and
+  move the date at the top. A change that materially affects what is
+  collected will also be described in the app's release notes on the App
+  Store.</p>
+
+  <h2>Contact</h2>
+  <p>{{OWNER_NAME}} &middot; <a href="mailto:{{OWNER_EMAIL}}">{{OWNER_EMAIL}}</a></p>
+</main>
+
+<footer>
+  <nav>
+    <a href="/">{{PROJECT_NAME}}</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/support.html">Support</a>
+  </nav>
+  <p class="copy">© {{YEAR}} {{OWNER_NAME}}</p>
+</footer>
+
+</body>
+</html>

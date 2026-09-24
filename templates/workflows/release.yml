@@ -1,0 +1,141 @@
+# Fires once per shipped version: when a release/X.Y.Z branch merges to
+# main (PLAYBOOK §5). Creates the permanent vX.Y.Z tag on the merge
+# commit — a pure historical record. It triggers nothing (see
+# App/ci_scripts/ci_pre_xcodebuild.sh for why archive builds are
+# branch-triggered instead, never tag-triggered) — and publishes the
+# GitHub Release with notes pulled from CHANGELOG.md.
+#
+# Store content is NOT handled here or anywhere in this repo — the listing
+# lives in Firebase and is managed from the website repo (PLAYBOOK §6).
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-merge
+  cancel-in-progress: false
+
+jobs:
+  tag-release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Determine version from the branch name
+        # Through `env:`, not interpolated into the script — see the same note
+        # in pr.yml's validate-release. The branch name is attacker-controlled
+        # text and must never be pasted into a shell.
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          echo "VERSION=${BRANCH#release/}" >> "$GITHUB_ENV"
+
+      # Makes the job safe to re-run (a re-triggered webhook, a manual
+      # re-run after an unrelated infra hiccup) instead of failing on
+      # "tag already exists" once the real work is already done.
+      - name: Skip everything below if this version is already tagged (idempotent re-run)
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "v$VERSION already exists — nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify CHANGELOG has a section for this version
+        if: steps.existing.outputs.skip == 'false'
+        run: |
+          grep -q "^## \[$VERSION\]" CHANGELOG.md || {
+            echo "::error::CHANGELOG.md has no '## [$VERSION]' section — this should have been caught before merge (see pr.yml's validate-release job)."
+            exit 1
+          }
+
+      # The merge happens after Apple has approved (PLAYBOOK §5), so this tag
+      # marks a version that is live on the App Store — not one in TestFlight.
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        if: steps.existing.outputs.skip == 'false'
+        with:
+          ruby-version: "3.3"
+
+      # Which TestFlight build became this version. Xcode Cloud owns the build
+      # number and assigns it at export, so it can only be read afterwards —
+      # a number worked out beforehand would be a guess that quietly drifts.
+      #
+      # Never fatal: the release is the point, and a missing build number is
+      # worth a line in the notes, not a failed release on an approved app.
+      - name: Look up the build number Apple assigned
+        id: build
+        if: steps.existing.outputs.skip == 'false'
+        continue-on-error: true
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: |
+          BUNDLE_ID=$(bash scripts/ci/project_value.sh app.bundleId) || exit 1
+          NEXT=$(ruby App/ci_scripts/lib/asc_build_number.rb "$VERSION" "$BUNDLE_ID") || exit 1
+          # The script reports the next free number, so the one that shipped is
+          # the one before it. It returns 1 when no build exists at all.
+          if [ "$NEXT" -gt 1 ]; then
+            echo "number=$((NEXT - 1))" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Purely a confirmation breadcrumb in the run's summary — never blocks
+      # the tag/release. The PR merge itself (done only once a human has
+      # confirmed App Store approval, per PLAYBOOK §5) is the authoritative
+      # signal; this public storefront lookup needs no credentials, but its
+      # CDN can lag a phased rollout by hours, so a mismatch here is expected
+      # sometimes and not a reason to fail an already-approved release.
+      - name: Confirm via the public App Store lookup (no credentials needed)
+        if: steps.existing.outputs.skip == 'false'
+        continue-on-error: true
+        run: |
+          BUNDLE_ID=$(bash scripts/ci/project_value.sh app.bundleId) || exit 0
+          LIVE=$(curl -fsS "https://itunes.apple.com/lookup?bundleId=$BUNDLE_ID" | jq -r '.results[0].version // "unknown"')
+          echo "Public App Store lookup reports version: $LIVE (tagging $VERSION)"
+          echo "- public App Store lookup: version **$LIVE** (tagging **$VERSION**)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create GitHub Release (creates the vX.Y.Z tag on the merge commit)
+        if: steps.existing.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk "/^## \[$VERSION\]/{flag=1; next} /^## \[/{flag=0} flag" CHANGELOG.md > notes.md
+          if [ -n "${{ steps.build.outputs.number }}" ]; then
+            printf '\n---\n\nTestFlight build %s\n' "${{ steps.build.outputs.number }}" >> notes.md
+          fi
+          gh release create "v$VERSION" \
+            --title "{{APP_NAME}} $VERSION" \
+            --notes-file notes.md \
+            --target "${{ github.event.pull_request.merge_commit_sha }}"
+
+      # A green step is not proof the release exists — this has reported
+      # success while leaving no tag and no release behind. Check, don't assume.
+      - name: Verify the release and tag actually exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "v$VERSION" --json tagName,targetCommitish > /dev/null || {
+            echo "::error::gh release create reported success but v$VERSION does not exist"
+            exit 1
+          }
+          git fetch --tags --quiet
+          git rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null || {
+            echo "::error::release v$VERSION exists but its tag does not"
+            exit 1
+          }
+          echo "Verified: release and tag v$VERSION exist."
+

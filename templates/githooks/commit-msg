@@ -1,0 +1,42 @@
+#!/bin/sh
+# Enforces Conventional Commits (https://www.conventionalcommits.org) —
+# the same "type: what it does" shape CLAUDE.md requires, and the format
+# CHANGELOG sections are written from.
+#
+# Valid:   feat: add festival search
+#          fix(ci): normalize PEM key
+#          release: 1.9.0
+# Invalid: updated stuff
+#
+# Bypass (deliberately, not by accident): git commit --no-verify
+set -e
+
+MSG_FILE="$1"
+FIRST_LINE=$(head -n1 "$MSG_FILE")
+
+# Let git's own generated messages through untouched.
+case "$FIRST_LINE" in
+  "Merge "*|"Revert "*|"fixup!"*|"squash!"*|"#"*) exit 0 ;;
+esac
+
+TYPES="feat|fix|chore|docs|refactor|test|ci|perf|style|build|revert|release"
+
+if ! printf '%s' "$FIRST_LINE" | grep -Eq "^($TYPES)(\([a-z0-9._-]+\))?!?: .+"; then
+  echo "✗ Commit message must follow Conventional Commits."
+  echo ""
+  echo "  got:      $FIRST_LINE"
+  echo "  expected: <type>: <what it does>"
+  echo "  types:    $(printf '%s' "$TYPES" | tr '|' ' ')"
+  echo ""
+  echo "  e.g.  feat: add festival search"
+  echo "        fix(ci): normalize PEM key regardless of secret store"
+  exit 1
+fi
+
+if [ "${#FIRST_LINE}" -gt 72 ]; then
+  echo "✗ Commit subject is ${#FIRST_LINE} characters — keep it under 72."
+  echo "  Put the detail in the body, after a blank line."
+  exit 1
+fi
+
+exit 0

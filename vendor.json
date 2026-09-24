@@ -1,0 +1,26 @@
+{
+  "_comment": "Canonical versions for vendored third-party packages, never the binaries. scripts/update.sh --check compares each app's .vendor-version against this. Contents are never copied between apps — RealAIApp excludes Analytics for the Kids Category, for example.",
+  "packages": {
+    "FirebaseKit": {
+      "version": "12.15.0",
+      "source": "https://github.com/firebase/firebase-ios-sdk",
+      "notes": "Vendored from the official Firebase.zip manual-integration build. Product subset differs per app on purpose."
+    },
+    "Kingfisher": {
+      "version": "8.1.3",
+      "source": "https://github.com/onevcat/Kingfisher"
+    },
+    "SnapKit": {
+      "version": "5.7.1",
+      "source": "https://github.com/SnapKit/SnapKit"
+    },
+    "Zip": {
+      "version": "2.1.2",
+      "source": "https://github.com/marmelroy/Zip"
+    },
+    "ZIPFoundation": {
+      "version": "0.9.19",
+      "source": "https://github.com/weichsel/ZIPFoundation"
+    }
+  }
+}

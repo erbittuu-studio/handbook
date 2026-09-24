@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# PES pre-push hook.
+#
+# Escape hatch: git push --no-verify
+set -uo pipefail
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+fail=0
+
+# 0. Never push to main. On a private repo on a free plan, branch protection
+# isn't available, so this hook is the only gate — a push to main also
+# triggers the Hosting deploy, reaching users' content directly.
+#
+# Reads the refs on stdin rather than the current branch, since `git push
+# origin HEAD:main` from a feature branch wouldn't be caught by a name check.
+while read -r local_ref local_sha remote_ref _remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main)
+      case "$local_sha" in
+        *[!0]*)
+          echo "  ✗ Direct push to main is not allowed." >&2
+          echo "    Everything reaches main through a pull request — branch, push, open a PR." >&2
+          fail=1
+          ;;
+      esac
+      ;;
+  esac
+done
+
+# 1. Branch name. Not style: release.yml reads the version straight out of the
+#    branch name to create a permanent tag, so "release/v2.9.0" produces a
+#    wrong tag or none.
+case "$branch" in
+  main) ;;
+  release/*)
+    version="${branch#release/}"
+    if ! printf '%s' "$version" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+      echo "  ✗ '$branch' must be release/X.Y.Z — release.yml takes the tag from this name" >&2
+      echo "    (no leading v, three numeric parts)" >&2
+      fail=1
+    fi
+    ;;
+  code/*|data/*|metadata/*|feat/*|fix/*|chore/*|ci/*|docs/*) ;;
+  *)
+    echo "  ✗ '$branch' does not match the convention (PLAYBOOK §3)" >&2
+    echo "    use: code/ data/ metadata/ feat/ fix/ chore/ ci/ docs/ or release/X.Y.Z" >&2
+    fail=1
+    ;;
+esac
+
+# SYSKit is deliberately not tested here — vendored unchanged and tested at
+# source in the standards repo's CI. It also can't run reliably from a hook:
+# swift picks the Command Line Tools SDK there instead of Xcode's.
+
+[ "$fail" -eq 0 ] || echo "  push blocked — fix the above, or bypass with --no-verify" >&2
+exit "$fail"
