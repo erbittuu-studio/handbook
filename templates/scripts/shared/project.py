@@ -76,9 +76,17 @@ ADOPTION = {
     "deepLinks": r"\bSYSDeepLink\b",
     "review": r"\bSYS(Review|Rating)\b",
     "about": r"\bSYSAbout\b|\bsysSupportMail\b",
-    "assets": r"\bSYSAssets\b",
+    # SYSContentSync is the newer, per-manifest content system; SYSAssets is
+    # the older single-manifest one it's replacing app by app. Either counts
+    # as "this app downloads remote content packs" — the feature adoption
+    # cares about, not which of the two implements it.
+    "assets": r"\bSYSAssets\b|\bSYSContentSync\b",
     "remoteConfig": r"\bSYSConfig\b|requiresConfig:\s*true",
     "crossPromo": r"\bSYSAppCatalog\b|\bSYSMoreAppsSection\b",
+    "stored": r"\bSYSStored\b",
+    "streak": r"\bSYSStreak\b",
+    "connectivity": r"\bSYSConnectivity\b",
+    "backgroundTask": r"\bSYSBackgroundTask\b",
 }
 SOURCE_DIRS = ("App/Source", "App/Watch", "App/Widget")
 
