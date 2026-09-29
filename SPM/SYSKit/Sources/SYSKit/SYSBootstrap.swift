@@ -1,5 +1,21 @@
 import Foundation
 
+/// What "download the required content" means for this app — a
+/// `SYSContentSync` instance's own `prepareRequired` (possibly composing
+/// more than one closure, for an app with several manifests — Prarthana's
+/// `content` + `festivals` both have to succeed). Required whenever
+/// `requiresAssets: true` is set; see `SYSBootstrap.start`'s
+/// `prepareContent` parameter.
+public typealias SYSPrepareContent =
+    @MainActor @Sendable (SYSAssetProgressHandler?) async -> Result<Void, SYSContentError>
+
+/// A download-progress callback, hopped to the main actor before touching UI.
+public typealias SYSAssetProgressHandler = @MainActor @Sendable (SYSAssetProgress) -> Void
+
+/// Paired cleanup after `SYSPrepareContent` succeeds — a `SYSContentSync`-
+/// based app's own, or omitted if it has nothing to prune.
+public typealias SYSPruneContent = @MainActor @Sendable () async -> Void
+
 /// What the app should show once startup finishes.
 public enum SYSAppState: Equatable {
     /// Something is wrong on our side — show the maintenance screen.
@@ -46,19 +62,30 @@ public enum SYSBootstrap {
     ///     launch wait. Mutually exclusive in practice with `requiresAssets` —
     ///     nothing stops setting both, but one already made launch wait for the
     ///     packs the other is fetching in the background. Safe to call again:
-    ///     `SYSAssets.prepareRequired` skips whatever is already cached, so a
-    ///     kill mid-download only re-fetches the one pack that was interrupted,
-    ///     and `SYSBootstrappedApp` calls this again itself on every foreground.
+    ///     a well-behaved `prepareContent` skips whatever is already cached, so
+    ///     a kill mid-download only re-fetches the one pack that was
+    ///     interrupted, and `SYSBootstrappedApp` calls this again itself on
+    ///     every foreground.
     ///   - assetProgress: called on the download's task while packs are fetched
     ///     — required or background, whichever is in use. Hop to the main actor
     ///     before touching UI.
+    ///   - prepareContent: what "download the required content" means for
+    ///     this app — a `SYSContentSync` instance's own `prepareRequired`, or
+    ///     a closure composing more than one for an app with several
+    ///     manifests. Required whenever `requiresAssets` or `backgroundAssets`
+    ///     is true; omitting it there fails closed with `.notConfigured`
+    ///     rather than silently doing nothing.
+    ///   - pruneContent: paired cleanup, run only after `prepareContent`
+    ///     succeeds. Omit it if there's nothing to prune.
     public static func start(
         config: SYSConfig = .shared,
         onboardingEnabled: Bool = true,
         requiresAssets: Bool = false,
         backgroundAssets: Bool = false,
         requiresConfig: Bool = false,
-        assetProgress: (@MainActor @Sendable (SYSAssetProgress) -> Void)? = nil
+        assetProgress: SYSAssetProgressHandler? = nil,
+        prepareContent: SYSPrepareContent? = nil,
+        pruneContent: SYSPruneContent? = nil
     ) async -> SYSAppState {
         // 1. Whatever is already on the device — instant, never fails.
         config.load()
@@ -77,8 +104,11 @@ public enum SYSBootstrap {
         // stale or missing list is never a reason to block launch.
         Task { await SYSAppCatalog.shared.refresh() }
 
+        let prepare = prepareContent ?? Self.unconfiguredPrepareContent
+        let prune = pruneContent ?? {}
+
         if backgroundAssets {
-            await beginBackgroundAssetDownload(progress: assetProgress)
+            await beginBackgroundAssetDownload(progress: assetProgress, prepareContent: prepare, pruneContent: prune)
         }
 
         // 4. Gates first: they override everything else.
@@ -101,7 +131,7 @@ public enum SYSBootstrap {
         //    where the download is likely to fail too, and the user needs the
         //    real reason rather than a generic network error.
         if requiresAssets {
-            let prepared = await SYSAssets.shared.prepareRequired(progress: assetProgress)
+            let prepared = await prepare(assetProgress)
             if case let .failure(error) = prepared {
                 SYSLogger.error("startup: required content unavailable — \(error)")
                 return .dataUnavailable(error)
@@ -109,7 +139,7 @@ public enum SYSBootstrap {
             // Pack names carry a content hash, so a republished pack lands beside
             // its predecessor. Left to each app to remember, this is the kind of
             // housekeeping that is skipped until a device fills up.
-            await SYSAssets.shared.pruneStalePacks()
+            await prune()
         }
 
         // 6. Onboarding before anything else the user could act on.
@@ -134,7 +164,8 @@ public enum SYSBootstrap {
         config: SYSConfig = .shared,
         onboardingEnabled: Bool = true,
         requiresConfig: Bool = false,
-        assetProgress: (@MainActor @Sendable (SYSAssetProgress) -> Void)? = nil
+        assetProgress: SYSAssetProgressHandler? = nil,
+        prepareContent: SYSPrepareContent? = nil
     ) async -> SYSAppState {
         // Config first, same reason as `start`: if the server is in
         // maintenance, say so rather than fail the download again.
@@ -145,18 +176,18 @@ public enum SYSBootstrap {
             return .maintenance(message: SYSMaintenance.message(config: config))
         }
 
-        let prepared = await SYSAssets.shared.prepareRequired(progress: assetProgress)
+        let prepare = prepareContent ?? Self.unconfiguredPrepareContent
+        let prepared = await prepare(assetProgress)
         if case let .failure(error) = prepared { return .dataUnavailable(error) }
-        if onboardingEnabled, SYSOnboarding.shouldShow { return .onboarding }
-        return resume(config: config)
+        return resume(config: config, onboardingEnabled: onboardingEnabled)
     }
 
     /// Continues after the app dismisses onboarding or what's-new.
     ///
     /// Kept separate so the app decides when its screen is finished rather than
     /// this guessing.
-    public static func resume(config: SYSConfig = .shared) -> SYSAppState {
-        if SYSOnboarding.shouldShow { return .onboarding }
+    public static func resume(config: SYSConfig = .shared, onboardingEnabled: Bool = true) -> SYSAppState {
+        if onboardingEnabled, SYSOnboarding.shouldShow { return .onboarding }
         if SYSWhatsNew.shouldShow(config: config), let notes = SYSWhatsNew.notes(config: config) {
             return .whatsNew(notes)
         }
@@ -206,15 +237,27 @@ public enum SYSBootstrap {
     /// rather than repeating the background-task wrapping itself.
     @MainActor
     static func beginBackgroundAssetDownload(
-        progress: (@MainActor @Sendable (SYSAssetProgress) -> Void)?
+        progress: SYSAssetProgressHandler?,
+        prepareContent: SYSPrepareContent? = nil,
+        pruneContent: SYSPruneContent? = nil
     ) {
+        let prepare = prepareContent ?? Self.unconfiguredPrepareContent
+        let prune = pruneContent ?? {}
         SYSBackgroundTask.run("sys.assets.background") {
-            let result = await SYSAssets.shared.prepareRequired(progress: progress)
+            let result = await prepare(progress)
             if case let .failure(error) = result {
-                SYSLogger.debug("assets: background download did not complete — \(error)")
+                SYSLogger.debug("content: background download did not complete — \(error)")
                 return
             }
-            await SYSAssets.shared.pruneStalePacks()
+            await prune()
         }
+    }
+
+    /// `requiresAssets`/`backgroundAssets` set with no `prepareContent` —
+    /// fails closed with a clear diagnostic instead of silently reporting
+    /// success for content that was never actually fetched.
+    private static let unconfiguredPrepareContent: SYSPrepareContent = { _ in
+        SYSLogger.error("startup: requiresAssets/backgroundAssets is true but no prepareContent was given")
+        return .failure(.notConfigured)
     }
 }

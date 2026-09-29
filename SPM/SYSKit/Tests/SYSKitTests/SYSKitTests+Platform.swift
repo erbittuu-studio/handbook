@@ -164,7 +164,9 @@ final class SYSPublishingTests: XCTestCase {
 /// shelling out to `zip`, which is what actually keeps this portable to the
 /// Linux CI runner `SYSZip.unzip` itself can't run on (no `Compression`
 /// framework there — this suite runs on macOS, where it can).
-private enum MiniZipBuilder {
+/// Not `private`: `SYSKitTests+ContentSync.swift`'s fixtures build zips
+/// with this too.
+enum MiniZipBuilder {
     struct Entry {
         let path: String
         let contents: Data
@@ -235,7 +237,7 @@ private enum MiniZipBuilder {
     }
 }
 
-private extension Data {
+extension Data {
     mutating func appendLE(_ value: UInt16) {
         append(UInt8(value & 0xff))
         append(UInt8((value >> 8) & 0xff))
@@ -310,80 +312,5 @@ final class SYSZipTests: XCTestCase {
         try Data("plain text, not a zip".utf8).write(to: notZipURL)
 
         XCTAssertThrowsError(try SYSZip.unzip(at: notZipURL, to: workDir.appendingPathComponent("out")))
-    }
-}
-
-// MARK: - SYSContentSync
-
-private struct FakeContentItem: SYSContentItem, Equatable {
-    let id: String
-    let bundle: String
-    let checksum: String?
-    let isPublished: Bool
-}
-
-@MainActor
-final class SYSContentSyncTests: XCTestCase {
-    /// A random storage folder and key pair per test — this exercises the
-    /// exact same `SYSSettings.shared` a real app uses (there is no
-    /// injectable instance), so uniqueness is what keeps two test runs, or a
-    /// test and a real app on the same machine, from ever sharing a key.
-    private func makeSync() -> SYSContentSync<FakeContentItem> {
-        let suffix = UUID().uuidString
-        let dataVersionKey = SYSSettingsKey<Int>("test.dataVersion.\(suffix)", default: 0)
-        let itemChecksumMapKey = SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(suffix)", default: [:])
-        let sync = SYSContentSync<FakeContentItem>(
-            storageFolder: "sysContentSyncTests-\(suffix)",
-            dataVersionKey: dataVersionKey,
-            itemChecksumMapKey: itemChecksumMapKey)
-        addTeardownBlock {
-            sync.clearAllData()
-            try? FileManager.default.removeItem(at: sync.rootURL)
-        }
-        return sync
-    }
-
-    func testLoadCachedMarksNothingDownloadedWhenDiskIsEmpty() {
-        let sync = makeSync()
-        let items = [FakeContentItem(id: "a", bundle: "a.zip", checksum: nil, isPublished: true)]
-
-        sync.loadCached(items)
-
-        XCTAssertEqual(sync.items, items)
-        XCTAssertEqual(sync.itemStates["a"], .notDownloaded)
-        XCTAssertFalse(sync.hasCachedContent)
-    }
-
-    func testLoadBundledMarksEverythingDownloaded() {
-        let sync = makeSync()
-        let items = [
-            FakeContentItem(id: "a", bundle: "a.zip", checksum: nil, isPublished: true),
-            FakeContentItem(id: "b", bundle: "b.zip", checksum: nil, isPublished: true)
-        ]
-
-        sync.loadBundled(items)
-
-        XCTAssertTrue(sync.hasCachedContent)
-        XCTAssertTrue(sync.isAvailable(id: "a"))
-        XCTAssertTrue(sync.isAvailable(id: "b"))
-        XCTAssertEqual(sync.syncState, .ready)
-        XCTAssertEqual(sync.meta(for: "a"), items[0])
-    }
-
-    func testClearAllDataResetsStateAndVersion() {
-        let sync = makeSync()
-        sync.loadBundled([FakeContentItem(id: "a", bundle: "a.zip", checksum: nil, isPublished: true)])
-        XCTAssertTrue(sync.hasCachedContent)
-
-        sync.clearAllData()
-
-        XCTAssertFalse(sync.hasCachedContent)
-        XCTAssertEqual(sync.dataVersion, 0)
-    }
-
-    func testUrlJoinsBaseAndPath() {
-        let sync = makeSync()
-        sync.configure(baseURL: "https://example.com/content")
-        XCTAssertEqual(sync.url(path: "items/a.zip")?.absoluteString, "https://example.com/content/items/a.zip")
     }
 }

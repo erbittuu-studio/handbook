@@ -19,6 +19,26 @@ public enum SYSHash {
         #endif
     }
 
+    /// Same digest, as raw bytes rather than hex — key material (`SYSCrypto`)
+    /// needs bytes, not a printable string.
+    public static func sha256(_ data: Data) -> Data {
+        #if canImport(CryptoKit)
+        return Data(SHA256.hash(data: data))
+        #else
+        // Reuses the portable hex digest rather than duplicating its logic —
+        // this path only runs on Linux, where nothing needs it to be fast.
+        var bytes = [UInt8]()
+        let hex = fallbackSHA256Hex(data)
+        var index = hex.startIndex
+        while index < hex.endIndex {
+            let next = hex.index(index, offsetBy: 2)
+            bytes.append(UInt8(hex[index ..< next], radix: 16) ?? 0)
+            index = next
+        }
+        return Data(bytes)
+        #endif
+    }
+
     // MARK: Portable implementation
 
     private static let k: [UInt32] = [

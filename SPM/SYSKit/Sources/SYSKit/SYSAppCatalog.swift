@@ -11,6 +11,14 @@ public struct SYSAppCatalogEntry: Codable, Equatable, Sendable {
     public var bundleId: String?
     public var appStoreUrl: String?
     public var category: String?
+
+    /// This entry's icon, hosted at `<baseURL>/<id>/<iconPath>` — every app
+    /// that shows a "More apps" section was building this same path by
+    /// hand; one spelling here instead.
+    public var iconURL: URL? {
+        guard let iconPath else { return nil }
+        return URL(string: "\(SYSHosting.baseURL)/\(id)/\(iconPath)")
+    }
 }
 
 struct SYSAppCatalogData: Codable, Equatable, Sendable {

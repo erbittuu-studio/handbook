@@ -159,6 +159,11 @@ public struct SYSConfigData: Codable {
     public var rating: Rating?
     public var urls: [String: String]?
     public var content: Content?
+    /// Names of this app's manifests — `SYSContentSync(manifestName:)` takes
+    /// one of these. An app with one content stream has a list of one; more
+    /// than one (Prarthana: `content`, `festivals`) means more than one
+    /// `SYSContentSync` instance, each entirely independent.
+    public var manifests: [String]?
     /// Support address for "Contact support". Falls back to `SYSAbout.supportEmail`
     /// when config hasn't loaded, so a launch with nothing cached still has one.
     public var supportEmail: String?

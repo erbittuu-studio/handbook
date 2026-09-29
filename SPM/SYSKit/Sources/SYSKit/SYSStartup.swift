@@ -43,6 +43,8 @@ public final class SYSStartup: ObservableObject {
     private let backgroundAssets: Bool
     private let requiresConfig: Bool
     private let launchEvent: SYSAnalyticsEvent?
+    private let prepareContent: SYSPrepareContent?
+    private let pruneContent: SYSPruneContent?
     private var isRunning = false
 
     /// - Parameters:
@@ -63,13 +65,17 @@ public final class SYSStartup: ObservableObject {
     ///   - launchEvent: tracked once the launch is known to be usable. The app
     ///     owns the event; this owns when it fires, so a launch blocked by
     ///     maintenance or a failed download is not counted as a normal open.
+    ///   - prepareContent/pruneContent: see `SYSBootstrap.start`. Both default
+    ///     to `SYSAssets` — an app on `SYSContentSync` passes its own instead.
     public init(
         config: SYSConfig = .shared,
         onboardingEnabled: Bool = true,
         requiresAssets: Bool = false,
         backgroundAssets: Bool = false,
         requiresConfig: Bool = false,
-        launchEvent: SYSAnalyticsEvent? = nil
+        launchEvent: SYSAnalyticsEvent? = nil,
+        prepareContent: SYSPrepareContent? = nil,
+        pruneContent: SYSPruneContent? = nil
     ) {
         self.config = config
         self.onboardingEnabled = onboardingEnabled
@@ -77,6 +83,8 @@ public final class SYSStartup: ObservableObject {
         self.backgroundAssets = backgroundAssets
         self.requiresConfig = requiresConfig
         self.launchEvent = launchEvent
+        self.prepareContent = prepareContent
+        self.pruneContent = pruneContent
     }
 
     /// Runs the launch sequence. Safe to call from `.task`, which SwiftUI may
@@ -96,7 +104,9 @@ public final class SYSStartup: ObservableObject {
             requiresAssets: requiresAssets,
             backgroundAssets: backgroundAssets,
             requiresConfig: requiresConfig,
-            assetProgress: { [weak self] update in self?.progress = update }
+            assetProgress: { [weak self] update in self?.progress = update },
+            prepareContent: prepareContent,
+            pruneContent: pruneContent
         )
         await settle(resolved, afterReady: afterReady)
     }
@@ -105,10 +115,15 @@ public final class SYSStartup: ObservableObject {
     /// `SYSBootstrappedApp` on every foreground; a UIKit app calls this itself
     /// from `sceneDidBecomeActive`. A no-op unless `backgroundAssets` is set,
     /// and costs nothing once everything required has already arrived —
-    /// `SYSAssets.prepareRequired` skips whatever is cached.
+    /// `prepareContent` (or `SYSAssets.prepareRequired` by default) skips
+    /// whatever is cached.
     public func resumeBackgroundAssets() {
         guard backgroundAssets else { return }
-        SYSBootstrap.beginBackgroundAssetDownload(progress: { [weak self] update in self?.progress = update })
+        SYSBootstrap.beginBackgroundAssetDownload(
+            progress: { [weak self] update in self?.progress = update },
+            prepareContent: prepareContent,
+            pruneContent: pruneContent
+        )
     }
 
     /// Re-attempts the content download after `.dataUnavailable`.
@@ -130,7 +145,8 @@ public final class SYSStartup: ObservableObject {
                 config: self.config,
                 onboardingEnabled: self.onboardingEnabled,
                 requiresConfig: self.requiresConfig,
-                assetProgress: { [weak self] update in self?.progress = update }
+                assetProgress: { [weak self] update in self?.progress = update },
+                prepareContent: self.prepareContent
             )
             await self.settle(resolved, afterReady: afterReady)
         }
@@ -138,7 +154,7 @@ public final class SYSStartup: ObservableObject {
 
     /// Moves past onboarding or release notes once the app's screen is done.
     public func advance() {
-        state = SYSBootstrap.resume(config: config)
+        state = SYSBootstrap.resume(config: config, onboardingEnabled: onboardingEnabled)
     }
 
     private func settle(_ resolved: SYSAppState, afterReady: (() async -> Void)?) async {

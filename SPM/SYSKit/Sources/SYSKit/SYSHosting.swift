@@ -14,7 +14,14 @@ import Foundation
 /// reads the staged `Hosting/Content` straight off disk instead. See `localContentURL`.
 public enum SYSHosting {
     private static var override: URL?
-    private static var cachedContentID: String??
+    /// Keyed by bundle identity, not a single slot — a real app only ever
+    /// calls this with `.main`, so in production this is a one-entry cache
+    /// for the process's lifetime either way. A single un-keyed slot looked
+    /// identical there and was wrong the moment anything (tests; more than
+    /// one `SYSContentSync` instance passing its own bundle) called this
+    /// with a second, different bundle in the same process: the first
+    /// bundle's id won and every later caller silently got it back too.
+    private static var contentIDCache: [ObjectIdentifier: String?] = [:]
 
     /// Point every hosted lookup somewhere else — a custom domain, or a staging
     /// site. Call before `SYSBootstrap.start`.
@@ -29,10 +36,11 @@ public enum SYSHosting {
     /// This app's folder under `baseURL`, e.g. `"abclearning"` — from
     /// `SYSContentID` in Info.plist, or nil if the app hasn't set one.
     public static func contentID(bundle: Bundle = .main) -> String? {
-        if let cached = cachedContentID { return cached }
+        let key = ObjectIdentifier(bundle)
+        if let cached = contentIDCache[key] { return cached }
 
         let value = bundle.object(forInfoDictionaryKey: "SYSContentID") as? String
-        cachedContentID = value
+        contentIDCache[key] = value
         if value == nil {
             SYSLogger.info("hosting: no SYSContentID in Info.plist — set the site URL explicitly")
         }
@@ -134,7 +142,7 @@ public enum SYSHosting {
     /// Testing seam: forget what was read so a different bundle can be used.
     public static func resetForTesting() {
         override = nil
-        cachedContentID = nil
+        contentIDCache = [:]
         #if DEBUG
         cachedLocalContent = nil
         #endif

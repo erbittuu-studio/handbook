@@ -87,17 +87,34 @@ public actor SYSNetwork {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeout
 
-        do {
-            let (fileURL, response) = try await session.download(for: request)
-            guard let http = response as? HTTPURLResponse else { return fileURL }
-            guard 200 ..< 300 ~= http.statusCode else {
-                throw SYSNetworkError.http(status: http.statusCode)
+        // Same retry rule as `load`: a pack is several megabytes over a phone
+        // connection, and one dropped socket or a 5xx from the host shouldn't
+        // cost the whole pack. A 4xx, or the caller cancelling, is not retried.
+        var attempt = 0
+        while true {
+            do {
+                let (fileURL, response) = try await session.download(for: request)
+                guard let http = response as? HTTPURLResponse else { return fileURL }
+                guard 200 ..< 300 ~= http.statusCode else {
+                    try? FileManager.default.removeItem(at: fileURL)
+                    throw SYSNetworkError.http(status: http.statusCode)
+                }
+                return fileURL
+            } catch let error as SYSNetworkError {
+                guard case .http(let status) = error, status >= 500, attempt < maxRetries else { throw error }
+                attempt += 1
+                try await Task.sleep(nanoseconds: Self.backoff(attempt))
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch let error as URLError where error.code == .cancelled {
+                throw error
+            } catch {
+                guard attempt < maxRetries else {
+                    throw Self.isOffline(error) ? SYSNetworkError.offline : error
+                }
+                attempt += 1
+                try await Task.sleep(nanoseconds: Self.backoff(attempt))
             }
-            return fileURL
-        } catch let error as SYSNetworkError {
-            throw error
-        } catch {
-            throw Self.isOffline(error) ? SYSNetworkError.offline : error
         }
     }
 

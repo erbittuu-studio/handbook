@@ -25,6 +25,14 @@ public enum SYSVersion {
         compare(lhs, rhs) == .orderedAscending
     }
 
+    /// True when the running app's version is new enough to satisfy
+    /// `minimum` — the same dotted-numeric comparison as `isOlder`, phrased
+    /// for a "is this new enough" call site (a content manifest's own
+    /// minimum-version gate, say) rather than "is this too old".
+    public static func isAtLeast(_ minimum: String, current: String = SYSVersion.current()) -> Bool {
+        !isOlder(current, than: minimum)
+    }
+
     /// The running app's marketing version, e.g. "2.5.1".
     public static func current(bundle: Bundle = .main) -> String {
         bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"

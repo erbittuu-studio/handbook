@@ -25,6 +25,12 @@ final class SYSVersionTests: XCTestCase {
     func testNonNumericComponentsDoNotCrash() {
         XCTAssertEqual(SYSVersion.compare("1.x.0", "1.0.0"), .orderedSame)
     }
+
+    func testIsAtLeastIsTheOppositePhrasingOfIsOlder() {
+        XCTAssertTrue(SYSVersion.isAtLeast("1.9.0", current: "1.10.0"))
+        XCTAssertTrue(SYSVersion.isAtLeast("1.0.0", current: "1.0.0"))
+        XCTAssertFalse(SYSVersion.isAtLeast("2.0.0", current: "1.9.9"))
+    }
 }
 
 // MARK: - Config decoding
