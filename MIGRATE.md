@@ -158,6 +158,11 @@ App Store Sync brings in whatever Apple already has.
 | `dorny/paths-filter` fails with "Resource not accessible by integration" | The workflow's `permissions:` block needs `pull-requests: read` — `contents: read` alone isn't enough |
 | `pr.yml`'s secret-scan flags its own source code | gitleaks' `private-key` rule matches the literal `-----BEGIN PRIVATE KEY-----` string anywhere, including marker text that isn't a real key. Confirm with a local scan, suppress with `# gitleaks:allow` |
 | Secret-scan false positive persists after adding `gitleaks:allow` | gitleaks scans each commit individually — a later-commit comment doesn't clear an earlier one. Scan the working tree at HEAD (`--no-git`, no `--log-opts` range) instead of git history |
+| First launch sits on the splash for the whole content download | `prepareContent` waited for every pack. Return after the manifest and download packs behind Home (PLAYBOOK §8, Hosted content) |
+| Manifest-only refresh, then a "download all" that downloads nothing | The second call got a 304 for the ETag the first stored. Use `SYSContentSync.downloadMissing(progress:)` |
+| Every pack reads as "not found" although it downloaded and verified | The model decoding `index.json` requires a key the published packs do not have. Decode only what is published |
+| Existing installs see onboarding again after adopting `SYSOnboarding` | The app's old "onboarded" flag was never carried over. Call `SYSOnboarding.markSeen()` at launch when it is set |
+| Settings reset on upgrade after moving to `@SYSStored` | The key or its stored type changed. Keep the old key name and its native type (`Bool` as `Bool`, not JSON) |
 | Tag never triggers the Release workflow | Still using a tag-based trigger — this system is branch-driven (PLAYBOOK §5) |
 | Screenshots run red: "failures of processing" | Apple processed slowly after a successful upload — check the listing before re-running |
 | Tag pushed by a workflow triggers nothing | GitHub blocks workflow-created tags from firing other workflows — expected, since releases are branch-driven and the tag is meant to trigger nothing |

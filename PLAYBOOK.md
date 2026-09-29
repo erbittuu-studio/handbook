@@ -181,7 +181,7 @@ Three sections say what is a decision and not an accident, and a check fails whe
 
 | Section | It says | Held to it by |
 |---|---|---|
-| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
+| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, `stored`, `streak`, `connectivity`, `backgroundTask`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
 | `validation` | `expected`: the checks this app runs. `own`: scripts the app keeps that run with them, reported apart and not counted. `skip`: a shared check it declines, with the reason. | `validate.py`: a missing or unlisted check fails the run. |
 | `overrides` | Each build setting the project sets differently from `Base.xcconfig`, with the reason. | `project.py`: any other difference, or a listed one that no longer differs, fails. |
 
@@ -411,35 +411,94 @@ synced, written into the app's copy — commit it.
 
 ### Hosted content
 
-An app that ships content separately from its binary uses `SYSAssets`. The
-site serves a `manifest.json` naming every pack; `Hosting/build.py` produces
-it alongside `config.json` in one staging step, since a Hosting deploy
-replaces the whole site.
+An app that ships content separately from its binary uses `SYSContentSync`:
+one instance per manifest, packs served encrypted (`SYSCrypto`, keyed by the
+app's App Store id in `Info.plist` as `SYSContentID`), each verified against the
+manifest's SHA-256 before it is decrypted and unzipped into a live/backup
+layout, so a failed install restores what was there.
 
-Pack filenames are **content-addressed** (`seaworld-3446a234.json`) — new
-content gets a new filename, so an installed app keeps resolving the URL it
-already cached, and `/packs/**` can be marked immutable. Packs are JSON, not
-zip: iOS has no public unzip API and PES forbids remote packages, and Hosting
-gzips JSON on the wire for comparable bytes anyway.
+**Start up manifest-first.** A first launch that waits for every pack holds the
+app on a splash for the whole download (ABCLearning's is ~70 MB). Pass both
+flags and let `prepareContent` return once the manifest is known:
 
-For apps whose content is **not** optional, pass `requiresAssets: true` to
-`SYSBootstrap.start`. Startup fails closed with
-`.dataUnavailable(SYSAssetsError)` instead of reaching a home screen with
-nothing to draw. This check runs *after* the maintenance/force-update gates.
+```swift
+SYSStartup(requiresAssets: true, backgroundAssets: true,
+           prepareContent: { progress in await content.prepareContent(progress: progress) })
+```
 
-Downloads verify the manifest's SHA-256; a hash mismatch is not retried (the
-server is wrong, not the connection), nor is a 4xx. Only genuine network
-failures retry, three times with a short backoff.
+```swift
+func prepareContent(progress: SYSAssetProgressHandler?) async -> Result<Void, SYSContentError> {
+    await sync.refresh(downloadAll: false)          // manifest only; cached copy when offline
+    guard hasContent else { return .failure(sync.lastManifestError ?? .notConfigured) }
+    startDownloadTask { await sync.downloadMissing(progress: progress) }   // behind Home
+    return .success(())
+}
+```
 
-| Concern | Handler |
-|---|---|
-| Pack index, download, cache, prune | `SYSAssets` |
-| Startup gating on required content | `SYSBootstrap` (`requiresAssets:`) |
-| Integrity | `SYSHash` |
+- `requiresAssets` makes "no manifest and nothing cached" a `.dataUnavailable`,
+  which the app renders with SYSKit's own blocker and `startup.retry()`. An app
+  keeps no content-failure screen or download state of its own.
+- `backgroundAssets` re-runs `prepareContent` on every foreground, which is what
+  resumes an interrupted download. Keep the manifest step and the download task
+  each single-flight, because launch and foreground can overlap.
+- `downloadMissing(progress:)` fetches whatever is not on disk without another
+  manifest request. Use it after `refresh(downloadAll: false)`; do not call
+  `refresh(downloadAll: true)` for the same purpose, see below.
+- A tile the user taps calls `ensure(_:)`, which shares any download already in
+  flight for that item.
 
-**Content that is remote-only makes first launch require a network** — a
-product decision: either the offline claim changes, or a starter set ships
-in the bundle.
+Behaviours to rely on, all covered by tests:
+
+- **A 304 is not "everything is downloaded".** `refresh` stores the ETag, so a
+  `downloadAll: false` call followed by `downloadAll: true` gets `notModified`.
+  `SYSContentSync` now downloads what is missing in that case; an app must not
+  assume the second call was a no-op.
+- Downloads run three at a time, each through `ensure`, so they never race a tap
+  on the same pack.
+- Hashing, decrypting and unzipping run off the main actor.
+- `SYSNetwork.download` retries 5xx and dropped connections (two retries with
+  backoff) like `data` requests do. A hash mismatch or a 4xx is never retried.
+- A pack's `index.json` decodes with only the keys it really has. A required key
+  the published packs lack fails every pack, and every caller reads that as
+  "pack not found". Decode into a type of exactly what is published.
+
+**Content that is remote-only makes first launch require a network**; a product
+decision: either the offline claim changes, or a starter set ships in the
+bundle.
+
+### Launch, onboarding and preferences
+
+**One state drives launch.** Everything an app shows between process start and
+its home screen is a function of `SYSAppState`; an app keeps no navigation enum
+of its own (no `splash / onboarding / home`).
+
+```swift
+func screen(for state: SYSAppState?) -> some View {
+    switch state {
+    case .onboarding:                 OnboardingScreen(onFinish: finishOnboarding)
+    case .ready, .whatsNew:           HomeScreen()
+    case .maintenance, .updateRequired, .dataUnavailable: /* SYS blocker */
+    case .none:                       SplashScreen()
+    }
+}
+```
+
+- **Onboarding is `SYSOnboarding`.** Pass `onboardingEnabled: true`; the first-run
+  screen calls `SYSOnboarding.markSeen()` then `startup.advance()`. Bump
+  `SYSOnboarding.currentVersion` to show it again. An app that had its own
+  "onboarded" flag must call `markSeen()` at launch when that flag is set, or every
+  existing install sees onboarding again on update.
+- Work that must happen once per launch after startup succeeds (launch counters,
+  notification prompts) goes in `afterReady()`, not in a screen's `onAppear`.
+- **Preferences are `@SYSStored`** on an `ObservableObject`:
+  `@SYSStored("kl.shuffleMode", default: true) var shuffleMode: Bool`. It reads
+  and writes the native `UserDefaults` value, so keys inherited from an older
+  build keep working, publishes on change, and needs no save call. Typed values
+  (an enum, a struct) store their raw `String` and expose a computed property.
+  `SYSSettings` covers one-off reads.
+- Preferences written from a test with `simctl spawn defaults write` survive an
+  app uninstall in the simulator, so a "fresh install" check needs
+  `defaults delete <bundle id>` as well.
 
 ### Analytics
 
