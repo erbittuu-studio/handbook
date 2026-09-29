@@ -35,11 +35,13 @@ for target in "$@"; do
   done
 
   # 2. Firebase's manual integration needs -ObjC. Without it nothing fails to
-  #    build; categories just do not load and it breaks at runtime.
+  #    build; categories just do not load and it breaks at runtime. Apps that keep
+  #    shared build settings in App/Config/*.xcconfig set it there, not in the project.
   # App/Vendor/ is the current convention; App/Packages/ is the pre-split
   # layout some apps still carry.
   if { [[ -d "$target/App/Vendor/FirebaseKit" ]] || [[ -d "$target/App/Packages/FirebaseKit" ]]; } \
-    && ! grep -q '"-ObjC"' "$pbx"; then
+    && ! grep -q '"-ObjC"' "$pbx" \
+    && ! grep -qs -e '-ObjC' "$target"/App/Config/*.xcconfig; then
     echo "   ✗ FirebaseKit is vendored but -ObjC is missing from OTHER_LDFLAGS"
     fail=1
   fi
