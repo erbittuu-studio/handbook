@@ -103,6 +103,13 @@ RULES: list[tuple[str, str, str]] = [
         "one place SYSKit already guards",
     ),
     (
+        r"\bAVSpeechSynthesizer\b",
+        "SYSSpeech",
+        "a synthesizer built per call pays its cold start on every call, nothing "
+        "ends the audio ducking it causes, and a caller that cannot await the end "
+        "of speech ends up guessing with timers",
+    ),
+    (
         r"\bUNUserNotificationCenter\s*\.\s*current\(\)",
         "SYSNotifications",
         "scheduling or asking permission directly skips the shared "

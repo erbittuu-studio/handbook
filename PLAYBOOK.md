@@ -548,6 +548,16 @@ Verifying a screen that is three taps in should not take three blind taps. In a 
 reads `CommandLine.arguments` itself, and `sys_adoption` fails if it does. The app decides which names exist; a
 route it does not know is ignored. `-debugOrientation landscape|portrait` turns the window once at launch, through `SYSDebugRoute.applyLaunchOrientation()`, because the simulator cannot be rotated from the command line. With `simctl`, `xcrun simctl launch <udid> <bundle id> -debugRoute quiz`.
 
+### Speech
+
+Text to speech is `SYSSpeech.shared`, configured once at launch with `configure(language:genderKey:)`. It keeps one
+synthesizer, warms it up, and picks the voice with `SYSVoicePicker`, which never chooses a voice of the opposite
+gender to the one asked for. `speak(_:)` is `async` and returns `true` when the speech finished and `false` when it
+was replaced or cancelled, so a flow waits for the real end of speech and never for a timer or an estimate.
+`start(_:)` is the same without waiting. Audio ducking of other apps ends a second after the last speech. What stays
+in the app: what to say, the rate and pitch of each kind of phrase, and any pronunciation table. `sys_adoption`
+fails on `AVSpeechSynthesizer` in app code.
+
 ### Analytics
 
 The manager is shared; the vocabulary is not. Apps declare their own events
