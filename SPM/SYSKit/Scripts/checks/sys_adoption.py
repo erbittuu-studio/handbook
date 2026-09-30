@@ -105,6 +105,43 @@ RULES: list[tuple[str, str, str]] = [
     ),
 ]
 
+# Rules about layout, the only ones that also apply outside App/Source: an extension
+# target or an owned package measures the window too, and gets it wrong the same way.
+LAYOUT_RULES: list[tuple[str, str, str]] = [
+    (
+        r"\bUIScreen\b",
+        "SYSMetrics for the window's size, @Environment(\\.displayScale) for pixel scale",
+        "a device with two displays has no single screen, and UIScreen reads the "
+        "display rather than the window, so Split View and the folded pose report "
+        "a size the app is not actually given",
+    ),
+    (
+        r"\buserInterfaceIdiom\b|\bisPad\w*\b",
+        "the size classes or SYSMetrics",
+        "an idiom says what the device is, not how much room the window has — an "
+        "iPad in Split View, a phone in landscape and iPhone Duo open all break "
+        "the assumption in different directions",
+    ),
+    (
+        r"\bUIDevice\s*\.\s*current\s*\.\s*(orientation|model)\b",
+        "SYSMetrics.aspect or the size classes",
+        "device orientation says nothing about the window's shape, and the inner "
+        "display rotates regardless of the orientations the app declares",
+    ),
+    (
+        r"\.windows\.first\b|\.keyWindow\b|\bUIApplication\s*\.\s*shared\s*\.\s*windows\b",
+        "the scene the view is in (window?.windowScene or the SwiftUI environment)",
+        "with more than one scene open this picks an arbitrary window, so the "
+        "result is right until the app is in Split View or on a second display",
+    ),
+    (
+        r"(?i)^(?!.*\b(translation|velocity|predictedEndTranslation)\b).*\b\w*(width|height)\w*\s*[<>]=?\s*\d{3,4}\b",
+        "SYSMetrics or a size class",
+        "a breakpoint tuned to one phone is wrong on the next device — every "
+        "such number is a size the app will meet in a shape it was not drawn for",
+    ),
+]
+
 # An app's entry point should hand its launch to SYSKit rather than re-deriving
 # the sequence. Checked separately because it is an absence, not a pattern.
 ENTRY_POINT = re.compile(r"@main\s+struct\s+(\w+)\s*:\s*([^{]+)\{", re.MULTILINE)
@@ -123,7 +160,7 @@ def opted_out_above(lines: list[str], line_number: int) -> bool:
     return False
 
 
-def scan(root: Path, source: Path) -> list[str]:
+def scan(root: Path, source: Path, rules: list[tuple[str, str, str]], entry_point: bool) -> list[str]:
     problems: list[str] = []
 
     entry_points: list[tuple[Path, str, str]] = []
@@ -139,15 +176,16 @@ def scan(root: Path, source: Path) -> list[str]:
             stripped = line.strip()
             if stripped.startswith("//") or stripped.startswith("///"):
                 continue
-            for pattern, replacement, why in RULES:
+            for pattern, replacement, why in rules:
                 if re.search(pattern, line):
                     problems.append(
                         f"{rel}:{line_number}: use {replacement} — {why}\n"
                         f"    {stripped[:100]}"
                     )
 
-        for match in ENTRY_POINT.finditer(text):
-            entry_points.append((rel, match.group(1), match.group(2)))
+        if entry_point:
+            for match in ENTRY_POINT.finditer(text):
+                entry_points.append((rel, match.group(1), match.group(2)))
 
     for rel, name, conformances in entry_points:
         if "SYSBootstrappedApp" not in conformances:
@@ -161,12 +199,25 @@ def scan(root: Path, source: Path) -> list[str]:
     return problems
 
 
+def app_code_dirs(ctx) -> list[Path]:
+    """Everywhere the app's own Swift lives: the source, its extension targets, and
+    any package under App/Packages it declares as its own in `ownedPackages`."""
+    folders = [ctx.root / "App" / "Source", ctx.root / "App" / "Watch", ctx.root / "App" / "Widget"]
+    for name in ctx.project.get("ownedPackages") or []:
+        folders.append(ctx.root / "App" / "Packages" / name)
+    return [folder for folder in folders if folder.is_dir()]
+
+
 def check(ctx):
     source = ctx.root / "App" / "Source"
     if not source.is_dir():
         return [f"{source} does not exist"]
 
-    problems = scan(ctx.root, source)
+    folders = app_code_dirs(ctx)
+    problems = scan(ctx.root, source, RULES + LAYOUT_RULES, entry_point=True)
+    for folder in folders:
+        if folder != source:
+            problems += scan(ctx.root, folder, LAYOUT_RULES, entry_point=False)
     if problems:
         problems.append(
             "SYSKit exists so every app behaves the same way and one fix reaches all "
@@ -174,5 +225,5 @@ def check(ctx):
             "comment on it or directly above it, if this app genuinely has to differ."
         )
     else:
-        print(f"  {len(list(source.rglob('*.swift')))} Swift file(s) clean")
+        print(f"  {sum(len(list(folder.rglob('*.swift'))) for folder in folders)} Swift file(s) clean")
     return problems

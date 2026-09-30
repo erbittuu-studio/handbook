@@ -87,6 +87,7 @@ ADOPTION = {
     "streak": r"\bSYSStreak\b",
     "connectivity": r"\bSYSConnectivity\b",
     "backgroundTask": r"\bSYSBackgroundTask\b",
+    "layout": r"\bSYSMetrics\b|\bsysMetrics\b",
 }
 SOURCE_DIRS = ("App/Source", "App/Watch", "App/Widget")
 

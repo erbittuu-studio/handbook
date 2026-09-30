@@ -10,8 +10,8 @@
 // no Firebase. The Firebase wiring lives in the separate SYSFirebase package,
 // which is only resolvable once vendored next to FirebaseKit inside an app.
 //
-// It also contains no screens. It drives startup and returns state; the app
-// owns every pixel.
+// It also contains no full screens. It drives startup and returns state; the app
+// owns every pixel of how a screen looks.
 import PackageDescription
 
 let package = Package(

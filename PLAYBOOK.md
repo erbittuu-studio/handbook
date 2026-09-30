@@ -181,7 +181,7 @@ Three sections say what is a decision and not an accident, and a check fails whe
 
 | Section | It says | Held to it by |
 |---|---|---|
-| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, `stored`, `streak`, `connectivity`, `backgroundTask`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
+| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, `stored`, `streak`, `connectivity`, `backgroundTask`, `layout`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
 | `validation` | `expected`: the checks this app runs. `own`: scripts the app keeps that run with them, reported apart and not counted. `skip`: a shared check it declines, with the reason. | `validate.py`: a missing or unlisted check fails the run. |
 | `overrides` | Each build setting the project sets differently from `Base.xcconfig`, with the reason. | `project.py`: any other difference, or a listed one that no longer differs, fails. |
 
@@ -341,8 +341,10 @@ without Xcode, a simulator or Firebase. Its tests run in **this repo's** CI,
 not in each app. They run on macOS, not Linux, because `SYSNetwork` uses
 URLSession's async API, which swift-corelibs-foundation doesn't provide.
 
-`SYSKit` contains **no screens** and imports no UI framework — it returns
-state, the app renders it.
+`SYSKit` contains **no full screens** — it returns state, the app renders it. Small
+UI utilities are allowed where a shared behaviour needs a view to carry it
+(`SYSAssetGate`, `SYSShareSheet`, `SYSMetrics`'s environment); the app still owns
+every pixel of how a screen looks.
 
 ### Startup
 
@@ -499,6 +501,29 @@ func screen(for state: SYSAppState?) -> some View {
 - Preferences written from a test with `simctl spawn defaults write` survive an
   app uninstall in the simulator, so a "fresh install" check needs
   `defaults delete <bundle id>` as well.
+
+### Layout
+
+An app never measures the screen. The root view calls `.sysMetrics(reference:)` once and every view
+reads `@Environment(\.sysMetrics)`:
+
+| It gives | Notes |
+|---|---|
+| `scale`, `s(_:)`, `f(_:)` | One continuous scale from the window's content size against the app's reference. Same in either orientation, clamped to the reference's range. `f` moves less than `s`, so text stays readable at both ends. |
+| `aspect`, `isLandscape` | The window's shape, not the device's. |
+| `isCompactWidth`, `isCompactHeight` | The size classes. |
+| `columns(minimumWidth:spacing:)`, `margin(readableWidth:)` | Grid columns and centring margins from the width the view actually has. |
+| `contentSize`, `safeArea` | The window less its safe area, and each edge on its own. |
+
+The reference is per app: `SYSMetrics.Reference(shortSide:longSide:)` is the content size at which the design
+is drawn at exactly 1.0 (`.phone` is 393 x 759). Pixel scale is `@Environment(\.displayScale)`.
+
+App code does not use `UIScreen`, `userInterfaceIdiom` or `isPad`, `UIDevice.current.orientation` or `.model`,
+`.windows.first` or `.keyWindow`, or a numeric width/height breakpoint, and `sys_adoption` fails on each. Every
+one of them asserts something fixed about the device: iPhone Duo, Split View and a tablet window shrunk to a
+slice all break it, in different directions. Ask the size class or `SYSMetrics` instead. `sys-ok: <reason>` opts a
+line out. What stays in the app: spacing, radii and fonts, and any layout decision built on top, written as an
+extension of `SYSMetrics`.
 
 ### Analytics
 
