@@ -539,6 +539,15 @@ device: iPhone Duo, Split View and a tablet window shrunk to a slice all break i
 `sys-ok: <reason>` opts a line out. What stays in the app: spacing, radii and fonts, and any layout decision
 built on top, written as an extension of `SYSMetrics`.
 
+### Debug launch
+
+Verifying a screen that is three taps in should not take three blind taps. In a Debug build, launch with
+`-debugRoute <name>[/<id>]` and the app opens that screen, or with `-debugState maintenance|update|offline` and
+`SYSStartup` shows that launch blocker instead of starting. The app reads the route from `SYSDebugRoute.launch`
+(`name` and `id`, nil in Release and when the flag is absent) and maps names to its own navigation. It never
+reads `CommandLine.arguments` itself, and `sys_adoption` fails if it does. The app decides which names exist; a
+route it does not know is ignored. With `simctl`, `xcrun simctl launch <udid> <bundle id> -debugRoute quiz`.
+
 ### Analytics
 
 The manager is shared; the vocabulary is not. Apps declare their own events

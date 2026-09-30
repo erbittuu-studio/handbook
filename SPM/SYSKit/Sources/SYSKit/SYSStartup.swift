@@ -158,6 +158,10 @@ public final class SYSStartup: ObservableObject {
     }
 
     private func settle(_ resolved: SYSAppState, afterReady: (() async -> Void)?) async {
+        if let forced = SYSAppState.debugForced {
+            state = forced
+            return
+        }
         if case .dataUnavailable = resolved {
             state = resolved
             return
