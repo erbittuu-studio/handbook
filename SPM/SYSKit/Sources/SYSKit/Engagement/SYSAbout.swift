@@ -12,6 +12,12 @@ import Foundation
 public enum SYSAbout {
     public static let developer = "Utsav Patel"
 
+    public static func appName(bundle: Bundle = .main) -> String {
+        bundle.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+            ?? bundle.object(forInfoDictionaryKey: "CFBundleName") as? String
+            ?? ""
+    }
+
     /// Where "Contact support" writes to. Reads `config.json`'s `supportEmail`
     /// once `SYSConfig` has one — changeable with no app release — and falls
     /// back to the literal below for a launch with nothing fetched or bundled

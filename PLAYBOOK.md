@@ -560,6 +560,20 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 Colour stays in the app: a theme's accent, gradients and on-accent colour are the app's identity, and
 belong in one `Palette`. The rule is that a colour, a spacing, a duration or a symbol name is written once.
 
+### App identity
+
+What the app is called, where it lives in the store and which URL scheme it answers to is written once, in
+`Info.plist`, and read from there:
+
+| Fact | Where it is written | Read with |
+|---|---|---|
+| Display name | `CFBundleDisplayName` | `SYSAbout.appName()` |
+| App Store id | `SYSAppStoreID` | `SYSAppStore.url()`, `SYSAppStore.openReview()` |
+| URL scheme | `CFBundleURLTypes` | `SYSDeepLink.matches(url)`, `SYSDeepLink.url(host:path:)` |
+| Support email | `config.json` `supportEmail` | `SYSAbout.supportEmail` |
+
+An app does not keep an identity type that restates them.
+
 ### Debug launch
 
 Verifying a screen that is three taps in should not take three blind taps. In a Debug build, launch with

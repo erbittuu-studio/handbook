@@ -14,6 +14,25 @@ public enum SYSDeepLink {
         url.scheme == scheme
     }
 
+    /// The first URL scheme the app registers in `CFBundleURLTypes`, so the
+    /// scheme is written once, in the Info.plist, and never in code.
+    public static func scheme(bundle: Bundle = .main) -> String? {
+        let types = bundle.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]]
+        return types?.lazy.compactMap { ($0["CFBundleURLSchemes"] as? [String])?.first }.first
+    }
+
+    public static func matches(_ url: URL, bundle: Bundle = .main) -> Bool {
+        scheme(bundle: bundle).map { matches(url, scheme: $0) } ?? false
+    }
+
+    public static func url(scheme: String, host: String, path: String) -> URL? {
+        URL(string: "\(scheme)://\(host)/\(path)")
+    }
+
+    public static func url(host: String, path: String, bundle: Bundle = .main) -> URL? {
+        scheme(bundle: bundle).flatMap { url(scheme: $0, host: host, path: path) }
+    }
+
     /// `URLComponents` for `url`, or nil if its scheme doesn't match. Saves
     /// every call site the same two lines: check the scheme, then parse.
     public static func components(_ url: URL, expectingScheme scheme: String) -> URLComponents? {
