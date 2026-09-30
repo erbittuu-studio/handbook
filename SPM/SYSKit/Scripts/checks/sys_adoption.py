@@ -135,6 +135,18 @@ LAYOUT_RULES: list[tuple[str, str, str]] = [
         "result is right until the app is in Split View or on a second display",
     ),
     (
+        r"\bisLandscape\b|\bisPortrait\b",
+        "the size classes, ViewThatFits or SYSTwoPane",
+        "orientation is not a question about room — a foldable held open is "
+        "neither, and the layout that answers it is wrong on the next shape",
+    ),
+    (
+        r"(?i)\bwidth\w*\s*[<>]=?\s*[\w.]*height",
+        "the size classes, ViewThatFits or SYSTwoPane",
+        "comparing width to height is orientation by another name; ask how "
+        "much room there is, not which way the window is turned",
+    ),
+    (
         r"(?i)^(?!.*\b(translation|velocity|predictedEndTranslation)\b).*\b\w*(width|height)\w*\s*[<>]=?\s*\d{3,4}\b",
         "SYSMetrics or a size class",
         "a breakpoint tuned to one phone is wrong on the next device — every "

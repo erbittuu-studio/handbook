@@ -181,7 +181,7 @@ Three sections say what is a decision and not an accident, and a check fails whe
 
 | Section | It says | Held to it by |
 |---|---|---|
-| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, `stored`, `streak`, `connectivity`, `backgroundTask`, `layout`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
+| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, `stored`, `streak`, `connectivity`, `backgroundTask`, `layout`, `blocker`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
 | `validation` | `expected`: the checks this app runs. `own`: scripts the app keeps that run with them, reported apart and not counted. `skip`: a shared check it declines, with the reason. | `validate.py`: a missing or unlisted check fails the run. |
 | `overrides` | Each build setting the project sets differently from `Base.xcconfig`, with the reason. | `project.py`: any other difference, or a listed one that no longer differs, fails. |
 
@@ -343,8 +343,9 @@ URLSession's async API, which swift-corelibs-foundation doesn't provide.
 
 `SYSKit` contains **no full screens** — it returns state, the app renders it. Small
 UI utilities are allowed where a shared behaviour needs a view to carry it
-(`SYSAssetGate`, `SYSShareSheet`, `SYSMetrics`'s environment); the app still owns
-every pixel of how a screen looks.
+(`SYSAssetGate`, `SYSShareSheet`, `SYSMetrics`'s environment). The one exception is the
+launch blocker, `SYSLaunchBlocker`: the states it shows are the startup contract every app
+obeys, so the screen is shared too. The app still supplies every colour, font and string.
 
 ### Startup
 
@@ -510,20 +511,32 @@ reads `@Environment(\.sysMetrics)`:
 | It gives | Notes |
 |---|---|
 | `scale`, `s(_:)`, `f(_:)` | One continuous scale from the window's content size against the app's reference. Same in either orientation, clamped to the reference's range. `f` moves less than `s`, so text stays readable at both ends. |
-| `aspect`, `isLandscape` | The window's shape, not the device's. |
-| `isCompactWidth`, `isCompactHeight` | The size classes. |
-| `columns(minimumWidth:spacing:)`, `margin(readableWidth:)` | Grid columns and centring margins from the width the view actually has. |
-| `contentSize`, `safeArea` | The window less its safe area, and each edge on its own. |
+| `isCompactWidth`, `isCompactHeight` | The size classes: compact width on the outer display, regular on the inner. |
+| `hasFold`, `isFolded` | Whether the device has a fold at all (true even when flat: use it for stable choices), and whether it is folded right now (use it for live ones). |
+| `usableFrames`, `occlusions` | The content area split around an active fold, and the active camera regions, for custom manually placed controls. System containers already avoid both. |
+| `columns(minimumWidth:spacing:)`, `margin(readableWidth:)` | Grid columns and centring margins from the width the view actually has. Columns are even on any device with a fold, so the grid does not reshuffle as the device bends. |
+| `contentSize`, `contentFrame`, `safeArea` | The window less its safe area, and each edge on its own. |
 
 The reference is per app: `SYSMetrics.Reference(shortSide:longSide:)` is the content size at which the design
 is drawn at exactly 1.0 (`.phone` is 393 x 759). Pixel scale is `@Environment(\.displayScale)`.
 
+There is deliberately no aspect ratio and no `isLandscape`. Orientation is not a question about room, and a
+foldable held open is neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or hand two
+views to `SYSTwoPane`, which is `ArrangementView` on iOS 27.1 and a size-class stack or row before that.
+
+| Component | Replaces |
+|---|---|
+| `SYSTwoPane` | An `HStack` or `VStack` chosen by comparing width to height. |
+| `SYSColumnGrid` | A hand-measured `LazyVGrid` column count. |
+| `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote. |
+| `SYSLaunchBlocker`, `blocker(for:style:text:)` | Each app's own maintenance, update and offline screens. Strings come from `SYSLaunchBlockerText` so the app localizes them. |
+
 App code does not use `UIScreen`, `userInterfaceIdiom` or `isPad`, `UIDevice.current.orientation` or `.model`,
-`.windows.first` or `.keyWindow`, or a numeric width/height breakpoint, and `sys_adoption` fails on each. Every
-one of them asserts something fixed about the device: iPhone Duo, Split View and a tablet window shrunk to a
-slice all break it, in different directions. Ask the size class or `SYSMetrics` instead. `sys-ok: <reason>` opts a
-line out. What stays in the app: spacing, radii and fonts, and any layout decision built on top, written as an
-extension of `SYSMetrics`.
+`isLandscape` or `isPortrait`, a width compared to a height, `.windows.first` or `.keyWindow`, or a numeric
+width/height breakpoint, and `sys_adoption` fails on each. Every one of them asserts something fixed about the
+device: iPhone Duo, Split View and a tablet window shrunk to a slice all break it, in different directions.
+`sys-ok: <reason>` opts a line out. What stays in the app: spacing, radii and fonts, and any layout decision
+built on top, written as an extension of `SYSMetrics`.
 
 ### Analytics
 

@@ -55,6 +55,7 @@ adoption:
   connectivity: no reason yet, remove once decided
   backgroundTask: no reason yet, remove once decided
   layout: no reason yet, remove once decided
+  blocker: no reason yet, remove once decided
 
 # The checks this app runs, so one cannot quietly go missing. `own` are scripts this app keeps that run with
 # them but are not counted as shared checks. A shared check the app declines goes in `skip` with the reason.

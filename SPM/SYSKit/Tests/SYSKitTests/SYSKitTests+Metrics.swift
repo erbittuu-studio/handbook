@@ -65,12 +65,6 @@ final class SYSMetricsTests: XCTestCase {
         XCTAssertEqual(m.scale, 1, accuracy: 0.0001)
     }
 
-    func testAspectAndLandscape() {
-        XCTAssertTrue(metrics(800, 400).isLandscape)
-        XCTAssertFalse(metrics(400, 800).isLandscape)
-        XCTAssertEqual(metrics(800, 400).aspect, 2, accuracy: 0.0001)
-    }
-
     func testSizeClassFlagsFollowTheClasses() {
         var m = metrics(400, 800)
         XCTAssertTrue(m.isCompactWidth)
@@ -86,6 +80,66 @@ final class SYSMetricsTests: XCTestCase {
         XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16), 2)
         XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 1000), 6)
         XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 100), 1)
+    }
+
+    func testColumnsCanBeEvenWithAFloor() {
+        let m = metrics(400, 800)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: true), 2)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: true, in: 1000), 6)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: true, in: 700), 4)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, minimumColumns: 2, even: true, in: 100), 2)
+    }
+
+    private func fold(active: Bool, x: CGFloat = 190, width: CGFloat = 20) -> SYSRegion {
+        SYSRegion(kind: .division, frame: CGRect(x: x, y: 0, width: active ? width : 0, height: 800), isActive: active)
+    }
+
+    func testAFlatFoldableHasAFoldButIsNotFolded() {
+        var m = metrics(400, 800)
+        XCTAssertFalse(m.hasFold)
+        m.regions = [fold(active: false)]
+        XCTAssertTrue(m.hasFold)
+        XCTAssertFalse(m.isFolded)
+        XCTAssertEqual(m.usableFrames, [m.contentFrame])
+    }
+
+    func testAnActiveFoldSplitsTheUsableArea() {
+        var m = metrics(400, 800)
+        m.regions = [fold(active: true)]
+        XCTAssertTrue(m.isFolded)
+        XCTAssertEqual(m.usableFrames, [
+            CGRect(x: 0, y: 0, width: 190, height: 800),
+            CGRect(x: 210, y: 0, width: 190, height: 800)
+        ])
+    }
+
+    func testAHorizontalFoldSplitsTopAndBottom() {
+        var m = metrics(400, 800)
+        m.regions = [SYSRegion(kind: .division, frame: CGRect(x: 0, y: 390, width: 400, height: 20), isActive: true)]
+        XCTAssertEqual(m.usableFrames, [
+            CGRect(x: 0, y: 0, width: 400, height: 390),
+            CGRect(x: 0, y: 410, width: 400, height: 390)
+        ])
+    }
+
+    func testOnlyActiveOcclusionsAreReported() {
+        var m = metrics(400, 800)
+        let camera = CGRect(x: 300, y: 0, width: 60, height: 40)
+        m.regions = [
+            SYSRegion(kind: .occlusion, frame: camera, isActive: true),
+            SYSRegion(kind: .occlusion, frame: CGRect(x: 10, y: 0, width: 30, height: 30), isActive: false)
+        ]
+        XCTAssertEqual(m.occlusions, [camera])
+        XCTAssertFalse(m.hasFold)
+    }
+
+    func testColumnsAreEvenOnAnyDeviceWithAFoldEvenWhenFlat() {
+        var m = metrics(700, 800)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16), 4)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 520), 3)
+        m.regions = [fold(active: false)]
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 520), 2)
+        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: false, in: 520), 3)
     }
 
     func testColumnsTolerateANonsensicalMinimum() {

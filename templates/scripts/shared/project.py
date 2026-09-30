@@ -88,6 +88,7 @@ ADOPTION = {
     "connectivity": r"\bSYSConnectivity\b",
     "backgroundTask": r"\bSYSBackgroundTask\b",
     "layout": r"\bSYSMetrics\b|\bsysMetrics\b",
+    "blocker": r"\bSYSLaunchBlocker\b|\bblocker\(for:",
 }
 SOURCE_DIRS = ("App/Source", "App/Watch", "App/Widget")
 
