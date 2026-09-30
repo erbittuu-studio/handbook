@@ -42,49 +42,27 @@ public struct SYSRegion: Equatable, Sendable {
 }
 
 public struct SYSMetrics: Equatable, Sendable {
-    public struct Reference: Equatable, Sendable {
-        public var shortSide: CGFloat
-        public var longSide: CGFloat
-        public var scaleRange: ClosedRange<CGFloat>
-
-        public init(shortSide: CGFloat, longSide: CGFloat, scaleRange: ClosedRange<CGFloat> = 0.75 ... 1.7) {
-            self.shortSide = shortSide
-            self.longSide = longSide
-            self.scaleRange = scaleRange
-        }
-
-        public static let phone = Reference(shortSide: 393, longSide: 759)
-    }
-
     public var size: CGSize
     public var safeArea: SYSInsets
     public var horizontalClass: SYSSizeClass
     public var verticalClass: SYSSizeClass
     public var regions: [SYSRegion]
-    public var reference: Reference
 
     public init(
         size: CGSize,
         safeArea: SYSInsets = .zero,
         horizontalClass: SYSSizeClass = .compact,
         verticalClass: SYSSizeClass = .regular,
-        regions: [SYSRegion] = [],
-        reference: Reference = .phone
+        regions: [SYSRegion] = []
     ) {
         self.size = size
         self.safeArea = safeArea
         self.horizontalClass = horizontalClass
         self.verticalClass = verticalClass
         self.regions = regions
-        self.reference = reference
     }
 
-    public static func atReference(_ reference: Reference = .phone) -> SYSMetrics {
-        SYSMetrics(
-            size: CGSize(width: reference.shortSide, height: reference.longSide),
-            reference: reference
-        )
-    }
+    public static let unmeasured = SYSMetrics(size: CGSize(width: 393, height: 759))
 
     public var contentSize: CGSize {
         CGSize(
@@ -134,39 +112,14 @@ public struct SYSMetrics: Equatable, Sendable {
         return pieces.filter { $0.width > 0 && $0.height > 0 }
     }
 
-    public var scale: CGFloat {
-        let content = contentSize
-        let short = min(content.width, content.height)
-        let long = max(content.width, content.height)
-        let raw = min(short / reference.shortSide, long / reference.longSide)
-        return min(max(raw, reference.scaleRange.lowerBound), reference.scaleRange.upperBound)
-    }
-
-    public func s(_ value: CGFloat) -> CGFloat {
-        (value * scale).rounded()
-    }
-
-    public func f(_ value: CGFloat) -> CGFloat {
-        (value * (1 + (scale - 1) * 0.65)).rounded()
-    }
+    public var shortSide: CGFloat { min(contentSize.width, contentSize.height) }
 
     public var isCompactWidth: Bool { horizontalClass == .compact }
     public var isCompactHeight: Bool { verticalClass == .compact }
     public var prefersSideBySide: Bool { contentSize.width > contentSize.height }
-
-    public func columns(
-        minimumWidth: CGFloat,
-        spacing: CGFloat = 0,
-        minimumColumns: Int = 1,
-        even: Bool? = nil,
-        in width: CGFloat? = nil
-    ) -> Int {
-        let pitch = minimumWidth + spacing
-        let available = width ?? contentSize.width
-        let fit = pitch > 0 ? Int((available + spacing) / pitch) : 1
-        let count = (even ?? hasFold) ? fit - fit % 2 : fit
-        return max(minimumColumns, count)
-    }
+    public var screenMargin: CGFloat { isCompactWidth ? 20 : 32 }
+    public var sectionSpacing: CGFloat { isCompactWidth ? 28 : 36 }
+    public var cardColumnWidth: CGFloat { isCompactWidth ? 150 : 220 }
 
     public func margin(readableWidth: CGFloat, minimum: CGFloat = 0, in width: CGFloat? = nil) -> CGFloat {
         let available = width ?? contentSize.width
@@ -178,7 +131,7 @@ public struct SYSMetrics: Equatable, Sendable {
 import SwiftUI
 
 private struct SYSMetricsKey: EnvironmentKey {
-    static let defaultValue = SYSMetrics.atReference()
+    static let defaultValue = SYSMetrics.unmeasured
 }
 
 public extension EnvironmentValues {
@@ -213,8 +166,6 @@ private extension SYSSizeClass {
 }
 
 private struct SYSMetricsReader: ViewModifier {
-    let reference: SYSMetrics.Reference
-
     @Environment(\.horizontalSizeClass) private var horizontalClass
     @Environment(\.verticalSizeClass) private var verticalClass
 
@@ -238,8 +189,7 @@ private struct SYSMetricsReader: ViewModifier {
                         ),
                         horizontalClass: SYSSizeClass(horizontalClass),
                         verticalClass: SYSSizeClass(verticalClass),
-                        regions: sysRegions(in: proxy),
-                        reference: reference
+                        regions: sysRegions(in: proxy)
                     )
                 )
         }
@@ -247,8 +197,8 @@ private struct SYSMetricsReader: ViewModifier {
 }
 
 public extension View {
-    func sysMetrics(reference: SYSMetrics.Reference = .phone) -> some View {
-        modifier(SYSMetricsReader(reference: reference))
+    func sysMetrics() -> some View {
+        modifier(SYSMetricsReader())
     }
 }
 #endif

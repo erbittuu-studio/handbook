@@ -24,7 +24,7 @@ my-app/
 │   │   ├── App/                 #   @main, delegates, root navigation wiring, app-level setup
 │   │   ├── Features/<Name>/     #   one folder per user-facing feature (views + their viewmodels)
 │   │   └── Shared/              #   anything used by 2+ features; subfolders free-form
-│   │                            #   (Components, DesignSystem, Models, Services, Managers, Data, …)
+│   │                            #   (Components, Content, Engagement, Layout, Settings, Theme, …)
 │   │                            #   If the app uses the analytics-enum pattern (§7), it lives at
 │   │                            #   Shared/AnalyticsManager.swift — the PR check greps that exact path.
 │   ├── Resources/               # assets, xcstrings, PrivacyInfo, GoogleService-Info,
@@ -333,7 +333,7 @@ Every app vendors two local packages from `SPM/`:
 
 | Package | Contents | Dependencies |
 |---|---|---|
-| `SYSKit` | config, network, logging, lifecycle, analytics plumbing | **none** |
+| `SYSKit` | config, network, logging, lifecycle, analytics plumbing, layout and design tokens. Grouped by domain under `Sources/SYSKit`: `Startup`, `Layout`, `Design`, `Content`, `Networking`, `Storage`, `Engagement`, `Platform`, `Diagnostics` | **none** |
 | `SYSFirebase` | the one file that imports Firebase | SYSKit + FirebaseKit |
 
 Separate on purpose: `SYSKit` has no dependencies, so it builds and tests
@@ -505,39 +505,60 @@ func screen(for state: SYSAppState?) -> some View {
 
 ### Layout
 
-An app never measures the screen. The root view calls `.sysMetrics(reference:)` once and every view
+An app never measures the screen. The root view calls `.sysMetrics()` once and every view
 reads `@Environment(\.sysMetrics)`:
 
 | It gives | Notes |
 |---|---|
-| `scale`, `s(_:)`, `f(_:)` | One continuous scale from the window's content size against the app's reference. Same in either orientation, clamped to the reference's range. `f` moves less than `s`, so text stays readable at both ends. |
 | `isCompactWidth`, `isCompactHeight` | The size classes: compact width on the outer display, regular on the inner. |
 | `prefersSideBySide` | Two things next to each other, or stacked: true when the usable area is wider than it is tall, the same rule `ArrangementView`'s split style applies. It reads the area the view actually has, so an iPad held upright stacks and a phone on its side does not. App code asks this; it never compares width to height itself. |
 | `hasFold`, `isFolded` | Whether the device has a fold at all (true even when flat: use it for stable choices), and whether it is folded right now (use it for live ones). |
 | `usableFrames`, `occlusions` | The content area split around an active fold, and the active camera regions, for custom manually placed controls. System containers already avoid both. |
-| `columns(minimumWidth:spacing:)`, `margin(readableWidth:)` | Grid columns and centring margins from the width the view actually has. Columns are even on any device with a fold, so the grid does not reshuffle as the device bends. |
-| `contentSize`, `contentFrame`, `safeArea` | The window less its safe area, and each edge on its own. |
+| `shortSide`, `contentSize`, `contentFrame`, `safeArea` | The window less its safe area, each edge on its own, and the shorter side of what is left: size artwork as a fraction of it. |
+| `margin(readableWidth:)`, `screenMargin`, `sectionSpacing`, `cardColumnWidth` | Centring margin for a readable width, the standard screen margin and section gap, and the minimum width of a grid card. |
 
-The reference is per app: `SYSMetrics.Reference(shortSide:longSide:)` is the content size at which the design
-is drawn at exactly 1.0 (`.phone` is 393 x 759). Pixel scale is `@Environment(\.displayScale)`.
+There is deliberately no window-proportional scale factor, no aspect ratio and no `isLandscape`. Apple's
+guidance is to respond to size classes and available space, and to let text follow Dynamic Type. Use
+`@ScaledMetric` for sizes that belong to text, a fraction of `shortSide` or of the container for artwork,
+and plain constants for small controls. Widths that cap a reading column are `SYSReadableWidth`
+(`action`, `form`, `content`, `grid`). Pixel scale is `@Environment(\.displayScale)`.
 
-There is deliberately no aspect ratio and no `isLandscape`. Orientation is not a question about room, and a
-foldable held open is neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or hand two
-views to `SYSTwoPane`, which is `ArrangementView` on iOS 27.1 and a size-class stack or row before that.
+There is no `isLandscape` either. Orientation is not a question about room, and a foldable held open is
+neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or hand two views to
+`SYSTwoPane`, which is `ArrangementView` on iOS 27.1 and a size-class stack or row before that.
 
 | Component | Replaces |
 |---|---|
 | `SYSTwoPane` | An `HStack` or `VStack` chosen by comparing width to height. |
-| `SYSColumnGrid` | A hand-measured `LazyVGrid` column count. |
+| `SYSColumnGrid` | A hand-measured `LazyVGrid` column count. It is `GridItem(.adaptive(minimum:))`, so the system picks the count. |
 | `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote. |
 | `SYSLaunchBlocker`, `blocker(for:style:text:)` | Each app's own maintenance, update and offline screens. Strings come from `SYSLaunchBlockerText` so the app localizes them. |
+| `sysRegularWidthText()` | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
 
 App code does not use `UIScreen`, `userInterfaceIdiom` or `isPad`, `UIDevice.current.orientation` or `.model`,
 `isLandscape` or `isPortrait`, a width compared to a height, `.windows.first` or `.keyWindow`, or a numeric
 width/height breakpoint, and `sys_adoption` fails on each. Every one of them asserts something fixed about the
 device: iPhone Duo, Split View and a tablet window shrunk to a slice all break it, in different directions.
-`sys-ok: <reason>` opts a line out. What stays in the app: spacing, radii and fonts, and any layout decision
-built on top, written as an extension of `SYSMetrics`.
+`sys-ok: <reason>` opts a line out.
+
+### Design tokens
+
+The values every screen repeats live in SYSKit, in `Sources/SYSKit/Design`, so apps look and move the same
+and nothing is typed twice. An app calls them directly; it does not wrap them.
+
+| Token | What it is |
+|---|---|
+| `SYSSpace`, `SYSRadius` | Spacing `xs` 4, `sm` 8, `md` 12, `lg` 16, `xl` 24, `xxl` 32, `xxxl` 48, and radii `sm` 8 to `xl` 24. |
+| `SYSFont`, `SYSFont.rounded` | Apple's text styles by name (`largeTitle` to `caption2`), so every font follows Dynamic Type. Weight is applied at the call site: `SYSFont.title3.weight(.semibold)`. A fixed `.system(size:)` ignores the user's text size, so the app does not write one for text. |
+| `SYSMotion` | Named animations: `press`, `standard`, `bounce`, `pageTurn`, `floatLoop`. iOS 17 curves where available, springs before. |
+| `SYSTiming` | `quick`, `standard`, `relaxed`, `stagger(_:)`, awaitable `pause(_:)`, and cancellable `after(_:_:)` in place of `DispatchQueue.asyncAfter` and `Task.sleep(nanoseconds:)`. |
+| `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
+| `SYSGlass` | `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle`: Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
+| `SYSPressStyle` | The press-scale `ButtonStyle`, `.subtle` or `.strong`. |
+| `SYSSymbol` | SF Symbol names by meaning (`forward`, `close`, `doneCircle`, `starFilled`), so a glyph is named once. |
+
+Colour stays in the app: a theme's accent, gradients and on-accent colour are the app's identity, and
+belong in one `Palette`. The rule is that a colour, a spacing, a duration or a symbol name is written once.
 
 ### Debug launch
 

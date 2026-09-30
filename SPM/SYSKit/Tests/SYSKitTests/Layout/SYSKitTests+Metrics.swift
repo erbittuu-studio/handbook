@@ -6,38 +6,15 @@ final class SYSMetricsTests: XCTestCase {
     private func metrics(
         _ width: CGFloat,
         _ height: CGFloat,
-        safeArea: SYSInsets = .zero,
-        reference: SYSMetrics.Reference = .phone
+        safeArea: SYSInsets = .zero
     ) -> SYSMetrics {
-        SYSMetrics(size: CGSize(width: width, height: height), safeArea: safeArea, reference: reference)
+        SYSMetrics(size: CGSize(width: width, height: height), safeArea: safeArea)
     }
 
-    func testScaleIsOneAtTheReference() {
-        let m = SYSMetrics.atReference()
-        XCTAssertEqual(m.scale, 1, accuracy: 0.0001)
-        XCTAssertEqual(m.s(10), 10)
-        XCTAssertEqual(m.f(10), 10)
-    }
-
-    func testScaleIsTheSameInEitherOrientation() {
-        XCTAssertEqual(metrics(393, 759).scale, metrics(759, 393).scale, accuracy: 0.0001)
-        XCTAssertEqual(metrics(600, 900).scale, metrics(900, 600).scale, accuracy: 0.0001)
-    }
-
-    func testScaleIsClampedToTheReferenceRange() {
-        XCTAssertEqual(metrics(2000, 4000).scale, 1.7, accuracy: 0.0001)
-        XCTAssertEqual(metrics(100, 200).scale, 0.75, accuracy: 0.0001)
-    }
-
-    func testTheTighterAxisDrivesTheScale() {
-        let m = metrics(786, 759)
-        XCTAssertEqual(m.scale, 786.0 / 759.0, accuracy: 0.0001)
-    }
-
-    func testSafeAreaIsTakenOffBeforeScaling() {
+    func testSafeAreaIsTakenOffTheContentSize() {
         let m = metrics(393, 852, safeArea: SYSInsets(top: 59, bottom: 34))
         XCTAssertEqual(m.contentSize, CGSize(width: 393, height: 759))
-        XCTAssertEqual(m.scale, 1, accuracy: 0.0001)
+        XCTAssertEqual(m.shortSide, 393)
     }
 
     func testAsymmetricSafeAreaIsHandledPerEdge() {
@@ -48,21 +25,10 @@ final class SYSMetricsTests: XCTestCase {
     func testContentSizeNeverReachesZero() {
         let m = metrics(10, 10, safeArea: SYSInsets(top: 50, leading: 50, bottom: 50, trailing: 50))
         XCTAssertEqual(m.contentSize, CGSize(width: 1, height: 1))
-        XCTAssertEqual(m.scale, 0.75, accuracy: 0.0001)
     }
 
-    func testFontsScaleMoreGentlyThanLayout() {
-        let m = metrics(2000, 4000)
-        XCTAssertEqual(m.s(10), 17)
-        XCTAssertEqual(m.f(10), 15)
-        XCTAssertLessThan(m.f(10), m.s(10))
-    }
-
-    func testACustomReferenceReproducesAnAppsOwnBase() {
-        let landscape = SYSMetrics.Reference(shortSide: 354, longSide: 718, scaleRange: 0.74 ... 1.7)
-        let m = metrics(812, 375, safeArea: SYSInsets(top: 0, leading: 47, bottom: 21, trailing: 47), reference: landscape)
-        XCTAssertEqual(m.contentSize, CGSize(width: 718, height: 354))
-        XCTAssertEqual(m.scale, 1, accuracy: 0.0001)
+    func testShortSideIsTheSameInEitherOrientation() {
+        XCTAssertEqual(metrics(393, 759).shortSide, metrics(759, 393).shortSide)
     }
 
     func testSizeClassFlagsFollowTheClasses() {
@@ -92,21 +58,6 @@ final class SYSMetricsTests: XCTestCase {
     func testSideBySideUsesTheAreaLeftAfterTheSafeArea() {
         let m = metrics(800, 700, safeArea: SYSInsets(leading: 120, trailing: 120))
         XCTAssertFalse(m.prefersSideBySide)
-    }
-
-    func testColumnsFitTheWidth() {
-        let m = metrics(400, 800)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16), 2)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 1000), 6)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 100), 1)
-    }
-
-    func testColumnsCanBeEvenWithAFloor() {
-        let m = metrics(400, 800)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: true), 2)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: true, in: 1000), 6)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: true, in: 700), 4)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, minimumColumns: 2, even: true, in: 100), 2)
     }
 
     private func fold(active: Bool, x: CGFloat = 190, width: CGFloat = 20) -> SYSRegion {
@@ -150,19 +101,6 @@ final class SYSMetricsTests: XCTestCase {
         ]
         XCTAssertEqual(m.occlusions, [camera])
         XCTAssertFalse(m.hasFold)
-    }
-
-    func testColumnsAreEvenOnAnyDeviceWithAFoldEvenWhenFlat() {
-        var m = metrics(700, 800)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16), 4)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 520), 3)
-        m.regions = [fold(active: false)]
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, in: 520), 2)
-        XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16, even: false, in: 520), 3)
-    }
-
-    func testColumnsTolerateANonsensicalMinimum() {
-        XCTAssertEqual(metrics(400, 800).columns(minimumWidth: 0), 1)
     }
 
     func testMarginCentresReadableWidth() {

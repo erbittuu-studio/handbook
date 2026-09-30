@@ -112,6 +112,7 @@ public struct SYSLaunchBlocker: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ScaledMetric(relativeTo: .largeTitle) private var badge: CGFloat = 100
+    @ScaledMetric(relativeTo: .body) private var buttonHeight: CGFloat = 52
     @State private var bounce = false
 
     public init(state: SYSAppState, action: SYSStateAction, style: SYSLaunchBlockerStyle, text: SYSLaunchBlockerText) {
@@ -133,17 +134,17 @@ public struct SYSLaunchBlocker: View {
 
             Circle()
                 .fill(style.tint)
-                .frame(width: metrics.s(280))
+                .frame(width: metrics.shortSide * 0.7)
                 .blur(radius: 60)
-                .offset(x: metrics.s(100), y: metrics.s(-160))
+                .offset(x: metrics.shortSide * 0.25, y: -metrics.shortSide * 0.4)
                 .allowsHitTesting(false)
 
             GeometryReader { proxy in
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: metrics.s(24)) {
+                    VStack(spacing: 24) {
                         symbol(content.symbol)
 
-                        VStack(spacing: metrics.s(8)) {
+                        VStack(spacing: 8) {
                             Text(content.title)
                                 .font(style.titleFont)
                                 .foregroundColor(style.title)
@@ -152,8 +153,8 @@ public struct SYSLaunchBlocker: View {
                                 .foregroundColor(style.message)
                                 .multilineTextAlignment(.center)
                         }
-                        .frame(maxWidth: metrics.s(560))
-                        .padding(.horizontal, metrics.s(32))
+                        .frame(maxWidth: 560)
+                        .padding(.horizontal, 32)
 
                         actionButton
                     }
@@ -168,7 +169,7 @@ public struct SYSLaunchBlocker: View {
         ZStack {
             Circle()
                 .fill(style.tint)
-                .frame(width: metrics.s(badge), height: metrics.s(badge))
+                .frame(width: badge, height: badge)
             Image(systemName: name)
                 .font(.system(.largeTitle).weight(.semibold))
                 .foregroundColor(style.accent)
@@ -193,20 +194,20 @@ public struct SYSLaunchBlocker: View {
 
     private func button(_ label: String, symbol: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            HStack(spacing: metrics.s(8)) {
+            HStack(spacing: 8) {
                 Image(systemName: symbol)
                 Text(label)
             }
             .font(style.buttonFont)
             .foregroundColor(.white)
-            .frame(maxWidth: .infinity, minHeight: metrics.s(52))
+            .frame(maxWidth: .infinity, minHeight: buttonHeight)
             .background(
-                RoundedRectangle(cornerRadius: metrics.s(16), style: .continuous).fill(style.accent)
+                RoundedRectangle(cornerRadius: 16, style: .continuous).fill(style.accent)
             )
         }
         .buttonStyle(.plain)
-        .frame(maxWidth: metrics.s(420))
-        .padding(.horizontal, metrics.s(32))
+        .frame(maxWidth: 420)
+        .padding(.horizontal, 32)
     }
 }
 

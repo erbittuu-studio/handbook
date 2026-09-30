@@ -6,8 +6,8 @@ import Foundation
 ///
 /// Also accepts a bare string, so a single-locale app can write
 /// `"message": "text"` and expand it later without breaking older builds.
-public struct SYSLocalizedText: Codable, Equatable, Sendable {
-    private var values: [String: String]
+public struct SYSLocalizedText: Codable, Hashable, Sendable {
+    public private(set) var values: [String: String]
 
     public init(_ values: [String: String]) { self.values = values }
 
@@ -29,6 +29,10 @@ public struct SYSLocalizedText: Codable, Equatable, Sendable {
     /// whatever exists. Never nil when any text was provided.
     public func resolved(for locales: [String] = Locale.preferredLanguages) -> String? {
         SYSLocale.match(values, for: locales)
+    }
+
+    public func text(for locales: [String] = Locale.preferredLanguages) -> String {
+        resolved(for: locales) ?? ""
     }
 }
 

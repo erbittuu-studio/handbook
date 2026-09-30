@@ -1,5 +1,8 @@
 #if canImport(UserNotifications) && !os(watchOS)
 import UserNotifications
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Permission, scheduling and tap-routing for local notifications — not
 /// scheduling *policy*. Two apps here each built a real notification system
@@ -33,6 +36,16 @@ public final class SYSNotifications: NSObject {
     public func install() {
         UNUserNotificationCenter.current().delegate = self
     }
+
+    #if canImport(UIKit)
+    public func clearBadge() {
+        if #available(iOS 16.0, *) {
+            UNUserNotificationCenter.current().setBadgeCount(0)
+        } else {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+    }
+    #endif
 
     /// Requests permission, and records that it asked regardless of the
     /// answer — the record is what stops an app asking again unprompted,

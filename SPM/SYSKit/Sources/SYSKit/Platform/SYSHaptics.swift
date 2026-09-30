@@ -67,6 +67,18 @@ public enum SYSHaptics {
     public static func warning() { notify(.warning) }
     public static func error() { notify(.error) }
 
+    public static func echo(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .heavy, after delay: TimeInterval = 0.1) {
+        impact(style)
+        SYSTiming.after(delay) { impact(.medium, intensity: 0.5) }
+    }
+
+    public static func celebrate() {
+        success()
+        SYSTiming.after(0.12) { heavy() }
+        SYSTiming.after(0.24) { impact(.medium, intensity: 0.6) }
+        SYSTiming.after(0.36) { impact(.soft, intensity: 0.8) }
+    }
+
     // MARK: Continuous gestures
 
     private static var lastTick = Date.distantPast
