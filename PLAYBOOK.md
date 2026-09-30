@@ -546,7 +546,7 @@ Verifying a screen that is three taps in should not take three blind taps. In a 
 `SYSStartup` shows that launch blocker instead of starting. The app reads the route from `SYSDebugRoute.launch`
 (`name` and `id`, nil in Release and when the flag is absent) and maps names to its own navigation. It never
 reads `CommandLine.arguments` itself, and `sys_adoption` fails if it does. The app decides which names exist; a
-route it does not know is ignored. With `simctl`, `xcrun simctl launch <udid> <bundle id> -debugRoute quiz`.
+route it does not know is ignored. `-debugOrientation landscape|portrait` turns the window once at launch, through `SYSDebugRoute.applyLaunchOrientation()`, because the simulator cannot be rotated from the command line. With `simctl`, `xcrun simctl launch <udid> <bundle id> -debugRoute quiz`.
 
 ### Analytics
 

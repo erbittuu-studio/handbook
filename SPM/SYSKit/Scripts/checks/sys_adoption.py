@@ -96,8 +96,8 @@ RULES: list[tuple[str, str, str]] = [
         "a hand-rolled identifier breaks that handler silently, not loudly",
     ),
     (
-        r"\"-debug(Route|State)\"",
-        "SYSDebugRoute.launch and SYSAppState.debugForced",
+        r"\"-debug(Route|State|Orientation)\"",
+        "SYSDebugRoute.launch, SYSAppState.debugForced and SYSDebugRoute.applyLaunchOrientation",
         "a launch argument parsed in the app is a second grammar for the same "
         "thing, and the one place a release build must not honour it is the "
         "one place SYSKit already guards",
