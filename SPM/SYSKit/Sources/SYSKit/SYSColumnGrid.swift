@@ -26,18 +26,21 @@ public struct SYSColumnGrid<Content: View>: View {
     }
 
     public var body: some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible(), spacing: spacing, alignment: .top), count: columns),
-            spacing: spacing
-        ) {
-            content
-        }
-        .background(
+        VStack(spacing: 0) {
             GeometryReader { proxy in
-                Color.clear.preference(key: SYSColumnGridWidthKey.self, value: proxy.size.width)
+                Color.clear
+                    .onAppear { width = proxy.size.width }
+                    .onWidthChange(of: proxy.size.width) { width = $0 }
             }
-        )
-        .onPreferenceChange(SYSColumnGridWidthKey.self) { width = $0 }
+            .frame(height: 0)
+
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: spacing, alignment: .top), count: columns),
+                spacing: spacing
+            ) {
+                content
+            }
+        }
     }
 
     private var columns: Int {
@@ -52,8 +55,14 @@ public struct SYSColumnGrid<Content: View>: View {
     }
 }
 
-private struct SYSColumnGridWidthKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
+private extension View {
+    @ViewBuilder
+    func onWidthChange(of width: CGFloat, perform action: @escaping (CGFloat) -> Void) -> some View {
+        if #available(iOS 17.0, *) {
+            onChange(of: width) { _, new in action(new) }
+        } else {
+            onChange(of: width, perform: action)
+        }
+    }
 }
 #endif
