@@ -75,16 +75,23 @@ final class SYSMetricsTests: XCTestCase {
         XCTAssertTrue(m.isCompactHeight)
     }
 
-    func testOnlyACompactWidthWithRegularHeightStacks() {
-        var m = metrics(400, 800)
+    func testSideBySideFollowsTheShapeOfTheAreaNotTheSizeClass() {
+        XCTAssertFalse(metrics(400, 800).prefersSideBySide)
+        XCTAssertTrue(metrics(800, 400).prefersSideBySide)
+        XCTAssertFalse(metrics(1000, 1000).prefersSideBySide)
+        var tabletUpright = metrics(834, 1194)
+        tabletUpright.horizontalClass = .regular
+        tabletUpright.verticalClass = .regular
+        XCTAssertFalse(tabletUpright.prefersSideBySide)
+        var tabletOnItsSide = metrics(1194, 834)
+        tabletOnItsSide.horizontalClass = .regular
+        tabletOnItsSide.verticalClass = .regular
+        XCTAssertTrue(tabletOnItsSide.prefersSideBySide)
+    }
+
+    func testSideBySideUsesTheAreaLeftAfterTheSafeArea() {
+        let m = metrics(800, 700, safeArea: SYSInsets(leading: 120, trailing: 120))
         XCTAssertFalse(m.prefersSideBySide)
-        m.verticalClass = .compact
-        XCTAssertTrue(m.prefersSideBySide)
-        m.horizontalClass = .regular
-        m.verticalClass = .regular
-        XCTAssertTrue(m.prefersSideBySide)
-        m.verticalClass = .compact
-        XCTAssertTrue(m.prefersSideBySide)
     }
 
     func testColumnsFitTheWidth() {
