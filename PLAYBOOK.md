@@ -560,6 +560,26 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 Colour stays in the app: a theme's accent, gradients and on-accent colour are the app's identity, and
 belong in one `Palette`. The rule is that a colour, a spacing, a duration or a symbol name is written once.
 
+### Root screens
+
+Every app states what its launch screens are the same way, in `App/Source/App/RootScreens.swift`, and the
+routing around them is written once, in SYSKit. The app's `@main` struct is plain `App`; `RootScreens.swift`
+declares `extension <Name>App: SYSRootedApp`:
+
+| The app provides | Notes |
+|---|---|
+| `splash(progress:)` | Shown while startup runs. `progress` is the download progress, for apps that show it. |
+| `home` | Shown for `.ready` and `.whatsNew`. |
+| `blockerStyle`, `blockerText` | The look and wording of the maintenance, update and offline screens. SYSKit routes to them and decides whether a button belongs. |
+| `onboarding(finish:)` | Optional. An app with `onboardingEnabled: false` leaves it out. |
+
+SYSKit does the rest: the blocker routing, finishing onboarding, the transitions and animation, and, in a
+Debug build, `-debugRoute splash`. Three hooks are optional and default to doing nothing: `homeReached()`
+(the user first reaches home), `open(_:)` (a URL opened the app) and `openSpotlight(_:)`. They are attached to
+the root so a link that arrives while the splash is up is not lost. The app keeps them in
+`App/Source/App/RootEvents.swift`. `sys_adoption` fails an app whose entry point does not conform to
+`SYSRootedApp`, or whose conformance is not in `RootScreens.swift`, and `adoption.rooted` records it.
+
 ### App identity
 
 What the app is called, where it lives in the store and which URL scheme it answers to is written once, in

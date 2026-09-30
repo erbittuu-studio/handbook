@@ -61,7 +61,7 @@ def restated(ctx, value: str, allowed: tuple, folders: tuple = SEARCH_DIRS) -> l
 
 # --- adoption: which SYSKit features the app uses, declared and held to ------------------------------
 ADOPTION = {
-    "bootstrap": r"\bSYSBootstrappedApp\b",
+    "bootstrap": r"\bSYSBootstrappedApp\b|\bSYSRootedApp\b",
     "analytics": r"\bSYSAnalytics\b",
     "firebase": r"\bSYSFirebase\w*Backend\b",
     "logging": r"\bSYSLogger\b",
@@ -88,7 +88,8 @@ ADOPTION = {
     "connectivity": r"\bSYSConnectivity\b",
     "backgroundTask": r"\bSYSBackgroundTask\b",
     "layout": r"\bSYSMetrics\b|\bsysMetrics\b",
-    "blocker": r"\bSYSLaunchBlocker\b|\bblocker\(for:",
+    "blocker": r"\bSYSLaunchBlocker\b|\bblocker\(for:|\bSYSRootedApp\b",
+    "rooted": r"\bSYSRootedApp\b",
 }
 SOURCE_DIRS = ("App/Source", "App/Watch", "App/Widget")
 

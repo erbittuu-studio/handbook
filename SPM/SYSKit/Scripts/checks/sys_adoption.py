@@ -213,16 +213,34 @@ def scan(root: Path, source: Path, rules: list[tuple[str, str, str]], entry_poin
             for match in ENTRY_POINT.finditer(text):
                 entry_points.append((rel, match.group(1), match.group(2)))
 
+    rooted_files = conformance_files(source, "SYSRootedApp")
     for rel, name, conformances in entry_points:
-        if "SYSBootstrappedApp" not in conformances:
+        if name not in rooted_files and "SYSRootedApp" not in conformances:
             problems.append(
-                f"{rel}: {name} does not conform to SYSBootstrappedApp — the launch "
-                "sequence, the retry path and the task that starts them are shared; "
-                "an app that wires its own can forget the task and sit on its "
-                "loading screen forever with nothing in the log"
+                f"{rel}: {name} does not conform to SYSRootedApp — the launch "
+                "sequence, the blocker screens, the retry path and the task that starts "
+                "them are shared, and every app states its screens the same way, in "
+                "App/Source/App/RootScreens.swift; an app that wires its own can forget "
+                "the task and sit on its loading screen forever with nothing in the log"
+            )
+        elif name in rooted_files and rooted_files[name].name != "RootScreens.swift":
+            problems.append(
+                f"{rooted_files[name].relative_to(root)}: {name}'s SYSRootedApp conformance "
+                "belongs in a file named RootScreens.swift, so every app is laid out the same way"
             )
 
     return problems
+
+
+def conformance_files(source: Path, protocol: str) -> dict[str, Path]:
+    """Type name -> the file whose `extension <Type>: ... <protocol>` declares the conformance."""
+    found: dict[str, Path] = {}
+    pattern = re.compile(r"extension\s+(\w+)\s*:\s*([^{]+)\{")
+    for path in sorted(source.rglob("*.swift")):
+        for match in pattern.finditer(path.read_text(errors="replace")):
+            if re.search(rf"\b{protocol}\b", match.group(2)):
+                found[match.group(1)] = path
+    return found
 
 
 def app_code_dirs(ctx) -> list[Path]:
