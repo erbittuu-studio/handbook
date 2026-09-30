@@ -140,24 +140,26 @@ private struct SYSMetricsReader: ViewModifier {
     func body(content: Content) -> some View {
         GeometryReader { proxy in
             let insets = proxy.safeAreaInsets
-            content.environment(
-                \.sysMetrics,
-                SYSMetrics(
-                    size: CGSize(
-                        width: proxy.size.width + insets.leading + insets.trailing,
-                        height: proxy.size.height + insets.top + insets.bottom
-                    ),
-                    safeArea: SYSInsets(
-                        top: insets.top,
-                        leading: insets.leading,
-                        bottom: insets.bottom,
-                        trailing: insets.trailing
-                    ),
-                    horizontalClass: SYSSizeClass(horizontalClass),
-                    verticalClass: SYSSizeClass(verticalClass),
-                    reference: reference
+            content
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                .environment(
+                    \.sysMetrics,
+                    SYSMetrics(
+                        size: CGSize(
+                            width: proxy.size.width + insets.leading + insets.trailing,
+                            height: proxy.size.height + insets.top + insets.bottom
+                        ),
+                        safeArea: SYSInsets(
+                            top: insets.top,
+                            leading: insets.leading,
+                            bottom: insets.bottom,
+                            trailing: insets.trailing
+                        ),
+                        horizontalClass: SYSSizeClass(horizontalClass),
+                        verticalClass: SYSSizeClass(verticalClass),
+                        reference: reference
+                    )
                 )
-            )
         }
     }
 }
