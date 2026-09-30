@@ -15,10 +15,10 @@ public struct SYSTwoPane<Primary: View, Secondary: View>: View {
     public var body: some View {
         if #available(iOS 27.1, *) {
             ArrangementView(primary: { primary }, secondary: { secondary })
-        } else if metrics.isCompactWidth {
-            VStack { primary; secondary }
-        } else {
+        } else if metrics.prefersSideBySide {
             HStack { primary; secondary }
+        } else {
+            VStack { primary; secondary }
         }
     }
 }

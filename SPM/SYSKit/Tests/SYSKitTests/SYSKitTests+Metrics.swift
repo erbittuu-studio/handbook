@@ -75,6 +75,18 @@ final class SYSMetricsTests: XCTestCase {
         XCTAssertTrue(m.isCompactHeight)
     }
 
+    func testOnlyACompactWidthWithRegularHeightStacks() {
+        var m = metrics(400, 800)
+        XCTAssertFalse(m.prefersSideBySide)
+        m.verticalClass = .compact
+        XCTAssertTrue(m.prefersSideBySide)
+        m.horizontalClass = .regular
+        m.verticalClass = .regular
+        XCTAssertTrue(m.prefersSideBySide)
+        m.verticalClass = .compact
+        XCTAssertTrue(m.prefersSideBySide)
+    }
+
     func testColumnsFitTheWidth() {
         let m = metrics(400, 800)
         XCTAssertEqual(m.columns(minimumWidth: 150, spacing: 16), 2)

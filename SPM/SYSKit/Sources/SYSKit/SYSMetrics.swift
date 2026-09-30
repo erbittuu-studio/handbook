@@ -152,6 +152,7 @@ public struct SYSMetrics: Equatable, Sendable {
 
     public var isCompactWidth: Bool { horizontalClass == .compact }
     public var isCompactHeight: Bool { verticalClass == .compact }
+    public var prefersSideBySide: Bool { !isCompactWidth || isCompactHeight }
 
     public func columns(
         minimumWidth: CGFloat,

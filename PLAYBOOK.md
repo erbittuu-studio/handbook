@@ -512,6 +512,7 @@ reads `@Environment(\.sysMetrics)`:
 |---|---|
 | `scale`, `s(_:)`, `f(_:)` | One continuous scale from the window's content size against the app's reference. Same in either orientation, clamped to the reference's range. `f` moves less than `s`, so text stays readable at both ends. |
 | `isCompactWidth`, `isCompactHeight` | The size classes: compact width on the outer display, regular on the inner. |
+| `prefersSideBySide` | The one size-class rule for "two things next to each other or stacked": stack only when width is compact and height is regular, which is a phone held upright. A phone on its side, a tablet and an inner display are side by side. Use it instead of comparing width to height. |
 | `hasFold`, `isFolded` | Whether the device has a fold at all (true even when flat: use it for stable choices), and whether it is folded right now (use it for live ones). |
 | `usableFrames`, `occlusions` | The content area split around an active fold, and the active camera regions, for custom manually placed controls. System containers already avoid both. |
 | `columns(minimumWidth:spacing:)`, `margin(readableWidth:)` | Grid columns and centring margins from the width the view actually has. Columns are even on any device with a fold, so the grid does not reshuffle as the device bends. |
