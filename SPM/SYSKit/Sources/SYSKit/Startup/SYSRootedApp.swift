@@ -33,7 +33,7 @@ public extension SYSRootedApp {
         return AnyView(
             ZStack { route(state) }
                 .animation(SYSMotion.standard, value: state)
-                .onChange(of: isHome(state)) { reached in
+                .sysOnChange(of: isHome(state)) { reached in
                     if reached { homeReached() }
                 }
                 .onOpenURL { open($0) }

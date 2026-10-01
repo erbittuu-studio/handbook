@@ -556,6 +556,7 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 | `SYSTiming` | `quick`, `standard`, `relaxed`, `stagger(_:)`, awaitable `pause(_:)`, and cancellable `after(_:_:)` in place of `DispatchQueue.asyncAfter` and `Task.sleep(nanoseconds:)`. |
 | `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
 | `SYSGlass` | `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle`: Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
+| `SYSEffects` | Availability-safe effects an app would otherwise gate itself: `sysOnChange(of:perform:)` (no iOS 17 deprecation), `sysSymbolBreathe`, `sysSymbolRotate`, `sysSymbolReplace`, `sysInterpolateTransition`, `sysScrollTransition`, `sysHorizontalScrollTransition`, `sysSheetDetents`, `sysShimmer`, and `sysReadableWidth` to cap a reading column and centre it. |
 | `SYSPressStyle` | The press-scale `ButtonStyle`, `.subtle` or `.strong`. |
 | `SYSSymbol` | SF Symbol names by meaning (`forward`, `close`, `doneCircle`, `starFilled`), so a glyph is named once. |
 
