@@ -551,6 +551,7 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 |---|---|
 | `SYSSpace`, `SYSRadius` | Spacing `xs` 4, `sm` 8, `md` 12, `lg` 16, `xl` 24, `xxl` 32, `xxxl` 48, and radii `sm` 8 to `xl` 24. |
 | `SYSFont`, `SYSFont.rounded` | Apple's text styles by name (`largeTitle` to `caption2`), so every font follows Dynamic Type. Weight is applied at the call site: `SYSFont.title3.weight(.semibold)`. A fixed `.system(size:)` ignores the user's text size, so the app does not write one for text. |
+| `SYSOpacity`, `SYSStroke`, `SYSSize` | Named opacities (`subtle` 0.1 to `intense` 0.8), stroke widths (`thin`, `medium`) and the 44 pt minimum touch target. |
 | `SYSMotion` | Named animations: `press`, `standard`, `bounce`, `pageTurn`, `floatLoop`. iOS 17 curves where available, springs before. |
 | `SYSTiming` | `quick`, `standard`, `relaxed`, `stagger(_:)`, awaitable `pause(_:)`, and cancellable `after(_:_:)` in place of `DispatchQueue.asyncAfter` and `Task.sleep(nanoseconds:)`. |
 | `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
