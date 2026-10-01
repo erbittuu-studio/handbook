@@ -444,6 +444,10 @@ func prepareContent(progress: SYSAssetProgressHandler?) async -> Result<Void, SY
 }
 ```
 
+- `minimumSplash: .standard` holds the splash for at least 2.0 s on an install's
+  first launch and 0.5 s after, measured from when startup began, so a launch that
+  is ready at once does not flash it. The default `.none` waits only for loading.
+  An app writes no splash timer of its own.
 - `requiresAssets` makes "no manifest and nothing cached" a `.dataUnavailable`,
   which the app renders with SYSKit's own blocker and `startup.retry()`. An app
   keeps no content-failure screen or download state of its own.

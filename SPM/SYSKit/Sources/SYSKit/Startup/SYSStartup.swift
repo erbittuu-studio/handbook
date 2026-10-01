@@ -42,6 +42,8 @@ public final class SYSStartup: ObservableObject {
     private let requiresAssets: Bool
     private let backgroundAssets: Bool
     private let requiresConfig: Bool
+    private let minimumSplash: SYSSplashDuration
+    private let launchedAt = Date()
     private let launchEvent: SYSAnalyticsEvent?
     private let prepareContent: SYSPrepareContent?
     private let pruneContent: SYSPruneContent?
@@ -62,6 +64,10 @@ public final class SYSStartup: ObservableObject {
     ///     running on empty defaults with no maintenance switch and no minimum
     ///     version. Later launches are unaffected: once a copy is on the device
     ///     a failed refresh is simply an offline app carrying on.
+    ///   - minimumSplash: the least time the splash stays up, so a launch that
+    ///     is ready at once does not flash it. The first launch of an install
+    ///     and every later one have their own time; `.none` (the default)
+    ///     shows it only as long as loading takes, `.standard` is the studio's.
     ///   - launchEvent: tracked once the launch is known to be usable. The app
     ///     owns the event; this owns when it fires, so a launch blocked by
     ///     maintenance or a failed download is not counted as a normal open.
@@ -73,6 +79,7 @@ public final class SYSStartup: ObservableObject {
         requiresAssets: Bool = false,
         backgroundAssets: Bool = false,
         requiresConfig: Bool = false,
+        minimumSplash: SYSSplashDuration = .none,
         launchEvent: SYSAnalyticsEvent? = nil,
         prepareContent: SYSPrepareContent? = nil,
         pruneContent: SYSPruneContent? = nil
@@ -82,6 +89,7 @@ public final class SYSStartup: ObservableObject {
         self.requiresAssets = requiresAssets
         self.backgroundAssets = backgroundAssets
         self.requiresConfig = requiresConfig
+        self.minimumSplash = minimumSplash
         self.launchEvent = launchEvent
         self.prepareContent = prepareContent
         self.pruneContent = pruneContent
@@ -167,6 +175,10 @@ public final class SYSStartup: ObservableObject {
             return
         }
         await afterReady?()
+        await SYSTiming.pause(minimumSplash.remaining(
+            isFirstLaunch: SYSLifecycle.isFirstLaunch,
+            elapsed: Date().timeIntervalSince(launchedAt)
+        ))
         if let launchEvent {
             SYSAnalytics.shared.track(launchEvent)
         }

@@ -87,3 +87,27 @@ final class SYSBootstrapContentInjectionTests: XCTestCase {
         XCTAssertEqual(state, .ready)
     }
 }
+
+final class SYSSplashDurationTests: XCTestCase {
+    func testFirstLaunchWaitsLongerThanLaterOnes() {
+        let duration = SYSSplashDuration.standard
+        XCTAssertEqual(duration.remaining(isFirstLaunch: true, elapsed: 0), duration.firstLaunch)
+        XCTAssertEqual(duration.remaining(isFirstLaunch: false, elapsed: 0), duration.returning)
+        XCTAssertGreaterThan(duration.firstLaunch, duration.returning)
+    }
+
+    func testTimeAlreadySpentIsSubtracted() {
+        let duration = SYSSplashDuration(firstLaunch: 2, returning: 1)
+        XCTAssertEqual(duration.remaining(isFirstLaunch: true, elapsed: 0.5), 1.5, accuracy: 0.0001)
+        XCTAssertEqual(duration.remaining(isFirstLaunch: false, elapsed: 0.25), 0.75, accuracy: 0.0001)
+    }
+
+    func testNeverNegative() {
+        XCTAssertEqual(SYSSplashDuration.standard.remaining(isFirstLaunch: true, elapsed: 60), 0)
+    }
+
+    func testNoneNeverWaits() {
+        XCTAssertEqual(SYSSplashDuration.none.remaining(isFirstLaunch: true, elapsed: 0), 0)
+        XCTAssertEqual(SYSSplashDuration.none.remaining(isFirstLaunch: false, elapsed: 0), 0)
+    }
+}
