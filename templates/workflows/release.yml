@@ -85,8 +85,8 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
         run: |
-          BUNDLE_ID=$(bash scripts/ci/project_value.sh app.bundleId) || exit 1
-          NEXT=$(ruby scripts/ci/asc_build_number.rb "$VERSION" "$BUNDLE_ID") || exit 1
+          BUNDLE_ID=$(bash App/Packages/PES/ci/project_value.sh app.bundleId) || exit 1
+          NEXT=$(ruby App/Packages/PES/ci/asc_build_number.rb "$VERSION" "$BUNDLE_ID") || exit 1
           # The script reports the next free number, so the one that shipped is
           # the one before it. It returns 1 when no build exists at all.
           if [ "$NEXT" -gt 1 ]; then
@@ -103,7 +103,7 @@ jobs:
         if: steps.existing.outputs.skip == 'false'
         continue-on-error: true
         run: |
-          BUNDLE_ID=$(bash scripts/ci/project_value.sh app.bundleId) || exit 0
+          BUNDLE_ID=$(bash App/Packages/PES/ci/project_value.sh app.bundleId) || exit 0
           LIVE=$(curl -fsS "https://itunes.apple.com/lookup?bundleId=$BUNDLE_ID" | jq -r '.results[0].version // "unknown"')
           echo "Public App Store lookup reports version: $LIVE (tagging $VERSION)"
           echo "- public App Store lookup: version **$LIVE** (tagging **$VERSION**)" >> "$GITHUB_STEP_SUMMARY"

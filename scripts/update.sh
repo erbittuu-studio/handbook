@@ -19,7 +19,7 @@ if [[ "${1:-}" == "--check" ]]; then CHECK=1; shift; fi
 TARGET="$(cd "${1:?usage: update.sh [--check] <app-dir>}" && pwd)"
 
 # One fact from the app's project.yml (or the older Project.json); empty when absent.
-project_value() { bash "$PES_ROOT/templates/scripts/ci/project_value.sh" "$1" "$TARGET" 2>/dev/null || true; }
+project_value() { bash "$PES_ROOT/tools/PES/ci/project_value.sh" "$1" "$TARGET" 2>/dev/null || true; }
 
 # The project file this app has: project.yml, or the older Project.json until it is migrated.
 if [[ -f "$TARGET/project.yml" ]]; then PROJECT_FILE="project.yml"; else PROJECT_FILE="Project.json"; fi
@@ -30,6 +30,7 @@ if [[ -f "$TARGET/project.yml" ]]; then PROJECT_FILE="project.yml"; else PROJECT
 
 # Whole directories PES owns, copied wholesale.
 MANAGED_DIRS=(
+  "App/Packages/PES"
   "App/Packages/SYSKit"
   "App/Packages/SYSFirebase"
 )
@@ -47,6 +48,24 @@ RETIRED=(
   # and fastlane exists only in the website repo.
   "scripts/shared/screenshots.py"
   "scripts/ci/asc_release_state.rb"
+  # Shared tooling moved into the App/Packages/PES package, synced as one directory.
+  "scripts/validate.py"
+  "scripts/shared/README.md"
+  "scripts/shared/analytics_events.py"
+  "scripts/shared/build_settings.py"
+  "scripts/shared/color_assets.py"
+  "scripts/shared/localization.py"
+  "scripts/shared/project.py"
+  "scripts/shared/urls.py"
+  "scripts/ci/asc_build_number.rb"
+  "scripts/ci/asc_builds.rb"
+  "scripts/ci/project_value.sh"
+  "scripts/ci/start_xcode_cloud_build.rb"
+  "scripts/ci/verify_routing.rb"
+  "scripts/ci/xcode_cloud_workflow.rb"
+  ".githooks/pre-commit"
+  ".githooks/pre-push"
+  ".githooks/commit-msg"
   "App/ci_scripts/lib/asc_build_number.rb"
   # An older generation of nine separate workflow files, since consolidated:
   # pr.yml absorbs the first six, main.yml the rest.
@@ -71,7 +90,6 @@ SEEDED=(
 # Files PES owns. Anything not listed here belongs to the app.
 MANAGED=(
   "App/Config/Base.xcconfig"
-  "scripts/ci/project_value.sh"
   ".github/workflows/pr.yml"
   ".github/workflows/release-guard.yml"
   ".github/workflows/main.yml"
@@ -86,24 +104,8 @@ MANAGED=(
   "App/ci_scripts/ci_post_clone.sh"
   "App/ci_scripts/ci_pre_xcodebuild.sh"
   "App/ci_scripts/ci_post_xcodebuild.sh"
-  "scripts/validate.py"
-  "scripts/shared/README.md"
-  "scripts/shared/analytics_events.py"
-  "scripts/shared/build_settings.py"
-  "scripts/shared/color_assets.py"
-  "scripts/shared/localization.py"
-  "scripts/shared/project.py"
-  "scripts/shared/urls.py"
-  "scripts/ci/asc_build_number.rb"
-  "scripts/ci/asc_builds.rb"
-  "scripts/ci/start_xcode_cloud_build.rb"
-  "scripts/ci/verify_routing.rb"
-  "scripts/ci/xcode_cloud_workflow.rb"
   ".editorconfig"
   ".gitattributes"
-  ".githooks/pre-commit"
-  ".githooks/pre-push"
-  ".githooks/commit-msg"
 )
 
 # Where each managed file comes from in templates/.
@@ -113,12 +115,8 @@ src_for() {
     .github/ISSUE_TEMPLATE/*) echo "github/ISSUE_TEMPLATE/$(basename "$1")" ;;
     .github/*)               echo "github/$(basename "$1")" ;;
     App/ci_scripts/*)        echo "ci_scripts/$(basename "$1")" ;;
-    scripts/shared/*)        echo "scripts/shared/$(basename "$1")" ;;
-    scripts/ci/*)            echo "scripts/ci/$(basename "$1")" ;;
-    scripts/validate.py)     echo "scripts/validate.py" ;;
     .editorconfig)           echo "assets/editorconfig" ;;
     .gitattributes)          echo "assets/gitattributes" ;;
-    .githooks/*)             echo "githooks/$(basename "$1")" ;;
     App/Config/Base.xcconfig) echo "xcconfig/Base.xcconfig" ;;
     *) return 1 ;;
   esac
@@ -250,6 +248,21 @@ for rel in "${RETIRED[@]}"; do
   [[ $CHECK -eq 0 ]] && rm -f "$TARGET/$rel"
 done
 
+# The folders those files lived in, now empty.
+if [[ $CHECK -eq 0 ]]; then
+  for dir in scripts/ci scripts/shared .githooks; do
+    [[ -d "$TARGET/$dir" ]] || continue
+    rm -rf "$TARGET/$dir/__pycache__"; rm -f "$TARGET/$dir/.DS_Store"
+    rmdir "$TARGET/$dir" 2>/dev/null || true
+  done
+fi
+
+# project.yml lists the folders validate.py reads checks from; the shared ones now live in the package.
+if [[ $CHECK -eq 0 && "$PROJECT_FILE" == "project.yml" ]] && grep -q 'scripts/shared' "$TARGET/project.yml"; then
+  sed -i.bak 's|scripts/shared|App/Packages/PES/shared|g' "$TARGET/project.yml" && rm -f "$TARGET/project.yml.bak"
+  echo "  MIGRATE project.yml: checks folder scripts/shared -> App/Packages/PES/shared"
+fi
+
 # An app that is not built on SYS (`sys: false` in its project file) gets neither the
 # packages nor the analytics seed that goes with them — it keeps its own.
 [[ "$(project_value sys)" == "false" ]] && USES_SYS="no" || USES_SYS="yes"
@@ -276,11 +289,11 @@ done
 # what was last synced tells "PES moved on" from "the app changed this"; only
 # the second is dangerous to overwrite.
 for rel in "${MANAGED_DIRS[@]}"; do
-  [[ "$USES_SYS" == "no" ]] && continue
+  [[ "$USES_SYS" == "no" && "$rel" != "App/Packages/PES" ]] && continue
   if [[ "$rel" == "App/Packages/SYSFirebase" && "$FIREBASE_VARIANT" == "crashlytics-only" ]]; then
     rel="App/Packages/SYSFirebaseCrashlytics"
   fi
-  src="$PES_ROOT/SPM/$(basename "$rel")"
+  if [[ "$rel" == "App/Packages/PES" ]]; then src="$PES_ROOT/tools/PES"; else src="$PES_ROOT/SPM/$(basename "$rel")"; fi
   [[ -d "$src" ]] || continue
 
   # SYSFirebase/SYSFirebaseCrashlytics depend on FirebaseKit via a relative
@@ -301,7 +314,7 @@ for rel in "${MANAGED_DIRS[@]}"; do
     # Content hash of the tracked tree, artefacts excluded, sorted so the
     # result doesn't depend on directory traversal order.
     find "$1" -type f \
-      ! -path '*/.build/*' ! -path '*/.swiftpm/*' \
+      ! -path '*/.build/*' ! -path '*/.swiftpm/*' ! -path '*/__pycache__/*' \
       ! -name '.pes-sync' ! -name '.DS_Store' \
       -exec shasum -a 256 {} \; 2>/dev/null \
       | awk '{print $1}' | sort | shasum -a 256 | awk '{print $1}'
@@ -310,7 +323,7 @@ for rel in "${MANAGED_DIRS[@]}"; do
   if [[ ! -d "$TARGET/$rel" ]]; then
     echo "  ADD     $rel/"; missing=$((missing+1))
   elif ! diff -rq --exclude '.build' --exclude '.swiftpm' --exclude '.pes-sync' \
-         --exclude '.DS_Store' \
+         --exclude '.DS_Store' --exclude '__pycache__' \
          "$src" "$TARGET/$rel" >/dev/null 2>&1; then
 
     if [[ -f "$stamp" ]] && [[ "$(fingerprint_of "$TARGET/$rel")" != "$(cat "$stamp")" ]]; then
@@ -326,7 +339,7 @@ for rel in "${MANAGED_DIRS[@]}"; do
   if [[ $CHECK -eq 0 ]]; then
     mkdir -p "$TARGET/$(dirname "$rel")"
     rm -rf "$TARGET/$rel"
-    rsync -a --exclude '.build' --exclude '.swiftpm' --exclude '.DS_Store' \
+    rsync -a --exclude '.build' --exclude '.swiftpm' --exclude '.DS_Store' --exclude '__pycache__' \
       "$src/" "$TARGET/$rel/"
     fingerprint_of "$TARGET/$rel" > "$stamp"
   fi
@@ -399,15 +412,15 @@ if [[ -d "$TARGET/App/Packages/SYSKit" ]]; then
 fi
 
 # core.hooksPath is per-clone git config, not a file — can't be copied, has
-# to be set. A repo with .githooks/ but no hooksPath looks protected and isn't.
+# to be set. A repo with hooks but no hooksPath looks protected and isn't.
 if git -C "$TARGET" rev-parse --git-dir >/dev/null 2>&1; then
   hooks_path="$(git -C "$TARGET" config core.hooksPath 2>/dev/null || true)"
-  if [[ "$hooks_path" != ".githooks" ]]; then
+  if [[ "$hooks_path" != "App/Packages/PES/hooks" ]]; then
     echo "  HOOKS   core.hooksPath is '${hooks_path:-unset}' — hooks are NOT active"
     if [[ $CHECK -eq 0 ]]; then
-      git -C "$TARGET" config core.hooksPath .githooks
-      chmod +x "$TARGET"/.githooks/* 2>/dev/null || true
-      echo "  HOOKS   set core.hooksPath=.githooks"
+      git -C "$TARGET" config core.hooksPath App/Packages/PES/hooks
+      chmod +x "$TARGET"/App/Packages/PES/hooks/* 2>/dev/null || true
+      echo "  HOOKS   set core.hooksPath=App/Packages/PES/hooks"
     fi
   fi
 fi

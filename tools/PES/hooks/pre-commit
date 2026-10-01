@@ -29,12 +29,12 @@ fi
 # ── vendored third-party is never hand-edited (PLAYBOOK §8) ─────────────
 # App/Vendor/ is only ever true third-party, so every edit there qualifies.
 # App/Packages/ is the pre-App/Vendor-split layout some apps still carry —
-# SYSKit and SYSFirebase are ours and live there too, so they are exempt.
+# SYSKit, SYSFirebase and the PES tooling package are ours and live there too, so they are exempt.
 # .vendor-version is PES metadata that update.sh writes into vendored packages,
 # not upstream source — blocking it made our own tooling unable to commit.
 # A package the app wrote itself is listed under "ownedPackages" in Project.json.
-OWNED=$(bash scripts/ci/project_value.sh ownedPackages 2>/dev/null | paste -sd'|' - || true)
-VENDORED=$(printf '%s\n' "$STAGED" | grep -E "^App/Vendor/|^App/Packages/" | grep -vE "^App/Packages/(SYS${OWNED:+|$OWNED})|/\.vendor-version$" || true)
+OWNED=$(bash App/Packages/PES/ci/project_value.sh ownedPackages 2>/dev/null | paste -sd'|' - || true)
+VENDORED=$(printf '%s\n' "$STAGED" | grep -E "^App/Vendor/|^App/Packages/" | grep -vE "^App/Packages/(SYS|PES${OWNED:+|$OWNED})|/\.vendor-version$" || true)
 if [ -n "$VENDORED" ]; then
   echo "⚠ Editing vendored third-party source:"
   printf '    %s\n' $VENDORED
@@ -78,9 +78,9 @@ fi
 
 # ── remote config ───────────────────────────────────────────────────────
 # It reaches every user at once, so it is worth checking at the keystroke.
-if printf '%s\n' "$STAGED" | grep -q 'Hosting/config.json' && [ -f scripts/validate.py ]; then
-  python3 scripts/validate.py config >/dev/null 2>&1 || {
-    echo "✗ config.json failed validation — run: python3 scripts/validate.py config"
+if printf '%s\n' "$STAGED" | grep -q 'Hosting/config.json' && [ -f App/Packages/PES/validate.py ]; then
+  python3 App/Packages/PES/validate.py config >/dev/null 2>&1 || {
+    echo "✗ config.json failed validation — run: python3 App/Packages/PES/validate.py config"
     fail=1
   }
 fi

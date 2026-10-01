@@ -22,7 +22,7 @@ rules you must not break.
 xcodebuild -project App/{{PROJECT_NAME}}.xcodeproj -scheme {{PROJECT_NAME}} \
   -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
 swiftlint lint App/Source          # 0 errors required; warnings tolerated
-python3 scripts/validate.py         # the project's own checks (what pr.yml runs)
+python3 App/Packages/PES/validate.py         # the project's own checks (what pr.yml runs)
 ```
 
 ## Layout (PES PLAYBOOK §1)

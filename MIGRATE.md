@@ -115,7 +115,7 @@ checks still run red/green, they just don't block the merge button.
 Set `ASC_KEY_ID` / `ASC_ISSUER_ID` / `ASC_KEY_CONTENT` repo secrets (API key
 from ASC → Integrations, App Manager role; the .p8 goes to the password
 manager, never the repo — same key as step 4, separate copy). The helper
-scripts in `scripts/ci/` read them.
+scripts in `App/Packages/PES/ci/` read them.
 
 The store listing itself is not part of the app repo: it lives in Firebase and
 is managed from the website repo (PLAYBOOK §6). Register the app there and its
@@ -175,7 +175,7 @@ App Store Sync brings in whatever Apple already has.
 Do these in order, one app at a time, and commit after each. Each is safe to stop after.
 
 1. **One project file.** `scripts/migrate-config.sh ../MyApp`, then `scripts/update.sh ../MyApp`, then
-   `python3 scripts/validate.py`. Nothing about the app's behaviour changes.
+   `python3 App/Packages/PES/validate.py`. Nothing about the app's behaviour changes.
 2. **Shared build settings.** `scripts/adopt-xcconfig.sh ../MyApp` sets `xcconfig: true`, syncs
    `App/Config/Base.xcconfig` and `App.xcconfig`, points the project's Debug and Release configurations at
    `App.xcconfig`, removes the project-level settings `Base.xcconfig` now provides, and moves

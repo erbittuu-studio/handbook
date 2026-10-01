@@ -56,16 +56,16 @@ jobs:
           set -o pipefail
           case "${{ inputs.action }}" in
             show)
-              ruby scripts/ci/xcode_cloud_workflow.rb --show | tee output.txt
+              ruby App/Packages/PES/ci/xcode_cloud_workflow.rb --show | tee output.txt
               ;;
             manual)
-              ruby scripts/ci/xcode_cloud_workflow.rb \
+              ruby App/Packages/PES/ci/xcode_cloud_workflow.rb \
                 --manual "${{ inputs.workflow_name }}" | tee output.txt
               ;;
             build)
               BRANCH="${{ inputs.branch }}"
               [ -n "$BRANCH" ] || { echo "::error::branch is required for action=build"; exit 1; }
-              ruby scripts/ci/start_xcode_cloud_build.rb \
+              ruby App/Packages/PES/ci/start_xcode_cloud_build.rb \
                 "${{ inputs.workflow_name }}" "$BRANCH" | tee output.txt
               ;;
           esac

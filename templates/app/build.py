@@ -5,7 +5,7 @@
     python3 Hosting/build.py --list            # what the pipeline can do
 
 **A step is a file with a `main()` in it**, under Hosting/steps/ — the same
-convention `scripts/validate.py` uses for checks, so there is one idea to learn
+convention `App/Packages/PES/validate.py` uses for checks, so there is one idea to learn
 rather than two. Adding a step is adding a file; nothing here needs editing.
 
 Each step keeps its own flags: this dispatcher hands the rest of the command

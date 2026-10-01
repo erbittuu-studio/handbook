@@ -29,16 +29,22 @@ for y in templates/workflows/*.yml templates/github/*.yml templates/github/ISSUE
 done
 
 # 4b. Ruby templates parse (ci_scripts/lib helpers, scripts/ci helpers)
-for r in templates/ci_scripts/lib/*.rb templates/scripts/ci/*.rb; do
+for r in templates/ci_scripts/lib/*.rb tools/PES/ci/*.rb; do
   [[ -f "$r" ]] || continue
   ruby -c "$r" >/dev/null 2>&1 || err "$r has syntax errors"
 done
 
 # 4c. Python templates parse
-for p in templates/scripts/ci/*.py; do
+for p in tools/PES/validate.py tools/PES/shared/*.py tools/PES/ci/*.py; do
   [[ -f "$p" ]] || continue
   python3 -m py_compile "$p" 2>/dev/null || err "$p has syntax errors"
 done
+
+# 4d. The shared tooling package: shell helpers and hooks parse, hooks are executable
+for s in tools/PES/ci/*.sh tools/PES/hooks/*; do
+  bash -n "$s" || err "$s has syntax errors"
+done
+for s in tools/PES/hooks/*; do [[ -x "$s" ]] || err "$s not executable"; done
 
 # 5. Core docs contain no unresolved {{PLACEHOLDER}}
 # (MIGRATE.md, PLAYBOOK.md and templates/ legitimately document the token

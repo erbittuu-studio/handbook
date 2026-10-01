@@ -1,4 +1,4 @@
-# scripts/shared — checks PES owns
+# App/Packages/PES/shared — checks PES owns
 
 **Do not edit these in an app repo.** `handbook`
 overwrites this whole folder on every `update.sh`, so a local fix here is a fix
@@ -12,7 +12,7 @@ the analytics enum, the colour assets, and the single-source-of-truth rule.
 
 | It checks… | It lives in | Owned by |
 |---|---|---|
-| something every app has — the store listing, a string catalog, an asset name | `scripts/shared/` | PES |
+| something every app has — the store listing, a string catalog, an asset name | `App/Packages/PES/shared/` | PES |
 | a contract of SYSKit itself | `App/Packages/SYSKit/Scripts/checks/` | PES, travels with the vendored package |
 | something only this app has — its artwork format, its own constants | `scripts/checks/` | the app |
 
@@ -25,7 +25,7 @@ one only this app could ever want.
 
 Drop a file with a `check(ctx)` in the right folder. There is no registry to
 update and no CI line to add — `Project.json`'s `checks` array lists the
-folders, and `scripts/validate.py` discovers the rest. `ctx.root` is the repo
+folders, and `App/Packages/PES/validate.py` discovers the rest. `ctx.root` is the repo
 and `ctx.get("app.bundleId")` reads `Project.json`, so a check imports nothing
 and never computes its own path.
 

@@ -11,11 +11,21 @@
 # It reads the real config rather than restating it, so it cannot drift from
 # what actually runs. Expectations live below; a mismatch fails.
 #
-#   ruby scripts/ci/verify_routing.rb
+#   ruby App/Packages/PES/ci/verify_routing.rb
 
 require "yaml"
 
-ROOT = File.expand_path("../..", __dir__)
+def find_root(start = __dir__)
+  dir = File.expand_path(start)
+  until File.exist?(File.join(dir, "project.yml")) || File.exist?(File.join(dir, "Project.json"))
+    parent = File.dirname(dir)
+    abort "no project.yml or Project.json in any parent of #{start}" if parent == dir
+    dir = parent
+  end
+  dir
+end
+
+ROOT = find_root
 MAIN = YAML.load_file(File.join(ROOT, ".github/workflows/main.yml"))
 
 TRIGGER_PATHS = MAIN[true]["push"]["paths"]
@@ -52,13 +62,13 @@ SCENARIOS = [
     build: true,  ci: false },
   { name: "docs only",        files: ["README.md"],
     build: false, ci: false },
-  { name: "CI script only",   files: ["scripts/ci/asc_builds.rb"],
+  { name: "CI script only",   files: ["App/Packages/PES/ci/asc_builds.rb"],
     build: false, ci: true },
   { name: "workflow only",    files: [".github/workflows/main.yml"],
     build: false, ci: true },
   { name: "project.yml",      files: ["project.yml"],
     build: false, ci: true },
-  { name: "code + CI script", files: ["App/Source/App/{{APP_NAME}}App.swift", "scripts/ci/asc_builds.rb"],
+  { name: "code + CI script", files: ["App/Source/App/{{APP_NAME}}App.swift", "App/Packages/PES/ci/asc_builds.rb"],
     build: true,  ci: true }
 ].freeze
 

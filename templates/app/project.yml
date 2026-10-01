@@ -1,5 +1,5 @@
 # project.yml — the facts about this app that more than one tool needs, stated once.
-# scripts/shared/project.py fails the build if anything restates them.
+# App/Packages/PES/shared/project.py fails the build if anything restates them.
 # Replace every {{PLACEHOLDER}}; delete what this app does not need.
 
 # What PES version this app was last synced to. update.sh keeps this line current.
@@ -20,10 +20,10 @@ languages:
   interface: [en]
 
 # Where validate.py looks. The folder says who may edit: scripts/checks is this app's (add it here
-# once it exists — validate.py fails loud on a listed folder that's missing), scripts/shared is PES's
+# once it exists — validate.py fails loud on a listed folder that's missing), App/Packages/PES/shared is PES's
 # and is overwritten on sync, SYSKit's travel with the package.
 checks:
-  - scripts/shared
+  - App/Packages/PES/shared
   - App/Packages/SYSKit/Scripts/checks
 
 # Opt in to the shared build settings (App/Config/Base.xcconfig). See PLAYBOOK "Shared build settings".

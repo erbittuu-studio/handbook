@@ -23,7 +23,7 @@ for dir in "$APPS_DIR"/*/; do
   remote="$(git -C "$dir" remote get-url origin 2>/dev/null)" || continue
   repo="${remote#https://github.com/}"; repo="${repo%.git}"
 
-  bundle_id="$(bash "$PES_ROOT/templates/scripts/ci/project_value.sh" app.bundleId "$dir" 2>/dev/null | head -1)"
+  bundle_id="$(bash "$PES_ROOT/tools/PES/ci/project_value.sh" app.bundleId "$dir" 2>/dev/null | head -1)"
 
   # Live on the App Store — Apple's public lookup, no key required.
   live="-"
@@ -49,7 +49,7 @@ except Exception:
   [[ -n "$tag" ]] && tag="v$tag" || tag="none"
 
   pes="-"
-  pes_value="$(bash "$PES_ROOT/templates/scripts/ci/project_value.sh" pes.version "$dir" 2>/dev/null | head -1)"
+  pes_value="$(bash "$PES_ROOT/tools/PES/ci/project_value.sh" pes.version "$dir" 2>/dev/null | head -1)"
   if [[ -n "$pes_value" ]]; then pes="$pes_value"
   elif [[ -f "$dir/.pes-version" ]]; then pes="$(tr -d '[:space:]' < "$dir/.pes-version")"; fi
 

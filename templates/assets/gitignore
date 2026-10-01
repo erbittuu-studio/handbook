@@ -36,7 +36,7 @@ Package.resolved
 # trying to match a product that no longer exists (MIGRATE.md gotchas).
 *.xcodeproj/xcshareddata/xcodecloud/
 
-# Xcode Cloud workflow backups — scripts/ci/xcode_cloud_workflow.rb writes one
+# Xcode Cloud workflow backups — App/Packages/PES/ci/xcode_cloud_workflow.rb writes one
 # before every edit so a wrong result is undoable. They are a local safety net,
 # not a record: the intended setting is the flag you ran, and that is in git.
 xcode-cloud-*.json

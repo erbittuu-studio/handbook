@@ -135,4 +135,4 @@ print("Kept in the project file because they differ from Base.xcconfig:" if kept
 for line in kept:
     print("  ", line)
 PY
-echo "Done. Next: compare build settings, build Debug and Release, run scripts/validate.py."
+echo "Done. Next: compare build settings, build Debug and Release, run App/Packages/PES/validate.py."

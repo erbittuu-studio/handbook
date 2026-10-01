@@ -16,7 +16,7 @@
 # Defaults to this app's product; --product <name> picks another.
 #   ruby start_xcode_cloud_build.rb --list                     show what exists
 #
-# JWT/HTTP helpers are duplicated from scripts/ci/asc_build_number.rb
+# JWT/HTTP helpers are duplicated from App/Packages/PES/ci/asc_build_number.rb
 # deliberately — that script runs inside every archive and decides the build
 # number, and breaking it to save lines here would be a poor trade.
 

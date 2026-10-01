@@ -119,13 +119,13 @@ jobs:
 
   # {{ OPTIONAL — only relevant with the AnalyticsManager pattern from
   #    PLAYBOOK §7. Firebase silently drops events/params that violate its
-  #    own limits instead of erroring. See scripts/validate.py analytics_events. }}
+  #    own limits instead of erroring. See App/Packages/PES/validate.py analytics_events. }}
   analytics-event-guard:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - run: python3 scripts/validate.py analytics_events
+      - run: python3 App/Packages/PES/validate.py analytics_events
 
   # SYSKit only delivers consistency while apps actually use it — nothing
   # stops reaching for UserDefaults or URLSession directly instead.
@@ -134,18 +134,18 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - run: python3 scripts/validate.py sys_adoption
+      - run: python3 App/Packages/PES/validate.py sys_adoption
 
   # Build settings that compile fine and still ship broken: a literal
   # Info.plist version overriding the one CI stamps, Firebase vendored
   # without -ObjC, SYSKit vendored but never linked. See
-  # scripts/shared/build_settings.py.
+  # App/Packages/PES/shared/build_settings.py.
   build-settings:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - run: python3 scripts/validate.py build_settings
+      - run: python3 App/Packages/PES/validate.py build_settings
 
   # ── Release readiness ────────────────────────────────────────────────────
   # Scoped to release/* branches: is the version actually higher than the

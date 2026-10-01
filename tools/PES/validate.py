@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Runs every check in the project, or one of them by name.
 
-    python3 scripts/validate.py            # everything
-    python3 scripts/validate.py colors     # just that one
-    python3 scripts/validate.py --list     # what there is
+    python3 App/Packages/PES/validate.py            # everything
+    python3 App/Packages/PES/validate.py colors     # just that one
+    python3 App/Packages/PES/validate.py --list     # what there is
 
 **A check is a file with a `check(ctx)` function in it.** Drop one into a
 folder listed under `checks` in project.yml and it runs — there is no registry

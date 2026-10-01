@@ -72,29 +72,20 @@ for cs in ci_post_clone ci_pre_xcodebuild ci_post_xcodebuild; do
 done
 chmod +x "$TARGET"/App/ci_scripts/*.sh 2>/dev/null || true
 
-# Git hooks. Committed in .githooks and activated via core.hooksPath, because
-# .git/hooks is not versioned — otherwise every clone silently has no hooks.
-copy githooks/pre-commit  .githooks/pre-commit
-copy githooks/pre-push    .githooks/pre-push
-copy githooks/commit-msg  .githooks/commit-msg
-chmod +x "$TARGET"/.githooks/* 2>/dev/null || true
-if git -C "$TARGET" rev-parse --git-dir >/dev/null 2>&1; then
-  git -C "$TARGET" config core.hooksPath .githooks
-  echo "  config core.hooksPath=.githooks"
+# Shared tooling — validate.py, the checks PES owns, the Xcode Cloud and App Store Connect
+# helpers the workflows call by name, and the git hooks — lives in one package, synced as a
+# directory by update.sh. Hooks are activated through core.hooksPath, because .git/hooks is not
+# versioned and every clone would otherwise silently have none.
+if [[ ! -d "$TARGET/App/Packages/PES" ]]; then
+  mkdir -p "$TARGET/App/Packages"
+  rsync -a --exclude '__pycache__' --exclude '.DS_Store' "$PES_ROOT/tools/PES/" "$TARGET/App/Packages/PES/"
+  echo "  created App/Packages/PES"
 fi
-
-# The checks scripts/validate.py runs — scripts/shared/ is PES's tier, never
-# hand-edited; scripts/ci/*.rb are the Xcode Cloud + App Store Connect helpers
-# the workflows above call by name.
-copy scripts/validate.py                    scripts/validate.py
-for shared in README.md analytics_events.py build_settings.py color_assets.py \
-              localization.py project.py urls.py; do
-  copy "scripts/shared/$shared" "scripts/shared/$shared"
-done
-for rb in asc_build_number asc_builds start_xcode_cloud_build \
-          verify_routing xcode_cloud_workflow; do
-  copy "scripts/ci/$rb.rb" "scripts/ci/$rb.rb"
-done
+chmod +x "$TARGET"/App/Packages/PES/hooks/* 2>/dev/null || true
+if git -C "$TARGET" rev-parse --git-dir >/dev/null 2>&1; then
+  git -C "$TARGET" config core.hooksPath App/Packages/PES/hooks
+  echo "  config core.hooksPath=App/Packages/PES/hooks"
+fi
 
 # What this app is served over Firebase Hosting.
 copy app/firebase.json    firebase.json

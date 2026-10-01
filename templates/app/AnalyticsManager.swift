@@ -6,7 +6,7 @@
 //  Firebase wiring, user properties — lives in SYSKit and is shared; only this
 //  list of events and screens differs per app.
 //
-//  This file's path is a fixed contract: scripts/ci/validate_config.py's sibling
+//  This file's path is a fixed contract: App/Packages/PES/ci/validate_config.py's sibling
 //  validate_analytics_events.py greps exactly App/Source/Shared/AnalyticsManager.swift
 //  on every PR. Moving or renaming it silently disables that check.
 //

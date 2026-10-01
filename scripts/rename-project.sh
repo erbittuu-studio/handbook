@@ -14,7 +14,7 @@ set -euo pipefail
 PES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TARGET="$(cd "${1:?usage: rename-project.sh <app-dir>}" && pwd)"
 [[ -f "$TARGET/project.yml" ]] || { echo "migrate to project.yml first: scripts/migrate-config.sh"; exit 1; }
-value() { bash "$PES_ROOT/templates/scripts/ci/project_value.sh" "$1" "$TARGET"; }
+value() { bash "$PES_ROOT/tools/PES/ci/project_value.sh" "$1" "$TARGET"; }
 
 OLD_PROJECT="$(basename "$(value app.project)" .xcodeproj)"
 OLD_SCHEME="$(value app.scheme)"
@@ -70,4 +70,4 @@ rm -rf "$TARGET/Hosting" "$TARGET/firebase.json"
 
 echo
 echo "Renamed: App/App.xcodeproj, scheme App. Product name and bundle ID are unchanged."
-echo "Now: build Debug and Release, run scripts/validate.py, and re-point the Xcode Cloud workflow (see the top of this script)."
+echo "Now: build Debug and Release, run App/Packages/PES/validate.py, and re-point the Xcode Cloud workflow (see the top of this script)."

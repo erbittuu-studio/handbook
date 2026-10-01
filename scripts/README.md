@@ -12,7 +12,7 @@
 `App/Packages/`, and compares third-party package versions in `App/Vendor/`
 against `vendor.json` — reporting drift without ever touching their contents.
 
-`templates/scripts/shared/build_settings.py` runs the same checks as
+`tools/PES/shared/build_settings.py` runs the same checks as
 `lint-project.sh` automatically, on every PR, for the one app whose CI is
 actually running — a literal Info.plist version, missing `-ObjC`, SYSKit
 vendored but unlinked. `lint-project.sh` stays for auditing the whole

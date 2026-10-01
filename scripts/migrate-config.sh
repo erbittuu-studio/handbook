@@ -22,7 +22,7 @@ wrap = lambda do |text|
 end
 
 out = +"# project.yml — the facts about this app that more than one tool needs, stated once.\n"
-out << "# scripts/shared/project.py fails the build if anything restates them.\n\n"
+out << "# App/Packages/PES/shared/project.py fails the build if anything restates them.\n\n"
 out << "# What PES version this app was last synced to. update.sh keeps this line current.\n"
 out << "pes:\n  version: #{version || "0.0.0"}\n\n"
 
@@ -67,4 +67,4 @@ else
   rm -f Project.json .pes-version .pes-sync-manifest
 fi
 echo "Migrated: project.yml written; Project.json, .pes-version and .pes-sync-manifest removed."
-echo "Next: run the PES update (it now reads project.yml), then scripts/validate.py, then commit."
+echo "Next: run the PES update (it now reads project.yml), then App/Packages/PES/validate.py, then commit."

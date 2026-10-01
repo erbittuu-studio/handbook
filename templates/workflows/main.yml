@@ -77,12 +77,13 @@ jobs:
           filters: |
             code:
               - 'App/Source/**'
-              - 'App/Packages/**'
+              - 'App/Packages/SYS*/**'
               - 'App/Vendor/**'
               - 'App/{{PROJECT_NAME}}.xcodeproj/**'
               - '.swiftlint.yml'
             ci:
               - '.github/workflows/**'
+              - 'App/Packages/PES/**'
               - 'scripts/**'
               - 'Project.json'
               - 'project.yml'
@@ -159,7 +160,7 @@ jobs:
         run: |
           set -o pipefail
           fail=0
-          for f in scripts/ci/*.rb; do
+          for f in App/Packages/PES/ci/*.rb; do
             [ -f "$f" ] || continue
             ruby -c "$f" > /dev/null || { echo "::error file=$f::does not parse"; fail=1; }
           done
@@ -173,7 +174,7 @@ jobs:
       # check harness itself — this is the only thing that proves the checks
       # still find their targets.
       - name: The check harness still runs
-        run: python3 scripts/validate.py
+        run: python3 App/Packages/PES/validate.py
 
   verify-app:
     needs: changes
@@ -191,10 +192,10 @@ jobs:
           swiftlint lint App
 
       - name: Analytics events follow the enum rules
-        run: python3 scripts/validate.py analytics_events
+        run: python3 App/Packages/PES/validate.py analytics_events
 
       - name: The app adopts SYSKit rather than re-implementing it
-        run: python3 scripts/validate.py sys_adoption
+        run: python3 App/Packages/PES/validate.py sys_adoption
 
       # The archive itself is Xcode Cloud's job — building here too would pay
       # for the same compile twice.
@@ -222,7 +223,7 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: ruby scripts/ci/xcode_cloud_workflow.rb --check github_auto_release
+        run: ruby App/Packages/PES/ci/xcode_cloud_workflow.rb --check github_auto_release
 
   # ── Xcode Cloud archive audience ────────────────────────────────────────
   #
@@ -267,7 +268,7 @@ jobs:
           WORKFLOW: github_auto_release
         run: |
           set -o pipefail
-          OUT=$(ruby scripts/ci/xcode_cloud_workflow.rb | tee -a "$GITHUB_STEP_SUMMARY")
+          OUT=$(ruby App/Packages/PES/ci/xcode_cloud_workflow.rb | tee -a "$GITHUB_STEP_SUMMARY")
           echo "" >> "$GITHUB_STEP_SUMMARY"
 
           # Only this workflow's archive line — the report lists every
@@ -297,7 +298,7 @@ jobs:
 
           echo "::warning::archive audience is not App Store eligible — attempting to set it"
           set +e
-          ruby scripts/ci/xcode_cloud_workflow.rb --app-store "$WORKFLOW" \
+          ruby App/Packages/PES/ci/xcode_cloud_workflow.rb --app-store "$WORKFLOW" \
             | tee -a "$GITHUB_STEP_SUMMARY"
           RC=${PIPESTATUS[0]}
           set -e
@@ -318,4 +319,4 @@ jobs:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
         run: |
           set -o pipefail
-          ruby scripts/ci/asc_builds.rb | tee -a "$GITHUB_STEP_SUMMARY"
+          ruby App/Packages/PES/ci/asc_builds.rb | tee -a "$GITHUB_STEP_SUMMARY"

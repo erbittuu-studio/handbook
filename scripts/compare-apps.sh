@@ -9,7 +9,7 @@ set -euo pipefail
 PES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APPS_DIR="${1:-$(dirname "$PES_ROOT")}"
 
-python3 - "$APPS_DIR" "$PES_ROOT/templates/scripts/ci/project_value.sh" <<'PY'
+python3 - "$APPS_DIR" "$PES_ROOT/tools/PES/ci/project_value.sh" <<'PY'
 import glob, json, os, subprocess, sys
 apps_dir, reader = sys.argv[1], sys.argv[2]
 apps = sorted(d for d in glob.glob(f"{apps_dir}/*") if os.path.isfile(f"{d}/project.yml"))

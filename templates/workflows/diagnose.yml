@@ -27,4 +27,4 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: ruby scripts/ci/asc_builds.rb | tee -a "$GITHUB_STEP_SUMMARY"
+        run: ruby App/Packages/PES/ci/asc_builds.rb | tee -a "$GITHUB_STEP_SUMMARY"

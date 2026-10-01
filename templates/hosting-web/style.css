@@ -2,7 +2,7 @@
  *
  * One stylesheet for the whole site. No webfonts, no CDN, no analytics: these
  * pages are read by App Review, by users, and by the URL checker in
- * scripts/shared/urls.py, and every one of those is better served by a page
+ * App/Packages/PES/shared/urls.py, and every one of those is better served by a page
  * that needs a single request and cannot break.
  *
  * {{ EDIT — retune the palette to the app's own theme. Assets.xcassets is not

@@ -31,4 +31,4 @@ jobs:
       # GITHUB_HEAD_REF carries the real branch name; the checkout itself is a
       # detached merge ref, so the check cannot read it from git.
       - name: Validate release state
-        run: python3 scripts/validate.py release_state
+        run: python3 App/Packages/PES/validate.py release_state

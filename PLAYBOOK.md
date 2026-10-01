@@ -17,8 +17,10 @@ my-app/
 ├── .env.example                 # documents every secret; real values never committed
 ├── firebase.json  .firebaserc   # must stay at root — Firebase CLI expects it here
 ├── .github/workflows/           # all automation
-├── scripts/ci/                  # PR-check scripts the workflows call into
+├── scripts/checks/              # this app's own checks (validate.py runs them)
 ├── App/                         # only what Xcode compiles
+│   ├── Packages/PES/            # shared tooling, synced as one directory: validate.py, shared/ checks,
+│   │                            #   ci/ (Xcode Cloud + App Store Connect helpers), hooks/ — never hand-edited
 │   ├── <Name>.xcodeproj
 │   ├── Source/                  # exactly three top-level folders:
 │   │   ├── App/                 #   @main, delegates, root navigation wiring, app-level setup
@@ -114,15 +116,23 @@ Every job triggers on every PR and skips internally rather than being
 path-filtered at the trigger level — a required check with no run at all
 blocks a merge forever under branch protection.
 
+### Shared tooling is one package
+
+`App/Packages/PES/` holds everything PES owns that is not Swift: `validate.py`, the `shared/` checks, the `ci/` helpers
+(`asc_builds.rb`, `xcode_cloud_workflow.rb`, `project_value.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
+directory, the same way it syncs SYSKit, so there is no per-file list to keep and an app cannot quietly edit one script.
+Only what a tool forces stays outside it: the workflow files under `.github/workflows/` and Xcode Cloud's
+`App/ci_scripts/`, both of which call into the package.
+
 ### Where a check lives says who may edit it
 
-`scripts/validate.py` discovers checks from the folders `Project.json` lists —
+`App/Packages/PES/validate.py` discovers checks from the folders `Project.json` lists —
 a check is a file with a `check(ctx)` in it, no registry to update.
 
 | It checks… | Folder | Owner |
 |---|---|---|
 | something only this app has | `scripts/checks/` | the app |
-| something every app has — the listing, a string catalog, an asset name | `scripts/shared/` | **PES — overwritten on every `update.sh`** |
+| something every app has — the listing, a string catalog, an asset name | `App/Packages/PES/shared/` | **PES — overwritten on every `update.sh`** |
 | a contract of SYSKit itself | `App/Packages/SYSKit/Scripts/checks/` | PES, travels with the vendored package |
 
 A shared check reads anything app-specific out of `Project.json` (screenshot
@@ -170,7 +180,7 @@ Each app's facts live in one file at the repo root, `project.yml`, and nowhere e
 | `languages`, `checks`, `xcconfig`, `skip`, `ownedPackages`, `sys` | What `Project.json` held, now with real comments. |
 | the `# >>> sync manifest` block at the end | The fingerprints `update.sh` uses to tell "PES moved on" from "the app changed this". It used to be `.pes-sync-manifest`. It is comments, so it never disturbs the YAML, and it is written by the script, not by hand. |
 
-Shell and Ruby read it through `scripts/ci/project_value.sh app.bundleId`, and `validate.py` converts it with
+Shell and Ruby read it through `App/Packages/PES/ci/project_value.sh app.bundleId`, and `validate.py` converts it with
 Ruby, so nothing needs installing. An app still on `Project.json` keeps working until it moves:
 `scripts/migrate-config.sh <app>` writes `project.yml`, proves it says the same as the old file, and removes the
 three old files. It commits nothing.
@@ -301,7 +311,7 @@ Store text and screenshots are **not** kept in an app repo. There is no
   runs. To add an app: create its Firebase data and register it there.
 - Auth is an App Store Connect API key. An app repo keeps `ASC_KEY_ID`,
   `ASC_ISSUER_ID` and `ASC_KEY_CONTENT` in its secrets only for the Xcode Cloud
-  helper scripts in `scripts/ci/`; Xcode Cloud itself needs no credentials.
+  helper scripts in `App/Packages/PES/ci/`; Xcode Cloud itself needs no credentials.
 - Apple rejects: emoji in "What's New", placeholder URLs, store locales that
   don't exist (app languages and store languages are different lists). The
   website repo's checks cover these before anything is published.
@@ -315,7 +325,7 @@ smoke-tests the live manifest and one sample bundle right after every deploy.
 Analytics and Crashlytics: one prod project, SDKs disabled in Debug builds,
 dSYMs uploaded by `ci_post_xcodebuild.sh`. Custom Analytics events live in one
 file as an enum (name + parameters per case) — that's what makes
-`scripts/shared/analytics_events.py` possible. Deploy auth is a service
+`App/Packages/PES/shared/analytics_events.py` possible. Deploy auth is a service
 account JSON in the `FIREBASE_SERVICE_ACCOUNT` secret with Hosting rights
 only.
 
@@ -662,7 +672,7 @@ overwriting that would be a store compliance problem.
 On GitHub Free a private repo gets no branch protection, so hooks are the
 only place something can actually be stopped.
 
-Committed in `.githooks/` and activated with `core.hooksPath` (`.git/hooks`
+Committed in `App/Packages/PES/hooks/` and activated with `core.hooksPath` (`.git/hooks`
 isn't versioned). `setup.sh`/`update.sh` set it; `update.sh --check` reports
 when it's missing.
 
@@ -718,7 +728,7 @@ repos by default.
       `release/*` when something under `App/` changes, Archive action's
       Distribution Preparation set to **App Store Connect** (not "TestFlight
       Internal Testing Only" — see §5). `main.yml`'s `xcode-cloud` job and
-      `scripts/ci/xcode_cloud_workflow.rb` both hardcode this name. Create it
+      `App/Packages/PES/ci/xcode_cloud_workflow.rb` both hardcode this name. Create it
       once by hand in Xcode's Cloud tab.
 - [ ] 2FA everywhere; ASC API key in password manager + repo secrets + Xcode
       Cloud Environment Variables (three places, same key)
@@ -727,7 +737,7 @@ repos by default.
 - [ ] `Hosting/Web/` privacy/terms/support pages filled in from
       `templates/hosting-web/` and self-hosted (never an external URL in
       `Hosting/config.json`'s `urls` block) —
-      `scripts/shared/urls.py` fails the build if any of them 404
+      `App/Packages/PES/shared/urls.py` fails the build if any of them 404
 - [ ] Crashlytics email alerts on
 - [ ] String catalogs from day one; automatic signing everywhere
 - [ ] Old endpoints that shipped binaries still call: freeze, never delete

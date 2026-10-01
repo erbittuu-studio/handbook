@@ -63,7 +63,7 @@ jobs:
       - name: It passes its own checks
         working-directory: /tmp/app
         run: |
-          python3 scripts/validate.py analytics_events
+          python3 App/Packages/PES/validate.py analytics_events
 
       - name: Its workflows are valid YAML
         working-directory: /tmp/app

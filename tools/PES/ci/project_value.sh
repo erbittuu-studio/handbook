@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 # project_value.sh — print one fact from the app's project.yml (or the older Project.json).
 #
-#   scripts/ci/project_value.sh app.bundleId
-#   scripts/ci/project_value.sh ownedPackages        # a list prints one item per line
+#   App/Packages/PES/ci/project_value.sh app.bundleId
+#   App/Packages/PES/ci/project_value.sh ownedPackages        # a list prints one item per line
 #
 # The one place shell reads the project file, so a workflow or hook never parses it itself.
 # YAML is read with Ruby, which is on every Mac and every CI runner; JSON with Python.
 set -euo pipefail
 
 KEY="${1:?usage: project_value.sh <dotted.key> [root]}"
-ROOT="${2:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+if [[ -n "${2:-}" ]]; then
+  ROOT="$2"
+else
+  ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  until [[ -f "$ROOT/project.yml" || -f "$ROOT/Project.json" || "$ROOT" == "/" ]]; do ROOT="$(dirname "$ROOT")"; done
+fi
 
 if [[ -f "$ROOT/project.yml" ]]; then
   ruby -ryaml -e '

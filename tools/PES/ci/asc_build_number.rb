@@ -8,7 +8,7 @@
 # by hand. Ruby stdlib only (openssl, json, net/http) — no gems to install
 # on Xcode Cloud's Mac.
 #
-# Usage: ruby scripts/ci/asc_build_number.rb <marketing_version> <bundle_id>
+# Usage: ruby App/Packages/PES/ci/asc_build_number.rb <marketing_version> <bundle_id>
 # Requires env: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_CONTENT
 #   (Xcode Cloud → workflow → Environment — separate store from GitHub Secrets)
 
@@ -102,8 +102,8 @@ def env_or_abort(name)
   ENV.fetch(name) { abort "#{name} not set — add it as an Xcode Cloud Environment Variable" }
 end
 
-version    = ARGV[0] or abort "usage: scripts/ci/asc_build_number.rb <version> <bundle_id>"
-bundle_id  = ARGV[1] or abort "usage: scripts/ci/asc_build_number.rb <version> <bundle_id>"
+version    = ARGV[0] or abort "usage: App/Packages/PES/ci/asc_build_number.rb <version> <bundle_id>"
+bundle_id  = ARGV[1] or abort "usage: App/Packages/PES/ci/asc_build_number.rb <version> <bundle_id>"
 
 key_id     = env_or_abort("ASC_KEY_ID")
 issuer_id  = env_or_abort("ASC_ISSUER_ID")

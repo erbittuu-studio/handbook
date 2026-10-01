@@ -5,7 +5,7 @@
 # attached to a version.
 #
 #   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_CONTENT   App Store Connect API key
-#   ruby scripts/ci/asc_builds.rb
+#   ruby App/Packages/PES/ci/asc_builds.rb
 #
 # The "Add Build" dialog lists builds and silently refuses to select some,
 # with no reason given. Every reason it could have is a field the API
@@ -99,7 +99,17 @@ end
 
 def env_or_abort(name) = ENV.fetch(name) { abort "#{name} not set" }
 
-root = File.expand_path("../..", __dir__)
+def find_root(start = __dir__)
+  dir = File.expand_path(start)
+  until File.exist?(File.join(dir, "project.yml")) || File.exist?(File.join(dir, "Project.json"))
+    parent = File.dirname(dir)
+    abort "no project.yml or Project.json in any parent of #{start}" if parent == dir
+    dir = parent
+  end
+  dir
+end
+
+root = find_root
 project = if File.exist?(File.join(root, "project.yml"))
             require "yaml"
             YAML.safe_load(File.read(File.join(root, "project.yml")), aliases: true)

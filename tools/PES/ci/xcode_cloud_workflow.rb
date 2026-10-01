@@ -55,7 +55,7 @@
 #      that didn't happen exits non-zero rather than being reported.
 #   4. Any API error is printed verbatim, body included.
 #
-# JWT/HTTP helpers are duplicated from scripts/ci/asc_build_number.rb
+# JWT/HTTP helpers are duplicated from App/Packages/PES/ci/asc_build_number.rb
 # deliberately — that script runs inside every archive and decides the build
 # number, and breaking it to save lines here would be a poor trade.
 
@@ -156,6 +156,16 @@ def asc_try(method, path, token, body = nil)
   response = Net::HTTP.start(uri.host, uri.port, use_ssl: true,
                              open_timeout: 20, read_timeout: 30) { |http| http.request(request) }
   [response.is_a?(Net::HTTPSuccess), response.code, response.body.to_s]
+end
+
+def find_root(start = __dir__)
+  dir = File.expand_path(start)
+  until File.exist?(File.join(dir, "project.yml")) || File.exist?(File.join(dir, "Project.json"))
+    parent = File.dirname(dir)
+    abort "no project.yml or Project.json in any parent of #{start}" if parent == dir
+    dir = parent
+  end
+  dir
 end
 
 def env_or_abort(name)
@@ -266,7 +276,7 @@ if check_target
 
   # The archive builds a scheme by name. The name lives in Xcode Cloud, outside the repo, so renaming the
   # scheme in project.yml silently breaks every release build ("scheme not found") unless it is checked here.
-  project_file = File.expand_path("../../project.yml", __dir__)
+  project_file = File.join(find_root, "project.yml")
   if File.file?(project_file)
     require "yaml"
     expected = YAML.safe_load(File.read(project_file), aliases: true).dig("app", "scheme")
