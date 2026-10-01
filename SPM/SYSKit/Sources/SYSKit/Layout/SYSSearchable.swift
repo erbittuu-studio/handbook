@@ -2,12 +2,28 @@
 import SwiftUI
 
 public extension View {
+    func sysSearchable(text: Binding<String>, prompt: String, focusOnAppear: Bool = false) -> some View {
+        modifier(SYSSearchable(text: text, prompt: prompt, focusOnAppear: focusOnAppear))
+    }
+}
+
+private struct SYSSearchable: ViewModifier {
+    @Binding var text: String
+    let prompt: String
+    let focusOnAppear: Bool
+    @FocusState private var isFocused: Bool
+
     @ViewBuilder
-    func sysSearchable(text: Binding<String>, prompt: String) -> some View {
+    func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
-            searchable(text: text, prompt: prompt)
+            content
+                .searchable(text: $text, prompt: prompt)
+                .searchFocused($isFocused)
+                .onAppear {
+                    if focusOnAppear { isFocused = true }
+                }
         } else {
-            searchable(text: text, placement: .navigationBarDrawer(displayMode: .always), prompt: prompt)
+            content.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .always), prompt: prompt)
         }
     }
 }
