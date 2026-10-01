@@ -26,10 +26,13 @@ public enum SYSOpacity {
 }
 
 public enum SYSStroke {
+    public static let hairline: CGFloat = 0.5
     public static let thin: CGFloat = 1
     public static let medium: CGFloat = 3
 }
 
 public enum SYSSize {
     public static let touch: CGFloat = 44
+    public static let settingsTile: CGFloat = 30
+    public static let settingsRow: CGFloat = 52
 }

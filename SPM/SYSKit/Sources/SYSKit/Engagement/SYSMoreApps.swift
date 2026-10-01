@@ -1,18 +1,8 @@
-#if canImport(SwiftUI)
+#if os(iOS)
 import SwiftUI
 
-/// A ready-made "More apps" section: the rest of the studio's portfolio, from
-/// `SYSAppCatalog`, with no fetching code of its own — `SYSBootstrap.start`
-/// already refreshes the catalog in the background.
-///
-///     List {
-///         …
-///         SYSMoreAppsSection()
-///     }
-///
-/// Renders nothing until there is something to show — nothing cached yet, or
-/// a portfolio of one — so it never leaves an empty header behind.
 public struct SYSMoreAppsSection: View {
+    @Environment(\.sysSettingsStyle) private var style
     private let title: String
     private let catalog: SYSAppCatalog
 
@@ -24,64 +14,23 @@ public struct SYSMoreAppsSection: View {
     public var body: some View {
         let apps = catalog.otherApps
         if !apps.isEmpty {
-            Section(title) {
+            SYSSettingsSection(title) {
                 ForEach(apps, id: \.id) { app in
-                    SYSMoreAppRow(app: app)
-                }
-            }
-        }
-    }
-}
-
-private struct SYSMoreAppRow: View {
-    let app: SYSAppCatalogEntry
-
-    var body: some View {
-        Button(action: open) {
-            HStack(spacing: 12) {
-                icon
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(app.name)
-                        .foregroundColor(.primary)
-                    if let tagline = app.tagline, !tagline.isEmpty {
-                        Text(tagline)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    SYSSettingsRow(
+                        icon: nil,
+                        iconURL: app.iconURL,
+                        tint: style.stroke,
+                        title: app.name,
+                        subtitle: app.tagline.flatMap { $0.isEmpty ? nil : $0 },
+                        chevron: SYSSymbol.openApp
+                    ) {
+                        SYSHaptics.light()
+                        guard let string = app.appStoreUrl, let url = URL(string: string) else { return }
+                        UIApplication.shared.open(url)
                     }
                 }
-                Spacer(minLength: 0)
-                Image(systemName: "arrow.up.forward.app")
-                    .foregroundColor(.secondary)
-                    .font(.caption)
             }
         }
-        .buttonStyle(.plain)
-    }
-
-    private var icon: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(Color.secondary.opacity(0.15))
-            if let iconURL {
-                AsyncImage(url: iconURL) { image in
-                    image.resizable().scaledToFill()
-                } placeholder: { Color.clear }
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            }
-        }
-        .frame(width: 44, height: 44)
-    }
-
-    private var iconURL: URL? {
-        guard let path = app.iconPath else { return nil }
-        return URL(string: "\(SYSHosting.baseURL)/\(app.id)/\(path)")
-    }
-
-    private func open() {
-        #if canImport(UIKit) && !os(watchOS)
-        guard let urlString = app.appStoreUrl, let url = URL(string: urlString) else { return }
-        UIApplication.shared.open(url)
-        #endif
     }
 }
 #endif
