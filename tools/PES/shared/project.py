@@ -29,7 +29,7 @@ BUNDLE_ID_ALLOWED = (
     "CLAUDE.md",
 )
 
-SEARCH_DIRS = (".github/workflows", "scripts", "Hosting")
+SEARCH_DIRS = (".github/workflows", "scripts", "App/Packages/PES", "Hosting")
 
 def restated(ctx, value: str, allowed: tuple, folders: tuple = SEARCH_DIRS) -> list[str]:
     """Every place `value` appears literally that is not on the allow-list."""

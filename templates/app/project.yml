@@ -64,6 +64,18 @@ validation:
   own: []
   skip: {}
 
+# The screens App/Packages/PES/ci/screenshot_sweep.py photographs, so a UI change can be looked at in one place.
+# Each value is a -debugRoute (SYSDebugRoute), `state:<name>` for a launch state, or empty for a plain launch.
+# sweep:
+#   device: iPhone 17 Pro
+#   wait: 14
+#   orientation: portrait
+#   defaults: {sys_notifications_asked: true}
+#   screens:
+#     home:
+#     settings: settings
+#     maintenance: state:maintenance
+
 # Build settings this app sets differently from Base.xcconfig, each with the reason. The project file may
 # not differ on any others.
 overrides: {}

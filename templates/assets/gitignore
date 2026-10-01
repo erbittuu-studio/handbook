@@ -54,3 +54,6 @@ Hosting/Content/
 .pes-sync-manifest.new
 
 # Project
+
+# Screenshots taken by App/Packages/PES/ci/screenshot_sweep.py, and its build.
+.screenshots/

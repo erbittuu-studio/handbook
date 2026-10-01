@@ -124,6 +124,15 @@ directory, the same way it syncs SYSKit, so there is no per-file list to keep an
 Only what a tool forces stays outside it: the workflow files under `.github/workflows/` and Xcode Cloud's
 `App/ci_scripts/`, both of which call into the package.
 
+### Photographing every screen
+
+`App/Packages/PES/ci/screenshot_sweep.py` launches each screen the app can show, through the `-debugRoute` and
+`-debugState` arguments SYSKit already reads, and writes a picture of each to `.screenshots/current/`. The screens are
+the `sweep:` section of `project.yml` (a name and a route each, or `state:<name>` for a launch state), so an app needs no
+extra code. `index.html` puts every screen beside its baseline in `.screenshots/baseline/` and says how much changed,
+ignoring the status bar. Run it with `--build` before and after a UI change, and `--update-baseline` to keep a run as the
+reference. It needs a simulator, so it is a local tool, not a CI job.
+
 ### Where a check lives says who may edit it
 
 `App/Packages/PES/validate.py` discovers checks from the folders `Project.json` lists —
