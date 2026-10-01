@@ -398,6 +398,14 @@ as text.
 file, and refuses a `minimumVersion` above the version live on the App
 Store.
 
+**Local notifications go through `SYSNotifications`.** `install()` in the app
+delegate, `clearBadge()` in `decorate`, `isAuthorized`, `requestPermission()` and
+`openSettings()` for a denied permission. An app decides what to say and when; the
+plumbing is SYSKit's: `scheduleRepeating(id:matching:content:)` for daily and
+weekly reminders, and `replaceScheduled(prefix:with:reserved:)` to rebuild a family
+of one-time requests (festival dates, say) within iOS's 64-pending limit, earliest
+first. No app builds a calendar trigger, counts slots or cancels stale ids itself.
+
 ### Changing SYSKit
 
 SYSKit is developed **inside a real app**, not here — Xcode, simulator, and

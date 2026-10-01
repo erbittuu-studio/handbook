@@ -29,6 +29,10 @@ public final class SYSNotifications: NSObject {
     /// whatever it put there and feeds its own `SYSPendingIntent`.
     public var onTap: (([AnyHashable: Any]) -> Void)?
 
+    /// How many local notifications iOS keeps pending for one app; anything
+    /// scheduled beyond it is silently dropped.
+    public static let pendingLimit = 64
+
     private override init() {}
 
     /// Registers this as `UNUserNotificationCenterDelegate`. Call once at
@@ -65,6 +69,26 @@ public final class SYSNotifications: NSObject {
         await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
     }
 
+    /// Whether anything scheduled will actually be delivered: allowed outright
+    /// or provisionally.
+    public var isAuthorized: Bool {
+        get async {
+            switch await authorizationStatus() {
+            case .authorized, .provisional, .ephemeral: return true
+            default: return false
+            }
+        }
+    }
+
+    #if canImport(UIKit)
+    /// Opens this app's page in Settings, where a denied permission can be
+    /// turned back on.
+    public func openSettings() async {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        await UIApplication.shared.open(url)
+    }
+    #endif
+
     public func pendingRequests() async -> [UNNotificationRequest] {
         await UNUserNotificationCenter.current().pendingNotificationRequests()
     }
@@ -78,6 +102,36 @@ public final class SYSNotifications: NSObject {
                 Task { @MainActor in SYSLogger.error("notifications: schedule failed for \(id)", error) }
             }
         }
+    }
+
+    /// Schedules a request that repeats whenever `components` match — daily
+    /// at a time, or weekly when a weekday is included.
+    public func scheduleRepeating(id: String, matching components: DateComponents, content: UNMutableNotificationContent) {
+        schedule(id: id, trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: true), content: content)
+    }
+
+    /// Rebuilds one family of requests: cancels everything under `prefix`,
+    /// then schedules `plan` earliest first, as many as still fit under
+    /// `pendingLimit` after the requests that are not in this family and
+    /// `reserved` slots kept free. Does nothing without permission.
+    public func replaceScheduled(prefix: String, with plan: [SYSPlannedNotification], reserved: Int = 0) async {
+        guard await isAuthorized else { return }
+        let pending = await pendingRequests().map(\.identifier)
+        let family = pending.filter { $0.hasPrefix(prefix) }
+        cancel(ids: family)
+        let others = pending.count - family.count
+        for item in Self.withinBudget(plan, others: others, reserved: reserved) {
+            schedule(
+                id: item.id,
+                trigger: UNCalendarNotificationTrigger(dateMatching: item.components, repeats: false),
+                content: item.content
+            )
+        }
+    }
+
+    static func withinBudget(_ plan: [SYSPlannedNotification], others: Int, reserved: Int) -> [SYSPlannedNotification] {
+        let slots = max(0, pendingLimit - reserved - others)
+        return Array(plan.sorted { $0.fireDate < $1.fireDate }.prefix(slots))
     }
 
     public func cancel(ids: [String]) {
@@ -94,6 +148,20 @@ public final class SYSNotifications: NSObject {
             .filter { $0.hasPrefix(idPrefix) }
         guard !ids.isEmpty else { return }
         cancel(ids: ids)
+    }
+}
+
+public struct SYSPlannedNotification {
+    public let id: String
+    public let fireDate: Date
+    public let components: DateComponents
+    public let content: UNMutableNotificationContent
+
+    public init(id: String, fireDate: Date, components: DateComponents, content: UNMutableNotificationContent) {
+        self.id = id
+        self.fireDate = fireDate
+        self.components = components
+        self.content = content
     }
 }
 
