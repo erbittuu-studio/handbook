@@ -82,7 +82,7 @@ public enum SYSHosting {
     /// always goes to the network whatever this says. It is declared outside
     /// the `#if` on purpose: an app that sets it should go on compiling when
     /// it is archived, rather than needing its own `#if` around one line.
-    public static var usesLocalContent = false
+    public nonisolated(unsafe) static var usesLocalContent = false
 
     #if DEBUG
     private static var cachedLocalContent: URL??

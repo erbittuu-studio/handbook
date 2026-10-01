@@ -17,7 +17,7 @@ public enum SYSLogger {
 
     /// Anything below this is dropped. Defaults to `.debug` in DEBUG builds and
     /// `.warning` in release, so shipping builds stay quiet without any setup.
-    public static var minimumLevel: Level = {
+    public nonisolated(unsafe) static var minimumLevel: Level = {
         #if DEBUG
         return .debug
         #else
@@ -26,11 +26,11 @@ public enum SYSLogger {
     }()
 
     /// Receives non-fatal errors. Set once at launch; nil means log-only.
-    public static var reporter: SYSErrorReporter?
+    public nonisolated(unsafe) static var reporter: SYSErrorReporter?
 
     /// Receives every line that passes `minimumLevel`, formatted as `[LEVEL] message`. `SYSLogFile`
     /// installs itself here; nil means the system log only.
-    public static var sink: ((String) -> Void)?
+    public nonisolated(unsafe) static var sink: ((String) -> Void)?
 
     #if canImport(os)
     private static let log = Logger(subsystem: Bundle.main.bundleIdentifier ?? "app", category: "SYSKit")

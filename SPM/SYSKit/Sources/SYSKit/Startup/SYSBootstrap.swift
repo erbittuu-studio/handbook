@@ -49,7 +49,7 @@ public enum SYSBootstrap {
     /// The gates are the exception: a kill switch that needs a relaunch is not a
     /// kill switch. So startup gives the network a brief chance, then proceeds
     /// on cached config regardless — an offline launch is never blocked.
-    public static var gateRefreshTimeout: TimeInterval = 2.5
+    public nonisolated(unsafe) static var gateRefreshTimeout: TimeInterval = 2.5
 
     /// - Parameters:
     ///   - requiresAssets: true for apps that ship no content in the bundle and

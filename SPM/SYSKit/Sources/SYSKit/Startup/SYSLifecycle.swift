@@ -10,9 +10,9 @@ public enum SYSLifecycle {
     private static let launchCountKey = SYSSettingsKey<Int>("sys.lifecycle.launchCount", default: 0)
     private static let lastVersionKey = SYSSettingsKey<String?>("sys.lifecycle.lastVersion", default: nil)
 
-    public private(set) static var isFirstLaunch = false
-    public private(set) static var isFirstLaunchAfterUpdate = false
-    public private(set) static var previousVersion: String?
+    public private(set) nonisolated(unsafe) static var isFirstLaunch = false
+    public private(set) nonisolated(unsafe) static var isFirstLaunchAfterUpdate = false
+    public private(set) nonisolated(unsafe) static var previousVersion: String?
 
     /// Call once at launch, before reading anything else here.
     ///
@@ -64,7 +64,7 @@ public enum SYSOnboarding {
     private static let seenKey = SYSSettingsKey<Int>("sys.onboarding.seenVersion", default: 0)
 
     /// Bump when the flow changes materially.
-    public static var currentVersion = 1
+    public nonisolated(unsafe) static var currentVersion = 1
 
     public static var shouldShow: Bool { SYSSettings.shared[seenKey] < currentVersion }
 
