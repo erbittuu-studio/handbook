@@ -541,6 +541,7 @@ neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or h
 | `SYSLaunchBlocker`, `blocker(for:style:text:)` | Each app's own maintenance, update and offline screens. Strings come from `SYSLaunchBlockerText` so the app localizes them. |
 | `sysRegularWidthText()` | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
 | `sysNavigationTitle(_:)` | A per-app navigation title. A large leading title in a normal-height bar (`ToolbarItem(placement: .title)` with `.toolbarRole(.browser)`), shrinking rather than wrapping, still the navigation title for the back button and VoiceOver. The system large title before iOS 16. |
+| `sysSearchable(text:prompt:)` | A search field that sits below the navigation bar and stays visible, like the iPhone Settings app, before iOS 26; on iOS 26 it leaves placement to the system, so a `Tab(role: .search)` gets the floating search. |
 
 App code does not use `UIScreen`, `userInterfaceIdiom` or `isPad`, `UIDevice.current.orientation` or `.model`,
 `isLandscape` or `isPortrait`, a width compared to a height, `.windows.first` or `.keyWindow`, or a numeric
