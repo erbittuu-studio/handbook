@@ -86,7 +86,7 @@ jobs:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
         run: |
           BUNDLE_ID=$(bash scripts/ci/project_value.sh app.bundleId) || exit 1
-          NEXT=$(ruby App/ci_scripts/lib/asc_build_number.rb "$VERSION" "$BUNDLE_ID") || exit 1
+          NEXT=$(ruby scripts/ci/asc_build_number.rb "$VERSION" "$BUNDLE_ID") || exit 1
           # The script reports the next free number, so the one that shipped is
           # the one before it. It returns 1 when no build exists at all.
           if [ "$NEXT" -gt 1 ]; then

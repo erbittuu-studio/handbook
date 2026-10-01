@@ -91,7 +91,7 @@ for shared in README.md analytics_events.py build_settings.py color_assets.py \
               localization.py project.py urls.py; do
   copy "scripts/shared/$shared" "scripts/shared/$shared"
 done
-for rb in asc_builds start_xcode_cloud_build \
+for rb in asc_build_number asc_builds start_xcode_cloud_build \
           verify_routing xcode_cloud_workflow; do
   copy "scripts/ci/$rb.rb" "scripts/ci/$rb.rb"
 done

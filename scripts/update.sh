@@ -47,6 +47,7 @@ RETIRED=(
   # and fastlane exists only in the website repo.
   "scripts/shared/screenshots.py"
   "scripts/ci/asc_release_state.rb"
+  "App/ci_scripts/lib/asc_build_number.rb"
   # An older generation of nine separate workflow files, since consolidated:
   # pr.yml absorbs the first six, main.yml the rest.
   ".github/workflows/lint.yml"
@@ -93,6 +94,7 @@ MANAGED=(
   "scripts/shared/localization.py"
   "scripts/shared/project.py"
   "scripts/shared/urls.py"
+  "scripts/ci/asc_build_number.rb"
   "scripts/ci/asc_builds.rb"
   "scripts/ci/start_xcode_cloud_build.rb"
   "scripts/ci/verify_routing.rb"

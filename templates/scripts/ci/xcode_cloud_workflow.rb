@@ -55,7 +55,7 @@
 #      that didn't happen exits non-zero rather than being reported.
 #   4. Any API error is printed verbatim, body included.
 #
-# JWT/HTTP helpers are duplicated from App/ci_scripts/lib/asc_build_number.rb
+# JWT/HTTP helpers are duplicated from scripts/ci/asc_build_number.rb
 # deliberately — that script runs inside every archive and decides the build
 # number, and breaking it to save lines here would be a poor trade.
 

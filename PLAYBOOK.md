@@ -617,6 +617,9 @@ What the app is called, where it lives in the store and which URL scheme it answ
 
 An app does not keep an identity type that restates them.
 
+`sys_adoption` fails an app whose `Info.plist` has no numeric `SYSAppStoreID` (the digits after `id` in its store URL),
+since the store page, review and share links depend on it.
+
 ### Debug launch
 
 Verifying a screen that is three taps in should not take three blind taps. In a Debug build, launch with

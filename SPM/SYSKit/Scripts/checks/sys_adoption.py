@@ -19,6 +19,7 @@ has to explain is a rule that quietly stops applying.
 Only `App/Source/` is scanned. Vendored packages, tests and generated code are
 not app code.
 """
+import plistlib
 import re
 from pathlib import Path
 
@@ -252,6 +253,24 @@ def app_code_dirs(ctx) -> list[Path]:
     return [folder for folder in folders if folder.is_dir()]
 
 
+def store_id_problems(ctx) -> list[str]:
+    """SYSAppStore builds the store page, review and share links from the app's own
+    Info.plist, so an app without `SYSAppStoreID` has none of them."""
+    problems = []
+    for plist in sorted((ctx.root / "App" / "Resources").glob("*-Info.plist")):
+        if plist.name == "GoogleService-Info.plist":
+            continue
+        with plist.open("rb") as handle:
+            value = plistlib.load(handle).get("SYSAppStoreID")
+        if not (isinstance(value, str) and value.isdigit()):
+            problems.append(
+                f"{plist.relative_to(ctx.root)}: no numeric SYSAppStoreID — the App Store id "
+                "(the digits after `id` in the store URL), which SYSAppStore reads for the "
+                "store page, review and share links"
+            )
+    return problems
+
+
 def check(ctx):
     source = ctx.root / "App" / "Source"
     if not source.is_dir():
@@ -259,6 +278,7 @@ def check(ctx):
 
     folders = app_code_dirs(ctx)
     problems = scan(ctx.root, source, RULES + LAYOUT_RULES, entry_point=True)
+    problems += store_id_problems(ctx)
     for folder in folders:
         if folder != source:
             problems += scan(ctx.root, folder, LAYOUT_RULES, entry_point=False)
