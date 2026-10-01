@@ -549,7 +549,9 @@ neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or h
 |---|---|
 | `SYSTwoPane` | An `HStack` or `VStack` chosen by comparing width to height. |
 | `SYSColumnGrid` | A hand-measured `LazyVGrid` column count. It is `GridItem(.adaptive(minimum:))`, so the system picks the count. |
-| `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote. |
+| `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote, and the one place a presented screen declares its bar: `SYSNavigationContainer(tint:title:background:accessory:trailing:)`. The title is `sysNavigationTitle`, `background` fills the screen, `accessory` is an extra trailing view (a progress ring) and `trailing` is a `SYSToolbarAction` such as `.close(...)` or `.settings(...)`. An app keeps no container, bar state or toolbar modifier of its own. |
+| `sysNavigationBar(title:accessory:trailing:)` | The same title and buttons for a screen pushed inside a stack that already exists. |
+| `SYSToolbarButton` | A toolbar button with an icon-only label, an accessibility title and the light haptic. Built from a `SYSToolbarAction` or from a title, symbol and action. |
 | `SYSLaunchBlocker`, `blocker(for:style:text:)` | Each app's own maintenance, update and offline screens. Strings come from `SYSLaunchBlockerText` so the app localizes them. |
 | `sysRegularWidthText()` | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
 | `sysNavigationTitle(_:)` | A per-app navigation title. A large leading title in a normal-height bar (`ToolbarItem(placement: .title)` with `.toolbarRole(.browser)`), shrinking rather than wrapping, still the navigation title for the back button and VoiceOver. The system large title before iOS 16. |
