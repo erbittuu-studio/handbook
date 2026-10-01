@@ -161,8 +161,8 @@ public final class SYSSpeech: NSObject, ObservableObject {
         }
     }
 
-    private func finish(_ utterance: AVSpeechUtterance, completed: Bool) {
-        guard let finisher = finishers.removeValue(forKey: ObjectIdentifier(utterance)) else { return }
+    private func finish(_ utterance: ObjectIdentifier, completed: Bool) {
+        guard let finisher = finishers.removeValue(forKey: utterance) else { return }
         if finisher.batch == batch {
             isSpeaking = false
             scheduleDeactivation()
@@ -265,11 +265,13 @@ public final class SYSSpeech: NSObject, ObservableObject {
 
 extension SYSSpeech: AVSpeechSynthesizerDelegate {
     nonisolated public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        Task { @MainActor in self.finish(utterance, completed: true) }
+        let id = ObjectIdentifier(utterance)
+        Task { @MainActor in self.finish(id, completed: true) }
     }
 
     nonisolated public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        Task { @MainActor in self.finish(utterance, completed: false) }
+        let id = ObjectIdentifier(utterance)
+        Task { @MainActor in self.finish(id, completed: false) }
     }
 }
 #endif

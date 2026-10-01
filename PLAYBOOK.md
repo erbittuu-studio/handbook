@@ -341,6 +341,12 @@ without Xcode, a simulator or Firebase. Its tests run in **this repo's** CI,
 not in each app. They run on macOS, not Linux, because `SYSNetwork` uses
 URLSession's async API, which swift-corelibs-foundation doesn't provide.
 
+SYSKit and every app build in Swift 6 language mode: `SWIFT_VERSION = 6.0` is one line in
+`Base.xcconfig`, and the package manifest is `swift-tools-version: 6.0`. State shared across threads
+inside SYSKit (the logger's settings, launch record, configuration, hosting flags) sits behind a lock
+and the types that own it are `@unchecked Sendable`; delegate callbacks hand `Sendable` values to the
+main actor. Do not add `nonisolated(unsafe)` to a SYSKit type to make a build pass.
+
 `SYSKit` contains **no full screens** — it returns state, the app renders it. Small
 UI utilities are allowed where a shared behaviour needs a view to carry it
 (`SYSAssetGate`, `SYSShareSheet`, `SYSMetrics`'s environment). The one exception is the

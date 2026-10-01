@@ -22,7 +22,9 @@ public struct SYSSettingsKey<Value> {
     }
 }
 
-public final class SYSSettings {
+extension SYSSettingsKey: Sendable where Value: Sendable {}
+
+public final class SYSSettings: @unchecked Sendable {
     public static let shared = SYSSettings()
 
     private let defaults: UserDefaults

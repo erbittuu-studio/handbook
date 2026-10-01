@@ -103,7 +103,7 @@ final class SYSHashTests: XCTestCase {
 
 // MARK: - SYSStored
 
-private let storedSuite = UserDefaults(suiteName: "sysstored.tests")!
+private nonisolated(unsafe) let storedSuite = UserDefaults(suiteName: "sysstored.tests")!
 
 private final class TestPrefs: ObservableObject {
     @SYSStored("music", default: true, defaults: storedSuite) var music: Bool

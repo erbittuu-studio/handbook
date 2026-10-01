@@ -1,7 +1,7 @@
 #if os(iOS)
 import SwiftUI
 
-public struct SYSShadow {
+public struct SYSShadow: Sendable {
     public let color: Color
     public let radius: CGFloat
     public let x: CGFloat

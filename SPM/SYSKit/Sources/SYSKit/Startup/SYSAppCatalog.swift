@@ -30,10 +30,10 @@ struct SYSAppCatalogData: Codable, Equatable, Sendable {
 /// Fetches and caches `app.json` — one file, read by every app and by the
 /// studio website, so a fact stated there (an app's name, icon, store URL)
 /// never has to be repeated in `config.json` too.
-public final class SYSAppCatalog {
+public final class SYSAppCatalog: @unchecked Sendable {
     public static let shared = SYSAppCatalog()
 
-    private var data: SYSAppCatalogData?
+    private let catalog = SYSLocked<SYSAppCatalogData?>(nil)
     private let bundle: Bundle
     private let network: SYSNetwork
     private let fileManager: FileManager
@@ -53,8 +53,8 @@ public final class SYSAppCatalog {
     /// A previous fetch, if one is cached on disk. Synchronous and local, same
     /// contract as `SYSConfig.load()`.
     public func load() {
-        guard data == nil, let cached = cachedData() else { return }
-        data = try? JSONDecoder().decode(SYSAppCatalogData.self, from: cached)
+        guard catalog.value == nil, let cached = cachedData() else { return }
+        catalog.value = try? JSONDecoder().decode(SYSAppCatalogData.self, from: cached)
     }
 
     /// Fetches and caches for next launch.
@@ -65,14 +65,14 @@ public final class SYSAppCatalog {
               let fetched = try? JSONDecoder().decode(SYSAppCatalogData.self, from: payload)
         else { return false }
         try? payload.write(to: cacheURL, options: .atomic)
-        data = fetched
+        catalog.value = fetched
         return true
     }
 
     /// This app's own entry, matched by `SYSHosting.contentID()`.
     public var thisApp: SYSAppCatalogEntry? {
         guard let id = SYSHosting.contentID(bundle: bundle) else { return nil }
-        return data?.apps?.first { $0.id == id }
+        return catalog.value?.apps?.first { $0.id == id }
     }
 
     /// Everything to promote in an in-app "More apps" section: the rest of the
@@ -80,7 +80,7 @@ public final class SYSAppCatalog {
     /// `load()` has something, so callers need no extra check.
     public var otherApps: [SYSAppCatalogEntry] {
         let ownID = SYSHosting.contentID(bundle: bundle)
-        return (data?.apps ?? []).filter { $0.id != ownID }
+        return (catalog.value?.apps ?? []).filter { $0.id != ownID }
     }
 
     private var cacheURL: URL {
@@ -91,5 +91,5 @@ public final class SYSAppCatalog {
     private func cachedData() -> Data? { try? Data(contentsOf: cacheURL) }
 
     /// Testing seam: inject data directly, bypassing the network and cache.
-    func applyForTesting(_ data: SYSAppCatalogData) { self.data = data }
+    func applyForTesting(_ data: SYSAppCatalogData) { catalog.value = data }
 }

@@ -101,18 +101,27 @@ extension SYSNotifications: UNUserNotificationCenterDelegate {
     /// Shows the banner even while the app is foregrounded. Every existing
     /// scheduler in this portfolio wants that; nobody has needed
     /// per-notification-type control of it yet.
-    public func userNotificationCenter(
+    public nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
         [.banner, .sound, .badge]
     }
 
-    public func userNotificationCenter(
+    public nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse
     ) async {
-        onTap?(response.notification.request.content.userInfo)
+        let payload = SYSNotificationPayload(response.notification.request.content.userInfo)
+        await MainActor.run { onTap?(payload.userInfo) }
+    }
+}
+
+private struct SYSNotificationPayload: @unchecked Sendable {
+    let userInfo: [AnyHashable: Any]
+
+    init(_ userInfo: [AnyHashable: Any]) {
+        self.userInfo = userInfo
     }
 }
 #endif

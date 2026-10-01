@@ -217,15 +217,21 @@ public enum SYSConfigOutcome: Equatable, Sendable {
 /// stable for a whole session. `SYSBootstrap` is the one exception: it waits
 /// briefly for a refresh before evaluating the maintenance and force-update
 /// gates.
-public final class SYSConfig {
+public final class SYSConfig: @unchecked Sendable {
     public static let shared = SYSConfig()
 
-    public private(set) var data = SYSConfigData()
+    public var data: SYSConfigData { state.value.data }
+
+    private struct State {
+        var data = SYSConfigData()
+        var remoteURL: URL?
+    }
+
+    private let state: SYSLocked<State>
 
     private let bundle: Bundle
     private let network: SYSNetwork
     private let fileManager: FileManager
-    private var remoteURL: URL?
 
     private static let fileName = "config.json"
     private static let etagKey = SYSSettingsKey<String?>("sys.config.etag", default: nil)
@@ -239,7 +245,7 @@ public final class SYSConfig {
         self.bundle = bundle
         self.network = network
         self.fileManager = fileManager
-        self.remoteURL = remoteURL
+        self.state = SYSLocked(State(remoteURL: remoteURL))
     }
 
     /// Whether any config is held on this device — a previous fetch, or a
@@ -247,10 +253,10 @@ public final class SYSConfig {
     public var hasLocalCopy: Bool { cachedData() != nil || bundledData() != nil }
 
     /// Where to fetch from. Usually derived from `SYSHosting.contentURL()`.
-    public func setRemoteURL(_ url: URL?) { remoteURL = url }
+    public func setRemoteURL(_ url: URL?) { state.withLock { $0.remoteURL = url } }
 
     /// Injects config directly, bypassing bundle and cache. Tests only.
-    func applyForTesting(_ data: SYSConfigData) { self.data = data }
+    func applyForTesting(_ data: SYSConfigData) { state.withLock { $0.data = data } }
 
     // MARK: Lifecycle
 
@@ -262,9 +268,9 @@ public final class SYSConfig {
 
         // Prefer the cache only if genuinely newer than the bundled copy.
         if let cached, (cached.version ?? 0) >= (bundled?.version ?? 0) {
-            data = cached
+            state.withLock { $0.data = cached }
         } else if let bundled {
-            data = bundled
+            state.withLock { $0.data = bundled }
         }
     }
 
@@ -273,7 +279,7 @@ public final class SYSConfig {
     public func refresh() async -> SYSConfigOutcome {
         // Not configured means "the usual place", not "no remote config" —
         // the URL is derivable from SYSContentID.
-        guard let remoteURL = remoteURL ?? SYSHosting.configURL(bundle: bundle) else {
+        guard let remoteURL = state.value.remoteURL ?? SYSHosting.configURL(bundle: bundle) else {
             return .failed(.notConfigured)
         }
 
@@ -291,7 +297,7 @@ public final class SYSConfig {
 
             try? payload.write(to: cacheURL, options: .atomic)
             SYSSettings.shared[Self.etagKey] = newETag
-            data = fetched
+            state.withLock { $0.data = fetched }
             return .updated
         } catch SYSNetworkError.notModified {
             return cachedData() == nil

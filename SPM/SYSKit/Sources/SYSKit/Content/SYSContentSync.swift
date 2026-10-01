@@ -534,31 +534,39 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         // sync, a foreground resume and a tap on a tile can all want the same
         // pack at once, and `ensure` is what makes them share one download
         // instead of racing to unzip into the same folder.
+        let ids = toDownload.map(\.id)
+        var nextIndex = min(Self.maxConcurrentDownloads, ids.count)
+
+        let outcome: @MainActor @Sendable (String) async -> (String, Bool) = { [self] id in
+            await ensureOutcome(id)
+        }
+
         await withTaskGroup(of: (String, Bool).self) { group in
-            var pending = toDownload.makeIterator()
-
-            func startNext() {
-                guard let item = pending.next() else { return }
-                group.addTask { @MainActor in
-                    let result = await self.ensure(item.id)
-                    if case .success = result { return (item.id, true) }
-                    return (item.id, false)
-                }
+            for id in ids.prefix(nextIndex) {
+                group.addTask { await outcome(id) }
             }
-
-            for _ in 0 ..< Self.maxConcurrentDownloads { startNext() }
 
             for await (id, succeeded) in group {
                 completed += 1
                 if !succeeded { failed.append(id) }
                 syncState = .downloading(completed: completed, total: total)
                 progress?(SYSAssetProgress(completedPacks: completed, totalPacks: total, bytesDownloaded: 0, totalBytes: 0))
-                startNext()
+
+                if nextIndex < ids.count {
+                    let id = ids[nextIndex]
+                    nextIndex += 1
+                    group.addTask { await outcome(id) }
+                }
             }
         }
 
         self.dataVersion = dataVersion
         syncState = failed.isEmpty ? .ready : .failed(itemIds: failed)
+    }
+
+    private func ensureOutcome(_ id: String) async -> (String, Bool) {
+        if case .success = await ensure(id) { return (id, true) }
+        return (id, false)
     }
 
     private func removeObsoleteItems(currentItems: [Item]) {

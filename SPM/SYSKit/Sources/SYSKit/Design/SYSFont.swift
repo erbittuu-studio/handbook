@@ -17,7 +17,7 @@ public enum SYSFont {
     public static let rounded = SYSRoundedFont()
 }
 
-public struct SYSRoundedFont {
+public struct SYSRoundedFont: Sendable {
     public let largeTitle = Font.system(.largeTitle, design: .rounded)
     public let title = Font.system(.title, design: .rounded)
     public let title2 = Font.system(.title2, design: .rounded)

@@ -27,7 +27,7 @@ public final class SYSLogFile: @unchecked Sendable {
     private var currentURL: URL { directory.appendingPathComponent("log.txt") }
 
     /// Device and app version, written at the top of every session so a support email says what it came from.
-    public static var deviceHeader: String {
+    @MainActor public static var deviceHeader: String {
         #if canImport(UIKit) && !os(watchOS)
         "Device: \(UIDevice.current.model) | iOS \(UIDevice.current.systemVersion)\nApp: \(SYSVersion.display())\n"
         #else
@@ -38,7 +38,7 @@ public final class SYSLogFile: @unchecked Sendable {
     /// Start recording. `level` is the lowest severity written to the file, and is also applied to
     /// `SYSLogger` so that many lines actually reach it in a release build. The header defaults to
     /// `deviceHeader`; pass one only to say more than that.
-    public func install(level: SYSLogger.Level = .info, header: String = SYSLogFile.deviceHeader) {
+    @MainActor public func install(level: SYSLogger.Level = .info, header: String = SYSLogFile.deviceHeader) {
         queue.sync {
             let fileManager = FileManager.default
             try? fileManager.createDirectory(at: directory, withIntermediateDirectories: true)

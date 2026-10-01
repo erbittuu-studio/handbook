@@ -10,7 +10,7 @@ import SwiftUI
 /// On a device with no mail account the composer cannot open, so it falls back to a plain `mailto:`
 /// link — without the log, but the person can still write to you.
 public enum SYSSupportMail {
-    public static var canSend: Bool { MFMailComposeViewController.canSendMail() }
+    @MainActor public static var canSend: Bool { MFMailComposeViewController.canSendMail() }
 }
 
 public extension View {

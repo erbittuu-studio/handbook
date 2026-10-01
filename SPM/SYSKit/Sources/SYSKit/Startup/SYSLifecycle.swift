@@ -10,9 +10,17 @@ public enum SYSLifecycle {
     private static let launchCountKey = SYSSettingsKey<Int>("sys.lifecycle.launchCount", default: 0)
     private static let lastVersionKey = SYSSettingsKey<String?>("sys.lifecycle.lastVersion", default: nil)
 
-    public private(set) nonisolated(unsafe) static var isFirstLaunch = false
-    public private(set) nonisolated(unsafe) static var isFirstLaunchAfterUpdate = false
-    public private(set) nonisolated(unsafe) static var previousVersion: String?
+    public static var isFirstLaunch: Bool { record.value.isFirstLaunch }
+    public static var isFirstLaunchAfterUpdate: Bool { record.value.isFirstLaunchAfterUpdate }
+    public static var previousVersion: String? { record.value.previousVersion }
+
+    private struct Record {
+        var isFirstLaunch = false
+        var isFirstLaunchAfterUpdate = false
+        var previousVersion: String?
+    }
+
+    private static let record = SYSLocked(Record())
 
     /// Call once at launch, before reading anything else here.
     ///
@@ -23,13 +31,17 @@ public enum SYSLifecycle {
         let settings = SYSSettings.shared
         let current = config.currentVersion
 
-        if settings[installDateKey] == nil {
+        let isFirst = settings[installDateKey] == nil
+        if isFirst {
             settings[installDateKey] = Date()
-            isFirstLaunch = true
         }
 
-        previousVersion = settings[lastVersionKey]
-        isFirstLaunchAfterUpdate = previousVersion != nil && previousVersion != current
+        let previous = settings[lastVersionKey]
+        record.value = Record(
+            isFirstLaunch: isFirst,
+            isFirstLaunchAfterUpdate: previous != nil && previous != current,
+            previousVersion: previous
+        )
 
         settings[launchCountKey] += 1
         settings[lastVersionKey] = current
@@ -49,9 +61,7 @@ public enum SYSLifecycle {
         settings.remove(installDateKey)
         settings.remove(launchCountKey)
         settings.remove(lastVersionKey)
-        isFirstLaunch = false
-        isFirstLaunchAfterUpdate = false
-        previousVersion = nil
+        record.value = Record()
     }
 }
 
@@ -64,7 +74,12 @@ public enum SYSOnboarding {
     private static let seenKey = SYSSettingsKey<Int>("sys.onboarding.seenVersion", default: 0)
 
     /// Bump when the flow changes materially.
-    public nonisolated(unsafe) static var currentVersion = 1
+    public static var currentVersion: Int {
+        get { version.value }
+        set { version.value = newValue }
+    }
+
+    private static let version = SYSLocked(1)
 
     public static var shouldShow: Bool { SYSSettings.shared[seenKey] < currentVersion }
 

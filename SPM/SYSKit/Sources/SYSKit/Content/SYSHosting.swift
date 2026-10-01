@@ -13,7 +13,7 @@ import Foundation
 /// action, and the only way to look at an edit was to ship it. A debug build now
 /// reads the staged `Hosting/Content` straight off disk instead. See `localContentURL`.
 public enum SYSHosting {
-    private static var override: URL?
+    private static let overrideURL = SYSLocked<URL?>(nil)
     /// Keyed by bundle identity, not a single slot — a real app only ever
     /// calls this with `.main`, so in production this is a one-entry cache
     /// for the process's lifetime either way. A single un-keyed slot looked
@@ -21,12 +21,12 @@ public enum SYSHosting {
     /// one `SYSContentSync` instance passing its own bundle) called this
     /// with a second, different bundle in the same process: the first
     /// bundle's id won and every later caller silently got it back too.
-    private static var contentIDCache: [ObjectIdentifier: String?] = [:]
+    private static let contentIDCache = SYSLocked<[ObjectIdentifier: String?]>([:])
 
     /// Point every hosted lookup somewhere else — a custom domain, or a staging
     /// site. Call before `SYSBootstrap.start`.
     public static func setContentURL(_ url: URL?) {
-        override = url
+        overrideURL.value = url
     }
 
     /// The shared root every app's content lives under. One string for the
@@ -37,10 +37,10 @@ public enum SYSHosting {
     /// `SYSContentID` in Info.plist, or nil if the app hasn't set one.
     public static func contentID(bundle: Bundle = .main) -> String? {
         let key = ObjectIdentifier(bundle)
-        if let cached = contentIDCache[key] { return cached }
+        if let cached = contentIDCache.value[key] { return cached }
 
         let value = bundle.object(forInfoDictionaryKey: "SYSContentID") as? String
-        contentIDCache[key] = value
+        contentIDCache.withLock { $0[key] = value }
         if value == nil {
             SYSLogger.info("hosting: no SYSContentID in Info.plist — set the site URL explicitly")
         }
@@ -58,7 +58,7 @@ public enum SYSHosting {
     /// (`"Web/support.html"`) against this, and a base without one drops the
     /// last path component instead of appending to it.
     public static func contentURL(bundle: Bundle = .main) -> URL? {
-        if let override { return override }
+        if let override = overrideURL.value { return override }
         #if DEBUG
         if usesLocalContent, let local = localContentURL { return local }
         #endif
@@ -82,10 +82,15 @@ public enum SYSHosting {
     /// always goes to the network whatever this says. It is declared outside
     /// the `#if` on purpose: an app that sets it should go on compiling when
     /// it is archived, rather than needing its own `#if` around one line.
-    public nonisolated(unsafe) static var usesLocalContent = false
+    public static var usesLocalContent: Bool {
+        get { localContentFlag.value }
+        set { localContentFlag.value = newValue }
+    }
+
+    private static let localContentFlag = SYSLocked(false)
 
     #if DEBUG
-    private static var cachedLocalContent: URL??
+    private static let cachedLocalContent = SYSLocked<URL??>(.none)
 
     /// A site staged on this machine, or nil.
     ///
@@ -103,7 +108,7 @@ public enum SYSHosting {
     /// `SYS_CONTENT_URL` in the scheme's environment overrides the search, for a
     /// staging site or a checkout laid out differently.
     private static var localContentURL: URL? {
-        if let cached = cachedLocalContent { return cached }
+        if let cached = cachedLocalContent.value { return cached }
 
         let found: URL? = {
             if let raw = ProcessInfo.processInfo.environment["SYS_CONTENT_URL"],
@@ -124,7 +129,7 @@ public enum SYSHosting {
             return nil
         }()
 
-        cachedLocalContent = found
+        cachedLocalContent.value = found
         if let found {
             // Loud on purpose. A build quietly reading different content from
             // the one everyone else sees is a bad afternoon.
@@ -141,10 +146,10 @@ public enum SYSHosting {
 
     /// Testing seam: forget what was read so a different bundle can be used.
     public static func resetForTesting() {
-        override = nil
-        contentIDCache = [:]
+        overrideURL.value = nil
+        contentIDCache.value = [:]
         #if DEBUG
-        cachedLocalContent = nil
+        cachedLocalContent.value = .none
         #endif
     }
 }
