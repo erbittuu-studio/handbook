@@ -11,4 +11,12 @@ public extension View {
         }
     }
 }
+
+@available(iOS 18.0, *)
+public extension TabRole {
+    static var sysSearch: TabRole {
+        if #available(iOS 27.0, *) { return .prominent }
+        return .search
+    }
+}
 #endif

@@ -542,6 +542,7 @@ neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or h
 | `sysRegularWidthText()` | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
 | `sysNavigationTitle(_:)` | A per-app navigation title. A large leading title in a normal-height bar (`ToolbarItem(placement: .title)` with `.toolbarRole(.browser)`), shrinking rather than wrapping, still the navigation title for the back button and VoiceOver. The system large title before iOS 16. |
 | `sysSearchable(text:prompt:)` | A search field that sits below the navigation bar and stays visible, like the iPhone Settings app, before iOS 26; on iOS 26 it leaves placement to the system, so a `Tab(role: .search)` gets the floating search. |
+| `TabRole.sysSearch` | The role for a search tab: `.prominent` on iOS 27, `.search` before. Apple documents `.prominent` as the explicit way to give one tab the detached treatment; a `.search` tab only may get it by default. Use `Tab("Search", systemImage: SYSSymbol.search, value: …, role: .sysSearch)` with `sysSearchable` inside. |
 
 App code does not use `UIScreen`, `userInterfaceIdiom` or `isPad`, `UIDevice.current.orientation` or `.model`,
 `isLandscape` or `isPortrait`, a width compared to a height, `.windows.first` or `.keyWindow`, or a numeric
