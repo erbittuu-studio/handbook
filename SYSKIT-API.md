@@ -137,6 +137,7 @@ what; this says what exists.
 | `View.sysAdaptiveTabStyle` | on View | A tab bar on iPhone that becomes a sidebar on iPad, on iOS 18 and later. |
 | `View.sysDarkNavigationBar` | on View | Turns the navigation bar content light for dark artwork behind it, on iOS 16 and later. |
 | `View.sysHideScrollBackground` | on View | Hides the default background of a List or Form so the screen background shows through. |
+| `View.sysHidesBars` | on View | Hides the navigation bar, the bottom bar and the status bar while hidden is true: a focus mode for reading. |
 | `View.sysHidesTabBar` | on View | Hides the tab bar while this screen is shown, on iOS 16 and later. |
 | `EnvironmentValues.sysMetrics` | on EnvironmentValues | — |
 | `View.sysMetrics` | on View | — |

@@ -44,6 +44,17 @@ public extension View {
     }
 
     @ViewBuilder
+    /// Hides the navigation bar, the bottom bar and the status bar while hidden is true: a focus mode for reading.
+    func sysHidesBars(_ hidden: Bool) -> some View {
+        if #available(iOS 16.0, *) {
+            toolbar(hidden ? .hidden : .visible, for: .navigationBar, .bottomBar)
+                .statusBarHidden(hidden)
+        } else {
+            statusBarHidden(hidden)
+        }
+    }
+
+    @ViewBuilder
     /// Hides the tab bar while this screen is shown, on iOS 16 and later.
     func sysHidesTabBar() -> some View {
         if #available(iOS 16.0, *) {
