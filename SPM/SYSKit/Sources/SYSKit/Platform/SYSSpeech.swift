@@ -7,13 +7,13 @@ public enum SYSVoiceGender: String, CaseIterable, Sendable {
     case male
 }
 
-public struct SYSVoiceInfo: Equatable, Sendable {
-    public var identifier: String
-    public var language: String
-    public var isEnhanced: Bool
-    public var gender: SYSVoiceGender?
+struct SYSVoiceInfo: Equatable, Sendable {
+    var identifier: String
+    var language: String
+    var isEnhanced: Bool
+    var gender: SYSVoiceGender?
 
-    public init(identifier: String, language: String, isEnhanced: Bool, gender: SYSVoiceGender?) {
+    init(identifier: String, language: String, isEnhanced: Bool, gender: SYSVoiceGender?) {
         self.identifier = identifier
         self.language = language
         self.isEnhanced = isEnhanced
@@ -21,13 +21,13 @@ public struct SYSVoiceInfo: Equatable, Sendable {
     }
 }
 
-public enum SYSVoicePicker {
+enum SYSVoicePicker {
     private static let names: [SYSVoiceGender: [String]] = [
         .female: ["samantha", "karen", "moira", "tessa", "fiona", "ava", "allison", "susan"],
         .male: ["daniel", "alex", "tom", "oliver", "aaron", "fred", "lee"]
     ]
 
-    public static func best(from voices: [SYSVoiceInfo], language: String, gender: SYSVoiceGender) -> SYSVoiceInfo? {
+    static func best(from voices: [SYSVoiceInfo], language: String, gender: SYSVoiceGender) -> SYSVoiceInfo? {
         let opposite: SYSVoiceGender = gender == .female ? .male : .female
         let usable = voices.filter {
             $0.language.lowercased().hasPrefix(language.lowercased()) && $0.gender != opposite
@@ -54,7 +54,7 @@ public struct SYSSpeechPhrase: Sendable {
     public var rate: Float
     public var pitch: Float
     public var pauseBefore: TimeInterval
-    public var pauseAfter: TimeInterval
+    var pauseAfter: TimeInterval
 
     public init(
         _ text: String,

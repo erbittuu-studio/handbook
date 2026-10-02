@@ -1,14 +1,14 @@
 import Foundation
 
 public struct SYSLaunchBlockerText: Equatable, Sendable {
-    public var maintenanceTitle: String
-    public var maintenanceMessage: String
-    public var updateTitle: String
-    public var updateMessage: String
-    public var offlineTitle: String
-    public var offlineMessage: String
-    public var retry: String
-    public var update: String
+    var maintenanceTitle: String
+    var maintenanceMessage: String
+    var updateTitle: String
+    var updateMessage: String
+    var offlineTitle: String
+    var offlineMessage: String
+    var retry: String
+    var update: String
 
     public init(
         appName: String,
@@ -34,12 +34,12 @@ public struct SYSLaunchBlockerText: Equatable, Sendable {
     }
 }
 
-public struct SYSLaunchBlockerContent: Equatable, Sendable {
-    public var symbol: String
-    public var title: String
-    public var message: String
+struct SYSLaunchBlockerContent: Equatable, Sendable {
+    var symbol: String
+    var title: String
+    var message: String
 
-    public init?(state: SYSAppState, text: SYSLaunchBlockerText) {
+    init?(state: SYSAppState, text: SYSLaunchBlockerText) {
         switch state {
         case let .maintenance(message):
             self.init(symbol: "wrench.and.screwdriver.fill", title: text.maintenanceTitle, message: message ?? text.maintenanceMessage)
@@ -60,7 +60,7 @@ public struct SYSLaunchBlockerContent: Equatable, Sendable {
 }
 
 public extension SYSAppState {
-    var isBlocking: Bool {
+    internal var isBlocking: Bool {
         switch self {
         case .maintenance, .updateRequired, .dataUnavailable: return true
         case .onboarding, .whatsNew, .ready: return false
@@ -76,10 +76,10 @@ public struct SYSLaunchBlockerStyle {
     public var tint: Color
     public var accent: Color
     public var title: Color
-    public var message: Color
-    public var titleFont: Font
-    public var messageFont: Font
-    public var buttonFont: Font
+    var message: Color
+    var titleFont: Font
+    var messageFont: Font
+    var buttonFont: Font
 
     public init(
         background: Color,
@@ -102,7 +102,7 @@ public struct SYSLaunchBlockerStyle {
     }
 }
 
-public struct SYSLaunchBlocker: View {
+struct SYSLaunchBlocker: View {
     private let content: SYSLaunchBlockerContent?
     private let action: SYSStateAction
     private let style: SYSLaunchBlockerStyle
@@ -115,14 +115,14 @@ public struct SYSLaunchBlocker: View {
     @ScaledMetric(relativeTo: .body) private var buttonHeight: CGFloat = 52
     @State private var bounce = false
 
-    public init(state: SYSAppState, action: SYSStateAction, style: SYSLaunchBlockerStyle, text: SYSLaunchBlockerText) {
+    init(state: SYSAppState, action: SYSStateAction, style: SYSLaunchBlockerStyle, text: SYSLaunchBlockerText) {
         self.content = SYSLaunchBlockerContent(state: state, text: text)
         self.action = action
         self.style = style
         self.text = text
     }
 
-    public var body: some View {
+    var body: some View {
         if let content {
             screen(content)
         }

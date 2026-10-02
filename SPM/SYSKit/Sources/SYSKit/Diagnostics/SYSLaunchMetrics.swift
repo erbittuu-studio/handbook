@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-public enum SYSLaunchMilestone: String, CaseIterable, Sendable {
+enum SYSLaunchMilestone: String, CaseIterable, Sendable {
     case appLaunched
     case startupBegan
     case contentPrepared
@@ -55,11 +55,11 @@ final class SYSLaunchRecorder: @unchecked Sendable {
     }
 }
 
-public enum SYSLaunchMetrics {
+enum SYSLaunchMetrics {
     private static let recorder = SYSLaunchRecorder(processStart: processStartTime())
     private static let signposts = OSLog(subsystem: Bundle.main.bundleIdentifier ?? "SYSKit", category: .pointsOfInterest)
 
-    public static func mark(_ milestone: SYSLaunchMilestone) {
+    static func mark(_ milestone: SYSLaunchMilestone) {
         guard recorder.mark(milestone) else { return }
         switch milestone {
         case .appLaunched:
@@ -74,7 +74,7 @@ public enum SYSLaunchMetrics {
         }
     }
 
-    public static var summary: String? { recorder.summary }
+    static var summary: String? { recorder.summary }
 
     private static func processStartTime() -> Date? {
         #if targetEnvironment(simulator)

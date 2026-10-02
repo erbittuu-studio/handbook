@@ -3,11 +3,7 @@ import Foundation
 import UIKit
 #endif
 
-/// Keeps what `SYSLogger` says on disk, so a support request can carry the last few sessions.
-///
-/// `SYSLogger` alone goes to the system log, which a user cannot hand over; an app that offers
-/// "Contact support" with the log attached installs this once at launch. The file rotates at 2 MB
-/// and keeps three, so it cannot grow without bound.
+/// Keeps what SYSLogger says on disk, so a support request can carry the last few sessions.
 public final class SYSLogFile: @unchecked Sendable {
     public static let shared = SYSLogFile()
 
@@ -18,16 +14,14 @@ public final class SYSLogFile: @unchecked Sendable {
 
     private init() {}
 
-    /// Where the files live. Documents, so they survive an app update.
-    public var directory: URL {
+    var directory: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("Logs", isDirectory: true)
     }
 
     private var currentURL: URL { directory.appendingPathComponent("log.txt") }
 
-    /// Device and app version, written at the top of every session so a support email says what it came from.
-    @MainActor public static var deviceHeader: String {
+    @MainActor static var deviceHeader: String {
         #if canImport(UIKit) && !os(watchOS)
         "Device: \(UIDevice.current.model) | iOS \(UIDevice.current.systemVersion)\nApp: \(SYSVersion.display())\n"
         #else
@@ -35,10 +29,11 @@ public final class SYSLogFile: @unchecked Sendable {
         #endif
     }
 
-    /// Start recording. `level` is the lowest severity written to the file, and is also applied to
-    /// `SYSLogger` so that many lines actually reach it in a release build. The header defaults to
-    /// `deviceHeader`; pass one only to say more than that.
-    @MainActor public func install(level: SYSLogger.Level = .info, header: String = SYSLogFile.deviceHeader) {
+    @MainActor public func install() {
+        install(level: .info, header: Self.deviceHeader)
+    }
+
+    @MainActor func install(level: SYSLogger.Level, header: String) {
         queue.sync {
             let fileManager = FileManager.default
             try? fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -55,8 +50,7 @@ public final class SYSLogFile: @unchecked Sendable {
         SYSLogger.sink = { [weak self] line in self?.append(line) }
     }
 
-    /// Every file, oldest first, as one document — what a support email attaches.
-    public func combinedData() -> Data? {
+    func combinedData() -> Data? {
         queue.sync {
             let files = ((try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? [])
                 .filter { $0.pathExtension == "txt" }
@@ -71,8 +65,6 @@ public final class SYSLogFile: @unchecked Sendable {
         }
     }
 
-    // MARK: Private
-
     private func append(_ line: String) {
         queue.async { [self] in
             write("[\(Self.stamp(Date()))] \(line)\n")
@@ -81,8 +73,7 @@ public final class SYSLogFile: @unchecked Sendable {
     }
 
     private func write(_ text: String) {
-        // `write(contentsOf:)` throws a Swift error; the older `write(_:)` raises an Objective-C
-        // exception on a closed handle, which would crash the app from a log line.
+        // write(contentsOf:) throws; the older write(_:) raises an ObjC exception on a closed handle and would crash the app
         if let data = text.data(using: .utf8) { try? handle?.write(contentsOf: data) }
     }
 
@@ -92,7 +83,6 @@ public final class SYSLogFile: @unchecked Sendable {
               size > maxFileSize else { return }
 
         try? handle?.close()
-        // log.txt -> log.1.txt -> log.2.txt -> the oldest is dropped
         for index in stride(from: maxFiles - 1, through: 1, by: -1) {
             let old = directory.appendingPathComponent("log.\(index).txt")
             let next = directory.appendingPathComponent("log.\(index + 1).txt")

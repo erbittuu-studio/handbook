@@ -1,21 +1,14 @@
 import Foundation
 
-/// One entry in the shared portfolio catalog (`app.json`) — the studio's own
-/// apps, described once so nothing else has to duplicate a fact PES already
-/// has. See `SYSHosting.baseURL`.
-public struct SYSAppCatalogEntry: Codable, Equatable, Sendable {
-    public var id: String
-    public var name: String
-    public var tagline: String?
-    public var iconPath: String?
-    public var bundleId: String?
-    public var appStoreUrl: String?
-    public var category: String?
+struct SYSAppCatalogEntry: Codable, Equatable, Sendable {
+    var id: String
+    var name: String
+    var tagline: String?
+    var iconPath: String?
+    var appStoreUrl: String?
+    var category: String?
 
-    /// This entry's icon, hosted at `<baseURL>/<id>/<iconPath>` — every app
-    /// that shows a "More apps" section was building this same path by
-    /// hand; one spelling here instead.
-    public var iconURL: URL? {
+    var iconURL: URL? {
         guard let iconPath else { return nil }
         return URL(string: "\(SYSHosting.baseURL)/\(id)/\(iconPath)")
     }
@@ -27,11 +20,8 @@ struct SYSAppCatalogData: Codable, Equatable, Sendable {
     var apps: [SYSAppCatalogEntry]?
 }
 
-/// Fetches and caches `app.json` — one file, read by every app and by the
-/// studio website, so a fact stated there (an app's name, icon, store URL)
-/// never has to be repeated in `config.json` too.
-public final class SYSAppCatalog: @unchecked Sendable {
-    public static let shared = SYSAppCatalog()
+final class SYSAppCatalog: @unchecked Sendable {
+    static let shared = SYSAppCatalog()
 
     private let catalog = SYSLocked<SYSAppCatalogData?>(nil)
     private let bundle: Bundle
@@ -40,7 +30,7 @@ public final class SYSAppCatalog: @unchecked Sendable {
 
     private static let fileName = "app.json"
 
-    public init(
+    init(
         bundle: Bundle = .main,
         network: SYSNetwork = .shared,
         fileManager: FileManager = .default
@@ -50,16 +40,13 @@ public final class SYSAppCatalog: @unchecked Sendable {
         self.fileManager = fileManager
     }
 
-    /// A previous fetch, if one is cached on disk. Synchronous and local, same
-    /// contract as `SYSConfig.load()`.
-    public func load() {
+    func load() {
         guard catalog.value == nil, let cached = cachedData() else { return }
         catalog.value = try? JSONDecoder().decode(SYSAppCatalogData.self, from: cached)
     }
 
-    /// Fetches and caches for next launch.
     @discardableResult
-    public func refresh() async -> Bool {
+    func refresh() async -> Bool {
         guard let url = URL(string: "\(SYSHosting.baseURL)/\(Self.fileName)") else { return false }
         guard let (payload, _) = try? await network.data(url),
               let fetched = try? JSONDecoder().decode(SYSAppCatalogData.self, from: payload)
@@ -69,16 +56,12 @@ public final class SYSAppCatalog: @unchecked Sendable {
         return true
     }
 
-    /// This app's own entry, matched by `SYSHosting.contentID()`.
-    public var thisApp: SYSAppCatalogEntry? {
+    var thisApp: SYSAppCatalogEntry? {
         guard let id = SYSHosting.contentID(bundle: bundle) else { return nil }
         return catalog.value?.apps?.first { $0.id == id }
     }
 
-    /// Everything to promote in an in-app "More apps" section: the rest of the
-    /// portfolio, excluding this one. Empty until a `refresh()` or a cached
-    /// `load()` has something, so callers need no extra check.
-    public var otherApps: [SYSAppCatalogEntry] {
+    var otherApps: [SYSAppCatalogEntry] {
         let ownID = SYSHosting.contentID(bundle: bundle)
         return (catalog.value?.apps ?? []).filter { $0.id != ownID }
     }
@@ -90,6 +73,5 @@ public final class SYSAppCatalog: @unchecked Sendable {
 
     private func cachedData() -> Data? { try? Data(contentsOf: cacheURL) }
 
-    /// Testing seam: inject data directly, bypassing the network and cache.
     func applyForTesting(_ data: SYSAppCatalogData) { catalog.value = data }
 }

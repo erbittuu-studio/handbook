@@ -13,15 +13,13 @@ public struct SYSShuffleSeed: Equatable, Sendable {
         self.value = value
     }
 
-    public static func random() -> SYSShuffleSeed {
+    static func random() -> SYSShuffleSeed {
         SYSShuffleSeed(UInt64.random(in: 1...UInt64.max))
     }
 }
 
 public extension Array {
-    /// The same elements in an order fixed by `seed`: the same seed always gives the same order, so a lesson can be
-    /// shuffled once and found in that order again after the app is closed. Not `shuffled(using:)`, whose algorithm
-    /// the system is free to change between releases.
+    /// The same elements in an order fixed by seed: the same seed always gives the same order, so a lesson can be shuffled o...
     func sysShuffled(seed: SYSShuffleSeed) -> [Element] {
         var state = seed.value
         func next() -> UInt64 {
@@ -43,9 +41,9 @@ public extension Array {
 
 public struct SYSLessonProgressKeys: Sendable {
     public let positions: SYSSettingsKey<[String: Int]>
-    public let totals: SYSSettingsKey<[String: Int]>
-    public let seeds: SYSSettingsKey<[String: Int]>
-    public let recent: SYSSettingsKey<[Int]>
+    let totals: SYSSettingsKey<[String: Int]>
+    let seeds: SYSSettingsKey<[String: Int]>
+    let recent: SYSSettingsKey<[Int]>
 
     public init(
         positions: SYSSettingsKey<[String: Int]>,
@@ -61,16 +59,8 @@ public struct SYSLessonProgressKeys: Sendable {
 }
 
 #if canImport(Combine)
-/// Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees:
-///
-/// - Opening a lesson starts it fresh or resumes it, and either way returns the index and the shuffle seed to use.
-/// - Moving through it saves the position, debounced; `flush()` saves at once, for the moment the app goes away.
-/// - Finishing it clears the position and closes the session: a screen that disappears afterwards, still holding
-///   the last card's index, cannot write that index back and make the next open start on the last card.
-/// - The "continue where you left off" lesson is the most recently opened one that still has a position.
-///
-/// Knows nothing about packs or cards: lessons are integer ids and positions are indexes.
 @MainActor
+/// Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees: - Opening a lesson sta...
 public final class SYSLessonProgress: ObservableObject {
     public struct Continuation: Equatable, Sendable {
         public let id: Int
@@ -113,12 +103,10 @@ public final class SYSLessonProgress: ObservableObject {
         #endif
     }
 
-    public func hasProgress(for id: Int) -> Bool {
+    func hasProgress(for id: Int) -> Bool {
         position(for: id) > 0
     }
 
-    /// Opens a lesson. `fresh` discards any saved position and shuffles anew; otherwise the saved position and shuffle
-    /// are kept, with the position brought back inside `total` if the lesson has shrunk since.
     @discardableResult
     public func begin(_ id: Int, total: Int, fresh: Bool) -> (index: Int, seed: SYSShuffleSeed) {
         flush()
@@ -135,13 +123,11 @@ public final class SYSLessonProgress: ObservableObject {
         return (index, seed)
     }
 
-    /// Starts the lesson over with a new shuffle, keeping it open.
     @discardableResult
     public func reshuffle(_ id: Int, total: Int) -> SYSShuffleSeed {
         begin(id, total: total, fresh: true).seed
     }
 
-    /// Notes a new position. Ignored once the lesson is finished, until it is begun again.
     public func record(_ id: Int, index: Int, total: Int) {
         guard !closed.contains(id) else { return }
         if continuation?.id == id {
@@ -156,7 +142,6 @@ public final class SYSLessonProgress: ObservableObject {
         }
     }
 
-    /// The lesson is done: its position goes, and nothing can bring it back until it is begun again.
     public func finish(_ id: Int) {
         if pending?.id == id {
             pending = nil
@@ -174,7 +159,6 @@ public final class SYSLessonProgress: ObservableObject {
         continuation = resolveContinuation()
     }
 
-    /// Saves anything waiting. Call when the app leaves the foreground or the lesson screen goes away.
     public func flush() {
         saveTask?.cancel()
         guard let save = pending else { return }

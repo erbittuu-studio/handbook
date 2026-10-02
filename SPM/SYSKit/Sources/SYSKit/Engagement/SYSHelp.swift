@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 public final class SYSHelp: ObservableObject {
-    @Published public var isComposingMail = false
+    @Published var isComposingMail = false
 
     private let shareItems: () -> [Any]
     private let onRate: () -> Void
@@ -36,7 +36,7 @@ public final class SYSHelp: ObservableObject {
         }
     }
 
-    public func contact() {
+    func contact() {
         SYSHaptics.light()
         isComposingMail = true
     }

@@ -1,40 +1,40 @@
 import CoreGraphics
 
-public enum SYSSizeClass: Equatable, Sendable {
+enum SYSSizeClass: Equatable, Sendable {
     case compact
     case regular
 }
 
-public struct SYSInsets: Equatable, Sendable {
-    public var top: CGFloat
-    public var leading: CGFloat
-    public var bottom: CGFloat
-    public var trailing: CGFloat
+struct SYSInsets: Equatable, Sendable {
+    var top: CGFloat
+    var leading: CGFloat
+    var bottom: CGFloat
+    var trailing: CGFloat
 
-    public static let zero = SYSInsets()
+    static let zero = SYSInsets()
 
-    public init(top: CGFloat = 0, leading: CGFloat = 0, bottom: CGFloat = 0, trailing: CGFloat = 0) {
+    init(top: CGFloat = 0, leading: CGFloat = 0, bottom: CGFloat = 0, trailing: CGFloat = 0) {
         self.top = top
         self.leading = leading
         self.bottom = bottom
         self.trailing = trailing
     }
 
-    public var horizontal: CGFloat { leading + trailing }
-    public var vertical: CGFloat { top + bottom }
+    var horizontal: CGFloat { leading + trailing }
+    var vertical: CGFloat { top + bottom }
 }
 
-public struct SYSRegion: Equatable, Sendable {
-    public enum Kind: Equatable, Sendable {
+struct SYSRegion: Equatable, Sendable {
+    enum Kind: Equatable, Sendable {
         case division
         case occlusion
     }
 
-    public var kind: Kind
-    public var frame: CGRect
-    public var isActive: Bool
+    var kind: Kind
+    var frame: CGRect
+    var isActive: Bool
 
-    public init(kind: Kind, frame: CGRect, isActive: Bool) {
+    init(kind: Kind, frame: CGRect, isActive: Bool) {
         self.kind = kind
         self.frame = frame
         self.isActive = isActive
@@ -43,12 +43,12 @@ public struct SYSRegion: Equatable, Sendable {
 
 public struct SYSMetrics: Equatable, Sendable {
     public var size: CGSize
-    public var safeArea: SYSInsets
-    public var horizontalClass: SYSSizeClass
-    public var verticalClass: SYSSizeClass
-    public var regions: [SYSRegion]
+    var safeArea: SYSInsets
+    var horizontalClass: SYSSizeClass
+    var verticalClass: SYSSizeClass
+    var regions: [SYSRegion]
 
-    public init(
+    init(
         size: CGSize,
         safeArea: SYSInsets = .zero,
         horizontalClass: SYSSizeClass = .compact,
@@ -62,7 +62,7 @@ public struct SYSMetrics: Equatable, Sendable {
         self.regions = regions
     }
 
-    public static let unmeasured = SYSMetrics(size: CGSize(width: 393, height: 759))
+    static let unmeasured = SYSMetrics(size: CGSize(width: 393, height: 759))
 
     public var contentSize: CGSize {
         CGSize(
@@ -71,23 +71,23 @@ public struct SYSMetrics: Equatable, Sendable {
         )
     }
 
-    public var contentFrame: CGRect {
+    var contentFrame: CGRect {
         CGRect(origin: .zero, size: contentSize)
     }
 
-    public var hasFold: Bool {
+    var hasFold: Bool {
         regions.contains { $0.kind == .division }
     }
 
-    public var isFolded: Bool {
+    var isFolded: Bool {
         regions.contains { $0.kind == .division && $0.isActive }
     }
 
-    public var occlusions: [CGRect] {
+    var occlusions: [CGRect] {
         regions.filter { $0.kind == .occlusion && $0.isActive }.map(\.frame)
     }
 
-    public var usableFrames: [CGRect] {
+    var usableFrames: [CGRect] {
         regions
             .filter { $0.kind == .division && $0.isActive }
             .reduce([contentFrame]) { frames, region in

@@ -397,7 +397,7 @@ main actor. Do not add `nonisolated(unsafe)` to a SYSKit type to make a build pa
 
 `SYSKit` contains **no full screens** — it returns state, the app renders it. Small
 UI utilities are allowed where a shared behaviour needs a view to carry it
-(`SYSAssetGate`, `SYSShareSheet`, `SYSMetrics`'s environment). The one exception is the
+(`SYSShareSheet`, `SYSMetrics`'s environment). The one exception is the
 launch blocker, `SYSLaunchBlocker`: the states it shows are the startup contract every app
 obeys, so the screen is shared too. The app still supplies every colour, font and string.
 

@@ -20,21 +20,15 @@ what; this says what exists.
 
 | Name | Kind | Summary |
 |---|---|---|
-| `SYSAssetGate` | struct | Waits for a piece of content before showing the screen that needs it, and offers a way back when it does not arrive. |
 | `SYSAssetProgress` | struct | Progress through a prepareRequired run, for apps that show a bar. |
-| `SYSContent` | enum | Where the device keeps its copy of the hosted site. |
 | `SYSContentError` | enum | Why the app could not get something it needs from the server. |
 | `SYSContentItem` | protocol | One content item a manifest lists — the handful of fields the generic sync loop actually touches. |
 | `SYSContentItemStatus` | enum | — |
-| `SYSContentSync` | class | Generic on-disk cache + downloader for a manifest's items: the live/staging/backup/downloads layout, checksum tracking, atomic install-with-backup, download-... |
+| `SYSContentSync` | class | Generic on-disk cache + downloader for a manifest's items: the live/staging/backup/downloads layout, checksum trackin... |
 | `SYSContentSyncError` | enum | — |
 | `SYSContentSyncState` | enum | — |
-| `SYSCrypto` | enum | Decrypts packs a site's publish.py published — reverses crypto.py, its Python counterpart. |
-| `SYSHash` | enum | SHA-256, used to check that downloaded content is the content that was published. |
-| `SYSHosting` | enum | Where this app's hosted files live, worked out rather than configured. |
 | `SYSPublishable` | protocol | Something a manifest can mark as not live yet. |
 | `SYSPublishing` | enum | Previewing draft content without a second server. |
-| `SYSZip` | enum | Minimal ZIP reader: enough to unpack a content bundle SYSContentSync just downloaded, nothing more (no writing, no encryption, no zip64). |
 
 ## SYSKit / Design
 
@@ -80,8 +74,6 @@ what; this says what exists.
 | `SYSAnalyticsEvent` | protocol | One analytics event. |
 | `SYSDebugRoute` | struct | — |
 | `SYSErrorReporter` | protocol | Implemented by SYSFirebase. |
-| `SYSLaunchMetrics` | enum | — |
-| `SYSLaunchMilestone` | enum | — |
 | `SYSLogFile` | class | Keeps what SYSLogger says on disk, so a support request can carry the last few sessions. |
 | `SYSLogger` | enum | Logging that stays quiet in release and reports real failures. |
 
@@ -89,48 +81,39 @@ what; this says what exists.
 
 | Name | Kind | Summary |
 |---|---|---|
-| `SYSAbout` | enum | Developer identity text every app in this portfolio shows the same way — the same support address, the same footer credit. |
+| `SYSAbout` | enum | Developer identity text every app in this portfolio shows the same way — the same support address, the same footer cr... |
 | `SYSAppStore` | enum | — |
-| `SYSDailyRotation` | enum | Picks one item per calendar day from a list, walking through it in order and starting over when it runs out, so "today's prayer" is the same all day, differe... |
+| `SYSDailyRotation` | enum | Picks one item per calendar day from a list, walking through it in order and starting over when it runs out, so "toda... |
 | `SYSHelp` | class | The "Rate, share, contact" section. |
 | `SYSHelpSection` | struct | The "Rate, share, contact" section. |
-| `SYSLessonProgress` | class | Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees: - Opening a lesson starts it fresh or resumes it, and either w... |
+| `SYSLessonProgress` | class | Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees: - Opening a lesson sta... |
 | `SYSLessonProgressKeys` | struct | — |
 | `SYSMoreAppsSection` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `SYSNotifications` | class | Permission, scheduling and tap-routing for local notifications — not scheduling *policy*. |
 | `SYSPlannedNotification` | struct | — |
-| `SYSRating` | enum | Decides when to ask for a review. |
 | `SYSReview` | enum | Presents the system review prompt, but only when SYSRating says it is due. |
 | `SYSShare` | enum | The system share sheet, presented correctly on both idioms. |
 | `SYSShareSheet` | struct | The share sheet as a view, for .sheet(isPresented:). |
 | `SYSShuffleSeed` | struct | — |
-| `SYSStreak` | class | Tracks a daily streak — "5 days in a row": today extends yesterday's streak, a gap resets it to 1, and recording twice in the same day does nothing. |
-| `SYSSupportMail` | enum | "Contact support": the system mail composer with the app's log attached, so a problem report arrives with what led up to it. |
+| `SYSStreak` | class | Tracks a daily streak — "5 days in a row": today extends yesterday's streak, a gap resets it to 1, and recording twic... |
 | `View.sysHelp` | on View | — |
-| `Array.sysShuffled` | on Array | The same elements in an order fixed by seed: the same seed always gives the same order, so a lesson can be shuffled once and found in that order again after ... |
-| `View.sysSupportMail` | on View | Presents the composer while isPresented is true. |
+| `Array.sysShuffled` | on Array | The same elements in an order fixed by seed: the same seed always gives the same order, so a lesson can be shuffled o... |
 
 ## SYSKit / Layout
 
 | Name | Kind | Summary |
 |---|---|---|
 | `SYSColumnGrid` | struct | A hand-measured LazyVGrid column count. |
-| `SYSInsets` | struct | — |
-| `SYSLaunchBlocker` | struct | Each app's own maintenance, update and offline screens. |
-| `SYSLaunchBlockerContent` | struct | — |
 | `SYSLaunchBlockerStyle` | struct | — |
 | `SYSLaunchBlockerText` | struct | — |
 | `SYSMetrics` | struct | — |
 | `SYSNavigationContainer` | struct | The NavigationStack with a NavigationView fallback every app wrote, and the one place a presented screen declares its bar: SYSNavigationContainer(tint:title:... |
 | `SYSReadableWidth` | enum | — |
-| `SYSRegion` | struct | — |
 | `SYSSettingsRow` | struct | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. |
 | `SYSSettingsSection` | struct | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. |
 | `SYSSettingsStyle` | struct | — |
-| `SYSSizeClass` | enum | — |
 | `SYSToolbarAction` | struct | — |
 | `SYSToolbarButton` | struct | A toolbar button with an icon-only label, an accessibility title and the light haptic. |
-| `SYSTwoPane` | struct | An HStack or VStack chosen by comparing width to height. |
 | `SYSVersionFooter` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `EnvironmentValues.sysMetrics` | on EnvironmentValues | — |
 | `View.sysMetrics` | on View | — |
@@ -145,58 +128,41 @@ what; this says what exists.
 
 | Name | Kind | Summary |
 |---|---|---|
-| `SYSConfig` | class | Loads config at launch, serves it synchronously, refreshes in the background. |
-| `SYSConfigData` | struct | The shape of config.json. |
-| `SYSConfigOutcome` | enum | What a refresh actually did. |
 | `SYSConnectivity` | class | Whether the device has a usable network path right now. |
-| `SYSLocale` | enum | Picks the best-fitting entry from text keyed by language tag. |
 | `SYSLocalizedText` | struct | A string that may be provided per language: {"en": "...", "hi": "..."}. |
-| `SYSMaintenance` | enum | The kill switch. |
-| `SYSNetwork` | actor | The one networking path every app uses. |
-| `SYSNetworkError` | enum | — |
-| `SYSUpdate` | enum | — |
-| `SYSUpdateStatus` | enum | Whether the running version is still acceptable. |
-| `SYSValue` | enum | Minimal type-erased JSON value, so the app object can hold mixed types without pulling in a dependency. |
 | `SYSVersion` | enum | Dotted numeric version comparison. |
-| `SYSWhatsNew` | enum | Release notes for the running version, shown once after an update. |
 
 ## SYSKit / Platform
 
 | Name | Kind | Summary |
 |---|---|---|
-| `SYSBackgroundTask` | enum | Runs non-blocking startup work under an iOS background task assertion, so something started just before the app is backgrounded gets the system's standard gr... |
+| `SYSBackgroundTask` | enum | Runs non-blocking startup work under an iOS background task assertion, so something started just before the app is ba... |
 | `SYSDeepLink` | enum | One shared scheme-check for .onOpenURL, nothing more. |
 | `SYSHaptics` | enum | Haptic feedback, with the generators kept alive between taps. |
-| `SYSIndexedIDTracker` | class | Tracks which ids are currently indexed under one domain, so a sync can tell "still valid" apart from "indexed but shouldn't be anymore". |
+| `SYSIndexedIDTracker` | class | Tracks which ids are currently indexed under one domain, so a sync can tell "still valid" apart from "indexed but sho... |
 | `SYSPendingIntent` | class | Holds one intent until the app is actually ready to act on it. |
 | `SYSQuickAction` | struct | One Home Screen quick action. |
-| `SYSQuickActions` | enum | Registers dynamic Home Screen shortcuts and extracts which one fired, identically from a cold launch and from a tap while already running. |
+| `SYSQuickActions` | enum | Registers dynamic Home Screen shortcuts and extracts which one fired, identically from a cold launch and from a tap w... |
 | `SYSSpeech` | class | — |
 | `SYSSpeechPhrase` | struct | — |
 | `SYSSpotlight` | enum | Indexing for Spotlight search, and the one tap-identifier scheme every app now shares instead of each writing its own. |
 | `SYSSpotlightItem` | struct | One thing worth finding in system search. |
 | `SYSVoiceGender` | enum | — |
-| `SYSVoiceInfo` | struct | — |
-| `SYSVoicePicker` | enum | — |
 
 ## SYSKit / Startup
 
 | Name | Kind | Summary |
 |---|---|---|
-| `SYSAppCatalog` | class | Fetches and caches app.json — one file, read by every app and by the studio website, so a fact stated there (an app's name, icon, store URL) never has to be ... |
-| `SYSAppCatalogEntry` | struct | One entry in the shared portfolio catalog (app.json) — the studio's own apps, described once so nothing else has to duplicate a fact PES already has. |
 | `SYSAppState` | enum | What the app should show once startup finishes. |
 | `SYSAssetProgressHandler` | typealias | A download-progress callback, hopped to the main actor before touching UI. |
-| `SYSBootstrap` | enum | Runs the standard startup sequence. |
 | `SYSBootstrappedApp` | protocol | An App whose launch sequence is wired for it. |
 | `SYSLifecycle` | enum | Launch and install tracking. |
 | `SYSOnboarding` | enum | Versioned onboarding. |
-| `SYSPrepareContent` | typealias | What "download the required content" means for this app — a SYSContentSync instance's own prepareRequired (possibly composing more than one closure, for an a... |
-| `SYSPruneContent` | typealias | Paired cleanup after SYSPrepareContent succeeds — a SYSContentSync- based app's own, or omitted if it has nothing to prune. |
+| `SYSPrepareContent` | typealias | What "download the required content" means for this app — a SYSContentSync instance's own prepareRequired (possibly c... |
+| `SYSPruneContent` | typealias | Paired cleanup after SYSPrepareContent succeeds — a SYSContentSync- based app's own, or omitted if it has nothing to ... |
 | `SYSRootedApp` | protocol | — |
 | `SYSSplashDuration` | struct | — |
 | `SYSStartup` | class | Owns the launch sequence and the state a screen renders from. |
-| `SYSStateAction` | enum | What a blocking state offers the user, if anything. |
 
 ## SYSKit / Storage
 

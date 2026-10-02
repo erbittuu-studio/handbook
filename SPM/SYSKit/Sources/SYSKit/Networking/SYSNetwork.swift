@@ -1,12 +1,9 @@
 import Foundation
-// URLSession and HTTPURLResponse live in FoundationNetworking on Linux, not
-// Foundation. Without this SYSKit builds on Apple platforms and fails on the
-// Linux runner its tests are meant to be cheap on.
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-public enum SYSNetworkError: Error, Equatable {
+enum SYSNetworkError: Error, Equatable {
     case badURL
     case offline
     case notModified
@@ -14,31 +11,18 @@ public enum SYSNetworkError: Error, Equatable {
     case decoding(String)
 }
 
-/// The one networking path every app uses.
-///
-/// Built for what these apps actually do: pull JSON and files from Firebase
-/// Hosting and Storage. No general-purpose HTTP client, no request builders —
-/// a fetch, a download, and the two things that make them behave well on a
-/// phone: ETags and retries.
-public actor SYSNetwork {
-    public static let shared = SYSNetwork()
+actor SYSNetwork {
+    static let shared = SYSNetwork()
 
     private let session: URLSession
     private let maxRetries: Int
 
-    public init(session: URLSession = .shared, maxRetries: Int = 2) {
+    init(session: URLSession = .shared, maxRetries: Int = 2) {
         self.session = session
         self.maxRetries = maxRetries
     }
 
-    // MARK: JSON
-
-    /// Fetches and decodes JSON.
-    ///
-    /// Pass the `etag` from a previous call and an unchanged resource comes back
-    /// as `.notModified` having transferred nothing. Every app polls config on
-    /// every launch, so this is free bandwidth back.
-    public func get<T: Decodable>(
+    func get<T: Decodable>(
         _ url: URL,
         as type: T.Type,
         etag: String? = nil,
@@ -52,8 +36,7 @@ public actor SYSNetwork {
         }
     }
 
-    /// Raw bytes, same ETag handling.
-    public func data(
+    func data(
         _ url: URL,
         etag: String? = nil,
         timeout: TimeInterval = 15
@@ -62,17 +45,7 @@ public actor SYSNetwork {
         return (data, response.etag)
     }
 
-    // MARK: Files
-
-    /// Downloads to a temporary file instead of memory.
-    ///
-    /// Content packs are zips, and holding one as `Data` works fine right up
-    /// until a pack gets big enough that it doesn't.
-    public func download(_ url: URL, timeout: TimeInterval = 120) async throws -> URL {
-        // Same as `load`: a local site is read, not fetched. Copied to a
-        // temporary file because the caller owns what it gets back and will
-        // move or delete it — handing back the staged original would consume
-        // the site a page at a time.
+    func download(_ url: URL, timeout: TimeInterval = 120) async throws -> URL {
         if url.isFileURL {
             guard FileManager.default.fileExists(atPath: url.path) else {
                 throw SYSNetworkError.http(status: 404)
@@ -87,9 +60,6 @@ public actor SYSNetwork {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeout
 
-        // Same retry rule as `load`: a pack is several megabytes over a phone
-        // connection, and one dropped socket or a 5xx from the host shouldn't
-        // cost the whole pack. A 4xx, or the caller cancelling, is not retried.
         var attempt = 0
         while true {
             do {
@@ -118,37 +88,21 @@ public actor SYSNetwork {
         }
     }
 
-    // MARK: Firebase Storage
-
-    /// Builds a public download URL for a Firebase Storage object.
-    ///
-    /// The path must be encoded with `/` as `%2F` — Storage returns 404 for the
-    /// unescaped form, which is a confusing way to spend an afternoon. Requires
-    /// the object to be publicly readable, which is right for shipped content
-    /// and wrong for anything per-user.
-    public nonisolated static func storageURL(bucket: String, path: String) -> URL? {
+    nonisolated static func storageURL(bucket: String, path: String) -> URL? {
         let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-._~"))
         guard let encoded = path.addingPercentEncoding(withAllowedCharacters: allowed) else { return nil }
         return URL(string: "https://firebasestorage.googleapis.com/v0/b/\(bucket)/o/\(encoded)?alt=media")
     }
-
-    // MARK: Internals
 
     private func load(
         _ url: URL,
         etag: String?,
         timeout: TimeInterval
     ) async throws -> (Data, HTTPURLResponse) {
-        // A file URL is a site staged on this machine — see
-        // `SYSHosting.localContentURL`. `URLSession` does not serve file URLs
-        // through `data(for:)`, and the failure is an opaque "unsupported URL"
-        // rather than anything that names the cause.
         if url.isFileURL {
             guard let data = try? Data(contentsOf: url) else {
                 throw SYSNetworkError.http(status: 404)
             }
-            // ETags are for saving a round trip. Reading a local file has none
-            // to save, so every read is a fresh one.
             guard let response = HTTPURLResponse(url: url, statusCode: 200,
                                                  httpVersion: nil, headerFields: nil) else {
                 throw SYSNetworkError.http(status: -1)
@@ -174,8 +128,6 @@ public actor SYSNetwork {
                 }
                 return (data, http)
             } catch let error as SYSNetworkError {
-                // Only transient server failures are worth retrying. A 404 will
-                // still be a 404 in two seconds.
                 guard case .http(let status) = error, status >= 500, attempt < maxRetries else { throw error }
                 attempt += 1
                 try await Task.sleep(nanoseconds: Self.backoff(attempt))
@@ -188,14 +140,10 @@ public actor SYSNetwork {
         }
     }
 
-    /// 0.5s, 1s, 2s …
     static func backoff(_ attempt: Int) -> UInt64 {
         UInt64(Double(NSEC_PER_SEC) * 0.5 * pow(2, Double(attempt - 1)))
     }
 
-    /// Whether this is "the server could not be reached" — one thing to the
-    /// person holding the phone, however many ways it happens (timeout,
-    /// unresolvable host, refused connection, a portal swallowing DNS...).
     private static func isOffline(_ error: Error) -> Bool {
         let code = (error as NSError).code
         return [NSURLErrorNotConnectedToInternet,

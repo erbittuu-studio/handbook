@@ -2,12 +2,7 @@
 import Combine
 import Foundation
 
-/// A value that can live in `UserDefaults` in its native form.
-///
-/// Native matters: these keys are usually inherited from an older version of the
-/// app, where a `Bool` was written as a `Bool`. Encoding it as JSON would read as
-/// "no value" on every existing install and silently reset the user's settings on
-/// upgrade.
+/// A value that can live in UserDefaults in its native form.
 public protocol SYSDefaultsStorable {
     static func sysRead(from defaults: UserDefaults, key: String) -> Self?
     func sysWrite(to defaults: UserDefaults, key: String)
@@ -41,24 +36,8 @@ extension String: SYSDefaultsStorable {
     public func sysWrite(to defaults: UserDefaults, key: String) { defaults.set(self, forKey: key) }
 }
 
-/// A preference backed by `UserDefaults` that publishes when it changes.
-///
-/// The pattern it replaces was four steps per setting — declare a key, register a
-/// default, read it in `init`, write it back in `didSet` — repeated for every
-/// toggle in every app. Twenty-odd lines that do nothing but move a bool, and
-/// four separate chances to typo a key or forget the default.
-///
-/// ```swift
-/// final class SettingsStore: ObservableObject {
-///     @SYSStored("IS_MUSIC_ON", default: true) var isMusicOn: Bool
-/// }
-/// ```
-///
-/// Reads and writes the key in its native form, so keys inherited from an older
-/// build keep working and an upgrade does not quietly reset anyone's settings.
-/// The default applies only when the key is absent — a stored `false` is a real
-/// value, not a missing one, which is the bug `defaults.bool(forKey:)` invites.
 @propertyWrapper
+/// A preference backed by UserDefaults that publishes when it changes.
 public struct SYSStored<Value: SYSDefaultsStorable> {
     private let key: String
     private let defaultValue: Value
@@ -70,14 +49,11 @@ public struct SYSStored<Value: SYSDefaultsStorable> {
         self.defaults = defaults
     }
 
-    /// Unused, but required: the enclosing-instance subscript below is what
-    /// actually runs when the wrapper is a property of an `ObservableObject`.
     public var wrappedValue: Value {
         get { Value.sysRead(from: defaults, key: key) ?? defaultValue }
         set { newValue.sysWrite(to: defaults, key: key) }
     }
 
-    /// Publishes on the enclosing object before writing, so SwiftUI redraws.
     public static subscript<Enclosing: ObservableObject>(
         _enclosingInstance instance: Enclosing,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<Enclosing, Value>,

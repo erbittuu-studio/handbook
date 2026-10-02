@@ -2,7 +2,7 @@
 import SwiftUI
 
 public struct SYSShadow: Sendable {
-    public let color: Color
+    let color: Color
     public let radius: CGFloat
     public let x: CGFloat
     public let y: CGFloat

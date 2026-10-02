@@ -4,14 +4,14 @@ import SwiftUI
 public struct SYSSettingsStyle: Sendable {
     public var sectionTitle: Color
     public var card: Color
-    public var stroke: Color
+    var stroke: Color
     public var title: Color
     public var subtitle: Color
-    public var chevron: Color
-    public var onTint: Color
-    public var rateTint: Color
-    public var shareTint: Color
-    public var contactTint: Color
+    var chevron: Color
+    var onTint: Color
+    var rateTint: Color
+    var shareTint: Color
+    var contactTint: Color
 
     public init(
         sectionTitle: Color = .secondary,
@@ -217,11 +217,9 @@ private struct SYSSettingsRowPressStyle: ButtonStyle {
 
 public struct SYSVersionFooter: View {
     @Environment(\.sysSettingsStyle) private var style
-    private let credit: String
+    private let credit = SYSAbout.credit
 
-    public init(credit: String = SYSAbout.credit) {
-        self.credit = credit
-    }
+    public init() {}
 
     public var body: some View {
         VStack(spacing: SYSSpace.xs) {

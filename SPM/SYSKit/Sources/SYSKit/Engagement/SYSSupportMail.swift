@@ -2,21 +2,12 @@
 import MessageUI
 import SwiftUI
 
-/// "Contact support": the system mail composer with the app's log attached, so a problem report
-/// arrives with what led up to it. Needs `SYSLogFile.shared.install()` at launch to have a log.
-///
-///     .sysSupportMail(isPresented: $showMail, subject: "MyApp support")
-///
-/// On a device with no mail account the composer cannot open, so it falls back to a plain `mailto:`
-/// link — without the log, but the person can still write to you.
-public enum SYSSupportMail {
-    @MainActor public static var canSend: Bool { MFMailComposeViewController.canSendMail() }
+enum SYSSupportMail {
+    @MainActor static var canSend: Bool { MFMailComposeViewController.canSendMail() }
 }
 
 public extension View {
-    /// Presents the composer while `isPresented` is true. `recipient` defaults to `SYSAbout.supportEmail`;
-    /// `body` to the app version, under two blank lines to write in.
-    func sysSupportMail(
+    internal func sysSupportMail(
         isPresented: Binding<Bool>,
         subject: String,
         recipient: String = SYSAbout.supportEmail,

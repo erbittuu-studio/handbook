@@ -1,88 +1,34 @@
 import Foundation
 
-/// What "download the required content" means for this app — a
-/// `SYSContentSync` instance's own `prepareRequired` (possibly composing
-/// more than one closure, for an app with several manifests — Prarthana's
-/// `content` + `festivals` both have to succeed). Required whenever
-/// `requiresAssets: true` is set; see `SYSBootstrap.start`'s
-/// `prepareContent` parameter.
+/// What "download the required content" means for this app — a SYSContentSync instance's own prepareRequired (possibly c...
 public typealias SYSPrepareContent =
     @MainActor @Sendable (SYSAssetProgressHandler?) async -> Result<Void, SYSContentError>
 
 /// A download-progress callback, hopped to the main actor before touching UI.
 public typealias SYSAssetProgressHandler = @MainActor @Sendable (SYSAssetProgress) -> Void
 
-/// Paired cleanup after `SYSPrepareContent` succeeds — a `SYSContentSync`-
-/// based app's own, or omitted if it has nothing to prune.
+/// Paired cleanup after SYSPrepareContent succeeds — a SYSContentSync- based app's own, or omitted if it has nothing to ...
 public typealias SYSPruneContent = @MainActor @Sendable () async -> Void
 
 /// What the app should show once startup finishes.
 public enum SYSAppState: Equatable {
-    /// Something is wrong on our side — show the maintenance screen.
     case maintenance(message: String?)
-    /// Too old to run. Block, and offer the store link.
     case updateRequired(message: String?, storeURL: URL?)
-    /// First run of this onboarding version.
     case onboarding
-    /// Just updated, and there are notes for this version.
     case whatsNew([String])
-    /// Required content could not be downloaded, and the app cannot run without
-    /// it. The app shows its own error screen; call `SYSBootstrap.retryContent()`
-    /// from the retry button.
     case dataUnavailable(SYSContentError)
-    /// Normal start — show home.
     case ready
 }
 
-/// Runs the standard startup sequence.
-///
-/// Every app does the same things in the same order at launch: load config,
-/// record the launch, check the gates, decide what to show. Doing that once here
-/// means an app writes screens, not startup plumbing.
-///
-/// Returns state; it renders nothing. Works the same from a SwiftUI `.task` or a
-/// UIKit `Task {}` in a scene delegate, so a UIKit app needs no wrapper.
-public enum SYSBootstrap {
-    /// How long to wait for fresh config before deciding the gates.
-    ///
-    /// Config normally applies next launch, so the app stays stable mid-session.
-    /// The gates are the exception: a kill switch that needs a relaunch is not a
-    /// kill switch. So startup gives the network a brief chance, then proceeds
-    /// on cached config regardless — an offline launch is never blocked.
-    public static var gateRefreshTimeout: TimeInterval {
+enum SYSBootstrap {
+    static var gateRefreshTimeout: TimeInterval {
         get { refreshTimeout.value }
         set { refreshTimeout.value = newValue }
     }
 
     private static let refreshTimeout = SYSLocked<TimeInterval>(1.0)
 
-    /// - Parameters:
-    ///   - requiresAssets: true for apps that ship no content in the bundle and
-    ///     cannot draw anything until the required packs are downloaded. Startup
-    ///     then fails closed with `.dataUnavailable` rather than reaching a home
-    ///     screen with nothing to show.
-    ///   - backgroundAssets: true for apps that have something to show without
-    ///     their packs (a bundled starter, or simply an empty state) and would
-    ///     rather open at once and fill in as downloads land than make every
-    ///     launch wait. Mutually exclusive in practice with `requiresAssets` —
-    ///     nothing stops setting both, but one already made launch wait for the
-    ///     packs the other is fetching in the background. Safe to call again:
-    ///     a well-behaved `prepareContent` skips whatever is already cached, so
-    ///     a kill mid-download only re-fetches the one pack that was
-    ///     interrupted, and `SYSBootstrappedApp` calls this again itself on
-    ///     every foreground.
-    ///   - assetProgress: called on the download's task while packs are fetched
-    ///     — required or background, whichever is in use. Hop to the main actor
-    ///     before touching UI.
-    ///   - prepareContent: what "download the required content" means for
-    ///     this app — a `SYSContentSync` instance's own `prepareRequired`, or
-    ///     a closure composing more than one for an app with several
-    ///     manifests. Required whenever `requiresAssets` or `backgroundAssets`
-    ///     is true; omitting it there fails closed with `.notConfigured`
-    ///     rather than silently doing nothing.
-    ///   - pruneContent: paired cleanup, run only after `prepareContent`
-    ///     succeeds. Omit it if there's nothing to prune.
-    public static func start(
+    static func start(
         config: SYSConfig = .shared,
         onboardingEnabled: Bool = true,
         requiresAssets: Bool = false,
@@ -92,21 +38,15 @@ public enum SYSBootstrap {
         prepareContent: SYSPrepareContent? = nil,
         pruneContent: SYSPruneContent? = nil
     ) async -> SYSAppState {
-        // 1. Whatever is already on the device — instant, never fails.
         config.load()
         SYSAppCatalog.shared.load()
 
-        // 2. Record the launch before anything reads lifecycle state.
         SYSLifecycle.recordLaunch(config: config)
 
-        // 3. Bring config up to date.
         if let blocked = await fetchConfig(config, required: requiresConfig) {
             return blocked
         }
 
-        // The portfolio catalog — "More apps", and SYSAbout's identity text if
-        // it ever moves there — refreshes in the background, unlike config: a
-        // stale or missing list is never a reason to block launch.
         Task { await SYSAppCatalog.shared.refresh() }
 
         let prepare = prepareContent ?? Self.unconfiguredPrepareContent
@@ -116,7 +56,6 @@ public enum SYSBootstrap {
             await beginBackgroundAssetDownload(progress: assetProgress, prepareContent: prepare, pruneContent: prune)
         }
 
-        // 4. Gates first: they override everything else.
         if SYSMaintenance.isActive(config: config) {
             SYSLogger.info("startup: maintenance mode")
             return .maintenance(message: SYSMaintenance.message(config: config))
@@ -130,29 +69,20 @@ public enum SYSBootstrap {
             )
         }
 
-        // 5. Content the app cannot start without. After the gates, because a
-        //    maintenance or force-update screen must still appear on a device
-        //    that cannot download anything — those are exactly the situations
-        //    where the download is likely to fail too, and the user needs the
-        //    real reason rather than a generic network error.
+        // Content after the gates: a maintenance or update screen must appear even where nothing can download
         if requiresAssets {
             let prepared = await prepare(assetProgress)
             if case let .failure(error) = prepared {
                 SYSLogger.error("startup: required content unavailable — \(error)")
                 return .dataUnavailable(error)
             }
-            // Pack names carry a content hash, so a republished pack lands beside
-            // its predecessor. Left to each app to remember, this is the kind of
-            // housekeeping that is skipped until a device fills up.
             await prune()
         }
 
-        // 6. Onboarding before anything else the user could act on.
         if onboardingEnabled, SYSOnboarding.shouldShow {
             return .onboarding
         }
 
-        // 7. Then release notes, once per version.
         if SYSWhatsNew.shouldShow(config: config), let notes = SYSWhatsNew.notes(config: config) {
             return .whatsNew(notes)
         }
@@ -160,20 +90,13 @@ public enum SYSBootstrap {
         return .ready
     }
 
-    /// Retries the required-content download after `.dataUnavailable`.
-    ///
-    /// Already-cached packs are skipped, so this costs only what is still
-    /// missing. Returns the state to show next — `.ready` on success, or
-    /// `.dataUnavailable` again with the current reason.
-    public static func retryContent(
+    static func retryContent(
         config: SYSConfig = .shared,
         onboardingEnabled: Bool = true,
         requiresConfig: Bool = false,
         assetProgress: SYSAssetProgressHandler? = nil,
         prepareContent: SYSPrepareContent? = nil
     ) async -> SYSAppState {
-        // Config first, same reason as `start`: if the server is in
-        // maintenance, say so rather than fail the download again.
         if let blocked = await fetchConfig(config, required: requiresConfig) {
             return blocked
         }
@@ -187,11 +110,7 @@ public enum SYSBootstrap {
         return resume(config: config, onboardingEnabled: onboardingEnabled)
     }
 
-    /// Continues after the app dismisses onboarding or what's-new.
-    ///
-    /// Kept separate so the app decides when its screen is finished rather than
-    /// this guessing.
-    public static func resume(config: SYSConfig = .shared, onboardingEnabled: Bool = true) -> SYSAppState {
+    static func resume(config: SYSConfig = .shared, onboardingEnabled: Bool = true) -> SYSAppState {
         if onboardingEnabled, SYSOnboarding.shouldShow { return .onboarding }
         if SYSWhatsNew.shouldShow(config: config), let notes = SYSWhatsNew.notes(config: config) {
             return .whatsNew(notes)
@@ -199,24 +118,12 @@ public enum SYSBootstrap {
         return .ready
     }
 
-    /// Brings config up to date, and says whether the launch has to stop.
-    ///
-    /// An app that ships a config, or has fetched one before, only wants the
-    /// gates freshened — raced against a short timeout, failure ignored,
-    /// since offline with yesterday's config is a working app. An app that
-    /// ships nothing and has never fetched has no config at all, so a
-    /// failure stops the launch with the same blocker as missing content.
-    ///
-    /// - Returns: the state to show instead, or nil to carry on.
     private static func fetchConfig(_ config: SYSConfig, required: Bool) async -> SYSAppState? {
         guard required, !config.hasLocalCopy else {
             await refreshWithTimeout(config: config)
             return nil
         }
 
-        // No timeout race here. The launch cannot proceed without this, so
-        // abandoning the fetch early would only reach the failure sooner —
-        // `SYSNetwork` already bounds how long a request may take.
         if case let .failed(error) = await config.refresh() {
             SYSLogger.error("startup: config unavailable — \(error)")
             return .dataUnavailable(error)
@@ -230,16 +137,11 @@ public enum SYSBootstrap {
             group.addTask {
                 try? await Task.sleep(nanoseconds: UInt64(gateRefreshTimeout * 1_000_000_000))
             }
-            // Whichever finishes first wins; the other is abandoned.
             await group.next()
             group.cancelAll()
         }
     }
 
-    /// Downloads every `required` pack without making launch wait for them —
-    /// `backgroundAssets`'s implementation, and what `SYSStartup.resumeBackgroundAssets()`
-    /// calls again on each foreground. Not `private`: `SYSStartup` shares it
-    /// rather than repeating the background-task wrapping itself.
     @MainActor
     static func beginBackgroundAssetDownload(
         progress: SYSAssetProgressHandler?,
@@ -258,9 +160,6 @@ public enum SYSBootstrap {
         }
     }
 
-    /// `requiresAssets`/`backgroundAssets` set with no `prepareContent` —
-    /// fails closed with a clear diagnostic instead of silently reporting
-    /// success for content that was never actually fetched.
     private static let unconfiguredPrepareContent: SYSPrepareContent = { _ in
         SYSLogger.error("startup: requiresAssets/backgroundAssets is true but no prepareContent was given")
         return .failure(.notConfigured)

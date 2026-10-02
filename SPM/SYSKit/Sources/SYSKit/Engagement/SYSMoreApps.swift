@@ -4,11 +4,10 @@ import SwiftUI
 public struct SYSMoreAppsSection: View {
     @Environment(\.sysSettingsStyle) private var style
     private let title: String
-    private let catalog: SYSAppCatalog
+    private let catalog = SYSAppCatalog.shared
 
-    public init(title: String = "More from us", catalog: SYSAppCatalog = .shared) {
+    public init(title: String = "More from us") {
         self.title = title
-        self.catalog = catalog
     }
 
     public var body: some View {

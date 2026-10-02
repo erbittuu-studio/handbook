@@ -16,7 +16,7 @@ public struct SYSDebugRoute: Equatable, Sendable {
         return arguments[index + 1]
     }
 
-    public static func parse(_ arguments: [String]) -> SYSDebugRoute? {
+    static func parse(_ arguments: [String]) -> SYSDebugRoute? {
         value(of: "-debugRoute", in: arguments).flatMap(SYSDebugRoute.init)
     }
 
@@ -30,7 +30,7 @@ public struct SYSDebugRoute: Equatable, Sendable {
 }
 
 public extension SYSAppState {
-    static func forced(by arguments: [String]) -> SYSAppState? {
+    internal static func forced(by arguments: [String]) -> SYSAppState? {
         switch SYSDebugRoute.value(of: "-debugState", in: arguments) {
         case "maintenance": return .maintenance(message: nil)
         case "update": return .updateRequired(message: nil, storeURL: URL(string: "https://apps.apple.com"))
@@ -39,7 +39,7 @@ public extension SYSAppState {
         }
     }
 
-    static var debugForced: SYSAppState? {
+    internal static var debugForced: SYSAppState? {
         #if DEBUG
         forced(by: CommandLine.arguments)
         #else

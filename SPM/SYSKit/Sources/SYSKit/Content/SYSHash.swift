@@ -4,14 +4,8 @@ import Foundation
 import CryptoKit
 #endif
 
-/// SHA-256, used to check that downloaded content is the content that was published.
-///
-/// CryptoKit is Apple-only and SYSKit builds and tests on Linux with no Xcode, so
-/// the implementation is behind `canImport` with a plain-Swift fallback. The
-/// fallback is a direct transcription of FIPS 180-4 — it is not fast, and it does
-/// not need to be: it verifies a few hundred kilobytes at startup, not a stream.
-public enum SYSHash {
-    public static func sha256Hex(_ data: Data) -> String {
+enum SYSHash {
+    static func sha256Hex(_ data: Data) -> String {
         #if canImport(CryptoKit)
         return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
         #else
@@ -19,14 +13,10 @@ public enum SYSHash {
         #endif
     }
 
-    /// Same digest, as raw bytes rather than hex — key material (`SYSCrypto`)
-    /// needs bytes, not a printable string.
-    public static func sha256(_ data: Data) -> Data {
+    static func sha256(_ data: Data) -> Data {
         #if canImport(CryptoKit)
         return Data(SHA256.hash(data: data))
         #else
-        // Reuses the portable hex digest rather than duplicating its logic —
-        // this path only runs on Linux, where nothing needs it to be fast.
         var bytes = [UInt8]()
         let hex = fallbackSHA256Hex(data)
         var index = hex.startIndex
@@ -38,8 +28,6 @@ public enum SYSHash {
         return Data(bytes)
         #endif
     }
-
-    // MARK: Portable implementation
 
     private static let k: [UInt32] = [
         0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,

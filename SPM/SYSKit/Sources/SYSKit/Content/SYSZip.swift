@@ -3,30 +3,15 @@ import Foundation
 import Compression
 #endif
 
-/// Minimal ZIP reader: enough to unpack a content bundle SYSContentSync just
-/// downloaded, nothing more (no writing, no encryption, no zip64). Built in
-/// rather than pulled in as a dependency for the same reason SYSHash's
-/// SHA-256 is: SYSKit has zero external packages so it keeps building and
-/// testing on Linux CI with no Xcode.
-public enum SYSZip {
-
-    public enum ZipError: Error {
+enum SYSZip {
+    enum ZipError: Error {
         case notAZip
         case unsupportedCompressionMethod(UInt16)
         case corruptEntry(String)
         case decompressionUnavailable
     }
 
-    /// Extracts every entry in the zip at `source` into `destination`
-    /// (created if needed).
-    ///
-    /// If every entry in the archive sits under the same single top-level
-    /// folder, that folder is dropped — a common zip convention (many zip
-    /// tools wrap a folder's contents this way when compressing it), and a
-    /// caller extracting one archive's worth of content into its own
-    /// destination folder almost never wants that folder nested one level
-    /// inside another copy of itself.
-    public static func unzip(at source: URL, to destination: URL) throws {
+    static func unzip(at source: URL, to destination: URL) throws {
         let data = try Data(contentsOf: source, options: .mappedIfSafe)
         let entries = stripCommonRoot(try readCentralDirectory(data))
         let fm = FileManager.default
@@ -62,8 +47,6 @@ public enum SYSZip {
                 localHeaderOffset: entry.localHeaderOffset)
         }
     }
-
-    // MARK: - Central directory
 
     private struct Entry {
         let path: String
@@ -108,9 +91,6 @@ public enum SYSZip {
         return entries
     }
 
-    /// Scans backward for the End Of Central Directory signature — it can
-    /// sit after an archive comment of up to 65535 bytes, so it is not
-    /// simply the file's last 22 bytes.
     private static func findEOCD(_ data: Data) -> Int? {
         guard data.count >= 22 else { return nil }
         let floor = max(0, data.count - 22 - 65535)
@@ -123,8 +103,6 @@ public enum SYSZip {
         }
         return nil
     }
-
-    // MARK: - Per-entry extraction
 
     private static func extract(_ entry: Entry, from data: Data) throws -> Data {
         let offset = entry.localHeaderOffset
@@ -147,9 +125,6 @@ public enum SYSZip {
         }
     }
 
-    /// Raw DEFLATE (RFC 1951) — what ZIP's compression method 8 stores, and,
-    /// despite the name, what Apple's `COMPRESSION_ZLIB` algorithm decodes
-    /// (no zlib/gzip header or trailer, unlike the actual zlib format).
     private static func inflate(_ compressed: Data, uncompressedSize: Int, path: String) throws -> Data {
         guard uncompressedSize > 0 else { return Data() }
         #if canImport(Compression)
