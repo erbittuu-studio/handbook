@@ -54,7 +54,7 @@ public enum SYSBootstrap {
         set { refreshTimeout.value = newValue }
     }
 
-    private static let refreshTimeout = SYSLocked<TimeInterval>(2.5)
+    private static let refreshTimeout = SYSLocked<TimeInterval>(1.0)
 
     /// - Parameters:
     ///   - requiresAssets: true for apps that ship no content in the bundle and

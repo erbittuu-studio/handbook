@@ -322,6 +322,10 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         }
     }
 
+    /// Loads the manifest held on disk, without touching the network. True when there was one.
+    @discardableResult
+    public func useCachedManifest() -> Bool { useCachedManifestIfAny() }
+
     /// Populates `items`/`itemStates` from whatever manifest is already on
     /// disk, without a network call. Used when a fetch fails or is skipped
     /// (304) — the same "carry on with what's held" rule `SYSConfig` and

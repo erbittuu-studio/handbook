@@ -10,7 +10,7 @@ public struct SYSSplashDuration: Equatable, Sendable {
     }
 
     public static let none = SYSSplashDuration(firstLaunch: 0, returning: 0)
-    public static let standard = SYSSplashDuration(firstLaunch: 2.0, returning: SYSTiming.relaxed)
+    public static let standard = SYSSplashDuration(firstLaunch: 2.0, returning: 0)
 
     public func remaining(isFirstLaunch: Bool, elapsed: TimeInterval) -> TimeInterval {
         max(0, (isFirstLaunch ? firstLaunch : returning) - elapsed)

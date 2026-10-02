@@ -132,7 +132,9 @@ launched, startup began, content prepared, ready, home shown), and when home app
 start to the first line of app code, `loading` is config and content, `splash hold` is the time `minimumSplash` added,
 and `home` is ready to first frame. The same milestones are signposts under Points of Interest in Instruments. It
 reads the process start time, not system uptime, so it needs no privacy-manifest category. Judge numbers from a Release
-build on a device: a Debug simulator build is several times slower, mostly in `process`.
+build on a device. On the simulator `process` is left out, because the simulator reports a process start well before the app runs, so the total there runs from the first line of app code.
+
+Startup never waits on the network for something it already holds: config is refreshed for at most `SYSBootstrap.gateRefreshTimeout` (1 s) so a kill switch still lands, and an app opens on its cached content manifest and refreshes it in the background, waiting for the network only when nothing is cached.
 
 ### The App Review check
 
@@ -490,8 +492,9 @@ func prepareContent(progress: SYSAssetProgressHandler?) async -> Result<Void, SY
 ```
 
 - `minimumSplash: .standard` holds the splash for at least 2.0 s on an install's
-  first launch and 0.5 s after, measured from when startup began, so a launch that
-  is ready at once does not flash it. The default `.none` waits only for loading.
+  first launch, measured from when startup began, and not at all on later launches,
+  so a returning launch is as fast as loading allows. The default `.none` waits only
+  for loading.
   An app writes no splash timer of its own.
 - `requiresAssets` makes "no manifest and nothing cached" a `.dataUnavailable`,
   which the app renders with SYSKit's own blocker and `startup.retry()`. An app
