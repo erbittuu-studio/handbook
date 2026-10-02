@@ -456,6 +456,12 @@ first. No app builds a calendar trigger, counts slots or cancels stale ids itsel
 
 ### Changing SYSKit
 
+`SYSKIT-API.md` lists every public type and `sys…` modifier, generated from the source. After adding or removing public
+API run `python3 scripts/api-docs.py generate`; `validate.sh` fails while the file is stale, and fails on a new public
+name with no description (a doc comment or a PLAYBOOK row). Names still waiting for one are in
+`scripts/api-docs.debt`, which may shrink and must not grow. The same check fails any `SYS…` or `sys…` name in the
+docs that is no longer in the source.
+
 SYSKit is developed **inside a real app**, not here — Xcode, simulator, and
 Firebase are actually present there. Changes flow **up** from the app that
 proved them, then **out** to every other app:
@@ -631,8 +637,8 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 | `SYSMotion` | Named animations: `press`, `standard`, `bounce`, `pageTurn`, `floatLoop`. iOS 17 curves where available, springs before. |
 | `SYSTiming` | `quick`, `standard`, `relaxed`, `stagger(_:)`, awaitable `pause(_:)`, and cancellable `after(_:_:)` in place of `DispatchQueue.asyncAfter` and `Task.sleep(nanoseconds:)`. |
 | `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
-| `SYSGlass` | `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle`: Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
-| `SYSEffects` | Availability-safe effects an app would otherwise gate itself: `sysOnChange(of:perform:)` (no iOS 17 deprecation), `sysSymbolBreathe`, `sysSymbolRotate`, `sysSymbolReplace`, `sysInterpolateTransition`, `sysScrollTransition`, `sysHorizontalScrollTransition`, `sysSheetDetents`, `sysShimmer`, and `sysReadableWidth` to cap a reading column and centre it. |
+| `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle` | Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
+| `View` effects | Availability-safe effects an app would otherwise gate itself: `sysOnChange(of:perform:)` (no iOS 17 deprecation), `sysSymbolBreathe`, `sysSymbolRotate`, `sysSymbolReplace`, `sysInterpolateTransition`, `sysScrollTransition`, `sysHorizontalScrollTransition`, `sysSheetDetents`, `sysShimmer`, and `sysReadableWidth` to cap a reading column and centre it. |
 | `SYSPressStyle` | The press-scale `ButtonStyle`, `.subtle` or `.strong`. |
 | `SYSSymbol` | SF Symbol names by meaning (`forward`, `close`, `doneCircle`, `starFilled`), so a glyph is named once. |
 

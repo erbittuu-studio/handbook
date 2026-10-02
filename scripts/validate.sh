@@ -46,6 +46,9 @@ for s in tools/PES/ci/*.sh tools/PES/hooks/*; do
 done
 for s in tools/PES/hooks/*; do [[ -x "$s" ]] || err "$s not executable"; done
 
+# 4e. The SYSKit API reference is current, and no doc names something that no longer exists
+python3 scripts/api-docs.py check || err "SYSKit API reference or the docs are out of step (python3 scripts/api-docs.py)"
+
 # 5. Core docs contain no unresolved {{PLACEHOLDER}}
 # (MIGRATE.md, PLAYBOOK.md and templates/ legitimately document the token
 # syntax itself, so they are checked for stray tokens elsewhere, not here)
