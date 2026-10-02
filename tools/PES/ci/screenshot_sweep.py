@@ -172,6 +172,7 @@ def main() -> None:
     parser.add_argument("--device", help="simulator name or UDID (default: sweep.device)")
     parser.add_argument("--only", help="comma-separated screen names")
     parser.add_argument("--wait", type=float, help="seconds each screen settles (default: sweep.wait)")
+    parser.add_argument("--orientation", help="portrait or landscape (default: sweep.orientation)")
     parser.add_argument("--threshold", type=float, default=1.0, help="percent changed that counts as a change")
     parser.add_argument("--update-baseline", action="store_true", help="keep this run as the baseline")
     arguments = parser.parse_args()
@@ -207,7 +208,7 @@ def main() -> None:
     out.mkdir(parents=True)
 
     wait = arguments.wait if arguments.wait is not None else float(sweep.get("wait", 14))
-    orientation = sweep.get("orientation", "portrait")
+    orientation = arguments.orientation or sweep.get("orientation", "portrait")
     rows, worst, failed = [], 0.0, False
     for name, route in chosen.items():
         print(f"  {name:<14}", end="", flush=True)

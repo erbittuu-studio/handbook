@@ -241,10 +241,12 @@ public final class SYSSpeech: NSObject, ObservableObject {
         }
     }
 
+    private static let sessionQueue = DispatchQueue(label: "sys.speech.session", qos: .userInitiated)
+
     private func activateSession() {
         guard !sessionActive else { return }
-        try? AVAudioSession.sharedInstance().setActive(true)
         sessionActive = true
+        Self.sessionQueue.async { try? AVAudioSession.sharedInstance().setActive(true) }
     }
 
     private func scheduleDeactivation() {
@@ -252,8 +254,10 @@ public final class SYSSpeech: NSObject, ObservableObject {
         deactivation = Task { [weak self] in
             try? await Task.sleep(nanoseconds: 1_000_000_000)
             guard !Task.isCancelled, let self, !self.isSpeaking else { return }
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
             self.sessionActive = false
+            Self.sessionQueue.async {
+                try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            }
         }
     }
     #else

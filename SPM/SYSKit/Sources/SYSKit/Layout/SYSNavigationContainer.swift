@@ -135,11 +135,29 @@ private struct SYSNavigationBar<Accessory: View>: ViewModifier {
     let trailing: SYSToolbarAction?
 
     func body(content: Content) -> some View {
-        titled(content)
-            .toolbar {
+        withAccessory(withTrailing(titled(content)))
+    }
+
+    @ViewBuilder
+    private func withAccessory(_ content: some View) -> some View {
+        if Accessory.self != EmptyView.self {
+            content.toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) { accessory }
-                ToolbarItem(placement: .navigationBarTrailing) { trailingButton }
             }
+        } else {
+            content
+        }
+    }
+
+    @ViewBuilder
+    private func withTrailing(_ content: some View) -> some View {
+        if let trailing {
+            content.toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { SYSToolbarButton(trailing) }
+            }
+        } else {
+            content
+        }
     }
 
     @ViewBuilder
@@ -148,13 +166,6 @@ private struct SYSNavigationBar<Accessory: View>: ViewModifier {
             content.sysNavigationTitle(title)
         } else {
             content.navigationBarTitleDisplayMode(.inline)
-        }
-    }
-
-    @ViewBuilder
-    private var trailingButton: some View {
-        if let trailing {
-            SYSToolbarButton(trailing)
         }
     }
 }
