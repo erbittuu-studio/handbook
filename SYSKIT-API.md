@@ -49,8 +49,6 @@ what; this says what exists.
 | `SYSSpace` | enum | Spacing xs 4, sm 8, md 12, lg 16, xl 24, xxl 32, xxxl 48, and radii sm 8 to xl 24. |
 | `SYSStroke` | enum | Named opacities (subtle 0.1 to intense 0.8), stroke widths (thin, medium) and the 44 pt minimum touch target. |
 | `SYSSymbol` | enum | SF Symbol names by meaning (forward, close, doneCircle, starFilled), so a glyph is named once. |
-| `SYSTabBarAccessory` | enum | Whether the system tab bar accessory exists on this OS, so an app mounts its own player or bar only where it does not. |
-| `SYSTabBarAccessoryStyle` | enum | How the tab bar accessory is drawn: full width above the tab bar, or inline beside a minimized one. |
 | `SYSTiming` | enum | quick, standard, relaxed, stagger(_:), awaitable pause(_:), and cancellable after(_:_:) in place of DispatchQueue.asyncAfter and Task.sleep(nanoseconds:). |
 | `View.sysEntrance` | on View | Fades and lifts a view in when it first appears, staggered by order; with an id, a view shown once appears at once next time. |
 | `View.sysGlassButton` | on View | A capsule button in Liquid Glass on iOS 26, a material capsule before; prominent is the one primary action on a screen. |
@@ -77,8 +75,6 @@ what; this says what exists.
 | `View.sysSymbolBreathe` | on View | — |
 | `View.sysSymbolReplace` | on View | — |
 | `View.sysSymbolRotate` | on View | — |
-| `View.sysTabBarAccessory` | on View | Shows content as the bar above the tab bar while isPresented, where SYSTabBarAccessory.isSupported; nothing elsewhere, so the app mounts its own. |
-| `EnvironmentValues.sysTabBarAccessoryStyle` | on EnvironmentValues | Whether the tab bar accessory is drawn full width above a tab bar or inline beside a minimized one. |
 | `View.sysTabBarMinimizeOnScroll` | on View | Collapses the tab bar while the user scrolls down and brings it back on scrolling up, on iOS 26 and later. |
 | `View.sysTheme` | on View | Sets the page theme for everything below, with optional second and third colors for the backdrop mesh; call it once at the app root with the current theme so... |
 | `View.sysZoomDestination` | on View | Makes a pushed screen zoom out of the source with this id on iOS 18 and later; no change before. |
