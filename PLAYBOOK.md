@@ -412,7 +412,7 @@ main actor. Do not add `nonisolated(unsafe)` to a SYSKit type to make a build pa
 
 `SYSKit` contains **no full screens** — it returns state, the app renders it. Small
 UI utilities are allowed where a shared behaviour needs a view to carry it
-(`SYSShareSheet`, `SYSMetrics`'s environment). The one exception is the
+(`SYSAmbientBackground`, `SYSMetrics`'s environment). The one exception is the
 launch blocker, `SYSLaunchBlocker`: the states it shows are the startup contract every app
 obeys, so the screen is shared too. The app still supplies every colour, font and string.
 
@@ -661,6 +661,8 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 | `.sysOnShake(isEnabled:perform:)` | Runs an action on a device shake while the view is on screen. Owns the accelerometer: starts and stops with the view and the flag. |
 | `.sysZoomSource(id:in:)`, `.sysZoomDestination(sourceID:in:)`, `\.sysZoomNamespace` | The zoom transition from a card to its pushed screen (iOS 18+, a plain push before). Set the namespace once near the root. |
 | `SYSEmptyState`, `SYSRoundedCorner`, `SYSSafeAreaHorizontalScroll` | The empty screen, a shape that rounds chosen corners, and a self-sizing horizontal scroll. |
+| `SYSScreenHeader(_:trailing:)`, `.sysHidesNavigationBar()`, `SYSToolbarAction.settings(zoomSourceID:)` | A large title with a trailing button, drawn in the content so the button can be the source of a zoom to the screen it opens (give each tab its own id and use `.sysZoomDestination` with the same id). A system bar button cannot be a zoom source, and neither can a view with a glass effect: either makes the transition start from the screen's middle or fade instead, so the header button is a material circle. Hide the system bar on a screen that uses it. |
+| `SYSScrollHandle`, `.sysScrollHandle(_:)` | `SYSScrollHandle.halt()` stops a ScrollView's momentum, so a "jump to" button works while the list is still flicking; `scrollTo` is ignored mid-deceleration. |
 | `.sysHidesBars(_:)` | A reading focus mode: hides the navigation bar, the bottom bar and the status bar together while the flag is true (iOS 16+). The app toggles the flag from a tap on its content. |
 | `.sysHideScrollBackground()`, `.sysReservedLines`, `.sysAdaptiveTabStyle()`, `.sysDarkNavigationBar`, `.sysHidesTabBar()`, `.sysSheetStyle()` | Availability-safe wrappers over SwiftUI modifiers newer than iOS 15. Apps do not write their own `#available` copies. |
 | `View` effects | Availability-safe effects an app would otherwise gate itself: `sysOnChange(of:perform:)` (no iOS 17 deprecation), `sysSymbolBreathe`, `sysSymbolRotate`, `sysSymbolReplace`, `sysInterpolateTransition`, `sysScrollTransition`, `sysHorizontalScrollTransition`, `sysSheetDetents`, `sysShimmer`, and `sysReadableWidth` to cap a reading column and centre it. |

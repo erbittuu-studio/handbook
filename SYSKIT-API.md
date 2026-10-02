@@ -109,7 +109,6 @@ what; this says what exists.
 | `SYSPlannedNotification` | struct | — |
 | `SYSReview` | enum | Presents the system review prompt, but only when SYSRating says it is due. |
 | `SYSShare` | enum | The system share sheet, presented correctly on both idioms. |
-| `SYSShareSheet` | struct | The share sheet as a view, for .sheet(isPresented:). |
 | `SYSShuffleSeed` | struct | — |
 | `SYSStreak` | class | Tracks a daily streak — "5 days in a row": today extends yesterday's streak, a gap resets it to 1, and recording twic... |
 | `View.sysHelp` | on View | — |
@@ -126,24 +125,28 @@ what; this says what exists.
 | `SYSMetrics` | struct | — |
 | `SYSNavigationContainer` | struct | A navigation stack that draws the page theme's backdrop behind its content and tints with the theme accent unless told otherwise. |
 | `SYSReadableWidth` | enum | — |
-| `SYSRoundedCorner` | struct | A rounded rectangle that rounds only the given corners. |
+| `SYSRoundedCorner` | struct | The empty screen, a shape that rounds chosen corners, and a self-sizing horizontal scroll. |
 | `SYSSafeAreaHorizontalScroll` | struct | A horizontal scroll view that sizes itself to its content height and respects the safe area. |
+| `SYSScreenHeader` | struct | A large title with an optional glass button at the trailing edge, drawn in the content so the button can be the source of a zoom transition (a system bar but... |
+| `SYSScrollHandle` | class | A rounded rectangle that rounds only the given corners. |
 | `SYSSettingsRow` | struct | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. |
 | `SYSSettingsSection` | struct | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. |
 | `SYSSettingsStyle` | struct | — |
-| `SYSToolbarAction` | struct | — |
+| `SYSToolbarAction` | struct | A large title with a trailing button, drawn in the content so the button can be the source of a zoom to the screen it opens (give each tab its own id and use... |
 | `SYSToolbarButton` | struct | A toolbar button with an icon-only label, an accessibility title and the light haptic. |
 | `SYSVersionFooter` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `View.sysAdaptiveTabStyle` | on View | A tab bar on iPhone that becomes a sidebar on iPad, on iOS 18 and later. |
 | `View.sysDarkNavigationBar` | on View | Turns the navigation bar content light for dark artwork behind it, on iOS 16 and later. |
 | `View.sysHideScrollBackground` | on View | Hides the default background of a List or Form so the screen background shows through. |
 | `View.sysHidesBars` | on View | Hides the navigation bar, the bottom bar and the status bar while hidden is true: a focus mode for reading. |
+| `View.sysHidesNavigationBar` | on View | Hides the navigation bar on a screen that draws its own header, such as one using SYSScreenHeader. |
 | `View.sysHidesTabBar` | on View | Hides the tab bar while this screen is shown, on iOS 16 and later. |
 | `EnvironmentValues.sysMetrics` | on EnvironmentValues | — |
 | `View.sysMetrics` | on View | — |
 | `View.sysNavigationBar` | on View | The same title and buttons for a screen pushed inside a stack that already exists. |
 | `View.sysNavigationTitle` | on View | A per-app navigation title. |
 | `View.sysReservedLines` | on View | Reserves room for a minimum number of text lines so rows keep one height, up to a maximum. |
+| `View.sysScrollHandle` | on View | Fills handle with the scroll view this content scrolls in. |
 | `TabRole.sysSearch` | on TabRole | The role for a search tab: .prominent on iOS 27, .search before. |
 | `View.sysSearchable` | on View | A search field that sits below the navigation bar and stays visible, like the iPhone Settings app, before iOS 26; on iOS 26 it leaves placement to the system... |
 | `EnvironmentValues.sysSettingsStyle` | on EnvironmentValues | — |

@@ -55,6 +55,16 @@ public extension View {
     }
 
     @ViewBuilder
+    /// Hides the navigation bar on a screen that draws its own header, such as one using SYSScreenHeader.
+    func sysHidesNavigationBar() -> some View {
+        if #available(iOS 16.0, *) {
+            toolbar(.hidden, for: .navigationBar)
+        } else {
+            navigationBarHidden(true)
+        }
+    }
+
+    @ViewBuilder
     /// Hides the tab bar while this screen is shown, on iOS 16 and later.
     func sysHidesTabBar() -> some View {
         if #available(iOS 16.0, *) {
@@ -76,6 +86,58 @@ public extension View {
 }
 
 /// A rounded rectangle that rounds only the given corners.
+/// Reaches the scroll view behind a SwiftUI ScrollView so its momentum can be stopped: scrollTo is ignored while a flick decelerates.
+@MainActor
+public final class SYSScrollHandle {
+    fileprivate weak var scrollView: UIScrollView?
+
+    public init() {}
+
+    /// Stops any deceleration where the content is now.
+    public func halt() {
+        guard let scrollView else { return }
+        scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+    }
+}
+
+private struct SYSScrollCapture: UIViewRepresentable {
+    let handle: SYSScrollHandle
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        return view
+    }
+
+    func updateUIView(_ view: UIView, context: Context) {
+        DispatchQueue.main.async {
+            var current: UIView? = view
+            while let candidate = current, !(candidate is UIScrollView) { current = candidate.superview }
+            if let scroll = current as? UIScrollView {
+                handle.scrollView = scroll
+                return
+            }
+            handle.scrollView = Self.firstScrollView(in: view.window)
+        }
+    }
+
+    private static func firstScrollView(in root: UIView?) -> UIScrollView? {
+        guard let root else { return nil }
+        if let scroll = root as? UIScrollView, scroll.contentSize.height > scroll.bounds.height { return scroll }
+        for child in root.subviews {
+            if let found = firstScrollView(in: child) { return found }
+        }
+        return nil
+    }
+}
+
+public extension View {
+    /// Fills handle with the scroll view this content scrolls in.
+    func sysScrollHandle(_ handle: SYSScrollHandle) -> some View {
+        background(SYSScrollCapture(handle: handle))
+    }
+}
+
 public struct SYSRoundedCorner: Shape {
     private let radius: CGFloat
     private let corners: UIRectCorner

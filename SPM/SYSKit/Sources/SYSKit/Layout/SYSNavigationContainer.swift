@@ -5,10 +5,17 @@ public struct SYSToolbarAction {
     public let title: String
     public let systemImage: String
     public let action: () -> Void
+    let zoomSourceID: String?
 
-    public init(_ title: String, systemImage: String, action: @escaping () -> Void) {
+    public init(
+        _ title: String,
+        systemImage: String,
+        zoomSourceID: String? = nil,
+        action: @escaping () -> Void
+    ) {
         self.title = title
         self.systemImage = systemImage
+        self.zoomSourceID = zoomSourceID
         self.action = action
     }
 
@@ -16,8 +23,13 @@ public struct SYSToolbarAction {
         SYSToolbarAction(title, systemImage: SYSSymbol.close, action: action)
     }
 
-    public static func settings(_ title: String = "Settings", action: @escaping () -> Void) -> SYSToolbarAction {
-        SYSToolbarAction(title, systemImage: SYSSymbol.settings, action: action)
+    /// The gear button; pass zoomSourceID to make the screen it opens zoom out of a SYSScreenHeader button.
+    public static func settings(
+        _ title: String = "Settings",
+        zoomSourceID: String? = nil,
+        action: @escaping () -> Void
+    ) -> SYSToolbarAction {
+        SYSToolbarAction(title, systemImage: SYSSymbol.settings, zoomSourceID: zoomSourceID, action: action)
     }
 }
 
@@ -147,6 +159,52 @@ private struct SYSNavigationBar<Accessory: View>: ViewModifier {
             content.sysNavigationTitle(title)
         } else {
             content.navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+/// A large title with an optional glass button at the trailing edge, drawn in the content so the button can be the
+/// source of a zoom transition (a system bar button cannot be). Hide the navigation bar with sysHidesNavigationBar().
+public struct SYSScreenHeader: View {
+    @Environment(\.sysZoomNamespace) private var zoomNamespace
+    private let title: String
+    private let trailing: SYSToolbarAction?
+
+    public init(_ title: String, trailing: SYSToolbarAction? = nil) {
+        self.title = title
+        self.trailing = trailing
+    }
+
+    public var body: some View {
+        HStack(spacing: SYSSpace.md) {
+            Text(title)
+                .font(SYSFont.rounded.largeTitle.weight(.bold))
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .accessibilityAddTraits(.isHeader)
+
+            Spacer(minLength: 0)
+
+            if let trailing {
+                Button {
+                    SYSHaptics.light()
+                    trailing.action()
+                } label: {
+                    Label(trailing.title, systemImage: trailing.systemImage)
+                        .labelStyle(.iconOnly)
+                        .font(SYSFont.body.weight(.semibold))
+                        .foregroundStyle(.tint)
+                        .frame(width: SYSSize.touch, height: SYSSize.touch)
+                        .background(Circle().fill(.thinMaterial))
+                        .overlay(Circle().stroke(Color.white.opacity(0.35), lineWidth: SYSStroke.hairline))
+                }
+                .buttonStyle(.plain)
+                .sysZoomSource(
+                    id: trailing.zoomSourceID ?? "",
+                    in: trailing.zoomSourceID == nil ? nil : zoomNamespace,
+                    cornerRadius: SYSSize.touch / 2
+                )
+            }
         }
     }
 }

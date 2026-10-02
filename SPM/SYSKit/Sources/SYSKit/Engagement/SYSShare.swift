@@ -47,27 +47,4 @@ public enum SYSShare {
         popover.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
     }
 }
-
-/// The share sheet as a view, for .sheet(isPresented:).
-public struct SYSShareSheet: UIViewControllerRepresentable {
-    private let items: [Any]
-    private let completion: ((String?) -> Void)?
-
-    public init(items: [Any], completion: ((String?) -> Void)? = nil) {
-        self.items = items
-        self.completion = completion
-    }
-
-    public func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        controller.completionWithItemsHandler = { activityType, completed, _, _ in
-            completion?(completed ? (activityType?.rawValue ?? "unknown") : nil)
-        }
-        return controller
-    }
-
-    public func updateUIViewController(_ controller: UIActivityViewController, context: Context) {
-        SYSShare.anchor(controller, to: controller.view)
-    }
-}
 #endif
