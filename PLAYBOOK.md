@@ -75,7 +75,22 @@ Nothing runs on my Mac for a release.
 
 Three workflow files, not one per check: GitHub reports a status per *job*, so
 checks stay individually visible while triggers/permissions/concurrency live
-in one place. Xcode Cloud runs a single Release workflow only — a CI workflow
+in one place.
+
+**The workflow logic lives once, in this repo.** `.github/workflows/app-pr.yml`, `app-main.yml`, `app-release.yml`,
+`app-release-guard.yml`, `app-diagnose.yml` and `app-xcode-cloud.yml` are reusable workflows (`workflow_call`). An
+app's own `pr.yml`, `main.yml` and the rest are a few lines: the triggers, the path filters, the permissions and
+`uses: erbittuu-studio/handbook/.github/workflows/app-X.yml@vX.Y.Z` with `secrets: inherit`. `update.sh` pins that
+tag to the PES version it syncs, so an app picks up a CI change exactly when it syncs, and no workflow body is copied
+or drifts. Three things follow from how GitHub runs a called workflow:
+
+- A change to a reusable workflow reaches no app until the handbook tag exists. Push the handbook and tag `vX.Y.Z`
+  before an app that synced to X.Y.Z pushes, or its CI fails with "workflow not found".
+- A check's name gains the caller's job: `PR / swiftlint` becomes `PR / pr / swiftlint`. A branch ruleset that
+  requires checks by name has to be updated once, after the first run.
+- Triggers and path filters cannot be shared, so they stay in the app's file. `scripts/check-workflows.rb` (part of
+  `validate.sh`) proves every caller matches its reusable: same version pin, inputs declared and passed, permissions
+  covered. `verify_routing.rb` checks what each kind of push starts. Xcode Cloud runs a single Release workflow only — a CI workflow
 there wouldn't surface in `gh pr checks`.
 
 ## 3. Branches
@@ -130,8 +145,8 @@ type it declares, or for the role shared by the several it groups (`Strings.swif
 `App/Packages/PES/` holds everything PES owns that is not Swift: `validate.py`, the `shared/` checks, the `ci/` helpers
 (`asc_builds.rb`, `xcode_cloud_workflow.rb`, `project_value.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
 directory, the same way it syncs SYSKit, so there is no per-file list to keep and an app cannot quietly edit one script.
-Only what a tool forces stays outside it: the workflow files under `.github/workflows/` and Xcode Cloud's
-`App/ci_scripts/`, both of which call into the package.
+Only what a tool forces stays outside it: the workflow callers under `.github/workflows/` and Xcode Cloud's
+`App/ci_scripts/`, both of which call into the package or the handbook.
 
 ### Launch time
 

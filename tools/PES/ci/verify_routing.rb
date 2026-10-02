@@ -11,7 +11,11 @@
 # It reads the real config rather than restating it, so it cannot drift from
 # what actually runs. Expectations live below; a mismatch fails.
 #
-#   ruby App/Packages/PES/ci/verify_routing.rb
+#   ruby verify_routing.rb [caller.yml [reusable.yml]]
+#
+# The push trigger lives in the app's main.yml and the paths filter in the handbook's reusable app-main.yml, so the
+# handbook runs this against the template and the reusable it calls. In an app, with no reusable beside the caller,
+# there is nothing to read and it says so.
 
 require "yaml"
 
@@ -25,12 +29,21 @@ def find_root(start = __dir__)
   dir
 end
 
-ROOT = find_root
-MAIN = YAML.load_file(File.join(ROOT, ".github/workflows/main.yml"))
+CALLER_PATH = ARGV[0] || File.join(find_root, ".github/workflows/main.yml")
+REUSABLE_PATH = ARGV[1] || File.join(File.dirname(CALLER_PATH), "app-main.yml")
 
-TRIGGER_PATHS = MAIN[true]["push"]["paths"]
+unless File.exist?(REUSABLE_PATH)
+  puts "  The paths filter lives in the handbook's app-main.yml; run scripts/validate.sh there."
+  exit 0
+end
+
+CALLER = YAML.load_file(CALLER_PATH)
+REUSABLE = YAML.load_file(REUSABLE_PATH)
+
+TRIGGER_PATHS = CALLER[true]["push"]["paths"]
 FILTERS = YAML.safe_load(
-  MAIN["jobs"]["changes"]["steps"].find { |s| s["uses"].to_s.include?("paths-filter") }["with"]["filters"]
+  REUSABLE["jobs"]["changes"]["steps"].find { |s| s["uses"].to_s.include?("paths-filter") }["with"]["filters"]
+    .gsub("${{ inputs.project_name }}", "App")
 )
 
 def glob_match?(path, pattern)

@@ -24,9 +24,13 @@ done
 for s in scripts/*.sh; do [[ -x "$s" ]] || err "$s not executable"; done
 
 # 4. Workflow YAML parses (ruby is always present on macOS)
-for y in templates/workflows/*.yml templates/github/*.yml templates/github/ISSUE_TEMPLATE/*.yml; do
+for y in templates/workflows/*.yml .github/workflows/*.yml templates/github/*.yml templates/github/ISSUE_TEMPLATE/*.yml; do
   ruby -ryaml -e "YAML.safe_load(File.read('$y'), aliases: true)" >/dev/null 2>&1 || err "$y invalid YAML"
 done
+
+# 4a. Workflow callers and the reusable workflows they call agree
+ruby scripts/check-workflows.rb >/tmp/pes-workflows.out 2>&1 || { cat /tmp/pes-workflows.out; err "workflow callers and reusable workflows disagree (ruby scripts/check-workflows.rb)"; }
+ruby tools/PES/ci/verify_routing.rb templates/workflows/main.yml .github/workflows/app-main.yml >/tmp/pes-routing.out 2>&1 || { cat /tmp/pes-routing.out; err "push routing is wrong (ruby tools/PES/ci/verify_routing.rb templates/workflows/main.yml .github/workflows/app-main.yml)"; }
 
 # 4b. Ruby templates parse (ci_scripts/lib helpers, scripts/ci helpers)
 for r in templates/ci_scripts/lib/*.rb tools/PES/ci/*.rb; do

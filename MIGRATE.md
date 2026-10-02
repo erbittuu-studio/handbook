@@ -102,8 +102,8 @@ alerts.
 ## 5. PR checks (30 min)
 
 Copy `pr.yml`, `main.yml`, `release.yml` from `templates/workflows/`
-(setup.sh already did this — confirm they're there, delete jobs the app
-doesn't need). Open a throwaway PR touching each relevant path once to confirm
+(setup.sh already did this — confirm they're there). They are thin callers of the reusable
+workflows in this repo (PLAYBOOK §2), so the handbook tag they name must exist before the first push. Open a throwaway PR touching each relevant path once to confirm
 each check actually *runs* — a check that never fires looks like coverage
 that isn't there.
 
