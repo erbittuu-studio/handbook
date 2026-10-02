@@ -35,4 +35,5 @@ public enum SYSSize {
     public static let touch: CGFloat = 44
     static let settingsTile: CGFloat = 30
     static let settingsRow: CGFloat = 52
+    static let emptyIcon: CGFloat = 52
 }

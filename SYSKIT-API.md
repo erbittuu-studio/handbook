@@ -48,6 +48,7 @@ what; this says what exists.
 | `SYSSymbol` | enum | SF Symbol names by meaning (forward, close, doneCircle, starFilled), so a glyph is named once. |
 | `SYSTiming` | enum | quick, standard, relaxed, stagger(_:), awaitable pause(_:), and cancellable after(_:_:) in place of DispatchQueue.asyncAfter and Task.sleep(nanoseconds:). |
 | `View.sysEntrance` | on View | Fades and lifts a view in when it first appears, staggered by order; with an id, a view shown once appears at once next time. |
+| `View.sysGlassButton` | on View | A capsule button in Liquid Glass on iOS 26, a material capsule before; prominent is the one primary action on a screen. |
 | `View.sysGlassCapsule` | on View | Liquid Glass on iOS 26, material before. |
 | `View.sysGlassCard` | on View | Liquid Glass on iOS 26, material before. |
 | `View.sysGlassCircle` | on View | Liquid Glass on iOS 26, material before. |
@@ -58,6 +59,7 @@ what; this says what exists.
 | `View.sysOnChange` | on View | — |
 | `View.sysReadableWidth` | on View | — |
 | `View.sysRegularWidthText` | on View | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
+| `View.sysScrollEdge` | on View | Fades scrolling content out softly at the edges where floating controls sit, on iOS 26; no change before. |
 | `View.sysScrollTransition` | on View | — |
 | `View.sysSelectionFeedback` | on View | A selection tap on iOS 17 and later when trigger changes; nothing before. |
 | `View.sysShadow` | on View | — |
@@ -68,6 +70,9 @@ what; this says what exists.
 | `View.sysSymbolBreathe` | on View | — |
 | `View.sysSymbolReplace` | on View | — |
 | `View.sysSymbolRotate` | on View | — |
+| `View.sysZoomDestination` | on View | Makes a pushed screen zoom out of the source with this id on iOS 18 and later; no change before. |
+| `EnvironmentValues.sysZoomNamespace` | on EnvironmentValues | The namespace a zoom transition source and destination share; set it once near the root. |
+| `View.sysZoomSource` | on View | Marks a view as the origin of a zoom transition on iOS 18 and later; no change before. |
 
 ## SYSKit / Diagnostics
 
@@ -108,25 +113,34 @@ what; this says what exists.
 | Name | Kind | Summary |
 |---|---|---|
 | `SYSColumnGrid` | struct | A hand-measured LazyVGrid column count. |
+| `SYSEmptyState` | struct | The standard empty screen: a symbol, a title and a subtitle, in colors the app supplies. |
 | `SYSLaunchBlockerStyle` | struct | — |
 | `SYSLaunchBlockerText` | struct | — |
 | `SYSMetrics` | struct | — |
 | `SYSNavigationContainer` | struct | The NavigationStack with a NavigationView fallback every app wrote, and the one place a presented screen declares its bar: SYSNavigationContainer(tint:title:... |
 | `SYSReadableWidth` | enum | — |
+| `SYSRoundedCorner` | struct | A rounded rectangle that rounds only the given corners. |
+| `SYSSafeAreaHorizontalScroll` | struct | A horizontal scroll view that sizes itself to its content height and respects the safe area. |
 | `SYSSettingsRow` | struct | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. |
 | `SYSSettingsSection` | struct | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. |
 | `SYSSettingsStyle` | struct | — |
 | `SYSToolbarAction` | struct | — |
 | `SYSToolbarButton` | struct | A toolbar button with an icon-only label, an accessibility title and the light haptic. |
 | `SYSVersionFooter` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
+| `View.sysAdaptiveTabStyle` | on View | A tab bar on iPhone that becomes a sidebar on iPad, on iOS 18 and later. |
+| `View.sysDarkNavigationBar` | on View | Turns the navigation bar content light for dark artwork behind it, on iOS 16 and later. |
+| `View.sysHideScrollBackground` | on View | Hides the default background of a List or Form so the screen background shows through. |
+| `View.sysHidesTabBar` | on View | Hides the tab bar while this screen is shown, on iOS 16 and later. |
 | `EnvironmentValues.sysMetrics` | on EnvironmentValues | — |
 | `View.sysMetrics` | on View | — |
 | `View.sysNavigationBar` | on View | The same title and buttons for a screen pushed inside a stack that already exists. |
 | `View.sysNavigationTitle` | on View | A per-app navigation title. |
+| `View.sysReservedLines` | on View | Reserves room for a minimum number of text lines so rows keep one height, up to a maximum. |
 | `TabRole.sysSearch` | on TabRole | The role for a search tab: .prominent on iOS 27, .search before. |
 | `View.sysSearchable` | on View | A search field that sits below the navigation bar and stays visible, like the iPhone Settings app, before iOS 26; on iOS 26 it leaves placement to the system... |
 | `EnvironmentValues.sysSettingsStyle` | on EnvironmentValues | — |
 | `View.sysSettingsStyle` | on View | — |
+| `View.sysSheetStyle` | on View | Medium and large detents with a drag indicator, on iOS 16 and later. |
 
 ## SYSKit / Networking
 
@@ -152,6 +166,7 @@ what; this says what exists.
 | `SYSSpotlight` | enum | Indexing for Spotlight search, and the one tap-identifier scheme every app now shares instead of each writing its own. |
 | `SYSSpotlightItem` | struct | One thing worth finding in system search. |
 | `SYSVoiceGender` | enum | — |
+| `View.sysOnShake` | on View | Calls action when the device is shaken, while isEnabled is true and the view is on screen. |
 
 ## SYSKit / Startup
 

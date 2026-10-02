@@ -49,6 +49,50 @@ private struct SYSGlassSurface<S: Shape>: ViewModifier {
 }
 
 public extension View {
+    /// A capsule button in Liquid Glass on iOS 26, a material capsule before; prominent is the one primary action on a screen.
+    @ViewBuilder
+    func sysGlassButton(prominent: Bool = false, tint: Color? = nil) -> some View {
+        if #available(iOS 26.0, *) {
+            if prominent {
+                buttonStyle(.glassProminent).tint(tint)
+            } else {
+                buttonStyle(.glass).tint(tint)
+            }
+        } else {
+            buttonStyle(SYSGlassFallbackButtonStyle(prominent: prominent, tint: tint))
+        }
+    }
+
+    /// Fades scrolling content out softly at the edges where floating controls sit, on iOS 26; no change before.
+    @ViewBuilder
+    func sysScrollEdge(_ edges: Edge.Set = .all) -> some View {
+        if #available(iOS 26.0, *) {
+            scrollEdgeEffectStyle(.soft, for: edges)
+        } else {
+            self
+        }
+    }
+}
+
+private struct SYSGlassFallbackButtonStyle: ButtonStyle {
+    let prominent: Bool
+    let tint: Color?
+
+    func makeBody(configuration: Configuration) -> some View {
+        let accent = tint ?? .accentColor
+        configuration.label
+            .padding(.horizontal, SYSSpace.xl)
+            .padding(.vertical, SYSSpace.md)
+            .background(Capsule().fill(prominent ? AnyShapeStyle(accent) : AnyShapeStyle(.ultraThinMaterial)))
+            .background(Capsule().fill(accent.opacity(prominent ? 0 : 0.14)))
+            .overlay(Capsule().stroke(Color.white.opacity(0.35), lineWidth: SYSStroke.hairline))
+            .foregroundStyle(prominent ? Color.white : accent)
+            .scaleEffect(configuration.isPressed ? 0.97 : 1)
+            .animation(SYSMotion.press, value: configuration.isPressed)
+    }
+}
+
+public extension View {
     @ViewBuilder
     func sysNumericTransition() -> some View {
         if #available(iOS 17.0, *) {
