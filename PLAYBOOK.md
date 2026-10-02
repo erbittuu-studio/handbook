@@ -116,6 +116,15 @@ Every job triggers on every PR and skips internally rather than being
 path-filtered at the trigger level — a required check with no run at all
 blocks a merge forever under branch protection.
 
+### File names
+
+A target's own files are named for their role, never for the app: `Info.plist`, `App.entitlements`,
+`LaunchScreen.storyboard`, `Icon.icon`, `config.json`, `PrivacyInfo.xcprivacy`. They are the same in every app, and
+match the Watch and Widget targets' `Info.plist` and `Watch.entitlements`. The app's name appears only in the `@main`
+file, `<Name>App.swift`, and in extension entry files that declare types named for it. A Swift file is named for the
+type it declares, or for the role shared by the several it groups (`Strings.swift`, `Models.swift`). The
+`file_names` check fails a file in `App/Resources` or `App/Config` that carries the app's name.
+
 ### Shared tooling is one package
 
 `App/Packages/PES/` holds everything PES owns that is not Swift: `validate.py`, the `shared/` checks, the `ci/` helpers

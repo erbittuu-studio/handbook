@@ -22,7 +22,7 @@ for target in "$@"; do
   # 1. Literal version keys in Info.plist. This is the one that silently ships
   #    the wrong version: ci_pre_xcodebuild.sh stamps MARKETING_VERSION, and a
   #    literal CFBundleShortVersionString overrides it without any error.
-  for plist in "$target/App/Resources/"*-Info.plist "$target/App/Info.plist"; do
+  for plist in "$target/App/Resources/"*Info.plist "$target/App/Info.plist"; do
     [[ -f "$plist" ]] || continue
     for key in CFBundleShortVersionString CFBundleVersion; do
       value="$(plutil -extract "$key" raw -o - "$plist" 2>/dev/null || true)"

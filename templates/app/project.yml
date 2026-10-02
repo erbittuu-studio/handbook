@@ -60,7 +60,7 @@ adoption:
 # The checks this app runs, so one cannot quietly go missing. `own` are scripts this app keeps that run with
 # them but are not counted as shared checks. A shared check the app declines goes in `skip` with the reason.
 validation:
-  expected: [release_state, analytics_events, app_store_compliance, build_settings, color_assets, localization, project, urls, sys_adoption]
+  expected: [release_state, analytics_events, app_store_compliance, build_settings, color_assets, file_names, localization, project, urls, sys_adoption]
   own: []
   skip: {}
 

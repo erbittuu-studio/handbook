@@ -27,7 +27,7 @@ def literal_version_keys(root: Path) -> list[str]:
     for plist in sorted((root / "App").rglob("*.plist")):
         if "/Vendor/" in str(plist) or "/Packages/" in str(plist):
             continue
-        if plist.name != "Info.plist" and not plist.name.endswith("-Info.plist"):
+        if not plist.name.endswith("Info.plist"):
             continue
         try:
             with plist.open("rb") as f:

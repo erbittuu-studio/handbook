@@ -257,7 +257,7 @@ def store_id_problems(ctx) -> list[str]:
     """SYSAppStore builds the store page, review and share links from the app's own
     Info.plist, so an app without `SYSAppStoreID` has none of them."""
     problems = []
-    for plist in sorted((ctx.root / "App" / "Resources").glob("*-Info.plist")):
+    for plist in sorted((ctx.root / "App" / "Resources").glob("*Info.plist")):
         if plist.name == "GoogleService-Info.plist":
             continue
         with plist.open("rb") as handle:
