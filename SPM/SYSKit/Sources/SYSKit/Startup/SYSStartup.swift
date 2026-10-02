@@ -114,6 +114,19 @@ public final class SYSStartup: ObservableObject {
         progress = nil
         SYSLaunchMetrics.mark(.ready)
         state = resolved
+        watchGates()
+    }
+
+    private func watchGates() {
+        Task { [weak self] in
+            guard let self else { return }
+            _ = await self.config.refresh()
+            guard let late = await SYSBootstrap.gate(config: self.config) else { return }
+            switch self.state {
+            case .ready?, .onboarding?, .whatsNew?: self.state = late
+            default: break
+            }
+        }
     }
 }
 #endif

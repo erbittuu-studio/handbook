@@ -143,7 +143,7 @@ and `home` is ready to first frame. The same milestones are signposts under Poin
 reads the process start time, not system uptime, so it needs no privacy-manifest category. Judge numbers from a Release
 build on a device. On the simulator `process` is left out, because the simulator reports a process start well before the app runs, so the total there runs from the first line of app code.
 
-Startup never waits on the network for something it already holds: config is refreshed for at most `SYSBootstrap.gateRefreshTimeout` (1 s) so a kill switch still lands, and an app opens on its cached content manifest and refreshes it in the background, waiting for the network only when nothing is cached.
+Startup never waits on the network for something it already holds: a config it already holds (cached or bundled) is used at once and refreshed right after the app is up; if that refresh turns maintenance on or forces an update, the app moves to that screen then, so a kill switch still lands. Only with no config at all does launch wait, for at most `SYSBootstrap.gateRefreshTimeout` (1 s). An app opens on its cached content manifest and refreshes it in the background, waiting for the network only when nothing is cached.
 
 ### The App Review check
 
@@ -506,7 +506,7 @@ func prepareContent(progress: SYSAssetProgressHandler?) async -> Result<Void, SY
 }
 ```
 
-- `minimumSplash: .standard` holds the splash for at least 2.0 s on an install's
+- `minimumSplash: .standard` holds the splash for at least 1.0 s on an install's
   first launch, measured from when startup began, and not at all on later launches,
   so a returning launch is as fast as loading allows. The default `.none` waits only
   for loading.
@@ -604,7 +604,7 @@ neither. Ask the size class, ask whether the content fits (`ViewThatFits`), or h
 |---|---|
 | `SYSTwoPane` | An `HStack` or `VStack` chosen by comparing width to height. |
 | `SYSColumnGrid` | A hand-measured `LazyVGrid` column count. It is `GridItem(.adaptive(minimum:))`, so the system picks the count. |
-| `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote, and the one place a presented screen declares its bar: `SYSNavigationContainer(tint:title:background:accessory:trailing:)`. The title is `sysNavigationTitle`, `background` fills the screen, `accessory` is an extra trailing view (a progress ring) and `trailing` is a `SYSToolbarAction` such as `.close(...)` or `.settings(...)`. An app keeps no container, bar state or toolbar modifier of its own. |
+| `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote, and the one place a presented screen declares its bar: `SYSNavigationContainer(title:accessory:trailing:)`, which draws the page theme behind its content and tints with its accent. The title is `sysNavigationTitle`, `accessory` is an extra trailing view (a progress ring) and `trailing` is a `SYSToolbarAction` such as `.close(...)` or `.settings(...)`. An app keeps no container, bar state or toolbar modifier of its own. |
 | `sysNavigationBar(title:accessory:trailing:)` | The same title and buttons for a screen pushed inside a stack that already exists. |
 | `SYSToolbarButton` | A toolbar button with an icon-only label, an accessibility title and the light haptic. Built from a `SYSToolbarAction` or from a title, symbol and action. |
 | `SYSSettingsSection`, `SYSSettingsRow` | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. Colors come from `SYSSettingsStyle`, which the app sets once with `.sysSettingsStyle(...)`, so theming stays app-side and layout stays here. |
@@ -638,6 +638,7 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 | `SYSTiming` | `quick`, `standard`, `relaxed`, `stagger(_:)`, awaitable `pause(_:)`, and cancellable `after(_:_:)` in place of `DispatchQueue.asyncAfter` and `Task.sleep(nanoseconds:)`. |
 | `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
 | `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle` | Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
+| `.sysTheme(base:accent:)`, `.sysPageBackground()`, `SYSAmbientBackground()` | Theme once, at the app root: `.sysTheme(base:accent:)` in `decorate` with the current theme, so a theme change repaints everything. Then every `SYSNavigationContainer` and `.sysPageBackground()` draws the page: the base color, a faint accent wash and two soft accent blurs, so glass has color to refract. Screens pass no colors of their own. |
 | `.sysGlassButton(prominent:tint:)` | The button style for every standalone capsule button: `.glass` or `.glassProminent` on iOS 26, a material capsule before. One prominent button per screen. Glass belongs on the controls layer floating over content (buttons, chips, badges, the mini player); content cards stay opaque. |
 | `.sysTabBarAccessory(isPresented:content:)`, `SYSTabBarAccessory.isSupported`, `\.sysTabBarAccessoryStyle` | The bar above the tab bar (a mini player, a now-playing strip) on iOS 26.1+. Where `isSupported` is false the app mounts its own bar, so exactly one draws. Read the style to drop controls when the tab bar is minimized (`.inline`). |
 | `.sysTabBarMinimizeOnScroll()` | The tab bar collapses on scroll down and returns on scroll up (iOS 26+). Put it on the `TabView`. |

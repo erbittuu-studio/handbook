@@ -43,7 +43,7 @@ enum SYSBootstrap {
 
         SYSLifecycle.recordLaunch(config: config)
 
-        if let blocked = await fetchConfig(config, required: requiresConfig) {
+        if let blocked = await fetchConfig(config, required: requiresConfig, waitsForRefresh: false) {
             return blocked
         }
 
@@ -56,17 +56,8 @@ enum SYSBootstrap {
             await beginBackgroundAssetDownload(progress: assetProgress, prepareContent: prepare, pruneContent: prune)
         }
 
-        if SYSMaintenance.isActive(config: config) {
-            SYSLogger.info("startup: maintenance mode")
-            return .maintenance(message: SYSMaintenance.message(config: config))
-        }
-
-        if SYSUpdate.status(config: config) == .required {
-            SYSLogger.info("startup: update required")
-            return .updateRequired(
-                message: SYSUpdate.message(config: config),
-                storeURL: await SYSUpdate.storeURL()
-            )
+        if let gated = await gate(config: config) {
+            return gated
         }
 
         // Content after the gates: a maintenance or update screen must appear even where nothing can download
@@ -97,7 +88,7 @@ enum SYSBootstrap {
         assetProgress: SYSAssetProgressHandler? = nil,
         prepareContent: SYSPrepareContent? = nil
     ) async -> SYSAppState {
-        if let blocked = await fetchConfig(config, required: requiresConfig) {
+        if let blocked = await fetchConfig(config, required: requiresConfig, waitsForRefresh: true) {
             return blocked
         }
         if SYSMaintenance.isActive(config: config) {
@@ -118,9 +109,26 @@ enum SYSBootstrap {
         return .ready
     }
 
-    private static func fetchConfig(_ config: SYSConfig, required: Bool) async -> SYSAppState? {
+    static func gate(config: SYSConfig) async -> SYSAppState? {
+        if SYSMaintenance.isActive(config: config) {
+            SYSLogger.info("startup: maintenance mode")
+            return .maintenance(message: SYSMaintenance.message(config: config))
+        }
+        if SYSUpdate.status(config: config) == .required {
+            SYSLogger.info("startup: update required")
+            return .updateRequired(
+                message: SYSUpdate.message(config: config),
+                storeURL: await SYSUpdate.storeURL()
+            )
+        }
+        return nil
+    }
+
+    private static func fetchConfig(_ config: SYSConfig, required: Bool, waitsForRefresh: Bool) async -> SYSAppState? {
         guard required, !config.hasLocalCopy else {
-            await refreshWithTimeout(config: config)
+            if waitsForRefresh || !config.hasLocalCopy {
+                await refreshWithTimeout(config: config)
+            }
             return nil
         }
 

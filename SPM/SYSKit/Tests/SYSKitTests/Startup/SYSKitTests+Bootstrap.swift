@@ -88,6 +88,36 @@ final class SYSBootstrapContentInjectionTests: XCTestCase {
     }
 }
 
+@MainActor
+final class SYSBootstrapGateTests: XCTestCase {
+    private func config(_ json: String) -> SYSConfig {
+        let config = SYSConfig(bundle: StubBundle(contentID: "test-app"))
+        // swiftlint:disable:next force_try
+        config.applyForTesting(try! JSONDecoder().decode(SYSConfigData.self, from: Data(json.utf8)))
+        return config
+    }
+
+    func testGateIsOpenWithoutMaintenanceOrForcedUpdate() async {
+        let state = await SYSBootstrap.gate(config: config(#"{"version":1}"#))
+        XCTAssertNil(state)
+    }
+
+    func testGateClosesForMaintenance() async {
+        let state = await SYSBootstrap.gate(config: config(#"{"version":1,"maintenance":{"enabled":true,"message":"Back soon"}}"#))
+        XCTAssertEqual(state, .maintenance(message: "Back soon"))
+    }
+
+    func testStartDoesNotWaitForTheNetworkWhenConfigIsHeld() async {
+        let started = Date()
+        _ = await SYSBootstrap.start(
+            config: config(#"{"version":1}"#),
+            onboardingEnabled: false,
+            prepareContent: { _ in .success(()) }
+        )
+        XCTAssertLessThan(Date().timeIntervalSince(started), 0.5)
+    }
+}
+
 final class SYSSplashDurationTests: XCTestCase {
     func testFirstLaunchWaitsLongerThanLaterOnes() {
         let duration = SYSSplashDuration.standard

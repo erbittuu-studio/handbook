@@ -43,25 +43,24 @@ public struct SYSToolbarButton: View {
     }
 }
 
-public struct SYSNavigationContainer<Content: View, Background: View, Accessory: View>: View {
-    private let tint: Color
+/// A navigation stack that draws the page theme's backdrop behind its content and tints with the theme accent unless told otherwise.
+public struct SYSNavigationContainer<Content: View, Accessory: View>: View {
+    @Environment(\.sysPageTheme) private var theme
+    private let tint: Color?
     private let title: String?
-    private let background: Background?
     private let accessory: Accessory
     private let trailing: SYSToolbarAction?
     private let content: Content
 
     public init(
-        tint: Color,
+        tint: Color? = nil,
         title: String? = nil,
-        background: Background,
         accessory: Accessory,
         trailing: SYSToolbarAction? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.tint = tint
         self.title = title
-        self.background = background
         self.accessory = accessory
         self.trailing = trailing
         self.content = content()
@@ -70,48 +69,30 @@ public struct SYSNavigationContainer<Content: View, Background: View, Accessory:
     public var body: some View {
         if #available(iOS 16.0, *) {
             NavigationStack { screen }
-                .tint(tint)
+                .tint(tint ?? theme.accent)
         } else {
             NavigationView { screen }
                 .navigationViewStyle(.stack)
-                .tint(tint)
+                .tint(tint ?? theme.accent)
         }
     }
 
     private var screen: some View {
         content
-            .modifier(SYSBackdrop(background: background))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .sysPageBackground()
             .sysNavigationBar(title: title, accessory: accessory, trailing: trailing)
-    }
-}
-
-public extension SYSNavigationContainer where Background == EmptyView, Accessory == EmptyView {
-    init(tint: Color, @ViewBuilder content: () -> Content) {
-        self.tint = tint
-        self.title = nil
-        self.background = nil
-        self.accessory = EmptyView()
-        self.trailing = nil
-        self.content = content()
     }
 }
 
 public extension SYSNavigationContainer where Accessory == EmptyView {
     init(
-        tint: Color,
+        tint: Color? = nil,
         title: String? = nil,
-        background: Background,
         trailing: SYSToolbarAction? = nil,
         @ViewBuilder content: () -> Content
     ) {
-        self.init(
-            tint: tint,
-            title: title,
-            background: background,
-            accessory: EmptyView(),
-            trailing: trailing,
-            content: content
-        )
+        self.init(tint: tint, title: title, accessory: EmptyView(), trailing: trailing, content: content)
     }
 }
 
@@ -166,21 +147,6 @@ private struct SYSNavigationBar<Accessory: View>: ViewModifier {
             content.sysNavigationTitle(title)
         } else {
             content.navigationBarTitleDisplayMode(.inline)
-        }
-    }
-}
-
-private struct SYSBackdrop<Background: View>: ViewModifier {
-    let background: Background?
-
-    @ViewBuilder
-    func body(content: Content) -> some View {
-        if let background {
-            content
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(background)
-        } else {
-            content
         }
     }
 }

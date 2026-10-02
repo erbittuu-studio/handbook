@@ -34,10 +34,12 @@ what; this says what exists.
 
 | Name | Kind | Summary |
 |---|---|---|
+| `SYSAmbientBackground` | struct | A page background with a faint accent wash and two soft blurs of the accent color, so glass controls above it have color to refract. |
 | `SYSFont` | enum | Apple's text styles by name (largeTitle to caption2), so every font follows Dynamic Type. |
 | `SYSGlassGroup` | struct | Groups adjacent glass shapes so they are drawn together and merge when they come within spacing; a plain container before iOS 26. |
 | `SYSMotion` | enum | Named animations: press, standard, bounce, pageTurn, floatLoop. |
 | `SYSOpacity` | enum | Named opacities (subtle 0.1 to intense 0.8), stroke widths (thin, medium) and the 44 pt minimum touch target. |
+| `SYSPageTheme` | struct | The two colors a page is drawn from: the app sets them once at its root and every SYSKit screen reads them. |
 | `SYSPressStyle` | struct | The press-scale ButtonStyle, .subtle or .strong. |
 | `SYSRadius` | enum | Spacing xs 4, sm 8, md 12, lg 16, xl 24, xxl 32, xxxl 48, and radii sm 8 to xl 24. |
 | `SYSRoundedFont` | struct | — |
@@ -60,6 +62,8 @@ what; this says what exists.
 | `View.sysInterpolateTransition` | on View | — |
 | `View.sysNumericTransition` | on View | — |
 | `View.sysOnChange` | on View | — |
+| `View.sysPageBackground` | on View | Draws the themed backdrop behind this view. |
+| `EnvironmentValues.sysPageTheme` | on EnvironmentValues | The page theme set at the app root; SYSKit screens read their base color and accent from it. |
 | `View.sysReadableWidth` | on View | — |
 | `View.sysRegularWidthText` | on View | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
 | `View.sysScrollEdge` | on View | Fades scrolling content out softly at the edges where floating controls sit, on iOS 26; no change before. |
@@ -76,6 +80,7 @@ what; this says what exists.
 | `View.sysTabBarAccessory` | on View | Shows content as the bar above the tab bar while isPresented, where SYSTabBarAccessory.isSupported; nothing elsewhere, so the app mounts its own. |
 | `EnvironmentValues.sysTabBarAccessoryStyle` | on EnvironmentValues | Whether the tab bar accessory is drawn full width above a tab bar or inline beside a minimized one. |
 | `View.sysTabBarMinimizeOnScroll` | on View | Collapses the tab bar while the user scrolls down and brings it back on scrolling up, on iOS 26 and later. |
+| `View.sysTheme` | on View | Sets the page theme for everything below; call it once at the app root with the current theme so a theme change repaints every screen. |
 | `View.sysZoomDestination` | on View | Makes a pushed screen zoom out of the source with this id on iOS 18 and later; no change before. |
 | `EnvironmentValues.sysZoomNamespace` | on EnvironmentValues | The namespace a zoom transition source and destination share; set it once near the root. |
 | `View.sysZoomSource` | on View | Marks a view as the origin of a zoom transition on iOS 18 and later; no change before. |
@@ -123,7 +128,7 @@ what; this says what exists.
 | `SYSLaunchBlockerStyle` | struct | — |
 | `SYSLaunchBlockerText` | struct | — |
 | `SYSMetrics` | struct | — |
-| `SYSNavigationContainer` | struct | The NavigationStack with a NavigationView fallback every app wrote, and the one place a presented screen declares its bar: SYSNavigationContainer(tint:title:... |
+| `SYSNavigationContainer` | struct | A navigation stack that draws the page theme's backdrop behind its content and tints with the theme accent unless told otherwise. |
 | `SYSReadableWidth` | enum | — |
 | `SYSRoundedCorner` | struct | A rounded rectangle that rounds only the given corners. |
 | `SYSSafeAreaHorizontalScroll` | struct | A horizontal scroll view that sizes itself to its content height and respects the safe area. |
