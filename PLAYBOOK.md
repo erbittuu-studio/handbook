@@ -639,6 +639,8 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 | `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
 | `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle` | Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
 | `View` effects | Availability-safe effects an app would otherwise gate itself: `sysOnChange(of:perform:)` (no iOS 17 deprecation), `sysSymbolBreathe`, `sysSymbolRotate`, `sysSymbolReplace`, `sysInterpolateTransition`, `sysScrollTransition`, `sysHorizontalScrollTransition`, `sysSheetDetents`, `sysShimmer`, and `sysReadableWidth` to cap a reading column and centre it. |
+| `.sysEntrance(_:slide:id:)` | The staggered fade-and-lift a list or grid uses when it first appears, in order, with Reduce Motion respected. Pass an `id` and a view already shown once appears at once next time. An app keeps no entrance modifier of its own. |
+| `.sysSelectionFeedback`, `.sysIncreaseFeedback`, `.sysSuccessFeedback` | `sensoryFeedback` on iOS 17 and later when `trigger` changes, and nothing before, so an app writes no availability check for it. |
 | `SYSPressStyle` | The press-scale `ButtonStyle`, `.subtle` or `.strong`. |
 | `SYSSymbol` | SF Symbol names by meaning (`forward`, `close`, `doneCircle`, `starFilled`), so a glyph is named once. |
 

@@ -143,4 +143,24 @@ private struct SYSShimmer: ViewModifier {
             }
     }
 }
+
+public extension View {
+    /// A selection tap on iOS 17 and later when trigger changes; nothing before.
+    @ViewBuilder
+    func sysSelectionFeedback<T: Equatable>(trigger: T) -> some View {
+        if #available(iOS 17.0, *) { sensoryFeedback(.selection, trigger: trigger) } else { self }
+    }
+
+    /// An increase tap on iOS 17 and later when trigger changes; nothing before.
+    @ViewBuilder
+    func sysIncreaseFeedback<T: Equatable>(trigger: T) -> some View {
+        if #available(iOS 17.0, *) { sensoryFeedback(.increase, trigger: trigger) } else { self }
+    }
+
+    /// A success tap on iOS 17 and later when trigger changes; nothing before.
+    @ViewBuilder
+    func sysSuccessFeedback<T: Equatable>(trigger: T) -> some View {
+        if #available(iOS 17.0, *) { sensoryFeedback(.success, trigger: trigger) } else { self }
+    }
+}
 #endif

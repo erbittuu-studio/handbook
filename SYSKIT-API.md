@@ -47,19 +47,23 @@ what; this says what exists.
 | `SYSStroke` | enum | Named opacities (subtle 0.1 to intense 0.8), stroke widths (thin, medium) and the 44 pt minimum touch target. |
 | `SYSSymbol` | enum | SF Symbol names by meaning (forward, close, doneCircle, starFilled), so a glyph is named once. |
 | `SYSTiming` | enum | quick, standard, relaxed, stagger(_:), awaitable pause(_:), and cancellable after(_:_:) in place of DispatchQueue.asyncAfter and Task.sleep(nanoseconds:). |
+| `View.sysEntrance` | on View | Fades and lifts a view in when it first appears, staggered by order; with an id, a view shown once appears at once next time. |
 | `View.sysGlassCapsule` | on View | Liquid Glass on iOS 26, material before. |
 | `View.sysGlassCard` | on View | Liquid Glass on iOS 26, material before. |
 | `View.sysGlassCircle` | on View | Liquid Glass on iOS 26, material before. |
 | `View.sysHorizontalScrollTransition` | on View | — |
+| `View.sysIncreaseFeedback` | on View | An increase tap on iOS 17 and later when trigger changes; nothing before. |
 | `View.sysInterpolateTransition` | on View | — |
 | `View.sysNumericTransition` | on View | — |
 | `View.sysOnChange` | on View | — |
 | `View.sysReadableWidth` | on View | — |
 | `View.sysRegularWidthText` | on View | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
 | `View.sysScrollTransition` | on View | — |
+| `View.sysSelectionFeedback` | on View | A selection tap on iOS 17 and later when trigger changes; nothing before. |
 | `View.sysShadow` | on View | — |
 | `View.sysSheetDetents` | on View | — |
 | `View.sysShimmer` | on View | — |
+| `View.sysSuccessFeedback` | on View | A success tap on iOS 17 and later when trigger changes; nothing before. |
 | `View.sysSymbolBounce` | on View | — |
 | `View.sysSymbolBreathe` | on View | — |
 | `View.sysSymbolReplace` | on View | — |
