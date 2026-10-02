@@ -124,6 +124,14 @@ directory, the same way it syncs SYSKit, so there is no per-file list to keep an
 Only what a tool forces stays outside it: the workflow files under `.github/workflows/` and Xcode Cloud's
 `App/ci_scripts/`, both of which call into the package.
 
+### The App Review check
+
+`app_store_compliance` fails the build for the things App Review rejects an upload over: a missing or malformed
+`PrivacyInfo.xcprivacy`, a required-reason API (UserDefaults, file timestamps, system uptime, disk space, active
+keyboards) used in the app or in SYSKit without its category declared, a missing `ITSAppUsesNonExemptEncryption`
+answer, and a permission-asking API with no `NS…UsageDescription`. It searches the Swift that links into the app; an
+app that must differ answers in `project.yml` under `validation.skip`, with the reason.
+
 ### Photographing every screen
 
 `App/Packages/PES/ci/screenshot_sweep.py` launches each screen the app can show, through the `-debugRoute` and
