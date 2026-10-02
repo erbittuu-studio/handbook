@@ -91,6 +91,7 @@ public final class SYSStartup: ObservableObject {
         self.requiresConfig = requiresConfig
         self.minimumSplash = minimumSplash
         self.launchEvent = launchEvent
+        SYSLaunchMetrics.mark(.appLaunched)
         self.prepareContent = prepareContent
         self.pruneContent = pruneContent
     }
@@ -105,6 +106,7 @@ public final class SYSStartup: ObservableObject {
         guard state == nil, !isRunning else { return }
         isRunning = true
         defer { isRunning = false }
+        SYSLaunchMetrics.mark(.startupBegan)
 
         let resolved = await SYSBootstrap.start(
             config: config,
@@ -175,6 +177,7 @@ public final class SYSStartup: ObservableObject {
             return
         }
         await afterReady?()
+        SYSLaunchMetrics.mark(.contentPrepared)
         await SYSTiming.pause(minimumSplash.remaining(
             isFirstLaunch: SYSLifecycle.isFirstLaunch,
             elapsed: Date().timeIntervalSince(launchedAt)
@@ -183,6 +186,7 @@ public final class SYSStartup: ObservableObject {
             SYSAnalytics.shared.track(launchEvent)
         }
         progress = nil
+        SYSLaunchMetrics.mark(.ready)
         state = resolved
     }
 }

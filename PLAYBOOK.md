@@ -124,6 +124,16 @@ directory, the same way it syncs SYSKit, so there is no per-file list to keep an
 Only what a tool forces stays outside it: the workflow files under `.github/workflows/` and Xcode Cloud's
 `App/ci_scripts/`, both of which call into the package.
 
+### Launch time
+
+`SYSLaunchMetrics` times every launch with no app code. `SYSStartup` and `SYSRootedApp` mark five milestones (app
+launched, startup began, content prepared, ready, home shown), and when home appears one line goes to the log:
+`launch: 2677 ms to home (process 2004, startup 111, loading 406, splash hold 1, home 154)`. `process` is process
+start to the first line of app code, `loading` is config and content, `splash hold` is the time `minimumSplash` added,
+and `home` is ready to first frame. The same milestones are signposts under Points of Interest in Instruments. It
+reads the process start time, not system uptime, so it needs no privacy-manifest category. Judge numbers from a Release
+build on a device: a Debug simulator build is several times slower, mostly in `process`.
+
 ### The App Review check
 
 `app_store_compliance` fails the build for the things App Review rejects an upload over: a missing or malformed

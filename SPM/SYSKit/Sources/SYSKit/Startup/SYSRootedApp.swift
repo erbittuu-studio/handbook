@@ -34,7 +34,10 @@ public extension SYSRootedApp {
             ZStack { route(state) }
                 .animation(SYSMotion.standard, value: state)
                 .sysOnChange(of: isHome(state)) { reached in
-                    if reached { homeReached() }
+                    if reached {
+                        SYSLaunchMetrics.mark(.homeShown)
+                        homeReached()
+                    }
                 }
                 .onOpenURL { open($0) }
                 .onContinueUserActivity(CSSearchableItemActionType) { activity in
