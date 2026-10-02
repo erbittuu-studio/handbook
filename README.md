@@ -43,4 +43,4 @@ cd my-app && git init -b main
 
 Simple SemVer, see [VERSION](VERSION).
 
-Current version: **3.16.0**
+Current version: **3.17.0**

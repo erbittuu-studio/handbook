@@ -74,6 +74,78 @@ public extension View {
     }
 }
 
+public extension View {
+    /// Shows content as the bar above the tab bar while isPresented, where SYSTabBarAccessory.isSupported; nothing elsewhere, so the app mounts its own.
+    @ViewBuilder
+    func sysTabBarAccessory<Accessory: View>(
+        isPresented: Bool,
+        @ViewBuilder content: @escaping () -> Accessory
+    ) -> some View {
+        if #available(iOS 26.1, *) {
+            tabViewBottomAccessory(isEnabled: isPresented, content: content)
+        } else {
+            self
+        }
+    }
+
+    /// Collapses the tab bar while the user scrolls down and brings it back on scrolling up, on iOS 26 and later.
+    @ViewBuilder
+    func sysTabBarMinimizeOnScroll() -> some View {
+        if #available(iOS 26.0, *) {
+            tabBarMinimizeBehavior(.onScrollDown)
+        } else {
+            self
+        }
+    }
+}
+
+/// Groups adjacent glass shapes so they are drawn together and merge when they come within spacing; a plain container before iOS 26.
+public struct SYSGlassGroup<Content: View>: View {
+    private let spacing: CGFloat
+    private let content: Content
+
+    public init(spacing: CGFloat = SYSSpace.sm, @ViewBuilder content: () -> Content) {
+        self.spacing = spacing
+        self.content = content()
+    }
+
+    public var body: some View {
+        if #available(iOS 26.0, *) {
+            GlassEffectContainer(spacing: spacing) { content }
+        } else {
+            content
+        }
+    }
+}
+
+/// Whether the system tab bar accessory exists on this OS, so an app mounts its own player or bar only where it does not.
+public enum SYSTabBarAccessory {
+    /// True on iOS 26.1 and later, where the system tab bar accessory can be shown and hidden.
+    public static var isSupported: Bool {
+        if #available(iOS 26.1, *) { return true }
+        return false
+    }
+}
+
+/// How the tab bar accessory is drawn: full width above the tab bar, or inline beside a minimized one.
+public enum SYSTabBarAccessoryStyle {
+    case expanded
+    case inline
+}
+
+public extension EnvironmentValues {
+    /// Whether the tab bar accessory is drawn full width above a tab bar or inline beside a minimized one.
+    var sysTabBarAccessoryStyle: SYSTabBarAccessoryStyle {
+        if #available(iOS 26.0, *) {
+            switch tabViewBottomAccessoryPlacement {
+            case .inline: return .inline
+            default: return .expanded
+            }
+        }
+        return .expanded
+    }
+}
+
 private struct SYSGlassFallbackButtonStyle: ButtonStyle {
     let prominent: Bool
     let tint: Color?

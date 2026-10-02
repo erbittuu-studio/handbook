@@ -639,6 +639,9 @@ and nothing is typed twice. An app calls them directly; it does not wrap them.
 | `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
 | `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle` | Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
 | `.sysGlassButton(prominent:tint:)` | The button style for every standalone capsule button: `.glass` or `.glassProminent` on iOS 26, a material capsule before. One prominent button per screen. Glass belongs on the controls layer floating over content (buttons, chips, badges, the mini player); content cards stay opaque. |
+| `.sysTabBarAccessory(isPresented:content:)`, `SYSTabBarAccessory.isSupported`, `\.sysTabBarAccessoryStyle` | The bar above the tab bar (a mini player, a now-playing strip) on iOS 26.1+. Where `isSupported` is false the app mounts its own bar, so exactly one draws. Read the style to drop controls when the tab bar is minimized (`.inline`). |
+| `.sysTabBarMinimizeOnScroll()` | The tab bar collapses on scroll down and returns on scroll up (iOS 26+). Put it on the `TabView`. |
+| `SYSGlassGroup(spacing:)` | Wrap a row of adjacent glass chips or buttons so they are drawn together and merge when closer than `spacing` (iOS 26+; a plain container before). |
 | `.sysScrollEdge()` | Soft fade where scrolling content meets floating bars. Put it on a `ScrollView` that runs under the tab bar or a floating control. |
 | `.sysOnShake(isEnabled:perform:)` | Runs an action on a device shake while the view is on screen. Owns the accelerometer: starts and stops with the view and the flag. |
 | `.sysZoomSource(id:in:)`, `.sysZoomDestination(sourceID:in:)`, `\.sysZoomNamespace` | The zoom transition from a card to its pushed screen (iOS 18+, a plain push before). Set the namespace once near the root. |
