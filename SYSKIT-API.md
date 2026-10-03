@@ -126,6 +126,7 @@ what; this says what exists.
 | Name | Kind | Summary |
 |---|---|---|
 | `SYSColumnGrid` | struct | A hand-measured LazyVGrid column count. |
+| `SYSDesignCanvas` | struct | The screen a proportional design was drawn on, so sizes written for it can be scaled to any other screen. |
 | `SYSEmptyState` | struct | The standard empty screen: a symbol, a title and a subtitle, in colors the app supplies. |
 | `SYSLaunchBlockerStyle` | struct | — |
 | `SYSLaunchBlockerText` | struct | — |
@@ -149,7 +150,7 @@ what; this says what exists.
 | `View.sysHidesNavigationBar` | on View | Hides the navigation bar on a screen that draws its own header, such as one using SYSScreenHeader. |
 | `View.sysHidesTabBar` | on View | Hides the tab bar while this screen is shown, on iOS 16 and later. |
 | `EnvironmentValues.sysMetrics` | on EnvironmentValues | — |
-| `View.sysMetrics` | on View | — |
+| `View.sysMetrics` | on View | Measures the screen for everything below; pass a design canvas to have s and f scale sizes drawn for it. |
 | `View.sysNavigationBar` | on View | The same title and buttons for a screen pushed inside a stack that already exists. |
 | `View.sysNavigationTitle` | on View | A per-app navigation title. |
 | `View.sysReservedLines` | on View | Reserves room for a minimum number of text lines so rows keep one height, up to a maximum. |
