@@ -87,6 +87,7 @@ public struct SYSSettingsSection<Content: View>: View {
 
 public struct SYSSettingsRow<Trailing: View>: View {
     @Environment(\.sysSettingsStyle) private var style
+    @Environment(\.dynamicTypeSize) private var typeSize
     @ScaledMetric(relativeTo: .body) private var tile: CGFloat = SYSSize.settingsTile
     @ScaledMetric(relativeTo: .body) private var minHeight: CGFloat = SYSSize.settingsRow
 
@@ -137,34 +138,61 @@ public struct SYSSettingsRow<Trailing: View>: View {
     }
 
     private var row: some View {
-        HStack(spacing: SYSSpace.md) {
-            iconTile
-
-            VStack(alignment: .leading, spacing: SYSSpace.xs / 2) {
-                Text(title)
-                    .font(SYSFont.title3)
-                    .foregroundColor(style.title)
-                if let subtitle {
-                    Text(subtitle)
-                        .font(SYSFont.callout)
-                        .foregroundColor(style.subtitle)
-                }
-            }
-
-            Spacer(minLength: SYSSpace.sm)
-
-            trailing
-
-            if Trailing.self == EmptyView.self, action != nil {
-                Image(systemName: chevron ?? SYSSymbol.chevronForward)
-                    .font(SYSFont.rounded.subheadline.weight(.bold))
-                    .foregroundColor(style.chevron)
+        Group {
+            if typeSize.isAccessibilitySize {
+                stackedRow
+            } else {
+                inlineRow
             }
         }
         .padding(.horizontal, SYSSpace.md)
         .padding(.vertical, SYSSpace.sm)
         .frame(minHeight: minHeight)
         .contentShape(Rectangle())
+    }
+
+    private var texts: some View {
+        VStack(alignment: .leading, spacing: SYSSpace.xs / 2) {
+            Text(title)
+                .font(SYSFont.title3)
+                .foregroundColor(style.title)
+            if let subtitle {
+                Text(subtitle)
+                    .font(SYSFont.callout)
+                    .foregroundColor(style.subtitle)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var chevronView: some View {
+        if Trailing.self == EmptyView.self, action != nil {
+            Image(systemName: chevron ?? SYSSymbol.chevronForward)
+                .font(SYSFont.rounded.subheadline.weight(.bold))
+                .foregroundColor(style.chevron)
+        }
+    }
+
+    private var inlineRow: some View {
+        HStack(spacing: SYSSpace.md) {
+            iconTile
+            texts
+            Spacer(minLength: SYSSpace.sm)
+            trailing
+            chevronView
+        }
+    }
+
+    private var stackedRow: some View {
+        VStack(alignment: .leading, spacing: SYSSpace.sm) {
+            HStack(spacing: SYSSpace.md) {
+                iconTile
+                texts
+                Spacer(minLength: SYSSpace.sm)
+                chevronView
+            }
+            trailing
+        }
     }
 
     private var iconTile: some View {
