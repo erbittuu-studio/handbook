@@ -100,6 +100,14 @@ final class SYSUpdateTests: XCTestCase {
         XCTAssertEqual(SYSUpdate.status(config: sut), .recommended)
     }
 
+    func testRecommendedUpdateCarriesTheVersionAndIsNilWhenCurrent() {
+        let older = config(#"{"update":{"recommendedVersion":"2.0.0"}}"#, version: "1.5.0")
+        XCTAssertEqual(SYSUpdate.recommended(config: older)?.version, "2.0.0")
+
+        let current = config(#"{"update":{"recommendedVersion":"1.5.0"}}"#, version: "1.5.0")
+        XCTAssertNil(SYSUpdate.recommended(config: current))
+    }
+
     func testCurrentVersionIsFine() {
         let sut = config(#"{"update":{"minimumVersion":"1.0.0","recommendedVersion":"1.5.0"}}"#, version: "1.5.0")
         XCTAssertEqual(SYSUpdate.status(config: sut), .none)

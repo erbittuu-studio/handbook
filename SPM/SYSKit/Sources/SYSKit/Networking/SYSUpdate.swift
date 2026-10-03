@@ -6,8 +6,25 @@ enum SYSUpdateStatus: Equatable {
     case required
 }
 
-enum SYSUpdate {
+/// A newer app version the remote config recommends but does not require.
+public struct SYSRecommendedUpdate: Equatable, Sendable {
+    public let version: String
+    public let message: String?
+}
+
+/// What the remote config says about updating the running version; a required update is handled at launch.
+public enum SYSUpdate {
     static var status: SYSUpdateStatus { status(config: .shared) }
+
+    public static var recommended: SYSRecommendedUpdate? {
+        recommended(config: .shared)
+    }
+
+    static func recommended(config: SYSConfig) -> SYSRecommendedUpdate? {
+        guard status(config: config) == .recommended,
+              let version = config.data.update?.recommendedVersion else { return nil }
+        return SYSRecommendedUpdate(version: version, message: message(config: config))
+    }
 
     static func status(config: SYSConfig) -> SYSUpdateStatus {
         let current = config.currentVersion

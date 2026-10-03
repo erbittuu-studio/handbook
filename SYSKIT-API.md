@@ -159,6 +159,8 @@ what; this says what exists.
 |---|---|---|
 | `SYSConnectivity` | class | Whether the device has a usable network path right now. |
 | `SYSLocalizedText` | struct | A string that may be provided per language: {"en": "...", "hi": "..."}. |
+| `SYSRecommendedUpdate` | struct | A newer app version the remote config recommends but does not require. |
+| `SYSUpdate` | enum | What the remote config says about updating the running version; a required update is handled at launch. |
 | `SYSVersion` | enum | Dotted numeric version comparison. |
 
 ## SYSKit / Platform
