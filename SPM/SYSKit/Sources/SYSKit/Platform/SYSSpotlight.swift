@@ -83,14 +83,14 @@ public enum SYSSpotlight {
         }
     }
 
-    static func deindex(ids: [String], completion: (@Sendable (Error?) -> Void)? = nil) {
+    public static func deindex(ids: [String], completion: (@Sendable (Error?) -> Void)? = nil) {
         CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: ids) { error in
             if let error { SYSLogger.error("spotlight: deindex failed", error) }
             completion?(error)
         }
     }
 
-    static func deindexAll(domain: String, completion: (@Sendable (Error?) -> Void)? = nil) {
+    public static func deindexAll(domain: String, completion: (@Sendable (Error?) -> Void)? = nil) {
         CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [domain]) { error in
             if let error { SYSLogger.error("spotlight: deindexAll failed for domain \(domain)", error) }
             completion?(error)
