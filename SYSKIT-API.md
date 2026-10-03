@@ -106,12 +106,19 @@ what; this says what exists.
 | `SYSLessonProgressKeys` | struct | — |
 | `SYSMoreAppsSection` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `SYSNotifications` | class | Permission, scheduling and tap-routing for local notifications — not scheduling *policy*. |
+| `SYSParentalGate` | class | The state of a parental gate: ask a question, count wrong answers, and run the guarded action only after a right one. |
+| `SYSParentalGateAsk` | enum | Which number the adult is asked to find. |
+| `SYSParentalGateChallenge` | struct | One round of the gate: nine different numbers and which one to tap. |
+| `SYSParentalGateEvent` | enum | What a gate reports about itself, so the app can send it wherever it sends analytics. |
+| `SYSParentalGateStyle` | struct | How the gate is drawn: colors and fonts, so each app and theme keeps its own look while the layout and logic stay shared. |
+| `SYSParentalGateText` | struct | The words on the gate; the app writes them in its own localization so SYSKit carries no strings. |
 | `SYSPlannedNotification` | struct | — |
 | `SYSReview` | enum | Presents the system review prompt, but only when SYSRating says it is due. |
 | `SYSShare` | enum | The system share sheet, presented correctly on both idioms. |
 | `SYSShuffleSeed` | struct | — |
 | `SYSStreak` | class | Tracks a daily streak — "5 days in a row": today extends yesterday's streak, a gap resets it to 1, and recording twic... |
 | `View.sysHelp` | on View | — |
+| `View.sysParentalGate` | on View | Presents the parental gate over this view on the page theme's backdrop. |
 | `Array.sysShuffled` | on Array | The same elements in an order fixed by seed: the same seed always gives the same order, so a lesson can be shuffled o... |
 
 ## SYSKit / Layout
