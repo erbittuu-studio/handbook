@@ -80,6 +80,8 @@ public struct SYSLaunchBlockerStyle {
     var titleFont: Font
     var messageFont: Font
     var buttonFont: Font
+    public var backdrop: AnyView?
+    public var badge: ((String) -> AnyView)?
 
     public init(
         background: Color,
@@ -89,7 +91,9 @@ public struct SYSLaunchBlockerStyle {
         message: Color = .secondary,
         titleFont: Font = .system(.title, design: .rounded).weight(.bold),
         messageFont: Font = .system(.body, design: .rounded),
-        buttonFont: Font = .system(.title3, design: .rounded).weight(.semibold)
+        buttonFont: Font = .system(.title3, design: .rounded).weight(.semibold),
+        backdrop: AnyView? = nil,
+        badge: ((String) -> AnyView)? = nil
     ) {
         self.background = background
         self.tint = tint
@@ -99,6 +103,8 @@ public struct SYSLaunchBlockerStyle {
         self.titleFont = titleFont
         self.messageFont = messageFont
         self.buttonFont = buttonFont
+        self.backdrop = backdrop
+        self.badge = badge
     }
 }
 
@@ -130,14 +136,18 @@ struct SYSLaunchBlocker: View {
 
     private func screen(_ content: SYSLaunchBlockerContent) -> some View {
         ZStack {
-            style.background.ignoresSafeArea()
+            if let backdrop = style.backdrop {
+                backdrop.ignoresSafeArea()
+            } else {
+                style.background.ignoresSafeArea()
 
-            Circle()
-                .fill(style.tint)
-                .frame(width: metrics.shortSide * 0.7)
-                .blur(radius: 60)
-                .offset(x: metrics.shortSide * 0.25, y: -metrics.shortSide * 0.4)
-                .allowsHitTesting(false)
+                Circle()
+                    .fill(style.tint)
+                    .frame(width: metrics.shortSide * 0.7)
+                    .blur(radius: 60)
+                    .offset(x: metrics.shortSide * 0.25, y: -metrics.shortSide * 0.4)
+                    .allowsHitTesting(false)
+            }
 
             GeometryReader { proxy in
                 ScrollView(showsIndicators: false) {
@@ -165,7 +175,16 @@ struct SYSLaunchBlocker: View {
         }
     }
 
+    @ViewBuilder
     private func symbol(_ name: String) -> some View {
+        if let badge = style.badge {
+            badge(name).accessibilityHidden(true)
+        } else {
+            defaultSymbol(name)
+        }
+    }
+
+    private func defaultSymbol(_ name: String) -> some View {
         ZStack {
             Circle()
                 .fill(style.tint)
