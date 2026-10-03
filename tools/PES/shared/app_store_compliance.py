@@ -11,7 +11,7 @@ Four of them, each a rule Apple enforces at upload or review:
     Without it every build waits in TestFlight as "Missing Compliance" until someone answers by hand.
   - **Usage descriptions.** An API that asks for a permission (camera, photos, microphone, location, contacts,
     speech, tracking, Bluetooth, Face ID, calendar) needs its `NS…UsageDescription`; without one the app crashes
-    the first time it asks.
+    the first time it asks. An app that only asks to add photos (`.addOnly`) needs `NSPhotoLibraryAddUsageDescription`.
 
 A match is a line of Swift that is not a comment. A check that guesses wrong on a line the app really needs can be
 answered in `project.yml`, under `validation.skip`, with the reason, like any other shared check.
@@ -128,7 +128,10 @@ def check(ctx):
             "as 'Missing Compliance' in TestFlight until answered by hand"
         )
 
+    adds_only = bool(matches(root, {"add_only": r"\.addOnly\b"}))
     for key, where in matches(root, USAGE_DESCRIPTIONS).items():
+        if key == "NSPhotoLibraryUsageDescription" and adds_only:
+            key = "NSPhotoLibraryAddUsageDescription"
         if key not in settings and f"INFOPLIST_KEY_{key}" not in settings:
             problems.append(f"{where} asks for a permission, but there is no {key} — the app crashes when it asks")
 
