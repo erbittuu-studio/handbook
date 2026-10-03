@@ -229,6 +229,23 @@ final class SYSContentSyncRefreshTests: XCTestCase {
         XCTAssertEqual(content.flatMap { String(data: $0, encoding: .utf8) }, #"{"hello":"world"}"#)
     }
 
+    func testAnArchiveItemWithoutIndexJSONStaysAvailableAfterReload() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+
+        let zip = MiniZipBuilder.build([.init(path: "baby_0.svg", contents: Data("<svg/>".utf8))])
+        _ = try stageManifest(at: siteRoot, manifestName: "content", itemID: "baby",
+                              bundleFilename: "baby.zip", plaintext: zip, contentID: "test-app")
+        SYSHosting.setContentURL(siteRoot)
+        let sync = makeSync(contentID: "test-app")
+        await sync.refresh()
+
+        sync.loadCached(sync.items)
+
+        XCTAssertEqual(sync.itemStates["baby"], .downloaded)
+        XCTAssertTrue(sync.hasCachedContent)
+    }
+
     func testFilenamesListsWhatAnArchiveItemUnzippedTo() async throws {
         // Colorful's case exactly: page order is just the sorted filenames
         // the zip happened to contain, nothing named in the manifest.

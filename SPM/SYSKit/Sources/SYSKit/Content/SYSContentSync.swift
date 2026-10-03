@@ -131,7 +131,8 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     }
 
     private func itemExists(id: String) -> Bool {
-        fm.fileExists(atPath: itemIndexURL(id: id).path)
+        let contents = try? fm.contentsOfDirectory(atPath: itemFolderURL(id: id).path)
+        return !(contents ?? []).isEmpty
     }
 
     private func itemFolderURL(id: String) -> URL { itemsRoot.appendingPathComponent(id) }
