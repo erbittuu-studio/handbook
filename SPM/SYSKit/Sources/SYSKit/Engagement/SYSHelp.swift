@@ -7,17 +7,20 @@ public final class SYSHelp: ObservableObject {
 
     private let shareItems: () -> [Any]
     private let onRate: () -> Void
+    private let onContact: () -> Void
     private let onShareOpened: () -> Void
     private let onShared: (String) -> Void
 
     public init(
         shareItems: @escaping () -> [Any],
         onRate: @escaping () -> Void = {},
+        onContact: @escaping () -> Void = {},
         onShareOpened: @escaping () -> Void = {},
         onShared: @escaping (String) -> Void = { _ in }
     ) {
         self.shareItems = shareItems
         self.onRate = onRate
+        self.onContact = onContact
         self.onShareOpened = onShareOpened
         self.onShared = onShared
     }
@@ -38,22 +41,28 @@ public final class SYSHelp: ObservableObject {
 
     func contact() {
         SYSHaptics.light()
+        onContact()
         isComposingMail = true
     }
 }
 
 public extension View {
-    func sysHelp(_ help: SYSHelp, subject: String = "\(SYSAbout.appName()) support") -> some View {
-        modifier(SYSHelpModifier(help: help, subject: subject))
+    func sysHelp(
+        _ help: SYSHelp,
+        subject: String = "\(SYSAbout.appName()) support",
+        body: String? = nil
+    ) -> some View {
+        modifier(SYSHelpModifier(help: help, subject: subject, message: body ?? "\n\n" + SYSVersion.display()))
     }
 }
 
 private struct SYSHelpModifier: ViewModifier {
     @ObservedObject var help: SYSHelp
     let subject: String
+    let message: String
 
     func body(content: Content) -> some View {
-        content.sysSupportMail(isPresented: $help.isComposingMail, subject: subject)
+        content.sysSupportMail(isPresented: $help.isComposingMail, subject: subject, body: message)
     }
 }
 
