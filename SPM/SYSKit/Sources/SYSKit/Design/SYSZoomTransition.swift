@@ -13,6 +13,15 @@ public extension EnvironmentValues {
     }
 }
 
+/// What the system can do for the zoom transition between a source view and its destination.
+public enum SYSZoom {
+    /// Whether this system draws the zoom transition between a source and its destination (iOS 18 and later).
+    public static var isAvailable: Bool {
+        if #available(iOS 18.0, *) { return true }
+        return false
+    }
+}
+
 public extension View {
     /// Marks a view as the origin of a zoom transition on iOS 18 and later; no change before.
     @ViewBuilder

@@ -49,6 +49,11 @@ public struct SYSStored<Value: SYSDefaultsStorable> {
         self.defaults = defaults
     }
 
+    /// A preference named and defaulted by a shared settings key, so the key and its default are written once.
+    public init(_ key: SYSSettingsKey<Value>, defaults: UserDefaults = .standard) {
+        self.init(key.name, default: key.defaultValue, defaults: defaults)
+    }
+
     public var wrappedValue: Value {
         get { Value.sysRead(from: defaults, key: key) ?? defaultValue }
         set { newValue.sysWrite(to: defaults, key: key) }

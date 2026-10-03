@@ -50,6 +50,7 @@ what; this says what exists.
 | `SYSStroke` | enum | Named opacities (subtle 0.1 to intense 0.8), stroke widths (thin, medium) and the 44 pt minimum touch target. |
 | `SYSSymbol` | enum | SF Symbol names by meaning (forward, close, doneCircle, starFilled), so a glyph is named once. |
 | `SYSTiming` | enum | quick, standard, relaxed, stagger(_:), awaitable pause(_:), and cancellable after(_:_:) in place of DispatchQueue.asyncAfter and Task.sleep(nanoseconds:). |
+| `SYSZoom` | enum | What the system can do for the zoom transition between a source view and its destination. |
 | `View.sysEntrance` | on View | Fades and lifts a view in when it first appears, staggered by order; with an id, a view shown once appears at once next time. |
 | `View.sysGlassButton` | on View | A capsule button in Liquid Glass on iOS 26, a material capsule before; prominent is the one primary action on a screen. |
 | `View.sysGlassCapsule` | on View | Liquid Glass on iOS 26, material before. |
