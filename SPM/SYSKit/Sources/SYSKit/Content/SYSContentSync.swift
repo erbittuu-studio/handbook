@@ -533,12 +533,12 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         return fm.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
-    func filenames(itemId: String) -> [String] {
+    public func filenames(itemId: String) -> [String] {
         let names = try? fm.contentsOfDirectory(atPath: itemFolderURL(id: itemId).path)
         return (names ?? []).sorted()
     }
 
-    func clearAllData() {
+    public func clearAllData() {
         try? fm.removeItem(at: rootURL)
         createDirectoriesIfNeeded()
         SYSSettings.shared.remove(dataVersionKey)
