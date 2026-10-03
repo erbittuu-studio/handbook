@@ -114,7 +114,7 @@ struct SYSParentalGateView<Backdrop: View>: View {
 
                 GeometryReader { geo in
                     ScrollView(showsIndicators: false) {
-                        content
+                        content(height: geo.size.height)
                             .padding(SYSSpace.lg)
                             .frame(maxWidth: metrics.prefersSideBySide ? SYSReadableWidth.grid : SYSReadableWidth.form)
                             .frame(maxWidth: .infinity, minHeight: geo.size.height)
@@ -128,7 +128,7 @@ struct SYSParentalGateView<Backdrop: View>: View {
     }
 
     @ViewBuilder
-    private var content: some View {
+    private func content(height: CGFloat) -> some View {
         if metrics.prefersSideBySide {
             HStack(spacing: SYSSpace.xxl) {
                 VStack(spacing: SYSSpace.lg) {
@@ -137,13 +137,13 @@ struct SYSParentalGateView<Backdrop: View>: View {
                 }
                 .frame(maxWidth: .infinity)
 
-                grid
+                grid(maxWidth: max(min(SYSReadableWidth.form, height - SYSSpace.xl * 2), 160))
             }
         } else {
             VStack(spacing: SYSSpace.xl) {
                 Spacer(minLength: 0)
                 question
-                grid
+                grid(maxWidth: min(SYSReadableWidth.form, 420))
                 footer
                 Spacer(minLength: 0)
             }
@@ -173,7 +173,7 @@ struct SYSParentalGateView<Backdrop: View>: View {
         }
     }
 
-    private var grid: some View {
+    private func grid(maxWidth: CGFloat) -> some View {
         let spacing: CGFloat = metrics.isCompactWidth ? 16 : 20
         let numbers = gate.challenge?.numbers ?? []
 
@@ -182,7 +182,7 @@ struct SYSParentalGateView<Backdrop: View>: View {
                 tile(number, index: index)
             }
         }
-        .frame(maxWidth: min(SYSReadableWidth.form, 420))
+        .frame(maxWidth: maxWidth)
     }
 
     private func tile(_ number: Int, index: Int) -> some View {
