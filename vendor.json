@@ -1,0 +1,14 @@
+{
+  "_comment": "Canonical versions for vendored third-party packages, never the binaries. scripts/update.sh --check compares each app's .vendor-version against this. Contents are never copied between apps — ABCLearning and Colorful exclude Analytics for the Kids Category, for example.",
+  "packages": {
+    "FirebaseKit": {
+      "version": "12.15.0",
+      "source": "https://github.com/firebase/firebase-ios-sdk",
+      "notes": "Vendored from the official Firebase.zip manual-integration build. Product subset differs per app on purpose."
+    },
+    "Kingfisher": {
+      "version": "8.1.3",
+      "source": "https://github.com/onevcat/Kingfisher"
+    }
+  }
+}

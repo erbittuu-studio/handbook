@@ -1,0 +1,76 @@
+# Release: the same file in every app. PES owns it and `update.sh` keeps it current.
+#
+# Runs when a pull request from a release/X.Y.Z branch is merged into main. You merge only after Apple approved the
+# build, so the tag it creates means "this version is live", and the newest tag is what the release checks compare
+# against. Nothing here needs a secret, and a tag never starts a build.
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-merge
+  cancel-in-progress: false
+
+jobs:
+  tag-release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Version comes from the branch name
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          echo "VERSION=${BRANCH#release/}" >> "$GITHUB_ENV"
+          echo "NAME=$(bash App/Packages/PES/ci/project_value.sh app.name)" >> "$GITHUB_ENV"
+
+      - name: Stop if this version is already released (safe to re-run)
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "v$VERSION already exists; nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create the release and the tag
+        if: steps.existing.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          grep -q "^## \[$VERSION\]" CHANGELOG.md || {
+            echo "::error::CHANGELOG.md has no '## [$VERSION]' section"
+            exit 1
+          }
+          awk "/^## \[$VERSION\]/{flag=1; next} /^## \[/{flag=0} flag" CHANGELOG.md > notes.md
+          gh release create "v$VERSION" \
+            --title "$NAME $VERSION" \
+            --notes-file notes.md \
+            --target "${{ github.event.pull_request.merge_commit_sha }}"
+
+      - name: Check the release and its tag exist
+        if: steps.existing.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "v$VERSION" --json tagName >/dev/null
+          git fetch --tags --quiet
+          git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null
+          {
+            echo "**$NAME $VERSION is tagged v$VERSION.**"
+            echo
+            echo "Next: in the faststore repo run \`./publish site --preview\`, then \`./publish site\` and \`./publish handbook\`."
+          } >> "$GITHUB_STEP_SUMMARY"

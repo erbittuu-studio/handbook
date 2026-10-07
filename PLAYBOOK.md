@@ -1,0 +1,824 @@
+# Playbook
+
+How every app of mine works. Reference app: ABCLearning.
+
+---
+
+## 1. Repo layout
+
+One private repo per app. Everything the app needs lives in it:
+
+```
+my-app/
+├── README.md  CHANGELOG.md
+├── .gitignore .gitattributes .editorconfig
+├── .swiftlint.yml
+├── .pes-version                 # which PES version this app is on (scripts/update.sh)
+├── .github/workflows/           # all automation
+├── scripts/checks/              # this app's own checks (validate.py runs them)
+├── App/                         # only what Xcode compiles
+│   ├── Packages/PES/            # shared tooling, synced as one directory: validate.py, shared/ checks,
+│   │                            #   ci/ (Xcode Cloud + App Store Connect helpers), hooks/ — never hand-edited
+│   ├── <Name>.xcodeproj
+│   ├── Source/                  # exactly three top-level folders:
+│   │   ├── App/                 #   @main, delegates, root navigation wiring, app-level setup
+│   │   ├── Features/<Name>/     #   one folder per user-facing feature (views + their viewmodels)
+│   │   └── Shared/              #   anything used by 2+ features; subfolders free-form
+│   │                            #   (Components, Content, Engagement, Layout, Settings, Theme, …)
+│   │                            #   If the app uses the analytics-enum pattern (§7), it lives at
+│   │                            #   Shared/AnalyticsManager.swift — the PR check greps that exact path.
+│   ├── Resources/               # assets, xcstrings, PrivacyInfo, GoogleService-Info,
+│   │                            #   the main target's own entitlements
+│   │                            #   config.json — remote config, shipped AND served
+│   ├── <Role>/                  # one folder per extension target (Watch/, Widget/, …),
+│   │                            #   named for its role, not the product — its own
+│   │                            #   entitlements live right here, not in a shared folder
+│   ├── Packages/                # PES's own (SYSKit, SYSFirebase) — ours, edited in
+│   │                            #   place, promoted upstream (§8)
+│   ├── Vendor/                  # true third-party — never edited, never linted,
+│   │                            #   excluded by folder in .swiftlint.yml (§8)
+│   └── ci_scripts/              # must stay next to the .xcodeproj — Apple rule
+│       └── lib/                 # helpers ci_scripts call into (kept out of the three magic filenames)
+```
+
+`ci_scripts/` next to the xcodeproj is fixed by Apple. Everything else: App = compile, .github = automation.
+Content is in the handbook repo and the store page in the website repo (§6).
+
+No empty folders, no unused files. Bundle IDs never change. No per-app
+decision docs — the reasoning belongs in [decisions/](decisions/), where it
+helps the next app too.
+
+## 2. Who does what
+
+| Where | Job |
+|---|---|
+| Your Mac | Hooks (`App/Packages/PES/hooks`) stop mistakes before a push; `./build` starts the Xcode Cloud build |
+| GitHub Actions | `ci.yml` checks every pull request and push; `release.yml` tags a merged release |
+| Xcode Cloud | One workflow, `manual_release`: archive to TestFlight. It has no start condition, so it only builds when `./build` starts it |
+| You | Write code, merge, test, press Submit |
+
+Each app has exactly two workflow files, `ci.yml` and `release.yml`, identical in every app. PES owns them and
+`update.sh` keeps them current. They call nothing in another repo and need no secret, so nothing outside the app can
+break them. `templates/workflows/` holds the source.
+
+| Event | What runs | Builds? |
+|---|---|---|
+| Commit | `commit-msg` hook: `type: what` | No |
+| Push | `pre-push` hook: allowed branch name, no `main`, no tags, the project checks | No |
+| Pull request / push | `ci.yml` `checks`: lint, secret scan, vendored dependencies, Firebase flag, `validate.py` | No |
+| Push of `release/X.Y.Z` | the same, plus the release checks and a simulator compile (`ci.yml` `compile`) | No |
+| `./build` | pre-flight checks, then Apple builds `release/X.Y.Z` for TestFlight | **Yes, the only way** |
+| Merge of a release PR | `release.yml`: the `vX.Y.Z` tag and a GitHub Release from the changelog | No |
+
+
+## 3. Branches
+
+One permanent branch: `main`. Everything else is short-lived and deleted on merge.
+
+**Work branches:** `feat/`, `fix/`, `chore/`, `ci/` or `docs/` plus a short name. Branch from `main`, PR into `main`,
+squash merge, auto-delete.
+
+**Release branches:** `release/X.Y.Z`, one per version, created only when about to ship (§5).
+
+The `pre-push` hook refuses any other branch name, any push to `main`, any tag and the deletion of `main`.
+
+
+## 4. Checks
+
+None hard-block the merge button (GitHub offers branch protection on a private repo only with a paid plan), so treat
+a red check as "don't merge this".
+
+| Check | Where | Catches |
+|---|---|---|
+| Conventional commit / PR title | `commit-msg` hook, `ci.yml` | A message or title that is not `type: what` |
+| SwiftLint | `ci.yml` | Style, non-strict |
+| Secret scan (gitleaks) | `ci.yml`, `pre-commit` hook | Committed secrets |
+| Vendored dependencies | `ci.yml` | A remote Swift package or a `Package.resolved` |
+| `IS_ANALYTICS_ENABLED` | `ci.yml` | A Firebase flag that silently drops every event |
+| `validate.py` (all PES checks) | `ci.yml`, `pre-push` hook | App Store compliance, URLs that 404, build settings, localization, analytics events, SYSKit adoption, files over 10 MB |
+| `release_branch` | `validate.py`, on a `release/X.Y.Z` branch only | Not X.Y.Z, not newer than the latest tag, no changelog section |
+| Simulator compile | `ci.yml` `compile`, release branches only | A compile error, found before Apple's long build |
+
+
+### File names
+
+A target's own files are named for their role, never for the app: `Info.plist`, `App.entitlements`,
+`LaunchScreen.storyboard`, `Icon.icon`, `config.json`, `PrivacyInfo.xcprivacy`. They are the same in every app, and
+match the Watch and Widget targets' `Info.plist` and `Watch.entitlements`. The app's name appears only in the `@main`
+file, `<Name>App.swift`, and in extension entry files that declare types named for it. A Swift file is named for the
+type it declares, or for the role shared by the several it groups (`Strings.swift`, `Models.swift`). The
+`file_names` check fails a file in `App/Resources` or `App/Config` that carries the app's name.
+
+### Shared tooling is one package
+
+`App/Packages/PES/` holds everything PES owns that is not Swift: `validate.py`, the `shared/` checks, the `ci/` helpers
+(`build.py`, `start_xcode_cloud_build.rb`, `project_value.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
+directory, the same way it syncs SYSKit, so there is no per-file list to keep and an app cannot quietly edit one script.
+Only what a tool forces stays outside it: the workflow callers under `.github/workflows/` and Xcode Cloud's
+`App/ci_scripts/`, both of which call into the package or the handbook.
+
+### Launch time
+
+`SYSLaunchMetrics` times every launch with no app code. `SYSStartup` and `SYSRootedApp` mark five milestones (app
+launched, startup began, content prepared, ready, home shown), and when home appears one line goes to the log:
+`launch: 2677 ms to home (process 2004, startup 111, loading 406, splash hold 1, home 154)`. `process` is process
+start to the first line of app code, `loading` is config and content, `splash hold` is the time `minimumSplash` added,
+and `home` is ready to first frame. The same milestones are signposts under Points of Interest in Instruments. It
+reads the process start time, not system uptime, so it needs no privacy-manifest category. Judge numbers from a Release
+build on a device. On the simulator `process` is left out, because the simulator reports a process start well before the app runs, so the total there runs from the first line of app code.
+
+Startup never waits on the network for something it already holds: a config it already holds (cached or bundled) is used at once and refreshed right after the app is up; if that refresh turns maintenance on or forces an update, the app moves to that screen then, so a kill switch still lands. Only with no config at all does launch wait, for at most `SYSBootstrap.gateRefreshTimeout` (1 s). An app opens on its cached content manifest and refreshes it in the background, waiting for the network only when nothing is cached.
+
+### The App Review check
+
+`app_store_compliance` fails the build for the things App Review rejects an upload over: a missing or malformed
+`PrivacyInfo.xcprivacy`, a required-reason API (UserDefaults, file timestamps, system uptime, disk space, active
+keyboards) used in the app or in SYSKit without its category declared, a missing `ITSAppUsesNonExemptEncryption`
+answer, and a permission-asking API with no `NS…UsageDescription`. It searches the Swift that links into the app; an
+app that must differ answers in `project.yml` under `validation.skip`, with the reason.
+
+### Photographing every screen
+
+`App/Packages/PES/ci/screenshot_sweep.py` launches each screen the app can show, through the `-debugRoute` and
+`-debugState` arguments SYSKit already reads, and writes a picture of each to `.screenshots/current/`. The screens are
+the `sweep:` section of `project.yml` (a name and a route each, or `state:<name>` for a launch state), so an app needs no
+extra code. `index.html` puts every screen beside its baseline in `.screenshots/baseline/` and says how much changed,
+ignoring the status bar. Run it with `--build` before and after a UI change, and `--update-baseline` to keep a run as the
+reference. It needs a simulator, so it is a local tool, not a CI job.
+
+### Where a check lives says who may edit it
+
+`App/Packages/PES/validate.py` discovers checks from the folders `Project.json` lists —
+a check is a file with a `check(ctx)` in it, no registry to update.
+
+| It checks… | Folder | Owner |
+|---|---|---|
+| something only this app has | `scripts/checks/` | the app |
+| something every app has — the listing, a string catalog, an asset name | `App/Packages/PES/shared/` | **PES — overwritten on every `update.sh`** |
+| a contract of SYSKit itself | `App/Packages/SYSKit/Scripts/checks/` | PES, travels with the vendored package |
+
+A shared check reads anything app-specific out of `Project.json` (screenshot
+sizes, languages, locales) rather than hardcoding it — that's the test for
+where a new check belongs: if it can't be written without naming something
+only this app has, it goes in `scripts/checks/`.
+
+### Declining a shared check, and packages the app owns
+
+An app that genuinely cannot meet a shared check says so in `Project.json`, with
+the reason: `"skip": {"analytics_events": "class-based manager, see PES-UPSTREAM.md"}`.
+The check is left out of the run and printed as `skip  <name>: <reason>` every
+time, so an exception stays visible. A skip without a reason, or for a check that
+does not exist, fails the run. Likewise `"ownedPackages": ["SharedUI"]` tells the
+pre-commit hook that a package under `App/Packages/` is the app's own code, not
+vendored third-party source. `"sys": false` says the app is not built on SYS at all, so
+`update.sh` neither vendors SYSKit/SYSFirebase into it nor seeds a template
+`AnalyticsManager.swift` over its own.
+
+### Shared build settings (xcconfig)
+
+Every app used to restate the same ~60 project-level build settings (platform, Swift version, compiler and warning flags, linker flags, debug and release differences) inside its own `project.pbxproj`,
+and `build_settings` caught the ones that drifted after the fact. They now live once, in the handbook:
+
+| File | Owner | What it holds |
+|---|---|---|
+| `App/Config/Base.xcconfig` | PES — replaced on every sync | The shared settings: team, iOS 15, Swift version, warnings, Debug and Release. |
+| `App/Config/App.xcconfig` | the app — written once | `#include "Base.xcconfig"` plus this app's own settings, and the `MARKETING_VERSION` line CI stamps. |
+
+An app opts in with `"xcconfig": true` in `Project.json`; until then `update.sh` adds neither file, so a
+sync never leaves an app failing. Once opted in, `build_settings` requires that the project points at
+`App.xcconfig` and that `MARKETING_VERSION` is no longer also set in the project file (it would override
+the stamped one). To switch an app over: set the flag, run `update.sh`, then in Xcode set
+Project > Info > Configurations to `App` for Debug and Release, delete the project-level settings
+`Base.xcconfig` now provides, and check nothing changed with `xcodebuild -showBuildSettings` before and after.
+
+### One project file: `project.yml`
+
+Each app's facts live in one file at the repo root, `project.yml`, and nowhere else:
+
+| Section | What it holds |
+|---|---|
+| `pes.version` | The PES version the app was last synced to. `update.sh` keeps this line current. It used to be `.pes-version`. |
+| `app` (`name`, `bundleId`, `project`, `scheme`, `schemes`) | The product name, bundle ID, the project path, the main scheme, and **every shared scheme in the project**. A scheme added in Xcode must be written to `app.schemes` (`scripts/sync-schemes.sh`); `build_settings` fails if the list and the project disagree. |
+| `languages`, `checks`, `xcconfig`, `skip`, `ownedPackages`, `sys` | What `Project.json` held, now with real comments. |
+| the `# >>> sync manifest` block at the end | The fingerprints `update.sh` uses to tell "PES moved on" from "the app changed this". It used to be `.pes-sync-manifest`. It is comments, so it never disturbs the YAML, and it is written by the script, not by hand. |
+
+Shell and Ruby read it through `App/Packages/PES/ci/project_value.sh app.bundleId`, and `validate.py` converts it with
+Ruby, so nothing needs installing.
+
+### What an app declares in `project.yml`, and what holds it to it
+
+Three sections say what is a decision and not an accident, and a check fails when they and the repo disagree:
+
+| Section | It says | Held to it by |
+|---|---|---|
+| `adoption` | For each SYSKit feature (`bootstrap`, `analytics`, `share`, `notifications`, `spotlight`, `stored`, `streak`, `connectivity`, `backgroundTask`, `layout`, `blocker`, ...): `true`, or the reason this app does not use it. | `project.py`: a feature marked `true` must be used in the code, and a used one must be marked `true`. |
+| `validation` | `expected`: the checks this app runs. `own`: scripts the app keeps that run with them, reported apart and not counted. `skip`: a shared check it declines, with the reason. | `validate.py`: a missing or unlisted check fails the run. |
+| `overrides` | Each build setting the project sets differently from `Base.xcconfig`, with the reason. | `project.py`: any other difference, or a listed one that no longer differs, fails. |
+
+So the differences between apps are a diff of these sections, and a new difference has to be written down.
+
+### One name for the project
+
+New apps use the same project and scheme name, `App/App.xcodeproj` and scheme `App`, so no workflow, script
+or hook has to know an app's name. What still differs per app is the **product**: `app.name` in `project.yml`
+is what the store, the release title and Xcode Cloud call it (`{{APP_NAME}}` in templates), and the bundle ID,
+`PRODUCT_NAME` and display name stay per app in `App.xcconfig` and the target. `{{PROJECT_NAME}}` is only the
+`.xcodeproj` file name and only appears in paths.
+
+**Scheme names are common too**, named by role and never after the app: `App` (the main scheme), `WatchApp`
+(a watchOS app) and `WidgetExtension` (a widget). An app that has one of these adds the name to
+`app.schemes` in `project.yml` and nothing else changes: the checks, the sync and the CI read the list, and
+`build_settings` fails if it and the project disagree. A role that does not exist yet (say `IntentsExtension`)
+is added the same way, and to this list, so every app names it alike.
+
+### Languages: three sets, not one list
+
+`languages` describes three different things, and collapsing them into one
+list can only describe one kind of app.
+
+```json
+"languages": {
+  "source": "en",
+  "interface": ["en"],
+  "selectable": {
+    "mode": "in-app",
+    "list": ["en", "hi", "gu"],
+    "keys": ["notification*", "festivalWhen*"]
+  }
+}
+```
+
+- **`source`** — what the strings are written in. The catalog must agree.
+- **`interface`** — localizations iOS may pick on its own. Every key, every
+  language, no exceptions.
+- **`selectable`** — languages the app loads *deliberately*, because the user
+  picked one inside it. Must appear in `knownRegions`; only the keys matching
+  `selectable.keys` must be complete.
+
+Prarthana and Drawing are `selectable`: the interface is English, the user picks a language
+in Settings, and `AppLanguage.localized()` resolves it through
+`Bundle.main.path(forResource:ofType:"lproj")`. It declared `["en", "hi",
+"gu"]` while `knownRegions` said `(en, Base)`, so no `hi.lproj` was ever
+built and every Hindi notification silently arrived in English for months.
+**`selectable.keys` is required** — without it the set demands nothing while
+reading as coverage, which is worse than not checking at all.
+
+`"languages": ["en", "es"]` still reads as source `en`, interface `["en",
+"es"]`, no selectable set — apps move to the new shape one at a time.
+
+Two properties are deliberate:
+
+- **A check that raises is a failed check, not a crashed run.** One bad file
+  can't take down the rest.
+- **A check that finds nothing to look at fails.** "Checked nothing" and
+  "passed" are otherwise the same green tick.
+
+## 5. Releases: a release branch, not a tag push
+
+Version numbers are not stored in the repo. `MARKETING_VERSION` in the
+project is a dev placeholder only.
+
+To release:
+
+1. `main` already has everything you want to ship. Branch: `release/X.Y.Z`.
+2. Add the CHANGELOG section for that version and push the branch. Nothing builds.
+3. Run `./build`. It checks you are on a clean, pushed `release/X.Y.Z` with a changelog section and a free tag, then
+   starts the Xcode Cloud workflow `manual_release`, which archives to TestFlight. Run it again for another build.
+4. Test on a real device. Submit in App Store Connect (phased release on, manual release). If Apple rejects, fix on the
+   same branch and `./build` again; nothing is merged or tagged yet.
+5. **Once Apple approves**, merge the PR. `release.yml` creates the `vX.Y.Z` tag and the GitHub Release, which is the
+   **only** moment a tag is created. A tag means "shipped".
+6. For the store page and the website, in the faststore repo: put the new version in the app's `release.json`, merge the listing
+   change and run `./push-store` (it shows the changes and asks you to confirm), then once Apple has approved run `./publish site` and
+   `./publish handbook`, review the commits they make in the website and handbook folders, and push them.
+
+Merging last means the newest tag always answers "what is live?", and a rejected build never leaves a tag behind.
+
+Rollback: pause phased release, ship the next patch.
+
+`App/ci_scripts/ci_pre_xcodebuild.sh` reads the marketing version straight
+from the branch name (`release/1.8.0` → `1.8.0`). The build number is Xcode
+Cloud's own — a global sequential counter per app that overwrites
+`CFBundleVersion` at export time regardless of what a script sets, so nothing
+here tries to compute one.
+
+The script stamps `MARKETING_VERSION` directly in the pbxproj with `sed` —
+NOT agvtool. With `GENERATE_INFOPLIST_FILE=YES`, agvtool only edits literal
+Info.plist values and silently no-ops. The `/g` in the sed also keeps
+watch/widget extension targets on the same version.
+
+**The build number climbs forever instead of resetting per version** — Xcode
+Cloud's own counter (App Store Connect → Xcode Cloud → Settings → Build
+Number), not exposed through the API, not a bug.
+
+Why a branch instead of a tag: a tag is immovable — great for "this is what
+shipped," useless for "I need three more builds while QA finds things." A
+branch can be pushed to any number of times; the tag is created once, at the
+very end.
+
+## 6. Store content
+
+Store text and screenshots are **not** kept in an app repo. There is no
+`fastlane/` folder, no Gemfile, and no store job in any app workflow.
+
+- The listing (per-locale text, screenshots, categories, review notes, version) lives in the **faststore** repo
+  (private, `data/`), together with the website's own content (FAQ, features, legal pages). Merging a change to store data sends
+  nothing. You send it by hand with `./push-store` in faststore (fastlane, the only place it runs): it shows what will change at Apple and
+  waits for you to type `push`. A weekly check reports a change someone made in the App Store Connect web page.
+- The website and this handbook's app facts (`content/app.json` and each app's `config.json`) are updated from faststore by its local
+  `./publish` script, after Apple approves a version. It commits in the `website` or `handbook` folder next to it; you review the
+  commit and push it. Nothing in faststore holds a credential for another repo.
+- Auth: faststore holds one App Store Connect API key as a GitHub secret, the only secret of this flow. `./build` uses the key in
+  `PES_Apps/secrets` from your Mac. An app repo needs no secret, and Xcode Cloud needs no credentials.
+- Apple rejects: emoji in "What's New", placeholder URLs, store locales that don't exist (app languages and store languages are
+  different lists). faststore's checks cover these before anything is sent.
+
+## 7. Firebase
+
+Remote content is served from the handbook repo (`content/<Apple ID>/`), not from a Firebase Hosting site of the app's own.
+
+Analytics and Crashlytics: one prod project, SDKs disabled in Debug builds,
+dSYMs uploaded by `ci_post_xcodebuild.sh`. Custom Analytics events live in one
+file as an enum (name + parameters per case) — that's what makes
+`App/Packages/PES/shared/analytics_events.py` possible. Deploy auth is a service
+account JSON in the `FIREBASE_SERVICE_ACCOUNT` secret with Hosting rights
+only.
+
+Anything more (Firestore, RTDB, Functions) has to justify itself through
+[decisions/firebase-services.md](decisions/firebase-services.md) first — then
+the separate dev/prod project rule applies.
+
+## 8. SYSKit — the shared layer
+
+**`SYS` means our code.** Vendored third-party packages keep their own names
+(`FirebaseKit`, `Kingfisher`) — that distinction is what `.swiftlint.yml`
+excludes and what `update.sh` reports on but never overwrites.
+
+Every app vendors two local packages from `SPM/`:
+
+| Package | Contents | Dependencies |
+|---|---|---|
+| `SYSKit` | config, network, logging, lifecycle, analytics plumbing, layout and design tokens. Grouped by domain under `Sources/SYSKit`: `Startup`, `Layout`, `Design`, `Content`, `Networking`, `Storage`, `Engagement`, `Platform`, `Diagnostics` | **none** |
+| `SYSFirebase` | the one file that imports Firebase | SYSKit + FirebaseKit |
+
+Separate on purpose: `SYSKit` has no dependencies, so it builds and tests
+without Xcode, a simulator or Firebase. Its tests run in **this repo's** CI,
+not in each app. They run on macOS, not Linux, because `SYSNetwork` uses
+URLSession's async API, which swift-corelibs-foundation doesn't provide.
+
+SYSKit and every app build in Swift 6 language mode: `SWIFT_VERSION = 6.0` is one line in
+`Base.xcconfig`, and the package manifest is `swift-tools-version: 6.0`. State shared across threads
+inside SYSKit (the logger's settings, launch record, configuration, hosting flags) sits behind a lock
+and the types that own it are `@unchecked Sendable`; delegate callbacks hand `Sendable` values to the
+main actor. Do not add `nonisolated(unsafe)` to a SYSKit type to make a build pass.
+
+`SYSKit` contains **no full screens** — it returns state, the app renders it. Small
+UI utilities are allowed where a shared behaviour needs a view to carry it
+(`SYSAmbientBackground`, `SYSMetrics`'s environment). The one exception is the
+launch blocker, `SYSLaunchBlocker`: the states it shows are the startup contract every app
+obeys, so the screen is shared too. The app still supplies every colour, font and string.
+
+### Startup
+
+```swift
+switch await SYSBootstrap.start() {
+case .maintenance(let message):            // your screen
+case .updateRequired(let message, let url): // your screen
+case .onboarding:                          // your screens
+case .whatsNew(let notes):                 // your sheet
+case .ready:                               // home
+}
+```
+
+`SYSBootstrap` loads config locally, records the launch, gives the network a
+bounded moment, then decides. Apps write screens, not startup plumbing.
+
+### Remote config
+
+Every app ships `App/Resources/config.json` as its offline fallback. The handbook repo serves
+`content/<Apple ID>/config.json`: the same file plus a `manifests` list naming the packs to fetch.
+
+Config normally applies on the **next** launch. The gates — maintenance and
+force-update — are the exception: `SYSBootstrap` waits briefly for a refresh
+before evaluating them. Offline, malformed, non-2xx, or older-than-current all
+fall back silently — the app never ends up worse than the copy that shipped.
+Cache lives in Application Support, not Caches.
+
+**Every key in config needs a handler in SYSKit, or it is dead config** —
+config and handler ship together.
+
+| Config key | Handler |
+|---|---|
+| `update` | `SYSUpdate` |
+| `maintenance` | `SYSMaintenance` |
+| `whatsNew` | `SYSWhatsNew` |
+| `rating` | `SYSRating` + `SYSLifecycle` |
+| `flags`, `urls`, `crossPromo` | `SYSConfig` |
+| `app` | `SYSConfig.value(_:)` |
+
+Version comparison is numeric, never string: `"1.10.0"` sorts *below* `"1.9.0"`
+as text.
+
+**Local notifications go through `SYSNotifications`.** `install()` in the app
+delegate, `clearBadge()` in `decorate`, `isAuthorized`, `requestPermission()` and
+`openSettings()` for a denied permission. An app decides what to say and when; the
+plumbing is SYSKit's: `scheduleRepeating(id:matching:content:)` for daily and
+weekly reminders, and `replaceScheduled(prefix:with:reserved:)` to rebuild a family
+of one-time requests (festival dates, say) within iOS's 64-pending limit, earliest
+first. No app builds a calendar trigger, counts slots or cancels stale ids itself.
+
+### Changing SYSKit
+
+`SYSKIT-API.md` lists every public type and `sys…` modifier, generated from the source. After adding or removing public
+API run `python3 scripts/api-docs.py generate`; `validate.sh` fails while the file is stale, and fails on a new public
+name with no description (a doc comment or a PLAYBOOK row). Names still waiting for one are in
+`scripts/api-docs.debt`, which may shrink and must not grow. The same check fails any `SYS…` or `sys…` name in the
+docs that is no longer in the source.
+
+SYSKit is developed **inside a real app**, not here — Xcode, simulator, and
+Firebase are actually present there. Changes flow **up** from the app that
+proved them, then **out** to every other app:
+
+```sh
+# in the app: edit App/Packages/SYSKit, build, run, get it right
+scripts/promote.sh ../ABCLearning             # review what would move
+scripts/promote.sh ../ABCLearning --apply     # copy it in, run the tests
+# bump VERSION, tag, then update.sh the other apps
+```
+
+`--apply` runs `swift test` against the promoted copy — PES's copy has to
+stand alone with no Xcode, no simulator, no Firebase.
+
+`update.sh` **refuses** to overwrite a vendored package the app has modified.
+It tells the difference using `.pes-sync`, a fingerprint of what was last
+synced, written into the app's copy — commit it.
+
+### Remote content (served from the handbook repo)
+
+An app that ships content separately from its binary uses `SYSContentSync`:
+one instance per manifest, packs served encrypted (`SYSCrypto`, keyed by the
+app's App Store id in `Info.plist` as `SYSContentID`), each verified against the
+manifest's SHA-256 before it is decrypted and unzipped into a live/backup
+layout, so a failed install restores what was there.
+
+**Start up manifest-first.** A first launch that waits for every pack holds the
+app on a splash for the whole download (ABCLearning's is ~70 MB). Pass both
+flags and let `prepareContent` return once the manifest is known:
+
+```swift
+SYSStartup(requiresAssets: true, backgroundAssets: true,
+           prepareContent: { progress in await content.prepareContent(progress: progress) })
+```
+
+```swift
+func prepareContent(progress: SYSAssetProgressHandler?) async -> Result<Void, SYSContentError> {
+    await sync.refresh(downloadAll: false)          // manifest only; cached copy when offline
+    guard hasContent else { return .failure(sync.lastManifestError ?? .notConfigured) }
+    startDownloadTask { await sync.downloadMissing(progress: progress) }   // behind Home
+    return .success(())
+}
+```
+
+- `minimumSplash: .standard` holds the splash for at least 1.0 s on an install's
+  first launch, measured from when startup began, and not at all on later launches,
+  so a returning launch is as fast as loading allows. The default `.none` waits only
+  for loading.
+  An app writes no splash timer of its own.
+- `requiresAssets` makes "no manifest and nothing cached" a `.dataUnavailable`,
+  which the app renders with SYSKit's own blocker and `startup.retry()`. An app
+  keeps no content-failure screen or download state of its own.
+- `backgroundAssets` re-runs `prepareContent` on every foreground, which is what
+  resumes an interrupted download. Keep the manifest step and the download task
+  each single-flight, because launch and foreground can overlap.
+- `downloadMissing(progress:)` fetches whatever is not on disk without another
+  manifest request. Use it after `refresh(downloadAll: false)`; do not call
+  `refresh(downloadAll: true)` for the same purpose, see below.
+- A tile the user taps calls `ensure(_:)`, which shares any download already in
+  flight for that item.
+
+Behaviours to rely on, all covered by tests:
+
+- **A 304 is not "everything is downloaded".** `refresh` stores the ETag, so a
+  `downloadAll: false` call followed by `downloadAll: true` gets `notModified`.
+  `SYSContentSync` now downloads what is missing in that case; an app must not
+  assume the second call was a no-op.
+- Downloads run three at a time, each through `ensure`, so they never race a tap
+  on the same pack.
+- Hashing, decrypting and unzipping run off the main actor.
+- `SYSNetwork.download` retries 5xx and dropped connections (two retries with
+  backoff) like `data` requests do. A hash mismatch or a 4xx is never retried.
+- A pack's `index.json` decodes with only the keys it really has. A required key
+  the published packs lack fails every pack, and every caller reads that as
+  "pack not found". Decode into a type of exactly what is published.
+
+**Content that is remote-only makes first launch require a network**; a product
+decision: either the offline claim changes, or a starter set ships in the
+bundle.
+
+### Launch, onboarding and preferences
+
+**One state drives launch.** Everything an app shows between process start and
+its home screen is a function of `SYSAppState`; an app keeps no navigation enum
+of its own (no `splash / onboarding / home`).
+
+```swift
+func screen(for state: SYSAppState?) -> some View {
+    switch state {
+    case .onboarding:                 OnboardingScreen(onFinish: finishOnboarding)
+    case .ready, .whatsNew:           HomeScreen()
+    case .maintenance, .updateRequired, .dataUnavailable: /* SYS blocker */
+    case .none:                       SplashScreen()
+    }
+}
+```
+
+- **Onboarding is `SYSOnboarding`.** Pass `onboardingEnabled: true`; the first-run
+  screen calls `SYSOnboarding.markSeen()` then `startup.advance()`. Bump
+  `SYSOnboarding.currentVersion` to show it again. An app that had its own
+  "onboarded" flag must call `markSeen()` at launch when that flag is set, or every
+  existing install sees onboarding again on update.
+- Work that must happen once per launch after startup succeeds (launch counters,
+  notification prompts) goes in `afterReady()`, not in a screen's `onAppear`.
+- **Preferences are `@SYSStored`** on an `ObservableObject`:
+  `@SYSStored("kl.shuffleMode", default: true) var shuffleMode: Bool`. It reads
+  and writes the native `UserDefaults` value, so keys inherited from an older
+  build keep working, publishes on change, and needs no save call. Typed values
+  (an enum, a struct) store their raw `String` and expose a computed property.
+  `SYSSettings` covers one-off reads.
+- Preferences written from a test with `simctl spawn defaults write` survive an
+  app uninstall in the simulator, so a "fresh install" check needs
+  `defaults delete <bundle id>` as well.
+
+### Layout
+
+An app never measures the screen. The root view calls `.sysMetrics()` once and every view
+reads `@Environment(\.sysMetrics)`:
+
+| It gives | Notes |
+|---|---|
+| `isCompactWidth`, `isCompactHeight` | The size classes: compact width on the outer display, regular on the inner. |
+| `prefersSideBySide` | Two things next to each other, or stacked: true when the usable area is wider than it is tall. It reads the area the view actually has, so an iPad held upright stacks and a phone on its side does not. App code asks this; it never compares width to height itself. |
+| `shortSide`, `contentSize`, `contentFrame`, `safeArea` | The window less its safe area, each edge on its own, and the shorter side of what is left: size artwork as a fraction of it. |
+| `margin(readableWidth:)`, `screenMargin`, `sectionSpacing`, `cardColumnWidth` | Centring margin for a readable width, the standard screen margin and section gap, and the minimum width of a grid card. |
+
+There is deliberately no window-proportional scale factor, no aspect ratio and no `isLandscape`. Apple's
+guidance is to respond to size classes and available space, and to let text follow Dynamic Type. Use
+`@ScaledMetric` for sizes that belong to text, a fraction of `shortSide` or of the container for artwork,
+and plain constants for small controls. Widths that cap a reading column are `SYSReadableWidth`
+(`action`, `form`, `content`, `grid`). Pixel scale is `@Environment(\.displayScale)`.
+
+There is no `isLandscape` either. Orientation is not a question about room, and a foldable held open is
+neither. Ask the size class, or ask whether the content fits (`ViewThatFits`).
+
+Fold-aware layout (the fold and camera regions, and a two-pane container built on `ArrangementView`) needs the
+iOS 27.1 SDK, which Xcode 27.0 does not have, so SYSKit does not carry it yet. It returns with the release that
+builds on 27.1. Until then a foldable is handled by the size classes and `prefersSideBySide` alone.
+
+| Component | Replaces |
+|---|---|
+| `SYSColumnGrid` | A hand-measured `LazyVGrid` column count. It is `GridItem(.adaptive(minimum:))`, so the system picks the count. |
+| `SYSNavigationContainer` | The `NavigationStack` with a `NavigationView` fallback every app wrote, and the one place a presented screen declares its bar: `SYSNavigationContainer(title:accessory:trailing:)`, which draws the page theme behind its content and tints with its accent. The title is `sysNavigationTitle`, `accessory` is an extra trailing view (a progress ring) and `trailing` is a `SYSToolbarAction` such as `.close(...)` or `.settings(...)`. An app keeps no container, bar state or toolbar modifier of its own. |
+| `sysNavigationBar(title:accessory:trailing:)` | The same title and buttons for a screen pushed inside a stack that already exists. |
+| `SYSToolbarButton` | A toolbar button with an icon-only label, an accessibility title and the light haptic. Built from a `SYSToolbarAction` or from a title, symbol and action. |
+| `SYSSettingsSection`, `SYSSettingsRow` | The card-style Settings layout every app shares: a titled card of rows, each with an icon tile, title, optional subtitle, a trailing control or a chevron. Colors come from `SYSSettingsStyle`, which the app sets once with `.sysSettingsStyle(...)`, so theming stays app-side and layout stays here. |
+| `SYSHelpSection`, `SYSHelp` | The "Rate, share, contact" section. `SYSHelp` carries the actions (`rate()` opens the App Store review page, `share()` presents the share sheet, `contact()` opens the support mail) with analytics hooks the app supplies; `.sysHelp(help)` attaches the mail sheet. |
+| `SYSMoreAppsSection`, `SYSVersionFooter` | The portfolio list and the name, version and credit footer, in the same Settings style. |
+| `SYSLessonProgress`, `sysShuffled(seed:)` | Where a learner is in each lesson. `begin(id, total:, fresh:)` opens a lesson fresh or resumes it and returns the index and shuffle seed to use; `record` saves the position (debounced, and flushed when the app resigns active); `finish` clears it and closes the session, so a screen that disappears afterwards cannot save the last card back as progress; `continuation` is the most recent lesson that still has a position. `sysShuffled(seed:)` is a shuffle that is the same every time for the same seed, so a saved position still means the same card after the app is reopened. An app keeps no progress manager of its own. |
+| `SYSDailyRotation` | One item per calendar day from a list, in order, wrapping around: "today's prayer" is the same all day and never random. |
+| `SYSLaunchBlocker`, `blocker(for:style:text:)` | Each app's own maintenance, update and offline screens. Strings come from `SYSLaunchBlockerText` so the app localizes them. |
+| `sysRegularWidthText()` | A per-app text boost for iPad: steps Dynamic Type up on regular width, never past the largest size. |
+| `sysNavigationTitle(_:)` | A per-app navigation title. A large leading title in a normal-height bar (`ToolbarItem(placement: .title)` with `.toolbarRole(.browser)`), shrinking rather than wrapping, still the navigation title for the back button and VoiceOver. The system large title before iOS 16. |
+| `sysSearchable(text:prompt:focusOnAppear:)` | A search field that sits below the navigation bar and stays visible, like the iPhone Settings app, before iOS 26; on iOS 26 it leaves placement to the system, so a `Tab(role: .search)` gets the floating search. `focusOnAppear: true` focuses the field and shows the keyboard when the screen opens (iOS 26 and later), Apple's button-appearance search tab: "tapping the search tab brings focus to the search field and displays the keyboard". |
+| `TabRole.sysSearch` | The role for a search tab: `.prominent` on iOS 27, `.search` before. Apple documents `.prominent` as the explicit way to give one tab the detached treatment; a `.search` tab only may get it by default. Use `Tab("Search", systemImage: SYSSymbol.search, value: …, role: .sysSearch)` with `sysSearchable` inside. |
+
+App code does not use `UIScreen`, `userInterfaceIdiom` or `isPad`, `UIDevice.current.orientation` or `.model`,
+`isLandscape` or `isPortrait`, a width compared to a height, `.windows.first` or `.keyWindow`, or a numeric
+width/height breakpoint, and `sys_adoption` fails on each. Every one of them asserts something fixed about the
+device: iPhone Duo, Split View and a tablet window shrunk to a slice all break it, in different directions.
+`sys-ok: <reason>` opts a line out.
+
+### Design tokens
+
+The values every screen repeats live in SYSKit, in `Sources/SYSKit/Design`, so apps look and move the same
+and nothing is typed twice. An app calls them directly; it does not wrap them.
+
+| Token | What it is |
+|---|---|
+| `SYSSpace`, `SYSRadius` | Spacing `xs` 4, `sm` 8, `md` 12, `lg` 16, `xl` 24, `xxl` 32, `xxxl` 48, and radii `sm` 8 to `xl` 24. |
+| `SYSFont`, `SYSFont.rounded` | Apple's text styles by name (`largeTitle` to `caption2`), so every font follows Dynamic Type. Weight is applied at the call site: `SYSFont.title3.weight(.semibold)`. A fixed `.system(size:)` ignores the user's text size, so the app does not write one for text. |
+| `SYSOpacity`, `SYSStroke`, `SYSSize` | Named opacities (`subtle` 0.1 to `intense` 0.8), stroke widths (`thin`, `medium`) and the 44 pt minimum touch target. |
+| `SYSMotion` | Named animations: `press`, `standard`, `bounce`, `pageTurn`, `floatLoop`. iOS 17 curves where available, springs before. |
+| `SYSTiming` | `quick`, `standard`, `relaxed`, `stagger(_:)`, awaitable `pause(_:)`, and cancellable `after(_:_:)` in place of `DispatchQueue.asyncAfter` and `Task.sleep(nanoseconds:)`. |
+| `SYSShadow` | `xs`, `card`, `raised`, `text`, applied with `.sysShadow(_:)`. |
+| `.sysGlassCard`, `.sysGlassCapsule`, `.sysGlassCircle` | Liquid Glass on iOS 26, material before. Also `.sysNumericTransition()` and `.sysSymbolBounce(value:)`. |
+| `.sysTheme(base:accent:secondary:tertiary:)`, `.sysPageBackground()`, `SYSAmbientBackground()` | Theme once, at the app root: `.sysTheme(base:accent:secondary:tertiary:)` in `decorate` with the current theme (the two extra colors, optional, are the other hues of the backdrop mesh; without them the accent is hue-shifted), so a theme change repaints everything. Then every `SYSNavigationContainer` and `.sysPageBackground()` draws the page: the base color, a faint accent wash and two soft accent blurs, so glass has color to refract. Screens pass no colors of their own. |
+| `.sysGlassButton(prominent:tint:)` | The button style for every standalone capsule button: `.glass` or `.glassProminent` on iOS 26, a material capsule before. One prominent button per screen. Glass belongs on the controls layer floating over content (buttons, chips, badges, the mini player); content cards stay opaque. |
+| `.sysTabBarMinimizeOnScroll()` | The tab bar collapses on scroll down and returns on scroll up (iOS 26+). Put it on the `TabView`. |
+| `SYSGlassGroup(spacing:)` | Wrap a row of adjacent glass chips or buttons so they are drawn together and merge when closer than `spacing` (iOS 26+; a plain container before). |
+| `.sysScrollEdge()` | Soft fade where scrolling content meets floating bars. Put it on a `ScrollView` that runs under the tab bar or a floating control. |
+| `.sysOnShake(isEnabled:perform:)` | Runs an action on a device shake while the view is on screen. Owns the accelerometer: starts and stops with the view and the flag. |
+| `.sysZoomSource(id:in:)`, `.sysZoomDestination(sourceID:in:)`, `\.sysZoomNamespace` | The zoom transition from a card to its pushed screen (iOS 18+, a plain push before). Set the namespace once near the root. |
+| `SYSEmptyState`, `SYSRoundedCorner`, `SYSSafeAreaHorizontalScroll` | The empty screen, a shape that rounds chosen corners, and a self-sizing horizontal scroll. |
+| `SYSScreenHeader(_:trailing:)`, `.sysHidesNavigationBar()`, `SYSToolbarAction.settings(zoomSourceID:)` | A large title with a trailing button, drawn in the content so the button can be the source of a zoom to the screen it opens (give each tab its own id and use `.sysZoomDestination` with the same id). A system bar button cannot be a zoom source, and neither can a view with a glass effect: either makes the transition start from the screen's middle or fade instead, so the header button is a material circle. Hide the system bar on a screen that uses it. |
+| `SYSScrollHandle`, `.sysScrollHandle(_:)` | `SYSScrollHandle.halt()` stops a ScrollView's momentum, so a "jump to" button works while the list is still flicking; `scrollTo` is ignored mid-deceleration. |
+| `.sysHidesBars(_:)` | A reading focus mode: hides the navigation bar, the bottom bar and the status bar together while the flag is true (iOS 16+). The app toggles the flag from a tap on its content. |
+| `.sysHideScrollBackground()`, `.sysReservedLines`, `.sysAdaptiveTabStyle()`, `.sysDarkNavigationBar`, `.sysHidesTabBar()`, `.sysSheetStyle()` | Availability-safe wrappers over SwiftUI modifiers newer than iOS 15. Apps do not write their own `#available` copies. |
+| `View` effects | Availability-safe effects an app would otherwise gate itself: `sysOnChange(of:perform:)` (no iOS 17 deprecation), `sysSymbolBreathe`, `sysSymbolRotate`, `sysSymbolReplace`, `sysInterpolateTransition`, `sysScrollTransition`, `sysHorizontalScrollTransition`, `sysSheetDetents`, `sysShimmer`, and `sysReadableWidth` to cap a reading column and centre it. |
+| `.sysEntrance(_:slide:id:)` | The staggered fade-and-lift a list or grid uses when it first appears, in order, with Reduce Motion respected. Pass an `id` and a view already shown once appears at once next time. An app keeps no entrance modifier of its own. |
+| `.sysSelectionFeedback`, `.sysIncreaseFeedback`, `.sysSuccessFeedback` | `sensoryFeedback` on iOS 17 and later when `trigger` changes, and nothing before, so an app writes no availability check for it. |
+| `SYSPressStyle` | The press-scale `ButtonStyle`, `.subtle` or `.strong`. |
+| `SYSSymbol` | SF Symbol names by meaning (`forward`, `close`, `doneCircle`, `starFilled`), so a glyph is named once. |
+
+Colour stays in the app: a theme's accent, gradients and on-accent colour are the app's identity, and
+belong in one `Palette`. The rule is that a colour, a spacing, a duration or a symbol name is written once.
+
+### Root screens
+
+Every app states what its launch screens are the same way, in `App/Source/App/RootScreens.swift`, and the
+routing around them is written once, in SYSKit. The app's `@main` struct is plain `App`; `RootScreens.swift`
+declares `extension <Name>App: SYSRootedApp`:
+
+| The app provides | Notes |
+|---|---|
+| `splash(progress:)` | Shown while startup runs. `progress` is the download progress, for apps that show it. |
+| `home` | Shown for `.ready` and `.whatsNew`. |
+| `blockerStyle`, `blockerText` | The look and wording of the maintenance, update and offline screens. SYSKit routes to them and decides whether a button belongs. |
+| `onboarding(finish:)` | Optional. An app with `onboardingEnabled: false` leaves it out. |
+
+SYSKit does the rest: the blocker routing, finishing onboarding, the transitions and animation, and, in a
+Debug build, `-debugRoute splash`. Three hooks are optional and default to doing nothing: `homeReached()`
+(the user first reaches home), `open(_:)` (a URL opened the app) and `openSpotlight(_:)`. They are attached to
+the root so a link that arrives while the splash is up is not lost. The app keeps them in
+`App/Source/App/RootEvents.swift`. `sys_adoption` fails an app whose entry point does not conform to
+`SYSRootedApp`, or whose conformance is not in `RootScreens.swift`, and `adoption.rooted` records it.
+
+### App identity
+
+What the app is called, where it lives in the store and which URL scheme it answers to is written once, in
+`Info.plist`, and read from there:
+
+| Fact | Where it is written | Read with |
+|---|---|---|
+| Display name | `CFBundleDisplayName` | `SYSAbout.appName()` |
+| App Store id | `SYSAppStoreID` | `SYSAppStore.url()`, `SYSAppStore.openReview()` |
+| URL scheme | `CFBundleURLTypes` | `SYSDeepLink.matches(url)`, `SYSDeepLink.url(host:path:)` |
+| Support email | `config.json` `supportEmail` | `SYSAbout.supportEmail` |
+
+An app does not keep an identity type that restates them.
+
+`sys_adoption` fails an app whose `Info.plist` has no numeric `SYSAppStoreID` (the digits after `id` in its store URL),
+since the store page, review and share links depend on it.
+
+### Debug launch
+
+Verifying a screen that is three taps in should not take three blind taps. In a Debug build, launch with
+`-debugRoute <name>[/<id>]` and the app opens that screen, or with `-debugState maintenance|update|offline` and
+`SYSStartup` shows that launch blocker instead of starting. The app reads the route from `SYSDebugRoute.launch`
+(`name` and `id`, nil in Release and when the flag is absent) and maps names to its own navigation. It never
+reads `CommandLine.arguments` itself, and `sys_adoption` fails if it does. The app decides which names exist; a
+route it does not know is ignored. `-debugOrientation landscape|portrait` turns the window once at launch, through `SYSDebugRoute.applyLaunchOrientation()`, because the simulator cannot be rotated from the command line. With `simctl`, `xcrun simctl launch <udid> <bundle id> -debugRoute quiz`.
+
+### Speech
+
+Text to speech is `SYSSpeech.shared`, configured once at launch with `configure(language:genderKey:)`. It keeps one
+synthesizer, warms it up, and picks the voice with `SYSVoicePicker`, which never chooses a voice of the opposite
+gender to the one asked for. `speak(_:)` is `async` and returns `true` when the speech finished and `false` when it
+was replaced or cancelled, so a flow waits for the real end of speech and never for a timer or an estimate.
+`start(_:)` is the same without waiting. Audio ducking of other apps ends a second after the last speech. What stays
+in the app: what to say, the rate and pitch of each kind of phrase, and any pronunciation table. `sys_adoption`
+fails on `AVSpeechSynthesizer` in app code.
+
+### Analytics
+
+The manager is shared; the vocabulary is not. Apps declare their own events
+conforming to `SYSAnalyticsEvent`, at
+`App/Source/Shared/AnalyticsManager.swift` where the PR check greps for them.
+
+### Vendored third-party packages
+
+`vendor.json` records the canonical **version** of each third-party package,
+never the binaries. Each app records what it actually has in
+`App/Vendor/<Name>/.vendor-version`, and `update.sh --check` reports drift.
+
+Contents are never copied between apps — ABCLearning and Colorful exclude Firebase
+Analytics because the Kids Category forbids third-party measurement SDKs, and
+overwriting that would be a store compliance problem.
+
+## 9. Git hooks
+
+On GitHub Free a private repo gets no branch protection, so hooks are the
+only place something can actually be stopped.
+
+Committed in `App/Packages/PES/hooks/` and activated with `core.hooksPath` (`.git/hooks`
+isn't versioned). `setup.sh`/`update.sh` set it; `update.sh --check` reports
+when it's missing.
+
+**pre-commit**
+
+| Check | Why here rather than CI |
+|---|---|
+| files over 5MB | history is forever, every future clone pays |
+| secrets (gitleaks) | a secret pushed to GitHub is compromised even if the branch is deleted a minute later |
+| remote SwiftPM packages | easy to reintroduce by accident via Xcode's UI |
+| `config.json` | it reaches every user at once |
+| `.env`, `.p8`, `.p12`, `.mobileprovision` by name | cheaper and more reliable than a scanner |
+| edits inside `App/Vendor` | vendored third-party is only touched when re-vendoring |
+| SwiftLint on changed files only | fast feedback without waiting for CI |
+
+Skips the secret scan with a note when gitleaks isn't installed.
+
+**commit-msg** enforces Conventional Commits and a 72-character subject — the
+CHANGELOG is written from these.
+
+**pre-push**
+
+| Check | Why |
+|---|---|
+| branch name | `release.yml` takes the tag straight from the branch name, so `release/v2.9.0` or `release/2.9` produce a wrong tag or none |
+
+SYSKit's tests don't run here — vendored unchanged and tested at source in
+this repo's CI. They also can't run reliably from a hook: a hook doesn't
+inherit the shell's toolchain selection, so `swift` picks the wrong SDK.
+
+Both hooks are escapable with `--no-verify`.
+
+## 10. This repo is the source of truth, not a subject of it
+
+PES defines how *apps* work; it is not an app. Installing its own hooks/layout
+rules here produced checks that silently no-opped — nothing in this repo has
+`App/Packages`, `App/Resources/config.json`, or `App/Source`.
+
+What this repo does have is CI over its own output: `validate.sh`, the SYSKit
+tests, and a scaffold job that builds a throwaway app from `setup.sh` and
+checks it passes its own PR checks.
+
+## 11. Git
+
+Trunk-based, one permanent branch (§3). Squash merge only, branches
+auto-delete. Commit format: `type: what it does`
+(feat/fix/chore/docs/refactor/test/ci). Secrets never in the repo. Private
+repos by default.
+
+### Release commits: see what changed in which version
+
+One release is **one commit on `main`**, and its tag. That keeps the history a list of versions you can read:
+`git log --oneline` shows one line per release, `git tag` maps each to its version, and the commit body says what changed and where.
+
+Subject `release: <App name> X.Y.Z` (the handbook: `release: PES handbook X.Y.Z`). The body has, in this order:
+1. The release notes from the CHANGELOG section, as bullets.
+2. `What changed, by area`: one line per area touched (app source, configuration and version, shared tooling, packages, docs) with the file count.
+3. Trailers, so a script can read them: `Version: X.Y.Z`, `Previous: P (vP)`, `Build: Xcode Cloud #N (workflow, Xcode version)`, `PES: X.Y.Z`.
+
+Work on the `release/X.Y.Z` branch can have as many commits as it needs; the squash merge writes the single release commit, so give the pull
+request that title and body. faststore adds a tag for every push to App Store Connect, `store/<app>/<version>`, so the exact listing sent for a
+version can be read back with `git show store/<app>/<version>:data/apps/<app>/listing/en-US.json`.
+
+## 12. Once per app
+
+- [ ] Xcode Cloud workflow named exactly `manual_release`, created once (by hand in Xcode or through the API) (Product, Xcode Cloud,
+      Create Workflow): Environment = the Xcode the apps need, pinned by version (27.1 RC for iPhone Duo; "Latest Release" moves under you) with the macOS image Apple pairs with it, Clean; **Start Conditions: none** (manual
+      only: no Branch Changes, Tag Changes or Pull Request); Actions: one **Archive - iOS** on project
+      `App/App.xcodeproj`, scheme `App`, Distribution Preparation **App Store Connect** (not "TestFlight Internal
+      Testing Only", see §5). `./build` starts this workflow by name. Delete any older workflow.
+- [ ] 2FA everywhere; the App Store Connect API key in a password manager and in `PES_Apps/secrets` (used by `./build`).
+      faststore holds its own copy as a GitHub secret. App repos hold no secrets, and Xcode Cloud needs none.
+- [ ] PrivacyInfo.xcprivacy present; ASC privacy labels updated in the same
+      release that adds any SDK
+- [ ] Support, privacy and terms pages exist in faststore (`data/apps/<slug>/legal/`, published to the website); `urls.py` fails the build if
+      any URL in `App/Resources/config.json` 404s
+- [ ] Crashlytics email alerts on
+- [ ] String catalogs from day one; automatic signing everywhere
+- [ ] Old endpoints that shipped binaries still call: freeze, never delete
+- [ ] Branch protection: enable it if the repo is public or on a paid plan;
+      otherwise the PR checks are advisory only
+
+## 13. Starting a NEW app (the complete recipe)
+
+This is the from-scratch path.
+
+1. **Xcode project.** New iOS App project at `App/<Name>.xcodeproj`. Keep
+   `GENERATE_INFOPLIST_FILE=YES`. Create `Source/App`, `Source/Features`,
+   `Source/Shared` (§1) and put the `@main` file in `Source/App/`.
+2. **Repo.** `git init -b main`, run PES `scripts/setup.sh`, fill every
+   `{{PLACEHOLDER}}` (`git grep '{{'`), delete what the app doesn't use. The
+   store locales, app languages, and required screenshot sizes are stated
+   **once**, in `Project.json`. `gh repo create <org>/<Name> --private
+   --source=. --push`.
+3. **Dependencies.** Vendored-local from day one (§4). For
+   Firebase: `FirebaseKit` binary package + `-ObjC` in `OTHER_LDFLAGS`,
+   `upload-symbols` into `FirebaseKit/Tools/`.
+4. **Firebase** (if used) — Plist into `App/Resources/`, check
+   `IS_ANALYTICS_ENABLED` is `true`.
+5. **App Store Connect.** Create the app record. The one ASC API key lives in a password manager and in
+   `PES_Apps/secrets`; no GitHub secrets.
+6. **Xcode Cloud** — grant the GitHub App access first, then create the one `manual_release` workflow (§12).
+7. **Secrets for data hosting** (if used): `FIREBASE_SERVICE_ACCOUNT` repo
+   secret, Hosting rights only.
+8. **Prove the automation before writing the app.** Open one throwaway PR
+   touching a Swift file, a metadata JSON, and a screenshot — all checks must
+   produce a run. Then a `release/0.1.0` dry run end to end (§5).
+9. Finish the §12 checklist.
+
+---
+
+If reality and this playbook disagree, one of them gets fixed the same week.

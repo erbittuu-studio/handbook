@@ -1,0 +1,20 @@
+{
+  "manifestVersion": 1,
+  "generatedAt": "2026-09-24T16:17:43.469054Z",
+  "items": [
+    {
+      "id": "2026",
+      "bundle": "packs/c85a497fa1e9.json",
+      "bytes": 108996,
+      "sha256": "c85a497fa1e9d2122b703168f0624777d87a1027f9dc93d3047ab07d70f375f4",
+      "required": true
+    },
+    {
+      "id": "2027",
+      "bundle": "packs/c2eb8a3f843b.json",
+      "bytes": 110058,
+      "sha256": "c2eb8a3f843b678793785c3e1f4340578924ca9cfa04642be0eb73b7023a95c0",
+      "required": true
+    }
+  ]
+}

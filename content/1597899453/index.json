@@ -1,0 +1,161 @@
+{
+  "app": {
+    "name": "Prarthana",
+    "tagline": "Sacred Texts & Prayers",
+    "supportEmail": "utsavhacker@gmail.com"
+  },
+  "data": {
+    "version": 20,
+    "minAppVersion": "1.0"
+  },
+  "config": {
+    "forceUpdate": false,
+    "maintenanceMode": false,
+    "showAds": false
+  },
+  "todaysPrayer": {
+    "mode": "rotating",
+    "rotationDays": 7,
+    "items": [
+      "gayatri_mantra",
+      "hanuman_chalisa",
+      "shiv_tandav",
+      "ganesh_aarti",
+      "jay_adhya_shakti",
+      "guru_brahma",
+      "om_sahana_vavatu"
+    ]
+  },
+  "deities": [
+    {
+      "id": "ganesh",
+      "name": "Ganesh",
+      "devotionTitle": "Ganesh Bhakt",
+      "encouragement": "Ganpati Bappa Morya!"
+    },
+    {
+      "id": "shiva",
+      "name": "Shiva",
+      "devotionTitle": "Shiv Bhakt",
+      "encouragement": "Har Har Mahadev! Stay blessed."
+    },
+    {
+      "id": "durga",
+      "name": "Durga",
+      "devotionTitle": "Durga Bhakt",
+      "encouragement": "Jai Mata Di! Blessings upon you."
+    },
+    {
+      "id": "krishna",
+      "name": "Krishna",
+      "devotionTitle": "Krishna Bhakt",
+      "encouragement": "Hare Krishna! Radhe Radhe!"
+    },
+    {
+      "id": "hanuman",
+      "name": "Hanuman",
+      "devotionTitle": "Hanuman Bhakt",
+      "encouragement": "Jai Bajrangbali! Stay blessed."
+    },
+    {
+      "id": "lakshmi",
+      "name": "Lakshmi",
+      "devotionTitle": "Lakshmi Bhakt",
+      "encouragement": "Om Shri Mahalakshmyai Namah!"
+    },
+    {
+      "id": "daily_prayers",
+      "name": "Daily Practice",
+      "devotionTitle": "Daily Practitioner",
+      "encouragement": "Consistency is key to spiritual growth."
+    }
+  ],
+  "categories": [
+    {
+      "id": "ganesh",
+      "name": "Ganesh",
+      "image": "ganesh.jpg",
+      "items": [
+        "ganesh_chalisa",
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta"
+      ]
+    },
+    {
+      "id": "shiva",
+      "name": "Shiva",
+      "image": "shiva.jpg",
+      "items": [
+        "shiv_tandav",
+        "shiv_chalisa",
+        "shiv_aarti"
+      ]
+    },
+    {
+      "id": "durga",
+      "name": "Durga",
+      "image": "durga.jpg",
+      "items": [
+        "jay_adhya_shakti",
+        "durga_chalisa",
+        "durga_aarti",
+        "mahishasura_mardini",
+        "navdurga_stuti",
+        "durga_saptashati",
+        "devi_kavach"
+      ]
+    },
+    {
+      "id": "krishna",
+      "name": "Krishna",
+      "image": "krishna.jpg",
+      "items": [
+        "krishna_aarti",
+        "achyutam_keshavam",
+        "hare_krishna_mahamantra",
+        "krishna_chalisa",
+        "govinda_namalu",
+        "madhurashtakam",
+        "damodarashtakam"
+      ]
+    },
+    {
+      "id": "hanuman",
+      "name": "Hanuman",
+      "image": "hanuman.jpg",
+      "items": [
+        "hanuman_chalisa",
+        "bajrang_baan",
+        "sankat_mochan",
+        "hanuman_aarti"
+      ]
+    },
+    {
+      "id": "lakshmi",
+      "name": "Lakshmi",
+      "image": "lakshmi.jpg",
+      "items": [
+        "lakshmi_chalisa",
+        "lakshmi_aarti"
+      ]
+    },
+    {
+      "id": "daily_prayers",
+      "name": "Daily Prayers",
+      "image": "prayers.jpg",
+      "items": [
+        "gayatri_mantra",
+        "guru_brahma",
+        "om_sahana_vavatu",
+        "twameva_mata",
+        "asato_ma",
+        "karagre_vasate",
+        "shubham_karoti",
+        "saraswati_vandana",
+        "saraswati_namastubhyam",
+        "om_jai_jagdish_hare"
+      ]
+    }
+  ]
+}

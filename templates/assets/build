@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Starts the Xcode Cloud build for the release branch you are on. See App/Packages/PES/ci/build.py.
+exec python3 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/App/Packages/PES/ci/build.py" "$@"

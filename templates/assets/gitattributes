@@ -1,0 +1,32 @@
+# PES standard .gitattributes
+
+# Normalize line endings to LF in the repo; editors handle the rest.
+* text=auto eol=lf
+
+# Swift/Xcode
+*.swift text diff=swift
+*.pbxproj merge=union text
+*.xcconfig text
+*.entitlements text
+*.plist text
+*.xcstrings text
+
+# Docs & config
+*.md text diff=markdown
+*.yml text
+*.yaml text
+*.json text
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.p8 binary
+*.p12 binary
+
+# Keep generated/vendored noise out of language stats & diffs
+*.pbxproj linguist-generated
+Package.resolved linguist-generated
