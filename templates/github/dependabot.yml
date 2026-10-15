@@ -1,0 +1,10 @@
+# PES standard Dependabot config (see standards/github.md):
+# keep GitHub Actions pinned versions fresh; code dependencies are updated
+# deliberately, so only security updates are enabled for them (via repo
+# settings, not this file).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

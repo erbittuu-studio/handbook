@@ -1,0 +1,1439 @@
+{
+  "app": {
+    "name": "Prarthana",
+    "tagline": "Sacred Texts & Prayers",
+    "supportEmail": "utsavhacker@gmail.com"
+  },
+  "data": {
+    "version": 20,
+    "minAppVersion": "1.0"
+  },
+  "config": {
+    "forceUpdate": false,
+    "maintenanceMode": false,
+    "showAds": false
+  },
+  "manifestVersion": 1,
+  "generatedAt": "2026-10-13T14:23:36.023975Z",
+  "items": [
+    {
+      "id": "achyutam_keshavam",
+      "name": "Achyutashtakam",
+      "description": "Achyutashtakam - Adi Shankaracharya",
+      "path": "packs/achyutam_keshavam/index.json",
+      "bundle": "packs/b62fd141047c.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "b62fd141047ca6734e55ada93ee70c1a6c665b242a4e35c8c6d1c52227296ba2",
+      "size": 3663,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "morning",
+        "evening",
+        "thursday",
+        "stotra",
+        "janmashtami",
+        "popular"
+      ]
+    },
+    {
+      "id": "asato_ma",
+      "name": "Asato Ma Sadgamaya",
+      "description": "Lead Me from Darkness to Light",
+      "path": "packs/asato_ma/index.json",
+      "bundle": "packs/6fac45763ac1.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "6fac45763ac1ce81bf83d4e5c90556e2baab17abc6471ced08423ad39d676360",
+      "size": 1417,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "mantra",
+        "peace",
+        "quick"
+      ]
+    },
+    {
+      "id": "bajrang_baan",
+      "name": "Bajrang Baan",
+      "description": "Powerful Protection Prayer",
+      "path": "packs/bajrang_baan/index.json",
+      "bundle": "packs/f11d81912cab.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": true,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "f11d81912cab856b45cfb35dc0d1804edec30deb3688f2e526cd311e73d32e28",
+      "size": 5309,
+      "audioBundle": "packs/0f63ec5d035b.mp3",
+      "audioChecksum": "0f63ec5d035bb3df4ec656abb7930959e8c9811508d5e1e433d0bbaa1bccd6d4",
+      "audioSize": 11178483,
+      "readingTimeMinutes": 7,
+      "tags": [
+        "morning",
+        "tuesday",
+        "saturday",
+        "stotra",
+        "protection",
+        "long"
+      ]
+    },
+    {
+      "id": "damodarashtakam",
+      "name": "Damodarashtakam",
+      "description": "8 Verses to Baby Krishna - Kartik Month Special",
+      "path": "packs/damodarashtakam/index.json",
+      "bundle": "packs/b3c45d3da43c.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "b3c45d3da43cbc910f0f628b08f7f4061a4b63c4062e7a1879ebdad81c5b4f71",
+      "size": 4585,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "evening",
+        "thursday",
+        "stotra",
+        "janmashtami",
+        "peace"
+      ]
+    },
+    {
+      "id": "devi_kavach",
+      "name": "Devi Kavach",
+      "description": "Chandi Kavacham - Armour of the Goddess",
+      "path": "packs/devi_kavach/index.json",
+      "bundle": "packs/18363de6410b.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "18363de6410b481aad39bd207ae94f3b3786f628f35bf6ea10a80cb407c21c55",
+      "size": 11517,
+      "readingTimeMinutes": 10,
+      "tags": [
+        "morning",
+        "friday",
+        "stotra",
+        "navratri",
+        "protection"
+      ]
+    },
+    {
+      "id": "durga_aarti",
+      "name": "Durga Aarti (Jai Ambe Gauri)",
+      "description": "Om Jai Ambe Gauri - Navratri Special",
+      "path": "packs/durga_aarti/index.json",
+      "bundle": "packs/b0b4dbb594c9.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "b0b4dbb594c94d972d5dbd741d818061e27b230525125ee7865498b3406c8641",
+      "size": 3243,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "evening",
+        "friday",
+        "aarti",
+        "navratri",
+        "popular"
+      ]
+    },
+    {
+      "id": "durga_chalisa",
+      "name": "Durga Chalisa",
+      "description": "40 Verses in Praise of Maa Durga",
+      "path": "packs/durga_chalisa/index.json",
+      "bundle": "packs/c5b33aebcb13.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "c5b33aebcb134b639b2a9cb57cd629f2b09eabe5b1b2276b6b71d600f377bd4f",
+      "size": 6121,
+      "readingTimeMinutes": 8,
+      "tags": [
+        "morning",
+        "friday",
+        "chalisa",
+        "navratri",
+        "protection",
+        "long"
+      ]
+    },
+    {
+      "id": "durga_saptashati",
+      "name": "Argala Stotram",
+      "description": "Argala Stotram - Devi Mahatmya",
+      "path": "packs/durga_saptashati/index.json",
+      "bundle": "packs/4d30d326882b.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "4d30d326882bb28eed6659db5dc755ca0b785d7c1bd53a74f7e957bae9c4048d",
+      "size": 4514,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "morning",
+        "friday",
+        "stotra",
+        "navratri",
+        "protection"
+      ]
+    },
+    {
+      "id": "ganesh_aarti",
+      "name": "Ganesh Aarti",
+      "description": "Jai Ganesh Jai Ganesh Deva",
+      "path": "packs/ganesh_aarti/index.json",
+      "bundle": "packs/e048eb10cea4.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": true,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "e048eb10cea46c1087e6465743be3c528b606cf93816bae6e136e4ed829963c9",
+      "size": 1997,
+      "audioBundle": "packs/72a14e709fe5.mp3",
+      "audioChecksum": "72a14e709fe5b9eabde5a2c0e589043b1c104e75eb61b1179a2a240fa5825f65",
+      "audioSize": 6630409,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "morning",
+        "evening",
+        "wednesday",
+        "aarti",
+        "popular"
+      ]
+    },
+    {
+      "id": "ganesh_chalisa",
+      "name": "Ganesh Chalisa",
+      "description": "40 Verses in Praise of Lord Ganesh",
+      "path": "packs/ganesh_chalisa/index.json",
+      "bundle": "packs/75ecfff7b899.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "75ecfff7b8991a6be30768c89c7204cd9cc38a884bbe67c9b061561cba339398",
+      "size": 6536,
+      "readingTimeMinutes": 7,
+      "tags": [
+        "morning",
+        "wednesday",
+        "chalisa",
+        "popular",
+        "long"
+      ]
+    },
+    {
+      "id": "gayatri_mantra",
+      "name": "Gayatri Mantra",
+      "description": "Most Powerful Vedic Mantra",
+      "path": "packs/gayatri_mantra/index.json",
+      "bundle": "packs/4441480be581.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "4441480be581b46d900c482ed1d3150b866c9c94899e4bfdfc0e1b81ea8e67e6",
+      "size": 1665,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "sunday",
+        "mantra",
+        "peace",
+        "quick",
+        "popular"
+      ]
+    },
+    {
+      "id": "gita_chapter_12",
+      "name": "Bhagavad Gita Chapter 12",
+      "description": "Bhakti Yoga - The Yoga of Devotion",
+      "path": "packs/gita_chapter_12/index.json",
+      "bundle": "packs/15eade08b3f4.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "15eade08b3f48e51e62940041a7fd091297b3767b8e43a54e3a282ea1b75a664",
+      "size": 6330,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "morning",
+        "thursday",
+        "peace"
+      ]
+    },
+    {
+      "id": "gita_dhyanam",
+      "name": "Gita Dhyanam",
+      "description": "Invocation of the Bhagavad Gita",
+      "path": "packs/gita_dhyanam/index.json",
+      "bundle": "packs/244830f545a3.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "244830f545a3a9fa8f8171285222ca62790c0a40a99eccbf7f5db194a9d72720",
+      "size": 5147,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "morning",
+        "thursday",
+        "stotra",
+        "peace"
+      ]
+    },
+    {
+      "id": "govinda_damodara_stotram",
+      "name": "Govinda Damodara Stotram",
+      "description": "Selected Verses - Govinda Damodara Madhaveti",
+      "path": "packs/govinda_damodara_stotram/index.json",
+      "bundle": "packs/4fbeddbf13e9.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "4fbeddbf13e9f3c4898cb3b45fb29ad82c6b576c87bf254898ad1ebd02873102",
+      "size": 3200,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "morning",
+        "evening",
+        "thursday",
+        "stotra",
+        "popular"
+      ]
+    },
+    {
+      "id": "govinda_namalu",
+      "name": "Govinda Namalu",
+      "description": "Names of Lord Govinda",
+      "path": "packs/govinda_namalu/index.json",
+      "bundle": "packs/6590a1ee9b7d.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "6590a1ee9b7d0fcf391aaa35346f8e1ab07b754e24fa5da92a0d13cabb81e121",
+      "size": 2025,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "morning",
+        "evening",
+        "thursday",
+        "stotra",
+        "janmashtami"
+      ]
+    },
+    {
+      "id": "guru_brahma",
+      "name": "Guru Brahma Guru Vishnu",
+      "description": "Guru Mantra - Salutation to Teacher",
+      "path": "packs/guru_brahma/index.json",
+      "bundle": "packs/79a555eea9a6.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "79a555eea9a6f8c83aa3c29bfab3fe64ef1de0db4065619095f85c4312d9543f",
+      "size": 1597,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "thursday",
+        "mantra",
+        "quick"
+      ]
+    },
+    {
+      "id": "hanuman_aarti",
+      "name": "Hanuman Aarti",
+      "description": "Aarti of Lord Hanuman",
+      "path": "packs/hanuman_aarti/index.json",
+      "bundle": "packs/983f764c14ba.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "983f764c14bad4c15cfa15a36193ef2812f7f638c146c67e630e1ebab79cdbaf",
+      "size": 2462,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "evening",
+        "tuesday",
+        "saturday",
+        "aarti"
+      ]
+    },
+    {
+      "id": "hanuman_chalisa",
+      "name": "Hanuman Chalisa",
+      "description": "40 Chaupai by Tulsidas",
+      "path": "packs/hanuman_chalisa/index.json",
+      "bundle": "packs/823088d584f5.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": true,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "823088d584f5d1db0ed47a8f61bbe2557297b822369df0456d2a5b3932a0ff9c",
+      "size": 8420,
+      "audioBundle": "packs/45b569cad9f3.mp3",
+      "audioChecksum": "45b569cad9f30f62bde74864238c6b62bf06e05458a3248d90a3f649811b9a69",
+      "audioSize": 4655719,
+      "readingTimeMinutes": 8,
+      "tags": [
+        "morning",
+        "evening",
+        "tuesday",
+        "saturday",
+        "chalisa",
+        "protection",
+        "long",
+        "popular"
+      ]
+    },
+    {
+      "id": "hanuman_dwadash_naam",
+      "name": "Hanuman Dwadash Naam",
+      "description": "Twelve Names of Hanuman",
+      "path": "packs/hanuman_dwadash_naam/index.json",
+      "bundle": "packs/e34dfeb38151.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "e34dfeb38151b22ac2b4b62ca7110f8b40bbb576dce6c5a65f281b681df83805",
+      "size": 2599,
+      "readingTimeMinutes": 1,
+      "tags": [
+        "morning",
+        "tuesday",
+        "saturday",
+        "mantra",
+        "quick",
+        "protection"
+      ]
+    },
+    {
+      "id": "hare_krishna_mahamantra",
+      "name": "Hare Krishna Mahamantra",
+      "description": "16 Word Mantra - Daily Chant",
+      "path": "packs/hare_krishna_mahamantra/index.json",
+      "bundle": "packs/51364add6f6f.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "51364add6f6f64db1f145555c52d90f7deb2526e4a8139b79382533035aed40c",
+      "size": 1604,
+      "readingTimeMinutes": 1,
+      "tags": [
+        "morning",
+        "afternoon",
+        "evening",
+        "thursday",
+        "mantra",
+        "quick",
+        "popular"
+      ]
+    },
+    {
+      "id": "jay_adhya_shakti",
+      "name": "Jay Adhya Shakti",
+      "description": "Ambaji Maa Aarti",
+      "path": "packs/jay_adhya_shakti/index.json",
+      "bundle": "packs/6f09bee16db4.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": true,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "6f09bee16db48f68de464e3225aed60cf96d54d07214840278947b8764284edb",
+      "size": 2380,
+      "audioBundle": "packs/6fc10eeb1ddc.mp3",
+      "audioChecksum": "6fc10eeb1ddc90f7a27baeeb671a302c3498a5b57618fd53f25c2681bbd9947e",
+      "audioSize": 19517396,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "evening",
+        "friday",
+        "aarti",
+        "navratri",
+        "popular"
+      ]
+    },
+    {
+      "id": "kanakadhara_stotram",
+      "name": "Kanakadhara Stotram",
+      "description": "Adi Shankaracharya's Hymn to Lakshmi",
+      "path": "packs/kanakadhara_stotram/index.json",
+      "bundle": "packs/4b95ed65a467.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "4b95ed65a4677b66765a05820f091d6f8232b91b0e263425576d31751e39882d",
+      "size": 7275,
+      "readingTimeMinutes": 6,
+      "tags": [
+        "morning",
+        "friday",
+        "stotra",
+        "diwali",
+        "long"
+      ]
+    },
+    {
+      "id": "karagre_vasate",
+      "name": "Karagre Vasate Lakshmi",
+      "description": "Morning Prayer - Kar Darshan",
+      "path": "packs/karagre_vasate/index.json",
+      "bundle": "packs/d80360e661fe.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "d80360e661fe18317a790356330895d17a80740f8b1d2277c7d4516910e407ff",
+      "size": 1647,
+      "readingTimeMinutes": 1,
+      "tags": [
+        "morning",
+        "mantra",
+        "peace",
+        "quick"
+      ]
+    },
+    {
+      "id": "krishna_aarti",
+      "name": "Krishna Aarti",
+      "description": "Aarti Kunj Bihari Ki",
+      "path": "packs/krishna_aarti/index.json",
+      "bundle": "packs/3ec0d07270c2.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "3ec0d07270c2aeb463042b0946f40e004363c2590680d1ce4023d5977bbb115b",
+      "size": 2116,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "evening",
+        "thursday",
+        "aarti",
+        "janmashtami",
+        "popular"
+      ]
+    },
+    {
+      "id": "krishna_chalisa",
+      "name": "Krishna Chalisa",
+      "description": "40 Verses of Lord Krishna",
+      "path": "packs/krishna_chalisa/index.json",
+      "bundle": "packs/589e10670387.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "589e10670387bf2f1d66b6a6f3d258ed8e2567ccc57a6c845e2917a97c663b1d",
+      "size": 3948,
+      "readingTimeMinutes": 8,
+      "tags": [
+        "morning",
+        "thursday",
+        "chalisa",
+        "janmashtami",
+        "long"
+      ]
+    },
+    {
+      "id": "lakshmi_aarti",
+      "name": "Lakshmi Aarti",
+      "description": "Om Jai Lakshmi Mata",
+      "path": "packs/lakshmi_aarti/index.json",
+      "bundle": "packs/f1ac9cc411f7.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "f1ac9cc411f7001b97bc27b1ab8e3ae7a5f512799dc267b1d7a8915046e7cc0d",
+      "size": 2513,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "evening",
+        "friday",
+        "aarti",
+        "diwali",
+        "popular"
+      ]
+    },
+    {
+      "id": "lakshmi_chalisa",
+      "name": "Lakshmi Chalisa",
+      "description": "40 Verses in Praise of Maa Lakshmi",
+      "path": "packs/lakshmi_chalisa/index.json",
+      "bundle": "packs/d064db75a669.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "d064db75a66922b5b0bfdf3625d24f3fe7abebc916d672ad3c91e3d7965198ec",
+      "size": 6456,
+      "readingTimeMinutes": 7,
+      "tags": [
+        "morning",
+        "friday",
+        "chalisa",
+        "diwali",
+        "popular",
+        "long"
+      ]
+    },
+    {
+      "id": "lingashtakam",
+      "name": "Lingashtakam",
+      "description": "Brahma Murari Surarchita Lingam",
+      "path": "packs/lingashtakam/index.json",
+      "bundle": "packs/b5a137cc8b79.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "b5a137cc8b79038745b7efb636cd7aadd8655b5d8f9c0ed56bbcb91332335c59",
+      "size": 2629,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "morning",
+        "evening",
+        "monday",
+        "stotra",
+        "popular"
+      ]
+    },
+    {
+      "id": "madhurashtakam",
+      "name": "Madhurashtakam",
+      "description": "Sweet Description of Krishna",
+      "path": "packs/madhurashtakam/index.json",
+      "bundle": "packs/b1f7455fb40c.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "b1f7455fb40c47250fd16835ff8752eb7397fc6dafc9a4224bf6e35b51b623ee",
+      "size": 2038,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "morning",
+        "evening",
+        "thursday",
+        "stotra",
+        "janmashtami"
+      ]
+    },
+    {
+      "id": "mahalakshmi_ashtakam",
+      "name": "Mahalakshmi Ashtakam",
+      "description": "Namastestu Mahamaye - Indra's Hymn to Lakshmi",
+      "path": "packs/mahalakshmi_ashtakam/index.json",
+      "bundle": "packs/7af67bdb52fe.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "7af67bdb52fe87314677d7b64a1b5f6b7d4ec2c8a74dcc66f8f09fc61d5a88a4",
+      "size": 2891,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "morning",
+        "evening",
+        "friday",
+        "stotra",
+        "diwali",
+        "popular"
+      ]
+    },
+    {
+      "id": "mahamrityunjaya_mantra",
+      "name": "Mahamrityunjaya Mantra",
+      "description": "Tryambakam Yajamahe - Rigveda 7.59.12",
+      "path": "packs/mahamrityunjaya_mantra/index.json",
+      "bundle": "packs/4b7002a186fa.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "4b7002a186fad6a835f29e392adb3fd88a37e885df252ff6fe9a5851966ce890",
+      "size": 1826,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "evening",
+        "monday",
+        "mantra",
+        "protection",
+        "quick",
+        "popular"
+      ]
+    },
+    {
+      "id": "mahishasura_mardini",
+      "name": "Mahishasura Mardini",
+      "description": "Aigiri Nandini Stotram",
+      "path": "packs/mahishasura_mardini/index.json",
+      "bundle": "packs/6a31de70dc98.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "6a31de70dc981440fbdba787662e6d95b46e064871e73ecbf08fb24f204feb9c",
+      "size": 7366,
+      "readingTimeMinutes": 8,
+      "tags": [
+        "morning",
+        "friday",
+        "stotra",
+        "navratri",
+        "protection",
+        "long",
+        "popular"
+      ]
+    },
+    {
+      "id": "navdurga_stuti",
+      "name": "Navdurga Stuti",
+      "description": "9 Forms of Durga",
+      "path": "packs/navdurga_stuti/index.json",
+      "bundle": "packs/d219cfc9e390.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "d219cfc9e39076c97fb4aa9369684ff1594d0fa7e7eacd9d51601972e1ffcf93",
+      "size": 2151,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "morning",
+        "friday",
+        "stotra",
+        "navratri"
+      ]
+    },
+    {
+      "id": "om_jai_jagdish_hare",
+      "name": "Om Jai Jagdish Hare",
+      "description": "Universal Aarti - Most Popular",
+      "path": "packs/om_jai_jagdish_hare/index.json",
+      "bundle": "packs/6029ed1cf884.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "6029ed1cf88488b49d3e623a348f554d3bcc260e25328cd131ac478e01b62d5a",
+      "size": 2797,
+      "readingTimeMinutes": 6,
+      "tags": [
+        "evening",
+        "aarti",
+        "popular"
+      ]
+    },
+    {
+      "id": "om_sahana_vavatu",
+      "name": "Om Sahana Vavatu",
+      "description": "Shanti Mantra - Peace Invocation",
+      "path": "packs/om_sahana_vavatu/index.json",
+      "bundle": "packs/7c4289ed20a6.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "7c4289ed20a6b4810fa1062573fb8f337da8e44a0950296c61715a65251b1ea4",
+      "size": 1709,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "mantra",
+        "peace",
+        "quick"
+      ]
+    },
+    {
+      "id": "ram_raksha_stotram",
+      "name": "Ram Raksha Stotram",
+      "description": "Protective Hymn to Lord Rama - Budha Kaushika",
+      "path": "packs/ram_raksha_stotram/index.json",
+      "bundle": "packs/451ed8c1dec0.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "451ed8c1dec0f98cebe720f5ea1c0e3b7e0549cb36fee21603f5eee758f6d39a",
+      "size": 12482,
+      "readingTimeMinutes": 10,
+      "tags": [
+        "morning",
+        "protection",
+        "stotra",
+        "long",
+        "popular"
+      ]
+    },
+    {
+      "id": "ram_stuti",
+      "name": "Shri Ram Stuti",
+      "description": "Shri Ramchandra Kripalu Bhaju Man - Tulsidas",
+      "path": "packs/ram_stuti/index.json",
+      "bundle": "packs/f63ddbc25e94.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "f63ddbc25e946942a57a1639ae6dcce99295d5bfc7f09ee1daa8dfde964664fd",
+      "size": 3784,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "morning",
+        "evening",
+        "stotra",
+        "popular"
+      ]
+    },
+    {
+      "id": "sankat_mochan",
+      "name": "Sankat Mochan Hanumanashtak",
+      "description": "8 Verses - Remover of Difficulties",
+      "path": "packs/sankat_mochan/index.json",
+      "bundle": "packs/29bb2466e226.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": true,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "29bb2466e2267d1479a9c69ab6ed9bfb9319c235cbb498e12dcf0748de85a07d",
+      "size": 3965,
+      "audioBundle": "packs/2a5e31623e98.mp3",
+      "audioChecksum": "2a5e31623e98aa08476038c044086c0fa6615d43bfd614f5e76b873bc11827cc",
+      "audioSize": 9092658,
+      "readingTimeMinutes": 6,
+      "tags": [
+        "morning",
+        "evening",
+        "tuesday",
+        "saturday",
+        "stotra",
+        "protection"
+      ]
+    },
+    {
+      "id": "sankata_nashana_ganesh_stotram",
+      "name": "Sankata Nashana Ganesh Stotram",
+      "description": "Twelve Names of Ganesh - Narada Purana",
+      "path": "packs/sankata_nashana_ganesh_stotram/index.json",
+      "bundle": "packs/56a282bec3a1.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "56a282bec3a1fd546107c4d41144f39d5a1949797fd86f750489ba9d43cd6d8b",
+      "size": 3899,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "morning",
+        "wednesday",
+        "stotra",
+        "protection"
+      ]
+    },
+    {
+      "id": "saraswati_namastubhyam",
+      "name": "Saraswati Namastubhyam",
+      "description": "Saraswati Shloka for Studies",
+      "path": "packs/saraswati_namastubhyam/index.json",
+      "bundle": "packs/34aed492cc00.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "34aed492cc00baa46343d92ccf47af1da22a86041301f29be65684874a968c9e",
+      "size": 1759,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "thursday",
+        "mantra",
+        "quick"
+      ]
+    },
+    {
+      "id": "saraswati_vandana",
+      "name": "Saraswati Vandana",
+      "description": "Prayer to Goddess of Knowledge",
+      "path": "packs/saraswati_vandana/index.json",
+      "bundle": "packs/79d008732050.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "79d0087320506a3fdf8f7b41eb0debe0d05df2ec0e0a8af5acad20c1827e372b",
+      "size": 2038,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "morning",
+        "thursday",
+        "mantra",
+        "quick"
+      ]
+    },
+    {
+      "id": "shiv_aarti",
+      "name": "Om Jai Shiv Omkara",
+      "description": "Shiv Aarti - Most Popular",
+      "path": "packs/shiv_aarti/index.json",
+      "bundle": "packs/50180d8ef002.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "50180d8ef00242e088fbbded4c2bec24d5f92e07789263ebecdb8d252f815594",
+      "size": 2646,
+      "readingTimeMinutes": 5,
+      "tags": [
+        "evening",
+        "monday",
+        "aarti",
+        "popular"
+      ]
+    },
+    {
+      "id": "shiv_chalisa",
+      "name": "Shiv Chalisa",
+      "description": "40 Verses in Praise of Lord Shiva",
+      "path": "packs/shiv_chalisa/index.json",
+      "bundle": "packs/ad6f8b51b0a4.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "ad6f8b51b0a4bd590855575231ccefd928d06a977563234f5a743ee7d6ec44a2",
+      "size": 6459,
+      "readingTimeMinutes": 7,
+      "tags": [
+        "morning",
+        "monday",
+        "chalisa",
+        "long"
+      ]
+    },
+    {
+      "id": "shiv_panchakshari_stotram",
+      "name": "Shiv Panchakshari Stotram",
+      "description": "Nagendraharaya Trilochanaya - Adi Shankaracharya",
+      "path": "packs/shiv_panchakshari_stotram/index.json",
+      "bundle": "packs/81b37ed4bc0a.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "81b37ed4bc0abf7f442189ee150d2b523e3ec15816943b26eec3f854c07c110b",
+      "size": 3368,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "morning",
+        "monday",
+        "stotra"
+      ]
+    },
+    {
+      "id": "shiv_tandav",
+      "name": "Shiv Tandav Stotram",
+      "description": "By Ravana - 16 Shlokas",
+      "path": "packs/shiv_tandav/index.json",
+      "bundle": "packs/7592307a13be.zip",
+      "languages": [
+        "gu",
+        "hi",
+        "en"
+      ],
+      "hasAudio": true,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "7592307a13be606c66ad14164a5af7b6c6754cb72d61c175c4f0420a085ad135",
+      "size": 5804,
+      "audioBundle": "packs/9f61b97d7366.mp3",
+      "audioChecksum": "9f61b97d73668cb3428b7824e5f3f692cb8a54af86e0c6384c6f7186edce7346",
+      "audioSize": 9381050,
+      "readingTimeMinutes": 6,
+      "tags": [
+        "morning",
+        "evening",
+        "monday",
+        "stotra",
+        "popular"
+      ]
+    },
+    {
+      "id": "shubham_karoti",
+      "name": "Shubham Karoti Kalyanam",
+      "description": "Evening Prayer - Deep Shloka",
+      "path": "packs/shubham_karoti/index.json",
+      "bundle": "packs/bf6fcadb6603.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "bf6fcadb66038e19beef9b718672c1faf2b65668aa45b6399d2f98a77100dda2",
+      "size": 1637,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "evening",
+        "night",
+        "mantra",
+        "peace",
+        "quick"
+      ]
+    },
+    {
+      "id": "sukhkarta_dukhharta",
+      "name": "Sukhkarta Dukhharta",
+      "description": "Ganesh Aarti - Marathi",
+      "path": "packs/sukhkarta_dukhharta/index.json",
+      "bundle": "packs/f3fc11e3e0fc.zip",
+      "languages": [
+        "en",
+        "gu",
+        "hi"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "f3fc11e3e0fcd7217e7a6d0aa9cc499b7863473db0954eeb37679fe6b4747f31",
+      "size": 2336,
+      "readingTimeMinutes": 4,
+      "tags": [
+        "evening",
+        "wednesday",
+        "aarti"
+      ]
+    },
+    {
+      "id": "tulsi_aarti",
+      "name": "Tulsi Aarti",
+      "description": "Jai Jai Tulsi Mata",
+      "path": "packs/tulsi_aarti/index.json",
+      "bundle": "packs/fe11fdff21da.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": false,
+      "hasImage": false,
+      "checksum": "fe11fdff21da2ae18af3e0d2d926240213c97328eeae602204c22e1bc380a3aa",
+      "size": 2218,
+      "readingTimeMinutes": 3,
+      "tags": [
+        "evening",
+        "thursday",
+        "aarti"
+      ]
+    },
+    {
+      "id": "twameva_mata",
+      "name": "Twameva Mata Cha Pita Twameva",
+      "description": "Universal Prayer of Surrender",
+      "path": "packs/twameva_mata/index.json",
+      "bundle": "packs/1ac980814c9a.zip",
+      "languages": [
+        "en",
+        "hi",
+        "gu"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "1ac980814c9a4c04d7f0cc9eb463d46827286d486e25bf69f0fc14ad71fa92a0",
+      "size": 1533,
+      "readingTimeMinutes": 2,
+      "tags": [
+        "morning",
+        "evening",
+        "mantra",
+        "peace",
+        "quick"
+      ]
+    },
+    {
+      "id": "vakratunda_mahakaya",
+      "name": "Vakratunda Mahakaya",
+      "description": "Ganesh Shloka - Remover of Obstacles",
+      "path": "packs/vakratunda_mahakaya/index.json",
+      "bundle": "packs/b89c9bccf408.zip",
+      "languages": [
+        "hi",
+        "gu",
+        "en"
+      ],
+      "hasAudio": false,
+      "hasMeanings": true,
+      "hasImage": false,
+      "checksum": "b89c9bccf4084016b602c1e3fa865568217e8f852f654e329ca245d844f53f19",
+      "size": 1707,
+      "readingTimeMinutes": 1,
+      "tags": [
+        "morning",
+        "wednesday",
+        "mantra",
+        "quick"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "ganesh",
+      "name": "Ganesh",
+      "image": "packs/categories/ganesh.jpg",
+      "items": [
+        "ganesh_chalisa",
+        "ganesh_aarti",
+        "vakratunda_mahakaya",
+        "sukhkarta_dukhharta",
+        "sankata_nashana_ganesh_stotram"
+      ]
+    },
+    {
+      "id": "shiva",
+      "name": "Shiva",
+      "image": "packs/categories/shiva.jpg",
+      "items": [
+        "shiv_tandav",
+        "shiv_chalisa",
+        "shiv_aarti",
+        "mahamrityunjaya_mantra",
+        "shiv_panchakshari_stotram",
+        "lingashtakam"
+      ]
+    },
+    {
+      "id": "durga",
+      "name": "Durga",
+      "image": "packs/categories/durga.jpg",
+      "items": [
+        "jay_adhya_shakti",
+        "durga_chalisa",
+        "durga_aarti",
+        "mahishasura_mardini",
+        "navdurga_stuti",
+        "durga_saptashati",
+        "devi_kavach"
+      ]
+    },
+    {
+      "id": "krishna",
+      "name": "Krishna",
+      "image": "packs/categories/krishna.jpg",
+      "items": [
+        "krishna_aarti",
+        "achyutam_keshavam",
+        "hare_krishna_mahamantra",
+        "krishna_chalisa",
+        "govinda_namalu",
+        "madhurashtakam",
+        "damodarashtakam",
+        "gita_dhyanam",
+        "gita_chapter_12",
+        "govinda_damodara_stotram"
+      ]
+    },
+    {
+      "id": "hanuman",
+      "name": "Hanuman",
+      "image": "packs/categories/hanuman.jpg",
+      "items": [
+        "hanuman_chalisa",
+        "bajrang_baan",
+        "sankat_mochan",
+        "hanuman_aarti",
+        "hanuman_dwadash_naam"
+      ]
+    },
+    {
+      "id": "lakshmi",
+      "name": "Lakshmi",
+      "image": "packs/categories/lakshmi.jpg",
+      "items": [
+        "lakshmi_chalisa",
+        "lakshmi_aarti",
+        "mahalakshmi_ashtakam",
+        "kanakadhara_stotram"
+      ]
+    },
+    {
+      "id": "daily_prayers",
+      "name": "Daily Prayers",
+      "image": "packs/categories/prayers.jpg",
+      "items": [
+        "gayatri_mantra",
+        "guru_brahma",
+        "om_sahana_vavatu",
+        "twameva_mata",
+        "asato_ma",
+        "karagre_vasate",
+        "shubham_karoti",
+        "saraswati_vandana",
+        "saraswati_namastubhyam",
+        "om_jai_jagdish_hare",
+        "tulsi_aarti",
+        "ram_stuti",
+        "ram_raksha_stotram"
+      ]
+    }
+  ],
+  "deities": [
+    {
+      "id": "ganesh",
+      "name": "Ganesh",
+      "devotionTitle": "Ganesh Bhakt",
+      "encouragement": "Ganpati Bappa Morya!"
+    },
+    {
+      "id": "shiva",
+      "name": "Shiva",
+      "devotionTitle": "Shiv Bhakt",
+      "encouragement": "Har Har Mahadev! Stay blessed."
+    },
+    {
+      "id": "durga",
+      "name": "Durga",
+      "devotionTitle": "Durga Bhakt",
+      "encouragement": "Jai Mata Di! Blessings upon you."
+    },
+    {
+      "id": "krishna",
+      "name": "Krishna",
+      "devotionTitle": "Krishna Bhakt",
+      "encouragement": "Hare Krishna! Radhe Radhe!"
+    },
+    {
+      "id": "hanuman",
+      "name": "Hanuman",
+      "devotionTitle": "Hanuman Bhakt",
+      "encouragement": "Jai Bajrangbali! Stay blessed."
+    },
+    {
+      "id": "lakshmi",
+      "name": "Lakshmi",
+      "devotionTitle": "Lakshmi Bhakt",
+      "encouragement": "Om Shri Mahalakshmyai Namah!"
+    },
+    {
+      "id": "daily_prayers",
+      "name": "Daily Practice",
+      "devotionTitle": "Daily Practitioner",
+      "encouragement": "Consistency is key to spiritual growth."
+    }
+  ],
+  "todaysPrayer": {
+    "mode": "rotating",
+    "rotationDays": 7,
+    "items": [
+      "gayatri_mantra",
+      "hanuman_chalisa",
+      "shiv_tandav",
+      "ganesh_aarti",
+      "jay_adhya_shakti",
+      "guru_brahma",
+      "om_sahana_vavatu"
+    ]
+  }
+}

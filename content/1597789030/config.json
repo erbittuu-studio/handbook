@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-31T00:00:00Z",
+  "update": {
+    "minimumVersion": "1.0.0",
+    "recommendedVersion": "1.2.0"
+  },
+  "maintenance": {
+    "enabled": false
+  },
+  "flags": {
+    "showRatingPrompt": true
+  },
+  "rating": {
+    "minSessions": 3,
+    "minDaysSinceInstall": 2
+  },
+  "urls": {
+    "support": "https://erbittuu-studio.web.app/apps/1597789030/support",
+    "privacy": "https://erbittuu-studio.web.app/apps/1597789030/privacy",
+    "terms": "https://erbittuu-studio.web.app/apps/1597789030/terms"
+  },
+  "supportEmail": "utsavhacker@gmail.com",
+  "whatsNew": {
+    "1.2.0": {
+      "en": [
+        "Now works on iPhone Duo: the app fits both screens and the hinge, in portrait and landscape. Smoother, faster and fixes under the hood."
+      ]
+    }
+  },
+  "manifests": ["content"],
+  "app": {}
+}

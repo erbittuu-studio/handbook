@@ -1,0 +1,319 @@
+{
+  "app": {
+    "name": {
+      "en": "ABC Learning"
+    },
+    "tagline": {
+      "en": "Alphabet, Numbers & Colors"
+    },
+    "supportEmail": "utsavhacker@gmail.com"
+  },
+  "data": {
+    "contentVersion": 2,
+    "minAppVersion": "1.0"
+  },
+  "config": {
+    "forceUpdate": false,
+    "maintenanceMode": false,
+    "showAds": false
+  },
+  "languages": {
+    "en": true
+  },
+  "manifestVersion": 1,
+  "generatedAt": "2026-09-24T16:17:43Z",
+  "items": [
+    {
+      "id": "11",
+      "title": {
+        "en": "ABC"
+      },
+      "bundle": "/packs/9248780a660e.zip",
+      "bytes": 5483881,
+      "sha256": "9248780a660e20e595849c177eb14af9f96df3ee66f7d765e5cb76511f1ed93e",
+      "required": true
+    },
+    {
+      "id": "12",
+      "title": {
+        "en": "Numbers"
+      },
+      "bundle": "/packs/686627fbfa87.zip",
+      "bytes": 1956470,
+      "sha256": "686627fbfa87be1f277fb5eee9ae67bf2195b7fd3e9248d402bfbfaefd72c5fc",
+      "required": true
+    },
+    {
+      "id": "13",
+      "title": {
+        "en": "Colors"
+      },
+      "bundle": "/packs/3955b423584e.zip",
+      "bytes": 52371,
+      "sha256": "3955b423584e39ca9ddcee4696759081a7192c7f20a2b52388d059773677eadc",
+      "required": true
+    },
+    {
+      "id": "14",
+      "title": {
+        "en": "Shapes"
+      },
+      "bundle": "/packs/df2996660d25.zip",
+      "bytes": 377196,
+      "sha256": "df2996660d25a8a697b56f7d91a147d5494f861f1eefd039404e145c32d5f8f6",
+      "required": true
+    },
+    {
+      "id": "15",
+      "title": {
+        "en": "First Words"
+      },
+      "bundle": "/packs/0d87a872b6ca.zip",
+      "bytes": 1979810,
+      "sha256": "0d87a872b6ca3770fe8ffb9f02d29c4437e8e45341007ae21943d893abb56a70",
+      "required": true
+    },
+    {
+      "id": "21",
+      "title": {
+        "en": "Body Parts"
+      },
+      "bundle": "/packs/24749044332f.zip",
+      "bytes": 564039,
+      "sha256": "24749044332f5450d9c4ba2069d01e63faa592f2a70f6a99ce05de148e31d226",
+      "required": true
+    },
+    {
+      "id": "22",
+      "title": {
+        "en": "Clothes"
+      },
+      "bundle": "/packs/4827782a8b4e.zip",
+      "bytes": 4906756,
+      "sha256": "4827782a8b4e6fb75b4197715f19896f4c50278a17058705ffd073c49a87d349",
+      "required": true
+    },
+    {
+      "id": "23",
+      "title": {
+        "en": "Getting Dressed"
+      },
+      "bundle": "/packs/f85620ffbee5.zip",
+      "bytes": 2224327,
+      "sha256": "f85620ffbee5f1e9363f23ede337e6bb20b470eda7510e4f36721f90baf3ace9",
+      "required": true
+    },
+    {
+      "id": "31",
+      "title": {
+        "en": "Farm Animals"
+      },
+      "bundle": "/packs/e3a63df6f120.zip",
+      "bytes": 2626567,
+      "sha256": "e3a63df6f120272e78f02ec3b4be6cc6467304c12c4c5604bc513f153b0b10bf",
+      "required": true
+    },
+    {
+      "id": "32",
+      "title": {
+        "en": "Wild Animals"
+      },
+      "bundle": "/packs/18fd4c59a302.zip",
+      "bytes": 5129740,
+      "sha256": "18fd4c59a302dbcf92b332affd8190593f7911eabb98fa9c85b14ea6cdc61b25",
+      "required": true
+    },
+    {
+      "id": "33",
+      "title": {
+        "en": "Birds"
+      },
+      "bundle": "/packs/1ba96d104668.zip",
+      "bytes": 3343326,
+      "sha256": "1ba96d1046680634be44b06080fd996ad66b6bbb6bca6a194d8029e80582e89a",
+      "required": true
+    },
+    {
+      "id": "34",
+      "title": {
+        "en": "Insects"
+      },
+      "bundle": "/packs/3237d3231c3d.zip",
+      "bytes": 2261784,
+      "sha256": "3237d3231c3d6ae81205976bbc8fc7782675d8be171ed4660f85999eb0a57055",
+      "required": true
+    },
+    {
+      "id": "41",
+      "title": {
+        "en": "Fruits"
+      },
+      "bundle": "/packs/b33ef6eeee4d.zip",
+      "bytes": 6561416,
+      "sha256": "b33ef6eeee4d816dae5c4494da430e7e94f3809b1c1747c01dec2af47f632f59",
+      "required": true
+    },
+    {
+      "id": "42",
+      "title": {
+        "en": "Vegetables"
+      },
+      "bundle": "/packs/b90d46c647aa.zip",
+      "bytes": 4569559,
+      "sha256": "b90d46c647aaf90eec0bc95fa727af24cd81d5de200f1f8c3c5a7c0ff36c19a2",
+      "required": true
+    },
+    {
+      "id": "43",
+      "title": {
+        "en": "Foods & Snacks"
+      },
+      "bundle": "/packs/75c46fbb2213.zip",
+      "bytes": 7943036,
+      "sha256": "75c46fbb22133591d23ff0bb839bf6a912dcf43b453588ce9aede39261e46292",
+      "required": true
+    },
+    {
+      "id": "44",
+      "title": {
+        "en": "Everyday Food"
+      },
+      "bundle": "/packs/7a5c933083ca.zip",
+      "bytes": 2521970,
+      "sha256": "7a5c933083ca97fad2e986d8fcfbf4e53e2fe147c825f50c85d51746dd87a9b5",
+      "required": true
+    },
+    {
+      "id": "51",
+      "title": {
+        "en": "Community Helpers"
+      },
+      "bundle": "/packs/d6b32ea9f88e.zip",
+      "bytes": 2999037,
+      "sha256": "d6b32ea9f88e33b9d48f50d8a7ee729a7dcd310627612c4b4d0f06efb2676f26",
+      "required": true
+    },
+    {
+      "id": "52",
+      "title": {
+        "en": "School"
+      },
+      "bundle": "/packs/1050ef534199.zip",
+      "bytes": 2573410,
+      "sha256": "1050ef53419923f29549dd0f9ebd5cf20e072d4905517fbf25ecf405a01e3c6a",
+      "required": true
+    },
+    {
+      "id": "53",
+      "title": {
+        "en": "Musical Instruments"
+      },
+      "bundle": "/packs/eac9bd947ff9.zip",
+      "bytes": 2480925,
+      "sha256": "eac9bd947ff93e613a0c9c88112fd1155697d0997643ee12b33a9be07075756a",
+      "required": true
+    },
+    {
+      "id": "61",
+      "title": {
+        "en": "Toys"
+      },
+      "bundle": "/packs/5325accf4aed.zip",
+      "bytes": 3199684,
+      "sha256": "5325accf4aedb193d3978fa10979b42f2d4a3dd9ef07ad9b728eeec41d59de17",
+      "required": true
+    },
+    {
+      "id": "62",
+      "title": {
+        "en": "My Toys"
+      },
+      "bundle": "/packs/238360b01200.zip",
+      "bytes": 1955340,
+      "sha256": "238360b0120013fbdb10f23c53669a16510342b0e81f10144315d336f9665fb5",
+      "required": true
+    },
+    {
+      "id": "63",
+      "title": {
+        "en": "Sea Creatures"
+      },
+      "bundle": "/packs/58858ed9e47a.zip",
+      "bytes": 2320676,
+      "sha256": "58858ed9e47a63412c4ef10bcd008922ddd8a6f4d3370c9c1d4211e6c1e29503",
+      "required": true
+    }
+  ],
+  "groups": [
+    {
+      "id": "1",
+      "name": {
+        "en": "Let's Learn"
+      },
+      "order": [
+        "11",
+        "12",
+        "13",
+        "14",
+        "15"
+      ]
+    },
+    {
+      "id": "2",
+      "name": {
+        "en": "My Body & Clothes"
+      },
+      "order": [
+        "21",
+        "22",
+        "23"
+      ]
+    },
+    {
+      "id": "3",
+      "name": {
+        "en": "Animals"
+      },
+      "order": [
+        "31",
+        "32",
+        "33",
+        "34"
+      ]
+    },
+    {
+      "id": "4",
+      "name": {
+        "en": "Food"
+      },
+      "order": [
+        "41",
+        "42",
+        "43",
+        "44"
+      ]
+    },
+    {
+      "id": "5",
+      "name": {
+        "en": "Community"
+      },
+      "order": [
+        "51",
+        "52",
+        "53"
+      ]
+    },
+    {
+      "id": "6",
+      "name": {
+        "en": "Fun & Sea"
+      },
+      "order": [
+        "61",
+        "62",
+        "63"
+      ]
+    }
+  ]
+}

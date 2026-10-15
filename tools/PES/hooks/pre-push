@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# PES pre-push hook: nothing leaves this machine unless it is safe.
+#
+# On a private repo on a free plan there is no branch protection, so this hook is the only gate.
+# Reads the refs git is about to push from stdin, not the branch you are on, so
+# `git push origin HEAD:some-name` from anywhere is judged by the name it creates.
+#
+# What it allows:  release/X.Y.Z, and short-lived topic branches (feat/ fix/ chore/ ci/ docs/) that go through a PR.
+# What it blocks:  main, any other branch name, tags, deleting main, and a push whose project checks fail.
+#
+# Escape hatch: git push --no-verify
+set -uo pipefail
+
+fail=0
+pushed_release=""
+
+problem() {
+  echo "  ✗ $1" >&2
+  [ -n "${2:-}" ] && echo "    $2" >&2
+  fail=1
+}
+
+while read -r local_ref local_sha remote_ref _remote_sha; do
+  deleting=1
+  case "$local_sha" in *[!0]*) deleting=0 ;; esac
+
+  case "$remote_ref" in
+    refs/heads/main)
+      if [ "$deleting" -eq 1 ]; then
+        problem "Deleting main is not allowed."
+      else
+        problem "Direct push to main is not allowed." "Everything reaches main through a pull request: branch, push, open a PR."
+      fi
+      ;;
+    refs/heads/release/*)
+      version="${remote_ref#refs/heads/release/}"
+      if ! printf '%s' "$version" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+        problem "'${remote_ref#refs/heads/}' must be release/X.Y.Z" "no leading v, three numbers: release.yml takes the tag from this name."
+      elif [ "$deleting" -eq 0 ]; then
+        pushed_release="release/$version"
+      fi
+      ;;
+    refs/heads/feat/*|refs/heads/fix/*|refs/heads/chore/*|refs/heads/ci/*|refs/heads/docs/*)
+      ;;
+    refs/heads/*)
+      problem "'${remote_ref#refs/heads/}' is not an allowed branch name." "Use release/X.Y.Z, or feat/ fix/ chore/ ci/ docs/ followed by a short name."
+      ;;
+    refs/tags/*)
+      problem "Pushing tags by hand is not allowed." "release.yml creates vX.Y.Z when a release pull request is merged."
+      ;;
+  esac
+done
+
+# The project checks, so a red check never leaves this machine. A release branch also gets its own checks
+# (named X.Y.Z, newer than the last tag, changelog section) because PES_BRANCH says which branch is going out.
+if [ "$fail" -eq 0 ] && [ -f App/Packages/PES/validate.py ] && [ -z "${PES_SKIP_CHECKS:-}" ]; then
+  if ! out=$(PES_BRANCH="${pushed_release:-$(git rev-parse --abbrev-ref HEAD)}" python3 App/Packages/PES/validate.py 2>&1); then
+    printf '%s\n' "$out" | tail -n 15 >&2
+    problem "The project checks failed." "Fix them, or push anyway with --no-verify."
+  fi
+fi
+
+# SYSKit is deliberately not tested here: it is vendored unchanged and tested at source in the handbook's CI. It also
+# cannot run reliably from a hook, because swift picks the Command Line Tools SDK there instead of Xcode's.
+
+[ "$fail" -eq 0 ] || echo "  push blocked: fix the above, or bypass with --no-verify" >&2
+exit "$fail"
