@@ -52,6 +52,12 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     private var manifestETag: String?
     private var inFlightEnsures: [String: Task<Result<Void, SYSContentSyncError>, Never>] = [:]
 
+    #if canImport(CoreSpotlight) && !os(watchOS)
+    private var searchKind: String?
+    private var searchPublisher: (@MainActor () -> Void)?
+    private var searchTask: Task<Void, Never>?
+    #endif
+
     public init(
         manifestName: String,
         storageFolder: String,
@@ -71,6 +77,51 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     public func configure(baseURL: String) {
         self.explicitBaseURL = baseURL
     }
+
+    #if canImport(CoreSpotlight) && !os(watchOS)
+    /// Puts every downloaded item into system search and keeps it there, on a background actor; the app only says how one item reads.
+    public func indexForSearch(
+        kind: String,
+        describe: @escaping @Sendable (Item, SYSContentFolder) async -> SYSSearchEntry?
+    ) where Item: Sendable {
+        searchKind = kind
+        searchPublisher = { [weak self] in
+            guard let self else { return }
+            let ready = items
+                .filter { itemStates[$0.id] == .downloaded }
+                .map { ($0, SYSContentFolder(url: itemFolderURL(id: $0.id))) }
+            Task.detached(priority: .utility) {
+                await SYSSearchIndexer.shared.replace(kind: kind) {
+                    var entries: [SYSSearchEntry] = []
+                    for (item, folder) in ready {
+                        if let entry = await describe(item, folder) { entries.append(entry) }
+                    }
+                    return entries
+                }
+            }
+        }
+        scheduleSearchIndex()
+    }
+
+    private func scheduleSearchIndex() {
+        guard let searchPublisher else { return }
+        searchTask?.cancel()
+        searchTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            guard !Task.isCancelled, self != nil else { return }
+            searchPublisher()
+        }
+    }
+
+    private func forgetSearchIndex() {
+        searchTask?.cancel()
+        guard let kind = searchKind else { return }
+        Task.detached(priority: .utility) { await SYSSearchIndexer.shared.forget(kind: kind) }
+    }
+    #else
+    private func scheduleSearchIndex() {}
+    private func forgetSearchIndex() {}
+    #endif
 
     var baseURL: String {
         if let explicitBaseURL { return explicitBaseURL }
@@ -241,6 +292,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
             do {
                 try await self.downloadAndInstall(item)
                 self.itemStates[itemID] = .downloaded
+                self.scheduleSearchIndex()
                 return .success(())
             } catch let error as SYSContentSyncError {
                 self.itemStates[itemID] = .failed
@@ -287,6 +339,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         for item in items {
             itemStates[item.id] = isItemAvailable(id: item.id, checksum: item.checksum) ? .downloaded : .notDownloaded
         }
+        scheduleSearchIndex()
     }
 
     func loadBundled(_ items: [Item]) {
@@ -295,6 +348,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
             itemStates[item.id] = .downloaded
         }
         syncState = .ready
+        scheduleSearchIndex()
     }
 
     public func isAvailable(id: String) -> Bool {
@@ -325,6 +379,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         }
 
         removeObsoleteItems(currentItems: items)
+        scheduleSearchIndex()
         await downloadMissing(items: items, dataVersion: remoteVersion, progress: progress)
     }
 
@@ -403,6 +458,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         map.removeValue(forKey: id)
         itemChecksumMap = map
         itemStates.removeValue(forKey: id)
+        scheduleSearchIndex()
     }
 
     private func downloadDecrypted(path: String, checksum: String?, id: String) async throws -> Data {
@@ -556,6 +612,7 @@ extension SYSContentSync: SYSResettable {
     public func resetForFreshInstall() {
         for running in inFlightEnsures.values { running.cancel() }
         inFlightEnsures.removeAll()
+        forgetSearchIndex()
         manifestETag = nil
         lastManifestError = nil
         items = []

@@ -32,6 +32,18 @@
       ]
     }
   },
+  "search": {
+    "keywords": [
+      "hindu prayer",
+      "hindu prayers",
+      "puja",
+      "devotional",
+      "mantra",
+      "bhajan",
+      "aarti sangrah",
+      "stotra"
+    ]
+  },
   "manifests": ["content", "festivals"],
   "app": {}
 }

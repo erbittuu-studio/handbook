@@ -10,6 +10,7 @@ what; this says what exists.
 |---|---|---|
 | `SYSAssetProgress` | struct | Progress through a prepareRequired run, for apps that show a bar. |
 | `SYSContentError` | enum | Why the app could not get something it needs from the server. |
+| `SYSContentFolder` | struct | Where one downloaded item lives on disk, as a value that is safe to read from any thread. |
 | `SYSContentItem` | protocol | One content item a manifest lists — the handful of fields the generic sync loop actually touches. |
 | `SYSContentItemStatus` | enum | — |
 | `SYSContentSync` | class | Generic on-disk cache + downloader for a manifest's items: the live/staging/backup/downloads layout, checksum trackin... |
@@ -89,6 +90,8 @@ what; this says what exists.
 | `SYSHelpSection` | struct | The "Rate, share, contact" section. |
 | `SYSLessonProgress` | class | Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees: - Opening a lesson sta... |
 | `SYSLessonProgressKeys` | struct | — |
+| `SYSMoreAppsCard` | struct | A row of the portfolio's other apps for a home screen: one tap opens an app's store page, behind a parental gate when one is given. |
+| `SYSMoreAppsCardStyle` | struct | The colors a more-apps card is drawn in, so each app keeps its own look. |
 | `SYSMoreAppsSection` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `SYSNotificationPrompt` | struct | When an app asks to send reminders, and what it does with the answer. |
 | `SYSNotifications` | class | Permission, scheduling and tap-routing for local notifications — not scheduling *policy*. |
@@ -144,6 +147,7 @@ what; this says what exists.
 | `View.sysHidesBars` | on View | Hides the navigation bar, the bottom bar and the status bar while hidden is true: a focus mode for reading. |
 | `View.sysHidesNavigationBar` | on View | Hides the navigation bar on a screen that draws its own header, such as one using SYSScreenHeader. |
 | `View.sysHidesTabBar` | on View | Hides the tab bar while this screen is shown, on iOS 16 and later. |
+| `View.sysKeepsScreenAwake` | on View | Stops the screen from locking while this view is shown, for a screen someone uses without touching it much, such as a counter. |
 | `EnvironmentValues.sysMetrics` | on EnvironmentValues | — |
 | `View.sysMetrics` | on View | Measures the screen for everything below; pass a design canvas to have s and f scale sizes drawn for it. |
 | `View.sysNavigationBar` | on View | The same title and buttons for a screen pushed inside a stack that already exists. |
@@ -172,16 +176,22 @@ what; this says what exists.
 |---|---|---|
 | `SYSBackgroundTask` | enum | Runs non-blocking startup work under an iOS background task assertion, so something started just before the app is ba... |
 | `SYSDeepLink` | enum | The app's own links, scheme://kind/id: a scheme check for .onOpenURL and the kind and id split out of it. |
+| `SYSEntries` | class | Gathers every way into the app and hands each one over once the app is ready, so no app writes its own link, search or shortcut plumbing. |
+| `SYSEntry` | struct | Somewhere the app was asked to go, whether from a link, a search result or a Home Screen shortcut: a kind and an optional id. |
 | `SYSHaptics` | enum | Haptic feedback, with the generators kept alive between taps. |
 | `SYSIndexedIDTracker` | class | Tracks which ids are currently indexed under one domain, so a sync can tell "still valid" apart from "indexed but sho... |
 | `SYSPendingIntent` | class | Holds one intent until the app is actually ready to act on it. |
 | `SYSQuickAction` | struct | One Home Screen quick action. |
 | `SYSQuickActions` | enum | Registers dynamic Home Screen shortcuts and extracts which one fired, identically from a cold launch and from a tap w... |
+| `SYSSearchEntry` | struct | One thing worth finding in system search: plain values only, so it can cross threads, with a picture named by file and not loaded. |
+| `SYSSearchIndexer` | actor | Keeps system search in step with an app's content, on a background actor: it indexes what changed, removes what went away, and clears results an older versio... |
+| `SYSSearchThumbnail` | enum | The small square picture system search shows beside a result: sized for the list, set on white and saved as JPEG. |
 | `SYSSpeech` | class | — |
 | `SYSSpeechPhrase` | struct | — |
 | `SYSSpotlight` | enum | Indexing for Spotlight search, and the one tap-identifier scheme every app now shares instead of each writing its own. |
 | `SYSSpotlightItem` | struct | One thing worth finding in system search. |
 | `SYSVoiceGender` | enum | — |
+| `SYSWatchLink` | class | The link between an iPhone app and its Apple Watch app; on platforms without a watch it does nothing. |
 | `View.sysOnShake` | on View | Calls action when the device is shaken, while isEnabled is true and the view is on screen. |
 
 ## SYSKit / Startup
@@ -208,7 +218,11 @@ what; this says what exists.
 
 | Name | Kind | Summary |
 |---|---|---|
+| `SYSCounter` | struct | A count that can go up and down on several devices and still merge without losing a tap: each device keeps its own ups and downs and the largest seen per dev... |
 | `SYSDefaultsStorable` | protocol | A value that can live in UserDefaults in its native form. |
 | `SYSSettings` | class | — |
 | `SYSSettingsKey` | struct | Typed access to UserDefaults. |
 | `SYSStored` | struct | A preference backed by UserDefaults that publishes when it changes. |
+| `SYSSyncedSettings` | class | A few settings the phone and its watch share, where the newest change to each setting wins. |
+| `SYSTally` | struct | Counts per item for all time and per day, such as beads chanted per mantra, built from counters so two devices can merge. |
+| `SYSTallyStore` | class | A tally kept on the device and, when a watch link is given, in step with the same tally on the paired watch or phone. |

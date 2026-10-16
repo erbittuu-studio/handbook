@@ -27,6 +27,10 @@ public struct SYSLocalizedText: Codable, Hashable, Sendable {
     public func text(for locales: [String] = Locale.preferredLanguages) -> String {
         resolved(for: locales) ?? ""
     }
+
+    public var allTexts: [String] {
+        values.keys.sorted().compactMap { values[$0] }
+    }
 }
 
 extension SYSLocalizedText: ExpressibleByStringLiteral {
@@ -123,6 +127,10 @@ struct SYSConfigData: Codable {
         var manifestPath: String?
     }
 
+    struct Search: Codable {
+        var keywords: [String]?
+    }
+
     var version: Int?
     var update: Update?
     var maintenance: Maintenance?
@@ -130,6 +138,7 @@ struct SYSConfigData: Codable {
     var rating: Rating?
     var urls: [String: String]?
     var content: Content?
+    var search: Search?
     var manifests: [String]?
     var supportEmail: String?
     var whatsNew: [String: [String: [String]]]?
@@ -219,6 +228,9 @@ final class SYSConfig: @unchecked Sendable {
             try? payload.write(to: cacheURL, options: .atomic)
             SYSSettings.shared[Self.etagKey] = newETag
             state.withLock { $0.data = fetched }
+            #if canImport(CoreSpotlight) && !os(watchOS)
+            Task { await SYSSearchIndexer.shared.refresh() }
+            #endif
             return .updated
         } catch SYSNetworkError.notModified {
             return cachedData() == nil

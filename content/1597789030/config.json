@@ -28,6 +28,18 @@
       ]
     }
   },
+  "search": {
+    "keywords": [
+      "coloring book",
+      "coloring pages",
+      "kids coloring",
+      "toddler coloring",
+      "crayon coloring",
+      "kids drawing",
+      "kids art",
+      "painting for kids"
+    ]
+  },
   "manifests": ["content"],
   "app": {}
 }

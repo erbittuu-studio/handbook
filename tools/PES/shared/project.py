@@ -62,15 +62,15 @@ def restated(ctx, value: str, allowed: tuple, folders: tuple = SEARCH_DIRS) -> l
 ADOPTION = {
     "bootstrap": r"\bSYSBootstrappedApp\b|\bSYSRootedApp\b",
     "logging": r"\bSYSLogger\b",
-    "logFile": r"\bSYSLogFile\b",
+    "logFile": r"\bSYSLogFile\b|\bSYSAppDelegate\b",
     "haptics": r"\bSYSHaptics\b",
     "settings": r"\bSYS(Settings|Stored)\b",
     "network": r"\bSYSNetwork\b",
     "share": r"\bSYSShare\w*\b",
     "notifications": r"\bSYSNotifications\b",
-    "quickActions": r"\bSYSQuickActions\b",
-    "spotlight": r"\bSYSSpotlight\b",
-    "deepLinks": r"\bSYSDeepLink\b",
+    "quickActions": r"\bSYSQuickActions?\b",
+    "spotlight": r"\bSYSSpotlight\b|\bSYSSearchEntry\b|\bindexForSearch\b",
+    "deepLinks": r"\bSYSDeepLink\b|\bSYSEntry\b",
     "review": r"\bSYS(Review|Rating)\b",
     "about": r"\bSYSAbout\b|\bsysSupportMail\b",
     # SYSContentSync is the newer, per-manifest content system; SYSAssets is
@@ -79,7 +79,7 @@ ADOPTION = {
     # cares about, not which of the two implements it.
     "assets": r"\bSYSAssets\b|\bSYSContentSync\b",
     "remoteConfig": r"\bSYSConfig\b|requiresConfig:\s*true",
-    "crossPromo": r"\bSYSAppCatalog\b|\bSYSMoreAppsSection\b",
+    "crossPromo": r"\bSYSAppCatalog\b|\bSYSMoreApps(Section|Card)\b",
     "stored": r"\bSYSStored\b",
     "streak": r"\bSYSStreak\b",
     "connectivity": r"\bSYSConnectivity\b",

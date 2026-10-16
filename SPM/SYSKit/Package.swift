@@ -14,7 +14,7 @@ import PackageDescription
 
 let package = Package(
     name: "SYSKit",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v15), .macOS(.v12), .watchOS(.v9)],
     products: [
         .library(name: "SYSKit", targets: ["SYSKit"])
     ],

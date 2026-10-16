@@ -32,6 +32,17 @@
       ]
     }
   },
+  "search": {
+    "keywords": [
+      "drawing prompts",
+      "drawing ideas",
+      "what to draw",
+      "sketchbook",
+      "doodle",
+      "art prompts",
+      "drawing challenge"
+    ]
+  },
   "manifests": ["content"],
   "app": {}
 }

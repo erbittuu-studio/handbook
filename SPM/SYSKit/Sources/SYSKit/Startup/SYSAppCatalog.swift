@@ -20,6 +20,11 @@ struct SYSAppCatalogData: Codable, Equatable, Sendable {
     var apps: [SYSAppCatalogEntry]?
 }
 
+extension Notification.Name {
+    /// Posted after the list of the portfolio's apps is fetched, so a screen that shows it can redraw.
+    public static let sysAppCatalogDidUpdate = Notification.Name("sys.appCatalog.didUpdate")
+}
+
 final class SYSAppCatalog: @unchecked Sendable {
     static let shared = SYSAppCatalog()
 
@@ -53,6 +58,7 @@ final class SYSAppCatalog: @unchecked Sendable {
         else { return false }
         try? payload.write(to: cacheURL, options: .atomic)
         catalog.value = fetched
+        NotificationCenter.default.post(name: .sysAppCatalogDidUpdate, object: nil)
         return true
     }
 

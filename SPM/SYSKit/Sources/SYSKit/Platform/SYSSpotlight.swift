@@ -4,7 +4,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 /// One thing worth finding in system search.
-public struct SYSSpotlightItem {
+public struct SYSSpotlightItem: Sendable {
     public let id: String
     public let title: String
     public let contentDescription: String?
@@ -48,7 +48,6 @@ public final class SYSIndexedIDTracker {
     }
 }
 
-@MainActor
 /// Indexing for Spotlight search, and the one tap-identifier scheme every app now shares instead of each writing its own.
 public enum SYSSpotlight {
     public static func makeIdentifier(kind: String, id: String) -> String {
@@ -94,6 +93,27 @@ public enum SYSSpotlight {
         CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [domain]) { error in
             if let error { SYSLogger.error("spotlight: deindexAll failed for domain \(domain)", error) }
             completion?(error)
+        }
+    }
+
+    static func indexAndWait(_ items: [SYSSpotlightItem], domain: String) async -> Error? {
+        await withCheckedContinuation { continuation in
+            index(items, domain: domain) { continuation.resume(returning: $0) }
+        }
+    }
+
+    static func deindexAllAndWait(domain: String) async {
+        await withCheckedContinuation { continuation in
+            deindexAll(domain: domain) { _ in continuation.resume() }
+        }
+    }
+
+    static func deleteEverything() async -> Bool {
+        await withCheckedContinuation { continuation in
+            CSSearchableIndex.default().deleteAllSearchableItems { error in
+                if let error { SYSLogger.error("spotlight: delete all failed", error) }
+                continuation.resume(returning: error == nil)
+            }
         }
     }
 

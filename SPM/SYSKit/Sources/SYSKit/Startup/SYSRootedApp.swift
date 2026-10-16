@@ -15,16 +15,18 @@ public protocol SYSRootedApp: SYSBootstrappedApp where Screen == AnyView {
     var blockerStyle: SYSLaunchBlockerStyle { get }
     var blockerText: SYSLaunchBlockerText { get }
 
+    var quickActions: [SYSQuickAction] { get }
+
     func homeReached()
-    func open(_ url: URL)
-    func openSpotlight(_ identifier: String)
+    func enter(_ entry: SYSEntry)
 }
 
 @MainActor
 public extension SYSRootedApp {
+    var quickActions: [SYSQuickAction] { [] }
+
     func homeReached() {}
-    func open(_ url: URL) {}
-    func openSpotlight(_ identifier: String) {}
+    func enter(_ entry: SYSEntry) {}
 
     func screen(for state: SYSAppState?) -> AnyView {
         #if DEBUG
@@ -37,13 +39,15 @@ public extension SYSRootedApp {
                     if reached {
                         SYSLaunchMetrics.mark(.homeShown)
                         homeReached()
+                        SYSTiming.after(SYSTiming.relaxed) { SYSEntries.shared.markReady { enter($0) } }
                     }
                 }
-                .onOpenURL { open($0) }
+                .onOpenURL { SYSEntries.shared.open($0) }
                 .onContinueUserActivity(CSSearchableItemActionType) { activity in
                     guard let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
-                    openSpotlight(identifier)
+                    SYSEntries.shared.openSpotlight(identifier)
                 }
+                .task { SYSEntries.shared.registerQuickActions(quickActions) }
         )
     }
 

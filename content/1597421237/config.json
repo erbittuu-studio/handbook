@@ -32,6 +32,20 @@
       ]
     }
   },
+  "search": {
+    "keywords": [
+      "alphabet",
+      "abc",
+      "flash cards",
+      "flashcards",
+      "toddler learning",
+      "preschool",
+      "kindergarten",
+      "first words",
+      "english for kids",
+      "learn numbers"
+    ]
+  },
   "manifests": ["content"],
   "app": {}
 }
