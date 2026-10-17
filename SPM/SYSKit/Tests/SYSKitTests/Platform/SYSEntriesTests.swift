@@ -66,13 +66,3 @@ final class SYSConfigSearchTests: XCTestCase {
         XCTAssertNil(without.search)
     }
 }
-
-#if os(iOS)
-final class SYSMoreAppsCardTests: XCTestCase {
-    func testTheShortNameIsTheTitleBeforeTheColon() {
-        XCTAssertEqual(SYSMoreAppsCard.shortName("Colorful: Kids Coloring Book"), "Colorful")
-        XCTAssertEqual(SYSMoreAppsCard.shortName("Drawing Pad: Prompts & Ideas"), "Drawing Pad")
-        XCTAssertEqual(SYSMoreAppsCard.shortName("Prarthana"), "Prarthana")
-    }
-}
-#endif

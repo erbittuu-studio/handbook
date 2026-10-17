@@ -75,7 +75,7 @@ extension SYSUpdateReminder {
     }
 
     @MainActor
-    private static func topViewController() -> UIViewController? {
+    static func topViewController() -> UIViewController? {
         guard let scene = UIApplication.shared.connectedScenes
             .compactMap({ $0 as? UIWindowScene })
             .first(where: { $0.activationState == .foregroundActive }),

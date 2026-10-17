@@ -7,6 +7,22 @@ struct SYSAppCatalogEntry: Codable, Equatable, Sendable {
     var iconPath: String?
     var appStoreUrl: String?
     var category: String?
+    var recommends: [String]?
+    var blurb: [String: String]?
+    var highlights: [String: [String]]?
+
+    func blurb(for languages: [String]) -> String? {
+        let text = SYSLocale.match(blurb ?? [:], for: languages) ?? tagline
+        return text.flatMap { $0.isEmpty ? nil : $0 }
+    }
+
+    func highlights(for languages: [String]) -> [String] {
+        SYSLocale.match(highlights ?? [:], for: languages) ?? []
+    }
+
+    var shortName: String {
+        name.split(separator: ":", maxSplits: 1).first.map { $0.trimmingCharacters(in: .whitespaces) } ?? name
+    }
 
     var iconURL: URL? {
         guard let iconPath else { return nil }
@@ -18,11 +34,6 @@ struct SYSAppCatalogData: Codable, Equatable, Sendable {
     var version: Int?
     var baseUrl: String?
     var apps: [SYSAppCatalogEntry]?
-}
-
-extension Notification.Name {
-    /// Posted after the list of the portfolio's apps is fetched, so a screen that shows it can redraw.
-    public static let sysAppCatalogDidUpdate = Notification.Name("sys.appCatalog.didUpdate")
 }
 
 final class SYSAppCatalog: @unchecked Sendable {
@@ -58,7 +69,6 @@ final class SYSAppCatalog: @unchecked Sendable {
         else { return false }
         try? payload.write(to: cacheURL, options: .atomic)
         catalog.value = fetched
-        NotificationCenter.default.post(name: .sysAppCatalogDidUpdate, object: nil)
         return true
     }
 

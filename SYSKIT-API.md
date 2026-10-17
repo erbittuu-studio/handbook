@@ -85,13 +85,13 @@ what; this says what exists.
 |---|---|---|
 | `SYSAbout` | enum | Developer identity text every app in this portfolio shows the same way — the same support address, the same footer cr... |
 | `SYSAppStore` | enum | — |
+| `SYSAppSuggestionStyle` | struct | The colors the app suggestion sheet is drawn in, so each app keeps its own look. |
+| `SYSAppSuggestionText` | struct | The words on the app suggestion sheet. |
 | `SYSDailyRotation` | enum | Picks one item per calendar day from a list, walking through it in order and starting over when it runs out, so "toda... |
 | `SYSHelp` | class | The "Rate, share, contact" section. |
 | `SYSHelpSection` | struct | The "Rate, share, contact" section. |
 | `SYSLessonProgress` | class | Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees: - Opening a lesson sta... |
 | `SYSLessonProgressKeys` | struct | — |
-| `SYSMoreAppsCard` | struct | A row of the portfolio's other apps for a home screen: one tap opens an app's store page, behind a parental gate when one is given. |
-| `SYSMoreAppsCardStyle` | struct | The colors a more-apps card is drawn in, so each app keeps its own look. |
 | `SYSMoreAppsSection` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `SYSNotificationPrompt` | struct | When an app asks to send reminders, and what it does with the answer. |
 | `SYSNotifications` | class | Permission, scheduling and tap-routing for local notifications — not scheduling *policy*. |

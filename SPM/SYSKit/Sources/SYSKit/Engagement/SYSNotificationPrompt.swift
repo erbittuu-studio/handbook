@@ -20,11 +20,15 @@ public struct SYSNotificationPrompt {
         wanted && launchCount >= minLaunch && status == .notDetermined
     }
 
+    /// Asks when due and returns whether it did, so the caller can keep other prompts away from this launch.
     @MainActor
-    func askIfDue() async {
+    @discardableResult
+    func askIfDue() async -> Bool {
         let status = await SYSNotifications.shared.authorizationStatus()
-        guard Self.isDue(launchCount: SYSLifecycle.launchCount, minLaunch: minLaunch, wanted: wanted(), status: status) else { return }
+        let due = Self.isDue(launchCount: SYSLifecycle.launchCount, minLaunch: minLaunch, wanted: wanted(), status: status)
+        guard due else { return false }
         await answered(await SYSNotifications.shared.requestPermission())
+        return true
     }
 }
 #endif

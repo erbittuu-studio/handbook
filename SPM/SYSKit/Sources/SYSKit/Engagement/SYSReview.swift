@@ -13,7 +13,7 @@ public enum SYSReview {
     @MainActor
     @discardableResult
     static func askIfDue(config: SYSConfig) -> Bool {
-        guard SYSRating.shouldAsk(config: config) else { return false }
+        guard !SYSPromptTraffic.popupShowing, SYSRating.shouldAsk(config: config) else { return false }
 
         guard let scene = UIApplication.shared.connectedScenes
             .compactMap({ $0 as? UIWindowScene })
@@ -24,6 +24,7 @@ public enum SYSReview {
         }
 
         SKStoreReviewController.requestReview(in: scene)
+        SYSPromptTraffic.lastReviewRequest = Date()
         SYSRating.markAsked(config: config)
         SYSLogger.info("review: prompt requested")
         return true

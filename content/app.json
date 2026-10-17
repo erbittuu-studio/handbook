@@ -9,7 +9,31 @@
       "iconPath": "icon.jpg",
       "bundleId": "com.make4india.junglebook",
       "appStoreUrl": "https://apps.apple.com/us/app/abc-learning-kids-games/id1597421237",
-      "category": "kids"
+      "category": "kids",
+      "blurb": {
+        "en": "Alphabet, numbers and first words for little learners.",
+        "hi": "छोटे बच्चों के लिए वर्णमाला, गिनती और पहले शब्द।",
+        "gu": "નાના બાળકો માટે મૂળાક્ષરો, ગણતરી અને પહેલા શબ્દો."
+      },
+      "highlights": {
+        "en": [
+          "Free",
+          "Made for kids"
+        ],
+        "hi": [
+          "मुफ़्त",
+          "बच्चों के लिए"
+        ],
+        "gu": [
+          "મફત",
+          "બાળકો માટે"
+        ]
+      },
+      "recommends": [
+        "1597789030",
+        "1547752865",
+        "1597899453"
+      ]
     },
     {
       "id": "1597789030",
@@ -18,7 +42,31 @@
       "iconPath": "icon.jpg",
       "bundleId": "com.make4india.scanr",
       "appStoreUrl": "https://apps.apple.com/us/app/colorful-kids-coloring-book/id1597789030",
-      "category": "kids"
+      "category": "kids",
+      "blurb": {
+        "en": "Fun coloring pages for kids to fill with color.",
+        "hi": "बच्चों के लिए रंग भरने के मज़ेदार पन्ने।",
+        "gu": "બાળકો માટે રંગ ભરવાના મજેદાર પાનાં."
+      },
+      "highlights": {
+        "en": [
+          "Free",
+          "Made for kids"
+        ],
+        "hi": [
+          "मुफ़्त",
+          "बच्चों के लिए"
+        ],
+        "gu": [
+          "મફત",
+          "બાળકો માટે"
+        ]
+      },
+      "recommends": [
+        "1597421237",
+        "1547752865",
+        "1597899453"
+      ]
     },
     {
       "id": "1597899453",
@@ -27,7 +75,31 @@
       "iconPath": "icon.jpg",
       "bundleId": "com.make4india.hinduprayer",
       "appStoreUrl": "https://apps.apple.com/us/app/prarthana-daily-hindu-prayers/id1597899453",
-      "category": "lifestyle"
+      "category": "lifestyle",
+      "blurb": {
+        "en": "Daily Hindu prayers, aartis and a jaap counter.",
+        "hi": "रोज़ की हिंदू प्रार्थनाएं, आरतियां और जाप गिनती।",
+        "gu": "રોજની હિંદુ પ્રાર્થનાઓ, આરતીઓ અને જાપ ગણતરી."
+      },
+      "highlights": {
+        "en": [
+          "Free",
+          "Hindi, English, Gujarati"
+        ],
+        "hi": [
+          "मुफ़्त",
+          "हिंदी, अंग्रेज़ी, गुजराती"
+        ],
+        "gu": [
+          "મફત",
+          "હિંદી, અંગ્રેજી, ગુજરાતી"
+        ]
+      },
+      "recommends": [
+        "1597421237",
+        "1597789030",
+        "1547752865"
+      ]
     },
     {
       "id": "1547752865",
@@ -36,7 +108,28 @@
       "iconPath": "icon.jpg",
       "bundleId": "com.make4india.drawing",
       "appStoreUrl": "https://apps.apple.com/us/app/drawing-pad-sketch-ideas/id1547752865",
-      "category": "creativity"
+      "category": "creativity",
+      "blurb": {
+        "en": "Drawing ideas and prompts for every day.",
+        "hi": "हर दिन के लिए चित्र बनाने के विचार और सुझाव।",
+        "gu": "દરરોજ માટે ચિત્ર દોરવાના વિચારો અને સૂચનો."
+      },
+      "highlights": {
+        "en": [
+          "Free to start"
+        ],
+        "hi": [
+          "मुफ़्त में शुरू करें"
+        ],
+        "gu": [
+          "મફતમાં શરૂ કરો"
+        ]
+      },
+      "recommends": [
+        "1597789030",
+        "1597421237",
+        "1597899453"
+      ]
     }
   ]
 }
