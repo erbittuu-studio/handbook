@@ -6,19 +6,22 @@ public struct SYSAppSuggestionText: Sendable {
     public var download: String
     public var another: String
     public var later: String
+    public var close: String
     public var languages: [String]
 
     public init(
-        title: String = "Another app you may like",
+        title: String = "You may also like",
         download: String = "Download",
         another: String = "Another app",
         later: String = "Remind me later",
+        close: String = "Close",
         languages: [String] = Locale.preferredLanguages
     ) {
         self.title = title
         self.download = download
         self.another = another
         self.later = later
+        self.close = close
         self.languages = languages
     }
 
@@ -32,16 +35,18 @@ public struct SYSAppSuggestionText: Sendable {
     static let translations: [String: SYSAppSuggestionText] = [
         "en": SYSAppSuggestionText(),
         "hi": SYSAppSuggestionText(
-            title: "हमारा एक और ऐप, शायद आपको पसंद आए",
+            title: "आपको ये भी पसंद आ सकता है",
             download: "डाउनलोड करें",
             another: "दूसरा ऐप",
-            later: "बाद में याद दिलाएं"
+            later: "बाद में याद दिलाएं",
+            close: "बंद करें"
         ),
         "gu": SYSAppSuggestionText(
-            title: "અમારી બીજી એપ, કદાચ તમને ગમશે",
+            title: "તમને આ પણ ગમશે",
             download: "ડાઉનલોડ કરો",
             another: "બીજી એપ",
-            later: "પછી યાદ અપાવો"
+            later: "પછી યાદ અપાવો",
+            close: "બંધ કરો"
         )
     ]
 }

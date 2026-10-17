@@ -47,10 +47,14 @@ enum SYSDashboardPrompts {
         SYSAppSuggestion.showIfDue(style: suggestion.style, text: suggestion.text)
     }
 
+    /// Waits until nothing is presented over the dashboard and the app is active, and that has held for a second.
     private static func settle(_ delay: TimeInterval) async -> Bool {
         try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
-        while SYSUpdateReminder.hasPresentedScreen() || UIApplication.shared.applicationState != .active {
+        var clearFor = 0
+        while clearFor < 2 {
             if Task.isCancelled { return false }
+            let clear = !SYSUpdateReminder.hasPresentedScreen() && UIApplication.shared.applicationState == .active
+            clearFor = clear ? clearFor + 1 : 0
             try? await Task.sleep(nanoseconds: 500_000_000)
         }
         return !Task.isCancelled
@@ -62,23 +66,25 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
     let open: ((URL) -> Void)?
     let notifications: SYSNotificationPrompt?
     let suggestion: (style: SYSAppSuggestionStyle, text: SYSAppSuggestionText)?
+    let isActive: Bool
     @State private var job: Task<Void, Never>?
-    @State private var visible = false
+    @State private var appeared = false
     @State private var leftAt: Date?
+
+    private var visible: Bool { appeared && isActive }
 
     func body(content: Content) -> some View {
         content
             .onAppear {
-                visible = true
-                job?.cancel()
-                job = Task {
-                    await SYSDashboardPrompts.run(text: text, open: open, notifications: notifications, suggestion: suggestion)
-                }
+                appeared = true
+                if isActive { start() }
             }
             .onDisappear {
-                visible = false
-                job?.cancel()
-                job = nil
+                appeared = false
+                stop()
+            }
+            .sysOnChange(of: isActive) { active in
+                if active, appeared { start() } else { stop() }
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                 leftAt = Date()
@@ -86,6 +92,18 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 returned()
             }
+    }
+
+    private func start() {
+        job?.cancel()
+        job = Task {
+            await SYSDashboardPrompts.run(text: text, open: open, notifications: notifications, suggestion: suggestion)
+        }
+    }
+
+    private func stop() {
+        job?.cancel()
+        job = nil
     }
 
     private func returned() {
@@ -99,7 +117,10 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
 
 extension View {
     /// Shows the update reminder, then asks for notification permission, then suggests another app on a fixed
-    /// sequence of opens, on this dashboard only.
+    /// sequence of opens, on this dashboard only. Attach it to the dashboard screen itself, never to a tab bar or
+    /// container that holds other screens: it stops waiting when the dashboard leaves the screen.
+    /// - `isActive`: pass false while the dashboard is hidden but still in the view tree, for example under a library
+    ///   screen that fades over it, and the prompts wait for it to be true again.
     /// - `open`: receives the App Store URL; a Kids Category app routes it through its parental gate.
     /// - `notifications`: the permission prompt, shown after the update reminder when it is due.
     /// - `suggestion`: when given, the app suggestion popup may follow, in these colors and words;
@@ -109,13 +130,15 @@ extension View {
         open: ((URL) -> Void)? = nil,
         notifications: SYSNotificationPrompt? = nil,
         suggestion: SYSAppSuggestionStyle? = nil,
-        suggestionText: SYSAppSuggestionText = .forLanguages()
+        suggestionText: SYSAppSuggestionText = .forLanguages(),
+        isActive: Bool = true
     ) -> some View {
         modifier(SYSDashboardPromptsModifier(
             text: text,
             open: open,
             notifications: notifications,
-            suggestion: suggestion.map { ($0, suggestionText) }
+            suggestion: suggestion.map { ($0, suggestionText) },
+            isActive: isActive
         ))
     }
 }

@@ -69,6 +69,7 @@ enum SYSAppSuggestion {
         let dismisser = SYSPopupDismisser()
         let host = UIHostingController(
             rootView: SYSAppSuggestionView(model: model, style: style, text: text, close: { dismisser.dismiss() })
+                .sysMetrics()
         )
         dismisser.host = host
         host.view.backgroundColor = .clear
@@ -127,208 +128,206 @@ struct SYSAppSuggestionView: View {
     let text: SYSAppSuggestionText
     let close: () -> Void
 
+    @Environment(\.sysMetrics) private var metrics
     @State private var shown = false
-    @ScaledMetric(relativeTo: .body) private var icon: CGFloat = 92
 
-    var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                Color.black.opacity(shown ? 0.5 : 0)
-                    .ignoresSafeArea()
-                    .onTapGesture { close() }
+    private var sideBySide: Bool { metrics.isCompactHeight }
+    private var roomy: Bool { !metrics.isCompactWidth && !sideBySide }
 
-                ScrollView(showsIndicators: false) {
-                    card
-                        .frame(maxWidth: 420)
-                        .padding(.horizontal, SYSSpace.xl)
-                        .padding(.vertical, SYSSpace.xl)
-                        .frame(maxWidth: .infinity, minHeight: proxy.size.height)
-                }
-                .scaleEffect(shown ? 1 : 0.88)
-                .opacity(shown ? 1 : 0)
-            }
-        }
-        .onAppear {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.78)) { shown = true }
-        }
+    private var icon: CGFloat {
+        let fraction = sideBySide ? 0.24 : 0.22
+        return min(max(metrics.shortSide * fraction, sideBySide ? 56 : 72), sideBySide ? 88 : (roomy ? 144 : 112))
     }
 
-    private var gradient: LinearGradient {
-        LinearGradient(
-            colors: [style.accent, style.accent.opacity(0.7)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
+    private var cardWidth: CGFloat {
+        let available = metrics.contentSize.width - metrics.screenMargin * 2
+        let readable: CGFloat = sideBySide ? 640 : (metrics.isCompactWidth ? 360 : 540)
+        return max(min(available, readable), 1)
+    }
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(shown ? 0.45 : 0)
+                .ignoresSafeArea()
+
+            ScrollView(showsIndicators: false) {
+                card
+                    .padding(.vertical, SYSSpace.xl)
+                    .frame(maxWidth: .infinity, minHeight: metrics.contentSize.height)
+                    .contentShape(Rectangle())
+                    .onTapGesture { close() }
+            }
+            .scaleEffect(shown ? 1 : 0.92)
+            .opacity(shown ? 1 : 0)
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.45, dampingFraction: 0.82)) { shown = true }
+        }
     }
 
     private var card: some View {
-        VStack(spacing: 0) {
-            header
-            content
-                .id(model.app.id)
-                .transition(.opacity.combined(with: .scale(scale: 0.96)))
-            buttons
-                .padding(.horizontal, SYSSpace.xl)
-                .padding(.top, SYSSpace.xl)
-                .padding(.bottom, SYSSpace.lg)
+        Group {
+            if sideBySide { wide } else { tall }
         }
-        .frame(maxWidth: .infinity)
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-        .shadow(color: .black.opacity(0.3), radius: 30, x: 0, y: 14)
+        .id(model.app.id)
+        .transition(.opacity.combined(with: .scale(scale: 0.96)))
+        .padding(.horizontal, SYSSpace.xl)
+        .padding(.top, sideBySide ? SYSSpace.xxl + SYSSpace.sm : SYSSpace.xl + SYSSpace.sm)
+        .padding(.bottom, SYSSpace.md)
+        .frame(width: cardWidth)
+        .background(
+            ZStack(alignment: .top) {
+                Color(.systemBackground)
+                LinearGradient(colors: [style.accent.opacity(0.16), .clear], startPoint: .top, endPoint: .center)
+            }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .overlay(alignment: .topTrailing) { closeButton }
+        .shadow(color: .black.opacity(0.22), radius: 24, x: 0, y: 10)
+        .contentShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .onTapGesture {}
         .animation(SYSMotion.standard, value: model.app.id)
     }
 
-    private var header: some View {
-        ZStack(alignment: .bottom) {
-            gradient
-                .frame(height: icon * 0.95)
-                .overlay(alignment: .topTrailing) {
-                    Circle()
-                        .fill(Color.white.opacity(0.14))
-                        .frame(width: icon * 1.5, height: icon * 1.5)
-                        .offset(x: icon * 0.5, y: -icon * 0.6)
-                }
-                .overlay(alignment: .topLeading) {
-                    Circle()
-                        .fill(Color.white.opacity(0.1))
-                        .frame(width: icon * 0.9, height: icon * 0.9)
-                        .offset(x: -icon * 0.3, y: icon * 0.1)
-                }
-                .overlay(alignment: .topLeading) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.85))
-                        .padding(SYSSpace.xl)
-                        .accessibilityHidden(true)
-                }
-
-            AsyncImage(url: model.app.iconURL) { $0.resizable().scaledToFill() } placeholder: {
-                Color.secondary.opacity(SYSOpacity.light)
+    private var tall: some View {
+        VStack(spacing: SYSSpace.lg) {
+            VStack(spacing: SYSSpace.sm + 2) {
+                tag
+                iconView.padding(.top, SYSSpace.xs)
+                nameView
+                details
             }
-            .frame(width: icon, height: icon)
-            .clipShape(RoundedRectangle(cornerRadius: icon * 0.2237, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: icon * 0.2237, style: .continuous)
-                    .strokeBorder(Color.white, lineWidth: 4)
-            )
-            .shadow(color: .black.opacity(0.28), radius: 14, x: 0, y: 8)
-            .offset(y: icon * 0.5)
-            .id(model.app.id)
-            .accessibilityHidden(true)
+            buttons
         }
-        .padding(.bottom, icon * 0.5)
     }
 
-    private var content: some View {
-        let app = model.app
-        let blurb = app.blurb(for: text.languages)
-        let highlights = Array(app.highlights(for: text.languages).prefix(3))
+    private var wide: some View {
+        HStack(alignment: .center, spacing: SYSSpace.xl) {
+            VStack(spacing: SYSSpace.sm) {
+                iconView
+                nameView
+            }
+            .frame(width: max(icon + SYSSpace.xl, cardWidth * 0.3))
 
-        return VStack(spacing: SYSSpace.md) {
-            Text(text.title.uppercased())
-                .font(SYSFont.caption2.weight(.bold))
-                .tracking(1)
-                .foregroundColor(style.accent)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, SYSSpace.md)
-                .padding(.vertical, SYSSpace.xs + 1)
-                .background(Capsule().fill(style.accent.opacity(SYSOpacity.subtle + 0.05)))
-                .padding(.top, SYSSpace.lg)
+            VStack(spacing: SYSSpace.sm + 2) {
+                tag
+                details
+                buttons
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .padding(.bottom, SYSSpace.sm)
+    }
 
-            Text(app.shortName)
-                .font(SYSFont.rounded.title2.weight(.heavy))
-                .foregroundColor(.primary)
-                .multilineTextAlignment(.center)
+    private var tag: some View {
+        Text(text.title.uppercased())
+            .font((roomy ? SYSFont.caption : SYSFont.caption2).weight(.bold))
+            .tracking(1.2)
+            .foregroundColor(style.accent)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+    }
 
+    private var iconView: some View {
+        AsyncImage(url: model.app.iconURL) { $0.resizable().scaledToFill() } placeholder: {
+            Color.secondary.opacity(SYSOpacity.light)
+        }
+        .frame(width: icon, height: icon)
+        .clipShape(RoundedRectangle(cornerRadius: icon * 0.2237, style: .continuous))
+        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+        .accessibilityHidden(true)
+    }
+
+    private var nameView: some View {
+        Text(model.app.shortName)
+            .font((roomy ? SYSFont.rounded.title : SYSFont.rounded.title2).weight(.bold))
+            .foregroundColor(.primary)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var details: some View {
+        let blurb = model.app.blurb(for: text.languages)
+        let meta = model.app.highlights(for: text.languages).prefix(3).joined(separator: "  ·  ")
+
+        return VStack(spacing: SYSSpace.sm) {
             if let blurb {
                 Text(blurb)
-                    .font(SYSFont.callout)
+                    .font(roomy ? SYSFont.body : SYSFont.subheadline)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
-
-            if !highlights.isEmpty {
-                HStack(spacing: SYSSpace.sm) {
-                    ForEach(highlights, id: \.self) { highlight in
-                        HStack(spacing: 5) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 13, weight: .bold))
-                            Text(highlight)
-                                .font(SYSFont.caption.weight(.semibold))
-                                .multilineTextAlignment(.leading)
-                        }
-                        .foregroundColor(style.accent)
-                        .padding(.horizontal, SYSSpace.sm + 2)
-                        .padding(.vertical, SYSSpace.sm)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: SYSRadius.md, style: .continuous)
-                                .fill(style.accent.opacity(SYSOpacity.subtle + 0.05))
-                        )
-                    }
-                }
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, SYSSpace.xs)
+            if !meta.isEmpty {
+                Text(meta)
+                    .font((roomy ? SYSFont.subheadline : SYSFont.footnote).weight(.semibold))
+                    .foregroundColor(style.accent)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .padding(.horizontal, SYSSpace.xl)
         .accessibilityElement(children: .combine)
     }
 
+    private var closeButton: some View {
+        Button {
+            close()
+        } label: {
+            Image(systemName: SYSSymbol.close)
+                .font(.system(size: 13, weight: .bold))
+                .foregroundColor(.secondary)
+                .frame(width: 30, height: 30)
+                .background(Circle().fill(Color.secondary.opacity(SYSOpacity.light)))
+                .frame(width: SYSSize.touch, height: SYSSize.touch)
+        }
+        .buttonStyle(.plain)
+        .padding(SYSSpace.xs)
+        .accessibilityLabel(text.close)
+    }
+
     private var buttons: some View {
-        VStack(spacing: SYSSpace.sm + 2) {
+        VStack(spacing: SYSSpace.xs) {
             Button {
                 SYSHaptics.light()
                 model.download()
                 close()
             } label: {
-                HStack(spacing: SYSSpace.sm) {
-                    Image(systemName: "arrow.down.app.fill")
-                    Text(text.download)
-                }
-                .font(SYSFont.body.weight(.bold))
-                .foregroundColor(style.onAccent)
-                .frame(maxWidth: .infinity, minHeight: SYSSize.touch + 8)
-                .background(
-                    RoundedRectangle(cornerRadius: SYSRadius.lg, style: .continuous).fill(gradient)
-                )
-                .shadow(color: style.accent.opacity(0.4), radius: 10, x: 0, y: 5)
+                Text(text.download)
+                    .font((roomy ? SYSFont.title3 : SYSFont.body).weight(.bold))
+                    .foregroundColor(style.onAccent)
+                    .frame(maxWidth: .infinity, minHeight: SYSSize.touch + (roomy ? 14 : 6))
+                    .background(Capsule().fill(style.accent))
             }
             .buttonStyle(SYSPressStyle())
 
-            if model.hasAnother {
-                Button {
-                    SYSHaptics.light()
-                    model.showAnother()
-                } label: {
-                    HStack(spacing: SYSSpace.sm) {
-                        Image(systemName: "arrow.triangle.2.circlepath")
-                        Text(text.another)
-                    }
-                    .font(SYSFont.body.weight(.semibold))
-                    .foregroundColor(style.accent)
-                    .frame(maxWidth: .infinity, minHeight: SYSSize.touch + 2)
-                    .background(
-                        RoundedRectangle(cornerRadius: SYSRadius.lg, style: .continuous)
-                            .fill(style.accent.opacity(SYSOpacity.subtle + 0.05))
-                    )
+            HStack(spacing: 0) {
+                textButton(text.later) {
+                    model.remindLater()
+                    close()
                 }
-                .buttonStyle(SYSPressStyle())
+                if model.hasAnother {
+                    Rectangle()
+                        .fill(Color.secondary.opacity(SYSOpacity.medium))
+                        .frame(width: SYSStroke.thin, height: 18)
+                        .accessibilityHidden(true)
+                    textButton(text.another, tint: style.accent) {
+                        SYSHaptics.light()
+                        model.showAnother()
+                    }
+                }
             }
-
-            Button {
-                model.remindLater()
-                close()
-            } label: {
-                Text(text.later)
-                    .font(SYSFont.subheadline.weight(.medium))
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, minHeight: SYSSize.touch - SYSSpace.sm)
-            }
-            .buttonStyle(.plain)
         }
+    }
+
+    private func textButton(_ title: String, tint: Color = .secondary, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font((roomy ? SYSFont.body : SYSFont.subheadline).weight(.semibold))
+                .foregroundColor(tint)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, minHeight: SYSSize.touch)
+        }
+        .buttonStyle(.plain)
     }
 }
 
