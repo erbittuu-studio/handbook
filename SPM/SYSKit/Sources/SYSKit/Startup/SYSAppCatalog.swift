@@ -69,6 +69,10 @@ final class SYSAppCatalog: @unchecked Sendable {
         else { return false }
         try? payload.write(to: cacheURL, options: .atomic)
         catalog.value = fetched
+        #if canImport(UIKit) && !os(watchOS)
+        let icons = (fetched.apps ?? []).compactMap(\.iconURL)
+        Task.detached(priority: .utility) { await SYSImageStore.shared.prefetch(icons) }
+        #endif
         return true
     }
 

@@ -79,6 +79,7 @@ actor SYSNetwork {
             } catch let error as URLError where error.code == .cancelled {
                 throw error
             } catch {
+                if Self.hasNoConnection(error) { throw SYSNetworkError.offline }
                 guard attempt < maxRetries else {
                     throw Self.isOffline(error) ? SYSNetworkError.offline : error
                 }
@@ -136,6 +137,11 @@ actor SYSNetwork {
 
     static func backoff(_ attempt: Int) -> UInt64 {
         UInt64(Double(NSEC_PER_SEC) * 0.5 * pow(2, Double(attempt - 1)))
+    }
+
+    private static func hasNoConnection(_ error: Error) -> Bool {
+        let code = (error as NSError).code
+        return [NSURLErrorNotConnectedToInternet, NSURLErrorDataNotAllowed, NSURLErrorInternationalRoamingOff].contains(code)
     }
 
     private static func isOffline(_ error: Error) -> Bool {

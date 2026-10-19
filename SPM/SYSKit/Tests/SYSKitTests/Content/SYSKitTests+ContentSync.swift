@@ -46,25 +46,12 @@ final class SYSContentSyncTests: XCTestCase {
         XCTAssertFalse(sync.hasCachedContent)
     }
 
-    func testLoadBundledMarksEverythingDownloaded() {
-        let sync = makeSync()
-        let items = [
-            FakeContentItem(id: "a", bundle: "a.zip", checksum: nil, isPublished: true),
-            FakeContentItem(id: "b", bundle: "b.zip", checksum: nil, isPublished: true)
-        ]
-
-        sync.loadBundled(items)
-
-        XCTAssertTrue(sync.hasCachedContent)
-        XCTAssertTrue(sync.isAvailable(id: "a"))
-        XCTAssertTrue(sync.isAvailable(id: "b"))
-        XCTAssertEqual(sync.syncState, .ready)
-        XCTAssertEqual(sync.meta(for: "a"), items[0])
-    }
-
     func testClearAllDataResetsStateAndVersion() {
         let sync = makeSync()
-        sync.loadBundled([FakeContentItem(id: "a", bundle: "a.zip", checksum: nil, isPublished: true)])
+        let folder = sync.itemsRoot.appendingPathComponent("a")
+        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        try? Data("{}".utf8).write(to: folder.appendingPathComponent("index.json"))
+        sync.loadCached([FakeContentItem(id: "a", bundle: "a.zip", checksum: nil, isPublished: true)])
         XCTAssertTrue(sync.hasCachedContent)
 
         sync.clearAllData()
@@ -410,7 +397,7 @@ final class SYSContentSyncRefreshTests: XCTestCase {
         XCTAssertFalse(sync.hasCachedContent, "a manifest-only refresh downloads nothing")
 
         var updates: [SYSAssetProgress] = []
-        await sync.downloadMissing(progress: { updates.append($0) })
+        await sync.refresh(progress: { updates.append($0) })
 
         XCTAssertEqual(sync.syncState, .ready)
         for id in ["a", "b", "c", "d", "e"] {
@@ -437,8 +424,8 @@ final class SYSContentSyncRefreshTests: XCTestCase {
         let sync = makeSync(contentID: "test-app")
         await sync.refresh(downloadAll: false)
 
-        async let first: Void = sync.downloadMissing()
-        async let second: Void = sync.downloadMissing()
+        async let first: Void = sync.refresh()
+        async let second: Void = sync.refresh()
         async let tap = sync.ensure("b")
         _ = await (first, second, tap)
 
@@ -611,6 +598,336 @@ final class SYSContentSyncRefreshTests: XCTestCase {
         )
 
         guard case .failure = result else { return XCTFail("expected checksum mismatch to fail closed") }
+    }
+}
+
+// MARK: - SYSContentSync — what survives a kill, and what the person is told
+
+extension SYSContentSyncRefreshTests {
+    private func makeSync(storage: String, keys: String, policy: SYSDownloadPolicy = .onDemand) -> SYSContentSync<FakeContentItem> {
+        let sync = SYSContentSync<FakeContentItem>(
+            manifestName: "content",
+            storageFolder: "sysContentSyncOfflineTests-\(storage)",
+            dataVersionKey: SYSSettingsKey<Int>("test.dataVersion.\(keys)", default: 0),
+            itemChecksumMapKey: SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(keys)", default: [:]),
+            bundle: StubBundle(contentID: "test-app"))
+        sync.downloadPolicy = policy
+        addTeardownBlock {
+            sync.clearAllData()
+            try? FileManager.default.removeItem(at: sync.rootURL)
+        }
+        return sync
+    }
+
+    private func stageTwoItems(at siteRoot: URL) throws {
+        let zipA = MiniZipBuilder.build([.init(path: "index.json", contents: Data(#"{"n":"a"}"#.utf8))])
+        let manifestDir = try stageManifest(at: siteRoot, manifestName: "content", itemID: "a",
+                                            bundleFilename: "a.zip", plaintext: zipA, contentID: "test-app")
+        let zipB = MiniZipBuilder.build([.init(path: "index.json", contents: Data(#"{"n":"b"}"#.utf8))])
+        try appendItem(id: "b", plaintext: zipB, encryptFor: "test-app", to: manifestDir)
+    }
+
+    private func waitUntil(_ condition: @MainActor () -> Bool) async {
+        for _ in 0..<100 where !condition() { try? await Task.sleep(nanoseconds: 50_000_000) }
+    }
+
+    func testAnInterruptedSwapRestoresThePreviousCompleteCopy() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh()
+        XCTAssertEqual(first.itemStates["a"], .downloaded)
+
+        let live = first.itemsRoot.appendingPathComponent("a")
+        try FileManager.default.createDirectory(at: first.backupRoot, withIntermediateDirectories: true)
+        try FileManager.default.moveItem(at: live, to: first.backupRoot.appendingPathComponent("a"))
+        try FileManager.default.createDirectory(
+            at: first.workingRoot.appendingPathComponent("b"), withIntermediateDirectories: true)
+
+        let relaunched = makeSync(storage: id, keys: id)
+        relaunched.loadCached(first.items)
+        XCTAssertEqual(relaunched.itemStates["a"], .downloaded)
+        XCTAssertNotNil(relaunched.loadFile(itemId: "a", filename: "index.json"))
+        let leftovers = try FileManager.default.contentsOfDirectory(atPath: relaunched.workingRoot.path)
+        XCTAssertTrue(leftovers.isEmpty)
+    }
+
+    func testAnItemStaysAvailableWhenTheCheckSumNeverReachedTheSettings() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh()
+
+        let relaunched = makeSync(storage: id, keys: UUID().uuidString)
+        relaunched.loadCached(first.items)
+        XCTAssertEqual(relaunched.itemStates["a"], .downloaded)
+        XCTAssertEqual(relaunched.itemStates["b"], .downloaded)
+    }
+
+    func testAnItemInstalledBeforeReceiptsIsAdoptedFromTheSettingsAndGetsOne() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh()
+        let receipt = first.itemsRoot.appendingPathComponent("a/.sys-receipt")
+        let checksum = try String(contentsOf: receipt, encoding: .utf8)
+        try FileManager.default.removeItem(at: receipt)
+        SYSSettings.shared[SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(id)", default: [:])] = ["a": checksum]
+
+        let relaunched = makeSync(storage: id, keys: id)
+        relaunched.loadCached(first.items)
+        XCTAssertEqual(relaunched.itemStates["a"], .downloaded)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: receipt.path))
+    }
+
+    func testANewerVersionOfTheItemIsNotMistakenForTheOneOnTheDevice() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let sync = makeSync(storage: id, keys: id)
+        await sync.refresh()
+
+        let newer = sync.items.map { FakeContentItem(id: $0.id, bundle: $0.bundle, checksum: "changed", isPublished: true) }
+        sync.loadCached(newer)
+        XCTAssertEqual(sync.itemStates["a"], .notDownloaded)
+    }
+
+    func testTheFilesListNeverShowsTheReceipt() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString)
+        await sync.refresh()
+        XCTAssertEqual(sync.filenames(itemId: "a"), ["index.json"])
+    }
+
+    func testPrepareRequiredFailsWhenNothingWasDownloadedAndTheServerIsUnreachable() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh(downloadAll: false)
+
+        SYSHosting.setContentURL(tempSiteRoot().appendingPathComponent("gone"))
+        let relaunched = makeSync(storage: id, keys: id)
+        let result = await relaunched.prepareRequired()
+        guard case .failure = result else { return XCTFail("an app with nothing on the device must not open as if ready") }
+    }
+
+    func testPrepareRequiredOpensWithWhatIsDownloadedWhenTheServerIsUnreachable() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh(downloadAll: false)
+        _ = await first.ensure("a")
+
+        SYSHosting.setContentURL(tempSiteRoot().appendingPathComponent("gone"))
+        let relaunched = makeSync(storage: id, keys: id)
+        let result = await relaunched.prepareRequired()
+        guard case .success = result else { return XCTFail("partial content must still open") }
+        XCTAssertEqual(relaunched.itemStates["a"], .downloaded)
+        XCTAssertEqual(relaunched.itemStates["b"], .notDownloaded)
+    }
+
+    func testAccessSaysWhyAnItemCannotBeOpenedOffline() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString)
+        await sync.refresh(downloadAll: false)
+        _ = await sync.ensure("a")
+
+        SYSConnectivity.shared.update(isOnline: false)
+        addTeardownBlock { await SYSConnectivity.shared.update(isOnline: true) }
+        let downloaded = await sync.access("a")
+        let missing = await sync.access("b")
+        XCTAssertEqual(downloaded, .ready)
+        XCTAssertEqual(missing, .needsInternet)
+
+        SYSConnectivity.shared.update(isOnline: true)
+        let fetched = await sync.access("b")
+        XCTAssertEqual(fetched, .ready)
+    }
+
+    func testTheOnDemandPolicyDownloadsNothingByItself() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        SYSConnectivity.shared.update(isOnline: true)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString, policy: .onDemand)
+        await sync.refresh(downloadAll: false)
+        sync.resumeIfNeeded()
+        try await Task.sleep(nanoseconds: 300_000_000)
+        XCTAssertEqual(sync.itemStates["a"], .notDownloaded)
+    }
+
+    func testAPolicyFinishesTheDownloadAfterAManifestOnlyRefresh() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        SYSConnectivity.shared.update(isOnline: true)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString, policy: .anyNetwork)
+        await sync.refresh(downloadAll: false)
+        await waitUntil { sync.itemStates["a"] == .downloaded && sync.itemStates["b"] == .downloaded }
+        XCTAssertEqual(sync.itemStates["a"], .downloaded)
+        XCTAssertEqual(sync.itemStates["b"], .downloaded)
+    }
+
+    func testResumeFinishesWhatWasLeftWhenTheConnectionReturns() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        SYSConnectivity.shared.update(isOnline: true)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh(downloadAll: false)
+        _ = await first.ensure("a")
+
+        let relaunched = makeSync(storage: id, keys: id, policy: .anyNetwork)
+        relaunched.loadCached(first.items)
+        XCTAssertEqual(relaunched.itemStates["b"], .notDownloaded)
+        relaunched.resumeIfNeeded()
+        await waitUntil { relaunched.itemStates["b"] == .downloaded }
+        XCTAssertEqual(relaunched.itemStates["b"], .downloaded)
+    }
+}
+
+extension SYSContentSyncRefreshTests {
+    private func stageAudio(_ text: String, at siteRoot: URL, name: String = "hanuman.mp3") throws -> (checksum: String, bytes: Data) {
+        let packs = siteRoot.appendingPathComponent("content/packs", isDirectory: true)
+        try FileManager.default.createDirectory(at: packs, withIntermediateDirectories: true)
+        let bytes = Data(text.utf8)
+        let encrypted = try MiniCrypto.encrypt(bytes, appStoreID: "test-app")
+        try encrypted.write(to: packs.appendingPathComponent(name))
+        return (SYSHash.sha256Hex(encrypted), bytes)
+    }
+
+    func testAKeptAudioFileIsStillCurrentAfterARelaunchWithoutAnySettings() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        let audio = try stageAudio("version one", at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        _ = await first.ensureBundle("packs/hanuman.mp3", checksum: audio.checksum, cacheKey: "hanuman_audio")
+
+        let relaunched = makeSync(storage: id, keys: UUID().uuidString)
+        XCTAssertTrue(relaunched.isBundleKept(checksum: audio.checksum, cacheKey: "hanuman_audio"))
+        XCTAssertFalse(relaunched.isBundleKept(checksum: "another", cacheKey: "hanuman_audio"))
+    }
+
+    func testANewVersionOfAnAudioFileReplacesTheOldOne() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        let one = try stageAudio("version one", at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let sync = makeSync(storage: id, keys: id)
+        _ = await sync.ensureBundle("packs/hanuman.mp3", checksum: one.checksum, cacheKey: "hanuman_audio")
+        let two = try stageAudio("version two", at: siteRoot)
+        let result = await sync.ensureBundle("packs/hanuman.mp3", checksum: two.checksum, cacheKey: "hanuman_audio")
+        guard case let .success(data) = result else { return XCTFail("expected the new version") }
+        XCTAssertEqual(data, two.bytes)
+        let files = try FileManager.default.contentsOfDirectory(atPath: sync.bundlesRoot.path)
+        XCTAssertEqual(files.count, 1)
+    }
+
+    func testTheCopyOnTheDevicePlaysWhenANewerOneCannotBeFetched() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        let one = try stageAudio("version one", at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let sync = makeSync(storage: id, keys: id)
+        _ = await sync.ensureBundle("packs/hanuman.mp3", checksum: one.checksum, cacheKey: "hanuman_audio")
+
+        SYSHosting.setContentURL(tempSiteRoot().appendingPathComponent("gone"))
+        let result = await sync.ensureBundle("packs/hanuman.mp3", checksum: "a-newer-checksum", cacheKey: "hanuman_audio")
+        guard case let .success(data) = result else { return XCTFail("the held copy must still play") }
+        XCTAssertEqual(data, one.bytes)
+    }
+
+    func testAnAudioFileKeptBeforeThisVersionIsAdoptedFromTheSettings() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        let audio = try stageAudio("legacy", at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let sync = makeSync(storage: id, keys: id)
+        try FileManager.default.createDirectory(at: sync.bundlesRoot, withIntermediateDirectories: true)
+        try audio.bytes.write(to: sync.bundlesRoot.appendingPathComponent("hanuman_audio"))
+        SYSSettings.shared[SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(id)", default: [:])] = ["hanuman_audio": audio.checksum]
+
+        XCTAssertTrue(sync.isBundleKept(checksum: audio.checksum, cacheKey: "hanuman_audio"))
+        let files = try FileManager.default.contentsOfDirectory(atPath: sync.bundlesRoot.path)
+        XCTAssertFalse(files.contains("hanuman_audio"))
+    }
+
+    func testTheRefreshHookRunsWhoeverStartedTheRefresh() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString)
+        var calls = 0
+        sync.didRefresh = { calls += 1 }
+        await sync.refresh(downloadAll: false)
+        XCTAssertEqual(calls, 1)
+    }
+
+    func testComingBackAfterTheIntervalRefreshesAgain() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        SYSConnectivity.shared.update(isOnline: true)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString, policy: .anyNetwork)
+        var calls = 0
+        sync.didRefresh = { calls += 1 }
+        sync.refreshInterval = 0
+        await sync.refresh()
+        let afterLaunch = calls
+        try await Task.sleep(nanoseconds: 20_000_000)
+        sync.resumeIfNeeded()
+        await waitUntil { calls > afterLaunch }
+        XCTAssertGreaterThan(calls, afterLaunch)
+    }
+
+    func testComingBackWithinTheIntervalDoesNotRefresh() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        SYSConnectivity.shared.update(isOnline: true)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString, policy: .anyNetwork)
+        var calls = 0
+        sync.didRefresh = { calls += 1 }
+        await sync.refresh()
+        let afterLaunch = calls
+        sync.resumeIfNeeded()
+        try await Task.sleep(nanoseconds: 300_000_000)
+        XCTAssertEqual(calls, afterLaunch)
     }
 }
 

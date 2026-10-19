@@ -9,13 +9,18 @@ what; this says what exists.
 | Name | Kind | Summary |
 |---|---|---|
 | `SYSAssetProgress` | struct | Progress through a prepareRequired run, for apps that show a bar. |
+| `SYSBundleRequest` | struct | One large file a manifest lists beside its items: where to fetch it, its checksum, and the name it is kept under. |
 | `SYSContentError` | enum | Why the app could not get something it needs from the server. |
 | `SYSContentFolder` | struct | Where one downloaded item lives on disk, as a value that is safe to read from any thread. |
 | `SYSContentItem` | protocol | One content item a manifest lists — the handful of fields the generic sync loop actually touches. |
 | `SYSContentItemStatus` | enum | — |
+| `SYSContentNoticeText` | struct | The words on the notice that says why an item cannot be opened. |
+| `SYSContentReadiness` | class | How much of the content every sync in the app still lacks on this device, so one notice can say so. |
 | `SYSContentSync` | class | Generic on-disk cache + downloader for a manifest's items: the live/staging/backup/downloads layout, checksum trackin... |
 | `SYSContentSyncError` | enum | — |
 | `SYSContentSyncState` | enum | — |
+| `SYSDownloadPolicy` | enum | When the sync may fetch what is missing without being asked: never (onDemand), only on an unmetered connection (unmetered), or on any connection (anyNetwork). |
+| `SYSItemAccess` | enum | Whether an item can be opened now: it is on the device, it needs a connection to be fetched, or fetching failed. |
 | `SYSPublishable` | protocol | Something a manifest can mark as not live yet. |
 | `SYSPublishing` | enum | Previewing draft content without a second server. |
 
@@ -126,11 +131,15 @@ what; this says what exists.
 | `SYSColumnGrid` | struct | A hand-measured LazyVGrid column count. |
 | `SYSDesignCanvas` | struct | The screen a proportional design was drawn on, so sizes written for it can be scaled to any other screen. |
 | `SYSEmptyState` | struct | The standard empty screen: a symbol, a title and a subtitle, in colors the app supplies. |
+| `SYSImageContent` | struct | The usual drawing for SYSRemoteImage: the loaded picture through one closure, anything else through another. |
+| `SYSImagePhase` | enum | Where a SYSRemoteImage is: still loading, loaded, or failed (offline says whether the cause was no connection). |
 | `SYSLaunchBlockerStyle` | struct | — |
 | `SYSLaunchBlockerText` | struct | — |
 | `SYSMetrics` | struct | — |
 | `SYSNavigationContainer` | struct | A navigation stack that draws the page theme's backdrop behind its content and tints with the theme accent unless told otherwise. |
+| `SYSOfflineText` | struct | The words on the offline notice. |
 | `SYSReadableWidth` | enum | — |
+| `SYSRemoteImage` | struct | A picture from a web address or a file, kept on the device by SYSImageStore. |
 | `SYSRoundedCorner` | struct | The empty screen, a shape that rounds chosen corners, and a self-sizing horizontal scroll. |
 | `SYSSafeAreaHorizontalScroll` | struct | A horizontal scroll view that sizes itself to its content height and respects the safe area. |
 | `SYSScreenHeader` | struct | A large title with an optional glass button at the trailing edge, drawn in the content so the button can be the source of a zoom transition (a system bar but... |
@@ -152,6 +161,7 @@ what; this says what exists.
 | `View.sysMetrics` | on View | Measures the screen for everything below; pass a design canvas to have s and f scale sizes drawn for it. |
 | `View.sysNavigationBar` | on View | The same title and buttons for a screen pushed inside a stack that already exists. |
 | `View.sysNavigationTitle` | on View | Shows a title built by the app, such as a symbol with gradient text, in the same place; title still names the screen for the system. |
+| `View.sysOfflineNotice` | on View | Shows a small notice at the top while the device has no connection, a moment after it is lost, and hides it when the connection returns. |
 | `View.sysReservedLines` | on View | Reserves room for a minimum number of text lines so rows keep one height, up to a maximum. |
 | `View.sysScrollHandle` | on View | Fills handle with the scroll view this content scrolls in. |
 | `TabRole.sysSearch` | on TabRole | The role for a search tab: .prominent on iOS 27, .search before. |
@@ -165,6 +175,8 @@ what; this says what exists.
 | Name | Kind | Summary |
 |---|---|---|
 | `SYSConnectivity` | class | Whether the device has a usable network path right now. |
+| `SYSImageError` | enum | Why a picture could not be loaded: no connection, or the server gave nothing usable. |
+| `SYSImageStore` | actor | Every picture an app shows from a web address or a file goes through here. |
 | `SYSLocalizedText` | struct | A string that may be provided per language: {"en": "...", "hi": "..."}. |
 | `SYSRecommendedUpdate` | struct | A newer app version the remote config recommends but does not require. |
 | `SYSUpdate` | enum | What the remote config says about updating the running version; a required update is handled at launch. |

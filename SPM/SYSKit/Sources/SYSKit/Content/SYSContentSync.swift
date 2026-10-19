@@ -1,4 +1,10 @@
 import Foundation
+#if canImport(Combine)
+import Combine
+#endif
+#if canImport(UIKit) && !os(watchOS)
+import UIKit
+#endif
 
 /// One content item a manifest lists — the handful of fields the generic sync loop actually touches.
 public protocol SYSContentItem: Codable, Identifiable, SYSPublishable where ID == String {
@@ -26,6 +32,24 @@ public enum SYSContentSyncState: Equatable, Sendable {
     }
 }
 
+/// When the sync may fetch what is missing without being asked: never (`onDemand`), only on an unmetered
+/// connection (`unmetered`), or on any connection (`anyNetwork`). It applies after each refresh, when the
+/// connection returns and when the app comes back to the foreground.
+public enum SYSDownloadPolicy: Sendable {
+    case onDemand
+    case unmetered
+    case anyNetwork
+}
+
+/// Whether an item can be opened now: it is on the device, it needs a connection to be fetched, or fetching failed.
+public enum SYSItemAccess: Sendable {
+    case ready
+    case needsInternet
+    case failed
+}
+
+private let sysReceiptName = ".sys-receipt"
+
 public enum SYSContentSyncError: Error {
     case invalidBundleURL(itemId: String)
     case downloadFailed(itemId: String)
@@ -33,11 +57,24 @@ public enum SYSContentSyncError: Error {
     case installFailed(itemId: String)
 }
 
+/// One large file a manifest lists beside its items: where to fetch it, its checksum, and the name it is kept under.
+public struct SYSBundleRequest: Sendable {
+    public let path: String
+    public let checksum: String?
+    public let cacheKey: String
+
+    public init(path: String, checksum: String?, cacheKey: String) {
+        self.path = path
+        self.checksum = checksum
+        self.cacheKey = cacheKey
+    }
+}
+
 @MainActor
 /// Generic on-disk cache + downloader for a manifest's items: the live/staging/backup/downloads layout, checksum trackin...
 public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
-    @Published public private(set) var items: [Item] = []
-    @Published public private(set) var itemStates: [String: SYSContentItemStatus] = [:]
+    @Published public private(set) var items: [Item] = [] { didSet { reportReadiness() } }
+    @Published public private(set) var itemStates: [String: SYSContentItemStatus] = [:] { didSet { reportReadiness() } }
     @Published public private(set) var syncState: SYSContentSyncState = .idle
 
     private let fm = FileManager.default
@@ -50,6 +87,22 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
     private var explicitBaseURL: String?
     private var manifestETag: String?
+    private var keptAssets: [String] = []
+    private var keptBundles: [SYSBundleRequest] = []
+    private var resuming = false
+    private var refreshing = 0
+    #if canImport(Combine)
+    private var observers: [AnyCancellable] = []
+    #endif
+
+    private var lastRefresh: Date?
+
+    public var downloadPolicy: SYSDownloadPolicy = .onDemand
+    /// How long a refreshed manifest is trusted while the app stays in use; after that, coming back to the app
+    /// refreshes it again (only when the policy allows downloads).
+    public var refreshInterval: TimeInterval = 6 * 3600
+    /// Called whenever a refresh ends, whoever started it, so the app can adopt the manifest and what it lists.
+    public var didRefresh: (() -> Void)?
     private var inFlightEnsures: [String: Task<Result<Void, SYSContentSyncError>, Never>] = [:]
 
     #if canImport(CoreSpotlight) && !os(watchOS)
@@ -71,7 +124,9 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         self.itemChecksumMapKey = itemChecksumMapKey
         self.bundle = bundle
         createDirectoriesIfNeeded()
+        recoverInterruptedInstalls()
         SYSResetRegistry.register(self)
+        observeReturn()
     }
 
     public func configure(baseURL: String) {
@@ -170,16 +225,31 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         set { SYSSettings.shared[itemChecksumMapKey] = newValue }
     }
 
-    private func saveItemChecksum(_ checksum: String, for itemId: String) {
-        var map = itemChecksumMap
-        map[itemId] = checksum
-        itemChecksumMap = map
-    }
-
     private func isItemAvailable(id: String, checksum: String?) -> Bool {
         guard itemExists(id: id) else { return false }
         guard let checksum else { return true }
-        return itemChecksumMap[id] == checksum
+        let folder = itemFolderURL(id: id)
+        if let receipt = try? String(contentsOf: folder.appendingPathComponent(sysReceiptName), encoding: .utf8) {
+            return receipt == checksum
+        }
+        guard itemChecksumMap[id] == checksum else { return false }
+        try? checksum.write(to: folder.appendingPathComponent(sysReceiptName), atomically: true, encoding: .utf8)
+        return true
+    }
+
+    private func recoverInterruptedInstalls() {
+        let kept = (try? fm.contentsOfDirectory(at: backupRoot, includingPropertiesForKeys: nil)) ?? []
+        for backup in kept {
+            let live = itemsRoot.appendingPathComponent(backup.lastPathComponent)
+            if fm.fileExists(atPath: live.path) {
+                try? fm.removeItem(at: backup)
+            } else {
+                try? fm.createDirectory(at: itemsRoot, withIntermediateDirectories: true)
+                try? fm.moveItem(at: backup, to: live)
+            }
+        }
+        let leftovers = (try? fm.contentsOfDirectory(at: workingRoot, includingPropertiesForKeys: nil)) ?? []
+        for leftover in leftovers { try? fm.removeItem(at: leftover) }
     }
 
     private func itemExists(id: String) -> Bool {
@@ -212,6 +282,11 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         progress: SYSAssetProgressHandler? = nil
     ) async {
         createDirectoriesIfNeeded()
+        refreshing += 1
+        defer {
+            refreshing -= 1
+            didRefresh?()
+        }
         guard let manifestURL = url(path: "manifest.json") else {
             lastManifestError = .notConfigured
             syncState = useCachedManifestIfAny() ? .ready : .manifestUnavailable
@@ -226,6 +301,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
                 return
             }
             manifestETag = etag
+            lastRefresh = Date()
             persistRawManifest(data)
             lastManifestError = nil
             let visible = SYSPublishing.visible(decoded.items)
@@ -235,8 +311,10 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
                 loadCached(visible)
                 self.dataVersion = decoded.manifestVersion
                 syncState = .ready
+                downloadInBackground(visible, dataVersion: decoded.manifestVersion, progress: progress)
             }
         } catch SYSNetworkError.notModified {
+            lastRefresh = Date()
             guard useCachedManifestIfAny() else {
                 syncState = .manifestUnavailable
                 return
@@ -249,6 +327,13 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
                 )
             } else {
                 syncState = .ready
+                if let cached = loadLocalManifest(as: MinimalManifest.self) {
+                    downloadInBackground(
+                        SYSPublishing.visible(cached.items),
+                        dataVersion: cached.manifestVersion,
+                        progress: progress
+                    )
+                }
             }
         } catch {
             SYSLogger.debug("contentSync[\(manifestName)]: manifest fetch failed, using the held copy if any — \(error)")
@@ -313,16 +398,14 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         progress: SYSAssetProgressHandler? = nil
     ) async -> Result<Void, SYSContentError> {
         await refresh(downloadAll: true, progress: progress)
-        if hasCachedContent {
+        if hasCachedContent || items.isEmpty && syncState.isReady {
             return .success(())
         }
         switch syncState {
         case let .failed(itemIds):
             return .failure(.corrupt(pack: itemIds.joined(separator: ", ")))
-        case .manifestUnavailable:
+        case .manifestUnavailable, .ready, .idle, .downloading:
             return .failure(lastManifestError ?? .offline)
-        case .ready, .idle, .downloading:
-            return .success(())
         }
     }
 
@@ -339,15 +422,6 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         for item in items {
             itemStates[item.id] = isItemAvailable(id: item.id, checksum: item.checksum) ? .downloaded : .notDownloaded
         }
-        scheduleSearchIndex()
-    }
-
-    func loadBundled(_ items: [Item]) {
-        self.items = items
-        for item in items {
-            itemStates[item.id] = .downloaded
-        }
-        syncState = .ready
         scheduleSearchIndex()
     }
 
@@ -384,10 +458,6 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     }
 
     private static var maxConcurrentDownloads: Int { 3 }
-
-    public func downloadMissing(progress: SYSAssetProgressHandler? = nil) async {
-        await downloadMissing(items: items, dataVersion: dataVersion, progress: progress)
-    }
 
     private func downloadMissing(
         items: [Item],
@@ -496,9 +566,8 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     }
 
     public func ensureBundle(_ path: String, checksum: String?, cacheKey: String) async -> Result<Data, SYSContentSyncError> {
-        let destination = bundlesRoot.appendingPathComponent(cacheKey)
-        if let checksum, itemChecksumMap[cacheKey] == checksum,
-           let cached = try? Data(contentsOf: destination) {
+        let destination = bundleURL(cacheKey, checksum: checksum)
+        if isBundleKept(checksum: checksum, cacheKey: cacheKey), let cached = try? Data(contentsOf: destination) {
             return .success(cached)
         }
 
@@ -506,16 +575,162 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
             let plaintext = try await downloadDecrypted(path: path, checksum: checksum, id: cacheKey)
             try fm.createDirectory(at: bundlesRoot, withIntermediateDirectories: true)
             try plaintext.write(to: destination, options: .atomic)
-            if let checksum {
-                saveItemChecksum(checksum, for: cacheKey)
-            }
+            removeOtherVersions(of: cacheKey, keeping: destination)
             return .success(plaintext)
         } catch let error as SYSContentSyncError {
-            return .failure(error)
+            return heldBundle(cacheKey) ?? .failure(error)
         } catch {
-            return .failure(.installFailed(itemId: cacheKey))
+            return heldBundle(cacheKey) ?? .failure(.installFailed(itemId: cacheKey))
         }
     }
+
+    /// A large file listed beside the items, such as audio, is kept under a name that carries its checksum, so the
+    /// file existing means it is complete and current, with nothing else to keep in step.
+    private func bundleURL(_ cacheKey: String, checksum: String?) -> URL {
+        bundlesRoot.appendingPathComponent(checksum.map { "\(cacheKey)-\($0.prefix(16))" } ?? cacheKey)
+    }
+
+    func isBundleKept(checksum: String?, cacheKey: String) -> Bool {
+        let kept = bundleURL(cacheKey, checksum: checksum)
+        if fm.fileExists(atPath: kept.path) { return true }
+        let legacy = bundlesRoot.appendingPathComponent(cacheKey)
+        guard checksum != nil, itemChecksumMap[cacheKey] == checksum, fm.fileExists(atPath: legacy.path) else { return false }
+        try? fm.moveItem(at: legacy, to: kept)
+        itemChecksumMap[cacheKey] = nil
+        return fm.fileExists(atPath: kept.path)
+    }
+
+    private func versions(of cacheKey: String) -> [URL] {
+        let names = (try? fm.contentsOfDirectory(atPath: bundlesRoot.path)) ?? []
+        return names
+            .filter { $0 == cacheKey || ($0.hasPrefix(cacheKey + "-") && $0.count == cacheKey.count + 17) }
+            .map { bundlesRoot.appendingPathComponent($0) }
+    }
+
+    private func removeOtherVersions(of cacheKey: String, keeping kept: URL) {
+        for other in versions(of: cacheKey) where other != kept { try? fm.removeItem(at: other) }
+    }
+
+    private func heldBundle(_ cacheKey: String) -> Result<Data, SYSContentSyncError>? {
+        versions(of: cacheKey).lazy.compactMap { try? Data(contentsOf: $0) }.first.map { .success($0) }
+    }
+
+    // MARK: - Keeping content on the device
+
+    private func isConnected(unmetered: Bool) -> Bool {
+        #if canImport(Combine) && canImport(Network)
+        return unmetered ? SYSConnectivity.shared.allowsOptionalDownloads : SYSConnectivity.shared.isOnline
+        #else
+        return true
+        #endif
+    }
+
+    private var mayDownloadNow: Bool {
+        switch downloadPolicy {
+        case .onDemand: return false
+        case .unmetered: return isConnected(unmetered: true)
+        case .anyNetwork: return isConnected(unmetered: false)
+        }
+    }
+
+    /// Pictures the manifest lists, such as category covers. They are kept beside the items and re-fetched whenever
+    /// the connection returns; a picture already kept is only re-checked once a day.
+    public func keepAssets(_ paths: [String]) {
+        keptAssets = paths
+        keepExtras()
+    }
+
+    /// Large companion files the manifest lists, such as audio. They wait for an unmetered connection; until then
+    /// `ensureBundle` still fetches one on demand. A copy already kept is left alone.
+    public func keepBundles(_ requests: [SYSBundleRequest]) {
+        keptBundles = requests
+        keepExtras()
+    }
+
+    private func keepExtras() {
+        guard downloadPolicy != .onDemand else { return }
+        #if canImport(UIKit) && !os(watchOS)
+        let urls = keptAssets.compactMap { url(path: $0) }
+        if !urls.isEmpty, isConnected(unmetered: false) {
+            Task.detached(priority: .utility) { await SYSImageStore.shared.prefetch(urls, unmetered: false) }
+        }
+        #endif
+        let pending = keptBundles.filter { !isBundleKept(checksum: $0.checksum, cacheKey: $0.cacheKey) }
+        guard !pending.isEmpty, isConnected(unmetered: true) else { return }
+        Task { [weak self] in
+            for request in pending {
+                guard let self, isConnected(unmetered: true) else { return }
+                _ = await ensureBundle(request.path, checksum: request.checksum, cacheKey: request.cacheKey)
+            }
+        }
+    }
+
+    /// Fetches whatever is missing if the policy allows it right now. It runs by itself when the connection
+    /// returns and when the app comes back to the foreground, and finishes under a background task so leaving the
+    /// app does not stop the item being downloaded.
+    public func resumeIfNeeded() {
+        guard downloadPolicy != .onDemand, !resuming, refreshing == 0, mayDownloadNow else { return }
+        let missing = items.isEmpty || items.contains { itemStates[$0.id] != .downloaded }
+        let stale = lastRefresh.map { Date().timeIntervalSince($0) > refreshInterval } ?? false
+        guard missing || stale else { return keepExtras() }
+        resuming = true
+        SYSBackgroundTask.run("content-resume") { [weak self] in
+            guard let self else { return }
+            await refresh(downloadAll: true)
+            keepExtras()
+            resuming = false
+        }
+    }
+
+    private func downloadInBackground(_ items: [Item], dataVersion: Int, progress: SYSAssetProgressHandler?) {
+        guard mayDownloadNow else { return }
+        if case .downloading = syncState { return }
+        Task { await downloadMissing(items: items, dataVersion: dataVersion, progress: progress) }
+    }
+
+    private func observeReturn() {
+        #if canImport(Combine) && canImport(Network)
+        SYSConnectivity.shared.$isOnline
+            .removeDuplicates()
+            .dropFirst()
+            .filter { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in MainActor.assumeIsolated { self?.resumeIfNeeded() } }
+            .store(in: &observers)
+        #endif
+        #if canImport(Combine) && canImport(UIKit) && !os(watchOS)
+        NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in MainActor.assumeIsolated { self?.resumeIfNeeded() } }
+            .store(in: &observers)
+        #endif
+    }
+
+    private func reportReadiness() {
+        #if canImport(Combine)
+        let missing = items.filter { itemStates[$0.id] != .downloaded }.count
+        SYSContentReadiness.shared.report(ObjectIdentifier(self), missing: missing)
+        #endif
+    }
+
+    /// Whether this item can be opened: yes when it is on the device, otherwise it is fetched now when there is a
+    /// connection, and `needsInternet` or `failed` says why it cannot be.
+    public func access(_ id: String) async -> SYSItemAccess {
+        if isAvailable(id: id) { return .ready }
+        guard isConnected(unmetered: false) else { return .needsInternet }
+        if case .success = await ensure(id) { return .ready }
+        return isConnected(unmetered: false) ? .failed : .needsInternet
+    }
+
+    #if os(iOS)
+    /// Opens an item for the caller: true when it is ready, otherwise a notice tells the person why it is not.
+    @discardableResult
+    public func open(_ id: String, languages: [String] = Locale.preferredLanguages) async -> Bool {
+        let result = await access(id)
+        if result != .ready { SYSContentNotice.show(result, languages: languages) }
+        return result == .ready
+    }
+    #endif
 
     private func downloadAndInstall(_ item: Item) async throws {
         let plaintext = try await downloadDecrypted(path: item.bundle, checksum: item.checksum, id: item.id)
@@ -542,11 +757,10 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
             throw SYSContentSyncError.installFailed(itemId: item.id)
         }
 
-        try installIntoLive(from: destination, itemId: item.id)
-
         if let checksum = item.checksum {
-            saveItemChecksum(checksum, for: item.id)
+            try? checksum.write(to: destination.appendingPathComponent(sysReceiptName), atomically: true, encoding: .utf8)
         }
+        try installIntoLive(from: destination, itemId: item.id)
     }
 
     private func isArchive(_ bundlePath: String) -> Bool {
@@ -595,7 +809,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
     public func filenames(itemId: String) -> [String] {
         let names = try? fm.contentsOfDirectory(atPath: itemFolderURL(id: itemId).path)
-        return (names ?? []).sorted()
+        return (names ?? []).filter { !$0.hasPrefix(".") }.sorted()
     }
 
     public func clearAllData() {

@@ -199,7 +199,11 @@ public struct SYSSettingsRow<Trailing: View>: View {
         ZStack {
             RoundedRectangle(cornerRadius: SYSRadius.sm, style: .continuous).fill(tint)
             if let iconURL {
-                AsyncImage(url: iconURL) { $0.resizable().scaledToFill() } placeholder: { Color.clear }
+                SYSRemoteImage(url: iconURL, maxPixelSize: tile * 3) { image in
+                    image.resizable().scaledToFill()
+                } placeholder: {
+                    Color.clear
+                }
                     .clipShape(RoundedRectangle(cornerRadius: SYSRadius.sm, style: .continuous))
             } else if let icon {
                 Image(systemName: icon)

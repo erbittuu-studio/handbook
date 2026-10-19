@@ -35,6 +35,7 @@ enum SYSAppSuggestion {
         SYSAppCatalog.shared.load()
         let apps = SYSAppCatalog.shared.otherApps
         guard !apps.isEmpty,
+              SYSConnectivity.shared.isOnline,
               !SYSPromptTraffic.popupShowing,
               !SYSAppSuggestionPolicy.reviewMayBeOpen(lastRequest: SYSPromptTraffic.lastReviewRequest, now: Date()),
               UIApplication.shared.applicationState == .active
@@ -229,7 +230,9 @@ struct SYSAppSuggestionView: View {
     }
 
     private var iconView: some View {
-        AsyncImage(url: model.app.iconURL) { $0.resizable().scaledToFill() } placeholder: {
+        SYSRemoteImage(url: model.app.iconURL, maxPixelSize: icon * 3) { image in
+            image.resizable().scaledToFill()
+        } placeholder: {
             Color.secondary.opacity(SYSOpacity.light)
         }
         .frame(width: icon, height: icon)

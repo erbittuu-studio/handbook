@@ -66,6 +66,7 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
     let open: ((URL) -> Void)?
     let notifications: SYSNotificationPrompt?
     let suggestion: (style: SYSAppSuggestionStyle, text: SYSAppSuggestionText)?
+    let offline: SYSOfflineText
     let isActive: Bool
     @State private var job: Task<Void, Never>?
     @State private var appeared = false
@@ -75,6 +76,7 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .sysOfflineNotice(offline, isActive: visible)
             .onAppear {
                 appeared = true
                 if isActive { start() }
@@ -125,12 +127,15 @@ extension View {
     /// - `notifications`: the permission prompt, shown after the update reminder when it is due.
     /// - `suggestion`: when given, the app suggestion popup may follow, in these colors and words;
     ///   `suggestionText` takes the app's own language.
+    /// - `offline`: the notice shown at the top of the dashboard while the device has no connection; it defaults
+    ///   to SYSKit's words in the same language as `suggestionText`.
     public func sysDashboardPrompts(
         text: SYSUpdateReminderText = .forLanguages(),
         open: ((URL) -> Void)? = nil,
         notifications: SYSNotificationPrompt? = nil,
         suggestion: SYSAppSuggestionStyle? = nil,
         suggestionText: SYSAppSuggestionText = .forLanguages(),
+        offline: SYSOfflineText? = nil,
         isActive: Bool = true
     ) -> some View {
         modifier(SYSDashboardPromptsModifier(
@@ -138,6 +143,7 @@ extension View {
             open: open,
             notifications: notifications,
             suggestion: suggestion.map { ($0, suggestionText) },
+            offline: offline ?? .forLanguages(suggestionText.languages),
             isActive: isActive
         ))
     }

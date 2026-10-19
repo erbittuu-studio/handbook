@@ -1,9 +1,4 @@
 {
-  "_comment": "Canonical versions for vendored third-party packages, never the binaries. scripts/update.sh --check compares each app's .vendor-version against this. Contents are never copied between apps.",
-  "packages": {
-    "Kingfisher": {
-      "version": "8.1.3",
-      "source": "https://github.com/onevcat/Kingfisher"
-    }
-  }
+  "_comment": "Canonical versions for vendored third-party packages, never the binaries. scripts/update.sh --check compares each app's .vendor-version against this. Contents are never copied between apps. No app vendors one at the moment.",
+  "packages": {}
 }

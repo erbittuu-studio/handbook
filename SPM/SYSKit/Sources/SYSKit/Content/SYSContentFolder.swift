@@ -14,7 +14,7 @@ public struct SYSContentFolder: Sendable {
     }
 
     public func filenames() -> [String] {
-        ((try? FileManager.default.contentsOfDirectory(atPath: url.path)) ?? []).sorted()
+        ((try? FileManager.default.contentsOfDirectory(atPath: url.path)) ?? []).filter { !$0.hasPrefix(".") }.sorted()
     }
 
     public func decode<T: Decodable>(_ type: T.Type, from name: String) -> T? {

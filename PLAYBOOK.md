@@ -346,7 +346,7 @@ has to justify itself through
 ## 8. SYSKit — the shared layer
 
 **`SYS` means our code.** Vendored third-party packages keep their own names
-(`Kingfisher`) — that distinction is what `.swiftlint.yml`
+(`MaLiang`) — that distinction is what `.swiftlint.yml`
 excludes and what `update.sh` reports on but never overwrites.
 
 Every app vendors one local package from `SPM/`:
