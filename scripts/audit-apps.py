@@ -317,7 +317,7 @@ if REMOTE:
         v = {a: gh[a][field] for a in APPS}
         (ok if len(set(v.values())) == 1 else bad)(field + ": " + ", ".join(a + "=" + x for a, x in v.items()))
 
-    XCODE_CLOUD = "27.1"
+    XCODE_CLOUD = "Latest Beta or Release"
     section("10. Xcode Cloud workflow (manual_release, no start conditions)")
     def creds():
         d = os.environ.get("PES_SECRETS") or os.path.join(APPS_DIR, "secrets")
@@ -360,8 +360,9 @@ if REMOTE:
                 for w in ws:
                     t = w["attributes"]
                     if t["name"] == "manual_release":
-                        full = asc("/v1/ciWorkflows/" + w["id"] + "?include=xcodeVersion")
-                        xcode[a] = next((x["attributes"]["name"] for x in full.get("included", []) if x["type"] == "ciXcodeVersions"), "unknown")
+                        full = asc("/v1/ciWorkflows/" + w["id"] + "?include=xcodeVersion,macOsVersion")
+                        named = {x["type"]: x["attributes"]["name"] for x in full.get("included", [])}
+                        xcode[a] = named.get("ciXcodeVersions") or named.get("ciMacOsVersions", "unknown")
                     triggers = [k for k in ("branchStartCondition", "tagStartCondition", "pullRequestStartCondition", "scheduledStartCondition") if t.get(k)]
                     act = "/".join(x["actionType"] + ":" + str(x.get("scheme")) for x in t.get("actions", []))
                     parts.append(t["name"] + " [" + (",".join(triggers) or "manual") + "] " + t.get("containerFilePath", "?") + " " + act)
@@ -373,8 +374,8 @@ if REMOTE:
                     bad(a + ": no 'manual_release' workflow with no start conditions yet (PLAYBOOK §12)")
                 else:
                     ok(a + ": " + want[a][0])
-                if want[a] and not xcode.get(a, "").startswith("Xcode " + XCODE_CLOUD):
-                    bad(a + ": manual_release builds with '" + xcode.get(a, "unknown") + "', not Xcode " + XCODE_CLOUD)
+                if want[a] and xcode.get(a, "") != XCODE_CLOUD:
+                    bad(a + ": manual_release builds with '" + xcode.get(a, "unknown") + "', not '" + XCODE_CLOUD + "'")
                 elif want[a]:
                     ok(a + ": builds with " + xcode[a])
                 if others:

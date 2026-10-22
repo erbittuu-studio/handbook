@@ -786,7 +786,7 @@ request that title and body. The listing sent for a version is the faststore com
 ## 12. Once per app
 
 - [ ] Xcode Cloud workflow named exactly `manual_release`, created once (by hand in Xcode or through the API) (Product, Xcode Cloud,
-      Create Workflow): Environment = the Xcode the apps need, pinned by version (27.1 RC for iPhone Duo; "Latest Release" moves under you) with the macOS image Apple pairs with it, Clean; **Start Conditions: none** (manual
+      Create Workflow): Environment = Xcode **Latest Beta or Release** with macOS **Latest Beta or Release** (iPhone Duo needs the newest Xcode and SDK; plain "Latest Release" can lag behind it), Clean; **Start Conditions: none** (manual
       only: no Branch Changes, Tag Changes or Pull Request); Actions: one **Archive - iOS** on project
       `App/App.xcodeproj`, scheme `App`, Distribution Preparation **App Store Connect** (not "TestFlight Internal
       Testing Only", see §5). `./build` starts this workflow by name. Delete any older workflow.
