@@ -80,7 +80,6 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     private let fm = FileManager.default
     private let storageFolder: String
     private let dataVersionKey: SYSSettingsKey<Int>
-    private let itemChecksumMapKey: SYSSettingsKey<[String: String]>
     private let bundle: Bundle
 
     public let manifestName: String
@@ -90,6 +89,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     private var keptAssets: [String] = []
     private var keptBundles: [SYSBundleRequest] = []
     private var resuming = false
+    private var outdated: Set<String> = []
     private var refreshing = 0
     #if canImport(Combine)
     private var observers: [AnyCancellable] = []
@@ -97,7 +97,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
     private var lastRefresh: Date?
 
-    public var downloadPolicy: SYSDownloadPolicy = .onDemand
+    public var downloadPolicy: SYSDownloadPolicy = .onDemand { didSet { reportReadiness() } }
     /// How long a refreshed manifest is trusted while the app stays in use; after that, coming back to the app
     /// refreshes it again (only when the policy allows downloads).
     public var refreshInterval: TimeInterval = 6 * 3600
@@ -115,13 +115,11 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         manifestName: String,
         storageFolder: String,
         dataVersionKey: SYSSettingsKey<Int>,
-        itemChecksumMapKey: SYSSettingsKey<[String: String]>,
         bundle: Bundle = .main
     ) {
         self.manifestName = manifestName
         self.storageFolder = storageFolder
         self.dataVersionKey = dataVersionKey
-        self.itemChecksumMapKey = itemChecksumMapKey
         self.bundle = bundle
         createDirectoriesIfNeeded()
         recoverInterruptedInstalls()
@@ -200,12 +198,13 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     var liveRoot: URL { rootURL.appendingPathComponent("live") }
     var backupRoot: URL { rootURL.appendingPathComponent("backup") }
     var workingRoot: URL { rootURL.appendingPathComponent("downloads") }
+    var partialRoot: URL { rootURL.appendingPathComponent("partial") }
     var itemsRoot: URL { liveRoot.appendingPathComponent("items") }
     var liveManifestURL: URL { liveRoot.appendingPathComponent("manifest.json") }
     var bundlesRoot: URL { liveRoot.appendingPathComponent("bundles") }
 
     private func createDirectoriesIfNeeded() {
-        for dir in [rootURL, liveRoot, backupRoot, workingRoot, itemsRoot, bundlesRoot]
+        for dir in [rootURL, liveRoot, backupRoot, workingRoot, partialRoot, itemsRoot, bundlesRoot]
         where !fm.fileExists(atPath: dir.path) {
             try? fm.createDirectory(at: dir, withIntermediateDirectories: true)
         }
@@ -220,21 +219,37 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         set { SYSSettings.shared[dataVersionKey] = newValue }
     }
 
-    private var itemChecksumMap: [String: String] {
-        get { SYSSettings.shared[itemChecksumMapKey] }
-        set { SYSSettings.shared[itemChecksumMapKey] = newValue }
+    /// An item folder on the device is always usable. Its receipt says which version it is: when that differs from
+    /// the manifest, or there is none (an install from before receipts), the old copy stays in use and the item is
+    /// fetched again in the background.
+    private func classify(_ item: Item) {
+        guard itemExists(id: item.id) else {
+            itemStates[item.id] = .notDownloaded
+            outdated.remove(item.id)
+            return
+        }
+        itemStates[item.id] = .downloaded
+        let receipt = try? String(contentsOf: itemFolderURL(id: item.id).appendingPathComponent(sysReceiptName), encoding: .utf8)
+        if let checksum = item.checksum, receipt != checksum {
+            outdated.insert(item.id)
+        } else {
+            outdated.remove(item.id)
+        }
     }
 
-    private func isItemAvailable(id: String, checksum: String?) -> Bool {
-        guard itemExists(id: id) else { return false }
-        guard let checksum else { return true }
-        let folder = itemFolderURL(id: id)
-        if let receipt = try? String(contentsOf: folder.appendingPathComponent(sysReceiptName), encoding: .utf8) {
-            return receipt == checksum
+    private func partialName(_ id: String, _ checksum: String?) -> String? {
+        checksum.map { "\(id)-\($0.prefix(16))" }
+    }
+
+    private func removePartials(of id: String, keeping kept: String? = nil) {
+        let names = (try? fm.contentsOfDirectory(atPath: partialRoot.path)) ?? []
+        for name in names where name.hasPrefix(id + "-") && name.count == id.count + 17 && name != kept {
+            try? fm.removeItem(at: partialRoot.appendingPathComponent(name))
         }
-        guard itemChecksumMap[id] == checksum else { return false }
-        try? checksum.write(to: folder.appendingPathComponent(sysReceiptName), atomically: true, encoding: .utf8)
-        return true
+    }
+
+    private func needsFetch(_ id: String) -> Bool {
+        itemStates[id] != .downloaded || outdated.contains(id)
     }
 
     private func recoverInterruptedInstalls() {
@@ -364,26 +379,27 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     @discardableResult
     public func ensure(_ itemID: String) async -> Result<Void, SYSContentSyncError> {
         createDirectoriesIfNeeded()
-        if itemStates[itemID] == .downloaded { return .success(()) }
+        if !needsFetch(itemID) { return .success(()) }
         if let running = inFlightEnsures[itemID] { return await running.value }
 
         guard let item = items.first(where: { $0.id == itemID }) else {
             return .failure(.invalidBundleURL(itemId: itemID))
         }
 
-        itemStates[itemID] = .downloading
+        if !itemExists(id: itemID) { itemStates[itemID] = .downloading }
         let task = Task { [weak self] () -> Result<Void, SYSContentSyncError> in
             guard let self else { return .failure(.installFailed(itemId: itemID)) }
             do {
                 try await self.downloadAndInstall(item)
+                self.outdated.remove(itemID)
                 self.itemStates[itemID] = .downloaded
                 self.scheduleSearchIndex()
                 return .success(())
             } catch let error as SYSContentSyncError {
-                self.itemStates[itemID] = .failed
+                self.itemStates[itemID] = self.itemExists(id: itemID) ? .downloaded : .failed
                 return .failure(error)
             } catch {
-                self.itemStates[itemID] = .failed
+                self.itemStates[itemID] = self.itemExists(id: itemID) ? .downloaded : .failed
                 return .failure(.installFailed(itemId: itemID))
             }
         }
@@ -419,15 +435,24 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
     public func loadCached(_ items: [Item]) {
         self.items = items
-        for item in items {
-            itemStates[item.id] = isItemAvailable(id: item.id, checksum: item.checksum) ? .downloaded : .notDownloaded
-        }
+        for item in items { classify(item) }
         scheduleSearchIndex()
     }
 
     public func isAvailable(id: String) -> Bool {
         itemStates[id] == .downloaded
     }
+
+    #if canImport(Combine)
+    /// The ids of the items on the device now, published again whenever that set changes, so a screen that could not
+    /// show an item can show it the moment it arrives.
+    public var downloadedIDs: AnyPublisher<Set<String>, Never> {
+        $itemStates
+            .map { Set($0.filter { $0.value == .downloaded }.keys) }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
+    }
+    #endif
 
     public var hasCachedContent: Bool {
         itemStates.values.contains(.downloaded)
@@ -449,7 +474,8 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
         self.items = items
         for item in items {
-            itemStates[item.id] = isItemAvailable(id: item.id, checksum: item.checksum) ? .downloaded : .notDownloaded
+            classify(item)
+            removePartials(of: item.id, keeping: partialName(item.id, item.checksum))
         }
 
         removeObsoleteItems(currentItems: items)
@@ -464,7 +490,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         dataVersion: Int,
         progress: SYSAssetProgressHandler?
     ) async {
-        let toDownload = items.filter { itemStates[$0.id] != .downloaded }
+        let toDownload = items.filter { needsFetch($0.id) }
 
         guard !toDownload.isEmpty else {
             syncState = .ready
@@ -505,7 +531,8 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         }
 
         self.dataVersion = dataVersion
-        syncState = failed.isEmpty ? .ready : .failed(itemIds: failed)
+        let unusable = failed.filter { itemStates[$0] != .downloaded }
+        syncState = unusable.isEmpty ? .ready : .failed(itemIds: unusable)
     }
 
     private func ensureOutcome(_ id: String) async -> (String, Bool) {
@@ -524,9 +551,8 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
     private func removeItem(id: String) {
         try? fm.removeItem(at: itemFolderURL(id: id))
-        var map = itemChecksumMap
-        map.removeValue(forKey: id)
-        itemChecksumMap = map
+        outdated.remove(id)
+        removePartials(of: id)
         itemStates.removeValue(forKey: id)
         scheduleSearchIndex()
     }
@@ -538,7 +564,8 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
 
         let tempFileURL: URL
         do {
-            tempFileURL = try await SYSNetwork.shared.download(bundleURL)
+            let partial = partialRoot.appendingPathComponent(partialName(id, checksum) ?? UUID().uuidString)
+            tempFileURL = try await SYSNetwork.shared.download(bundleURL, into: partial)
         } catch {
             throw SYSContentSyncError.downloadFailed(itemId: id)
         }
@@ -576,6 +603,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
             try fm.createDirectory(at: bundlesRoot, withIntermediateDirectories: true)
             try plaintext.write(to: destination, options: .atomic)
             removeOtherVersions(of: cacheKey, keeping: destination)
+            removePartials(of: cacheKey)
             return .success(plaintext)
         } catch let error as SYSContentSyncError {
             return heldBundle(cacheKey) ?? .failure(error)
@@ -591,13 +619,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     }
 
     func isBundleKept(checksum: String?, cacheKey: String) -> Bool {
-        let kept = bundleURL(cacheKey, checksum: checksum)
-        if fm.fileExists(atPath: kept.path) { return true }
-        let legacy = bundlesRoot.appendingPathComponent(cacheKey)
-        guard checksum != nil, itemChecksumMap[cacheKey] == checksum, fm.fileExists(atPath: legacy.path) else { return false }
-        try? fm.moveItem(at: legacy, to: kept)
-        itemChecksumMap[cacheKey] = nil
-        return fm.fileExists(atPath: kept.path)
+        fm.fileExists(atPath: bundleURL(cacheKey, checksum: checksum).path)
     }
 
     private func versions(of cacheKey: String) -> [URL] {
@@ -670,7 +692,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     /// app does not stop the item being downloaded.
     public func resumeIfNeeded() {
         guard downloadPolicy != .onDemand, !resuming, refreshing == 0, mayDownloadNow else { return }
-        let missing = items.isEmpty || items.contains { itemStates[$0.id] != .downloaded }
+        let missing = items.isEmpty || items.contains { needsFetch($0.id) }
         let stale = lastRefresh.map { Date().timeIntervalSince($0) > refreshInterval } ?? false
         guard missing || stale else { return keepExtras() }
         resuming = true
@@ -709,7 +731,12 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
     private func reportReadiness() {
         #if canImport(Combine)
         let missing = items.filter { itemStates[$0.id] != .downloaded }.count
-        SYSContentReadiness.shared.report(ObjectIdentifier(self), missing: missing)
+        SYSContentReadiness.shared.report(ObjectIdentifier(self), .init(
+            missing: missing,
+            total: items.count,
+            fetches: downloadPolicy != .onDemand,
+            unmeteredOnly: downloadPolicy == .unmetered
+        ))
         #endif
     }
 
@@ -816,7 +843,7 @@ public final class SYSContentSync<Item: SYSContentItem>: ObservableObject {
         try? fm.removeItem(at: rootURL)
         createDirectoriesIfNeeded()
         SYSSettings.shared.remove(dataVersionKey)
-        SYSSettings.shared.remove(itemChecksumMapKey)
+        outdated.removeAll()
         itemStates.removeAll()
     }
 }

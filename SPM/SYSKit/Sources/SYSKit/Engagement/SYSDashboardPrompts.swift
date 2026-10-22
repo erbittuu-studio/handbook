@@ -66,7 +66,7 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
     let open: ((URL) -> Void)?
     let notifications: SYSNotificationPrompt?
     let suggestion: (style: SYSAppSuggestionStyle, text: SYSAppSuggestionText)?
-    let offline: SYSOfflineText
+    let downloadTint: Color?
     let isActive: Bool
     @State private var job: Task<Void, Never>?
     @State private var appeared = false
@@ -76,7 +76,7 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .sysOfflineNotice(offline, isActive: visible)
+            .sysDownloadBar(tint: downloadTint ?? suggestion?.style.accent ?? .accentColor)
             .onAppear {
                 appeared = true
                 if isActive { start() }
@@ -120,22 +120,24 @@ private struct SYSDashboardPromptsModifier: ViewModifier {
 extension View {
     /// Shows the update reminder, then asks for notification permission, then suggests another app on a fixed
     /// sequence of opens, on this dashboard only. Attach it to the dashboard screen itself, never to a tab bar or
-    /// container that holds other screens: it stops waiting when the dashboard leaves the screen.
+    /// container that holds other screens: it stops waiting when the dashboard leaves the screen. When the
+    /// dashboard sits in a navigation stack, attach it to the content inside the stack, so the download bar
+    /// appears below the title bar instead of over it.
+    /// - `downloadTint`: the colour of the download bar; it defaults to the `suggestion` colour, so pass the app's own
+    ///   accent when that is not it.
     /// - `isActive`: pass false while the dashboard is hidden but still in the view tree, for example under a library
     ///   screen that fades over it, and the prompts wait for it to be true again.
     /// - `open`: receives the App Store URL; a Kids Category app routes it through its parental gate.
     /// - `notifications`: the permission prompt, shown after the update reminder when it is due.
     /// - `suggestion`: when given, the app suggestion popup may follow, in these colors and words;
     ///   `suggestionText` takes the app's own language.
-    /// - `offline`: the notice shown at the top of the dashboard while the device has no connection; it defaults
-    ///   to SYSKit's words in the same language as `suggestionText`.
     public func sysDashboardPrompts(
         text: SYSUpdateReminderText = .forLanguages(),
         open: ((URL) -> Void)? = nil,
         notifications: SYSNotificationPrompt? = nil,
         suggestion: SYSAppSuggestionStyle? = nil,
         suggestionText: SYSAppSuggestionText = .forLanguages(),
-        offline: SYSOfflineText? = nil,
+        downloadTint: Color? = nil,
         isActive: Bool = true
     ) -> some View {
         modifier(SYSDashboardPromptsModifier(
@@ -143,7 +145,7 @@ extension View {
             open: open,
             notifications: notifications,
             suggestion: suggestion.map { ($0, suggestionText) },
-            offline: offline ?? .forLanguages(suggestionText.languages),
+            downloadTint: downloadTint,
             isActive: isActive
         ))
     }

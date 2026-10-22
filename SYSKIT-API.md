@@ -15,7 +15,7 @@ what; this says what exists.
 | `SYSContentItem` | protocol | One content item a manifest lists — the handful of fields the generic sync loop actually touches. |
 | `SYSContentItemStatus` | enum | — |
 | `SYSContentNoticeText` | struct | The words on the notice that says why an item cannot be opened. |
-| `SYSContentReadiness` | class | How much of the content every sync in the app still lacks on this device, so one notice can say so. |
+| `SYSContentReadiness` | class | How much of the content every sync in the app still lacks on this device, so one notice can say so, and how far the syncs that fetch by themselves have got, ... |
 | `SYSContentSync` | class | Generic on-disk cache + downloader for a manifest's items: the live/staging/backup/downloads layout, checksum trackin... |
 | `SYSContentSyncError` | enum | — |
 | `SYSContentSyncState` | enum | — |
@@ -129,6 +129,7 @@ what; this says what exists.
 | Name | Kind | Summary |
 |---|---|---|
 | `SYSColumnGrid` | struct | A hand-measured LazyVGrid column count. |
+| `SYSContentStateView` | struct | What a screen shows in place of an item that is not on the device yet: a spinner while it is being fetched, or why it cannot be shown and a Try again button. |
 | `SYSDesignCanvas` | struct | The screen a proportional design was drawn on, so sizes written for it can be scaled to any other screen. |
 | `SYSEmptyState` | struct | The standard empty screen: a symbol, a title and a subtitle, in colors the app supplies. |
 | `SYSImageContent` | struct | The usual drawing for SYSRemoteImage: the loaded picture through one closure, anything else through another. |
@@ -151,7 +152,9 @@ what; this says what exists.
 | `SYSToolbarButton` | struct | A toolbar button with an icon-only label, an accessibility title and the light haptic. |
 | `SYSVersionFooter` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
 | `View.sysAdaptiveTabStyle` | on View | A tab bar on iPhone that becomes a sidebar on iPad, on iOS 18 and later. |
+| `View.sysConnectionIndicator` | on View | A small red Wi-Fi-off badge pops in at the bottom centre, above a tab bar, a moment after the connection is lost and hides after a few seconds; a green Wi-Fi... |
 | `View.sysDarkNavigationBar` | on View | Turns the navigation bar content light for dark artwork behind it, on iOS 16 and later. |
+| `View.sysDownloadBar` | on View | A slim progress bar below the title bar while the app is still fetching its content by itself: a count such as 3/12, in the app's own colour, grey while it w... |
 | `View.sysHideScrollBackground` | on View | Hides the default background of a List or Form so the screen background shows through. |
 | `View.sysHidesBars` | on View | Hides the navigation bar, the bottom bar and the status bar while hidden is true: a focus mode for reading. |
 | `View.sysHidesNavigationBar` | on View | Hides the navigation bar on a screen that draws its own header, such as one using SYSScreenHeader. |
@@ -161,7 +164,6 @@ what; this says what exists.
 | `View.sysMetrics` | on View | Measures the screen for everything below; pass a design canvas to have s and f scale sizes drawn for it. |
 | `View.sysNavigationBar` | on View | The same title and buttons for a screen pushed inside a stack that already exists. |
 | `View.sysNavigationTitle` | on View | Shows a title built by the app, such as a symbol with gradient text, in the same place; title still names the screen for the system. |
-| `View.sysOfflineNotice` | on View | Shows a small notice at the top while the device has no connection, a moment after it is lost, and hides it when the connection returns. |
 | `View.sysReservedLines` | on View | Reserves room for a minimum number of text lines so rows keep one height, up to a maximum. |
 | `View.sysScrollHandle` | on View | Fills handle with the scroll view this content scrolls in. |
 | `TabRole.sysSearch` | on TabRole | The role for a search tab: .prominent on iOS 27, .search before. |

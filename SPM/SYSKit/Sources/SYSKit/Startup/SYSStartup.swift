@@ -13,6 +13,7 @@ public final class SYSStartup: ObservableObject {
     private let requiresAssets: Bool
     private let backgroundAssets: Bool
     private let requiresConfig: Bool
+    private let refreshesCatalog: Bool
     private let minimumSplash: SYSSplashDuration
     private let launchedAt = Date()
     private let prepareContent: SYSPrepareContent?
@@ -31,6 +32,7 @@ public final class SYSStartup: ObservableObject {
         requiresAssets: Bool = false,
         backgroundAssets: Bool = false,
         requiresConfig: Bool = false,
+        refreshesCatalog: Bool = true,
         minimumSplash: SYSSplashDuration = .none,
         prepareContent: SYSPrepareContent? = nil,
         pruneContent: SYSPruneContent? = nil
@@ -40,6 +42,7 @@ public final class SYSStartup: ObservableObject {
         self.requiresAssets = requiresAssets
         self.backgroundAssets = backgroundAssets
         self.requiresConfig = requiresConfig
+        self.refreshesCatalog = refreshesCatalog
         self.minimumSplash = minimumSplash
         SYSLaunchMetrics.mark(.appLaunched)
         self.prepareContent = prepareContent
@@ -60,6 +63,7 @@ public final class SYSStartup: ObservableObject {
             requiresAssets: requiresAssets,
             backgroundAssets: backgroundAssets,
             requiresConfig: requiresConfig,
+            refreshesCatalog: refreshesCatalog,
             deferContentForOnboarding: true,
             assetProgress: { [weak self] update in self?.progress = update },
             prepareContent: prepareContent,

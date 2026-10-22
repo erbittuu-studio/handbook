@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import SYSKit
 #if canImport(CryptoKit)
@@ -22,12 +23,10 @@ final class SYSContentSyncTests: XCTestCase {
     private func makeSync(manifestName: String = "content") -> SYSContentSync<FakeContentItem> {
         let suffix = UUID().uuidString
         let dataVersionKey = SYSSettingsKey<Int>("test.dataVersion.\(suffix)", default: 0)
-        let itemChecksumMapKey = SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(suffix)", default: [:])
         let sync = SYSContentSync<FakeContentItem>(
             manifestName: manifestName,
             storageFolder: "sysContentSyncTests-\(suffix)",
-            dataVersionKey: dataVersionKey,
-            itemChecksumMapKey: itemChecksumMapKey)
+            dataVersionKey: dataVersionKey)
         addTeardownBlock {
             sync.clearAllData()
             try? FileManager.default.removeItem(at: sync.rootURL)
@@ -84,7 +83,6 @@ final class SYSContentSyncTests: XCTestCase {
             manifestName: "festivals",
             storageFolder: "sysContentSyncTests-\(UUID().uuidString)",
             dataVersionKey: SYSSettingsKey<Int>("t.v.\(UUID())", default: 0),
-            itemChecksumMapKey: SYSSettingsKey<[String: String]>("t.c.\(UUID())", default: [:]),
             bundle: StubBundle(contentID: "prarthana"))
         addTeardownBlock { sync.clearAllData(); try? FileManager.default.removeItem(at: sync.rootURL) }
 
@@ -137,7 +135,6 @@ final class SYSContentSyncRefreshTests: XCTestCase {
             manifestName: manifestName,
             storageFolder: "sysContentSyncRefreshTests-\(suffix)",
             dataVersionKey: SYSSettingsKey<Int>("test.dataVersion.\(suffix)", default: 0),
-            itemChecksumMapKey: SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(suffix)", default: [:]),
             bundle: StubBundle(contentID: contentID))
         addTeardownBlock {
             sync.clearAllData()
@@ -609,7 +606,6 @@ extension SYSContentSyncRefreshTests {
             manifestName: "content",
             storageFolder: "sysContentSyncOfflineTests-\(storage)",
             dataVersionKey: SYSSettingsKey<Int>("test.dataVersion.\(keys)", default: 0),
-            itemChecksumMapKey: SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(keys)", default: [:]),
             bundle: StubBundle(contentID: "test-app"))
         sync.downloadPolicy = policy
         addTeardownBlock {
@@ -670,7 +666,7 @@ extension SYSContentSyncRefreshTests {
         XCTAssertEqual(relaunched.itemStates["b"], .downloaded)
     }
 
-    func testAnItemInstalledBeforeReceiptsIsAdoptedFromTheSettingsAndGetsOne() async throws {
+    func testAnItemWithoutAReceiptStaysUsableAndIsFetchedAgain() async throws {
         let siteRoot = tempSiteRoot()
         defer { try? FileManager.default.removeItem(at: siteRoot) }
         try stageTwoItems(at: siteRoot)
@@ -679,17 +675,33 @@ extension SYSContentSyncRefreshTests {
         let first = makeSync(storage: id, keys: id)
         await first.refresh()
         let receipt = first.itemsRoot.appendingPathComponent("a/.sys-receipt")
-        let checksum = try String(contentsOf: receipt, encoding: .utf8)
         try FileManager.default.removeItem(at: receipt)
-        SYSSettings.shared[SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(id)", default: [:])] = ["a": checksum]
 
-        let relaunched = makeSync(storage: id, keys: id)
+        let relaunched = makeSync(storage: id, keys: UUID().uuidString)
         relaunched.loadCached(first.items)
         XCTAssertEqual(relaunched.itemStates["a"], .downloaded)
+        XCTAssertTrue(relaunched.isAvailable(id: "a"))
+
+        guard case .success = await relaunched.ensure("a") else { return XCTFail("the item must be fetched again") }
         XCTAssertTrue(FileManager.default.fileExists(atPath: receipt.path))
     }
 
-    func testANewerVersionOfTheItemIsNotMistakenForTheOneOnTheDevice() async throws {
+    func testAnItemThatIsCurrentIsNeverFetchedAgain() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let id = UUID().uuidString
+        let first = makeSync(storage: id, keys: id)
+        await first.refresh()
+
+        SYSHosting.setContentURL(tempSiteRoot().appendingPathComponent("gone"))
+        let relaunched = makeSync(storage: id, keys: UUID().uuidString)
+        relaunched.loadCached(first.items)
+        guard case .success = await relaunched.ensure("a") else { return XCTFail("a current item needs no network") }
+    }
+
+    func testANewerVersionKeepsTheOldCopyUsableWhileItIsFetchedAndWhenTheFetchFails() async throws {
         let siteRoot = tempSiteRoot()
         defer { try? FileManager.default.removeItem(at: siteRoot) }
         try stageTwoItems(at: siteRoot)
@@ -700,7 +712,28 @@ extension SYSContentSyncRefreshTests {
 
         let newer = sync.items.map { FakeContentItem(id: $0.id, bundle: $0.bundle, checksum: "changed", isPublished: true) }
         sync.loadCached(newer)
-        XCTAssertEqual(sync.itemStates["a"], .notDownloaded)
+        XCTAssertEqual(sync.itemStates["a"], .downloaded)
+
+        if case .success = await sync.ensure("a") { XCTFail("the site still serves the old checksum") }
+        XCTAssertEqual(sync.itemStates["a"], .downloaded)
+        XCTAssertEqual(sync.filenames(itemId: "a"), ["index.json"])
+    }
+
+    func testAPartialFileOfAnOlderVersionIsRemovedAndANewerOneKept() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString)
+        try FileManager.default.createDirectory(at: sync.partialRoot, withIntermediateDirectories: true)
+        let stale = sync.partialRoot.appendingPathComponent("a-0000000000000000")
+        let other = sync.partialRoot.appendingPathComponent("zzz-1111111111111111")
+        try Data([1]).write(to: stale)
+        try Data([1]).write(to: other)
+
+        await sync.refresh()
+        XCTAssertFalse(FileManager.default.fileExists(atPath: stale.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: other.path))
     }
 
     func testTheFilesListNeverShowsTheReceipt() async throws {
@@ -868,7 +901,7 @@ extension SYSContentSyncRefreshTests {
         XCTAssertEqual(data, one.bytes)
     }
 
-    func testAnAudioFileKeptBeforeThisVersionIsAdoptedFromTheSettings() async throws {
+    func testAnAudioFileUnderTheOldNameIsReplacedWhenTheCurrentOneArrives() async throws {
         let siteRoot = tempSiteRoot()
         defer { try? FileManager.default.removeItem(at: siteRoot) }
         let audio = try stageAudio("legacy", at: siteRoot)
@@ -877,11 +910,28 @@ extension SYSContentSyncRefreshTests {
         let sync = makeSync(storage: id, keys: id)
         try FileManager.default.createDirectory(at: sync.bundlesRoot, withIntermediateDirectories: true)
         try audio.bytes.write(to: sync.bundlesRoot.appendingPathComponent("hanuman_audio"))
-        SYSSettings.shared[SYSSettingsKey<[String: String]>("test.itemChecksumMap.\(id)", default: [:])] = ["hanuman_audio": audio.checksum]
 
-        XCTAssertTrue(sync.isBundleKept(checksum: audio.checksum, cacheKey: "hanuman_audio"))
+        XCTAssertFalse(sync.isBundleKept(checksum: audio.checksum, cacheKey: "hanuman_audio"))
+        _ = await sync.ensureBundle("packs/hanuman.mp3", checksum: audio.checksum, cacheKey: "hanuman_audio")
         let files = try FileManager.default.contentsOfDirectory(atPath: sync.bundlesRoot.path)
         XCTAssertFalse(files.contains("hanuman_audio"))
+        XCTAssertTrue(sync.isBundleKept(checksum: audio.checksum, cacheKey: "hanuman_audio"))
+    }
+
+    func testDownloadedIDsPublishesTheMomentAnItemArrives() async throws {
+        let siteRoot = tempSiteRoot()
+        defer { try? FileManager.default.removeItem(at: siteRoot) }
+        try stageTwoItems(at: siteRoot)
+        SYSHosting.setContentURL(siteRoot)
+        let sync = makeSync(storage: UUID().uuidString, keys: UUID().uuidString)
+        await sync.refresh(downloadAll: false)
+
+        var seen: [Set<String>] = []
+        let subscription = sync.downloadedIDs.sink { seen.append($0) }
+        _ = await sync.ensure("a")
+        subscription.cancel()
+        XCTAssertEqual(seen.first, [])
+        XCTAssertEqual(seen.last, ["a"])
     }
 
     func testTheRefreshHookRunsWhoeverStartedTheRefresh() async throws {

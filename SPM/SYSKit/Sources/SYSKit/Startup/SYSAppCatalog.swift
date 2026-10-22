@@ -6,6 +6,7 @@ struct SYSAppCatalogEntry: Codable, Equatable, Sendable {
     var tagline: String?
     var iconPath: String?
     var appStoreUrl: String?
+    var urlScheme: String?
     var category: String?
     var recommends: [String]?
     var blurb: [String: String]?

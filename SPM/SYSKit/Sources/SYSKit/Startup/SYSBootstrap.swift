@@ -34,6 +34,7 @@ enum SYSBootstrap {
         requiresAssets: Bool = false,
         backgroundAssets: Bool = false,
         requiresConfig: Bool = false,
+        refreshesCatalog: Bool = true,
         deferContentForOnboarding: Bool = false,
         assetProgress: SYSAssetProgressHandler? = nil,
         prepareContent: SYSPrepareContent? = nil,
@@ -48,7 +49,11 @@ enum SYSBootstrap {
             return blocked
         }
 
-        Task { await SYSAppCatalog.shared.refresh() }
+        // A client app that does not promote the studio's other apps has no use for the catalog, and
+        // must not download it (or the other apps' icons) on every launch.
+        if refreshesCatalog {
+            Task { await SYSAppCatalog.shared.refresh() }
+        }
 
         let prepare = prepareContent ?? Self.unconfiguredPrepareContent
         let prune = pruneContent ?? {}

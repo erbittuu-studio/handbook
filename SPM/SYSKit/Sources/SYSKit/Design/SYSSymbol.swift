@@ -61,6 +61,7 @@ public enum SYSSymbol {
     static let heartCircle = "heart.circle.fill"
     public static let closeCircle = "xmark.circle.fill"
     public static let offline = "wifi.slash"
+    public static let warning = "exclamationmark.triangle"
     public static let textSize = "textformat.size"
     public static let textSmaller = "textformat.size.smaller"
     public static let textLarger = "textformat.size.larger"

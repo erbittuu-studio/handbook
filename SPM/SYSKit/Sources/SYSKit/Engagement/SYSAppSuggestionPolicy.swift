@@ -56,6 +56,10 @@ enum SYSAppSuggestionPolicy {
         return (app, round + [app.id])
     }
 
+    static func notInstalled(_ apps: [SYSAppCatalogEntry], isInstalled: (SYSAppCatalogEntry) -> Bool) -> [SYSAppCatalogEntry] {
+        apps.filter { !isInstalled($0) }
+    }
+
     static func hasAnother(apps: [SYSAppCatalogEntry], opened: [String]) -> Bool {
         apps.filter { !opened.contains($0.id) }.count > 1
     }

@@ -16,7 +16,7 @@ public final class SYSConnectivity: ObservableObject {
 
     public init(monitor: NWPathMonitor? = NWPathMonitor()) {
         self.monitor = monitor
-        self.isOnline = true
+        self.isOnline = !SYSDebugRoute.forcesOffline
         self.isExpensive = false
         self.isConstrained = false
 
@@ -36,6 +36,7 @@ public final class SYSConnectivity: ObservableObject {
     }
 
     func update(isOnline: Bool, isExpensive: Bool = false, isConstrained: Bool = false) {
+        guard !SYSDebugRoute.forcesOffline else { return }
         if self.isOnline != isOnline { self.isOnline = isOnline }
         if self.isExpensive != isExpensive { self.isExpensive = isExpensive }
         if self.isConstrained != isConstrained { self.isConstrained = isConstrained }

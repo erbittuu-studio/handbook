@@ -128,8 +128,8 @@ final class SYSDeepLinkTests: XCTestCase {
     }
 
     func testComponentsParsesHostAndPath() {
-        let url = URL(string: "kidslearning://pack/42")!
-        let components = SYSDeepLink.components(url, expectingScheme: "kidslearning")
+        let url = URL(string: "abclearning://pack/42")!
+        let components = SYSDeepLink.components(url, expectingScheme: "abclearning")
         XCTAssertEqual(components?.host, "pack")
         XCTAssertEqual(components?.path, "/42")
     }

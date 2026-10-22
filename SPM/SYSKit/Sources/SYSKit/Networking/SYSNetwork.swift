@@ -11,6 +11,8 @@ enum SYSNetworkError: Error, Equatable {
     case decoding(String)
 }
 
+private let sysResumePiece: Int64 = 2 * 1024 * 1024
+
 actor SYSNetwork {
     static let shared = SYSNetwork()
 
@@ -45,55 +47,75 @@ actor SYSNetwork {
         return (data, response.etag)
     }
 
-    func download(_ url: URL, timeout: TimeInterval = 120) async throws -> URL {
+    /// Downloads `url` into `partial`, a piece at a time, so a download that is cut off keeps what arrived and the
+    /// next call continues from there. A server that ignores ranges sends the whole file, which is written from the
+    /// start. The caller removes `partial` once it has used it.
+    func download(
+        _ url: URL,
+        into partial: URL,
+        timeout: TimeInterval = 120,
+        progress: (@Sendable (_ received: Int64, _ total: Int64) -> Void)? = nil
+    ) async throws -> URL {
+        if SYSDebugRoute.forcesOffline, !url.isFileURL { throw SYSNetworkError.offline }
+        let fm = FileManager.default
+        try fm.createDirectory(at: partial.deletingLastPathComponent(), withIntermediateDirectories: true)
         if url.isFileURL {
-            guard FileManager.default.fileExists(atPath: url.path) else {
-                throw SYSNetworkError.http(status: 404)
-            }
-            let copy = FileManager.default.temporaryDirectory
-                .appendingPathComponent(UUID().uuidString)
-                .appendingPathExtension(url.pathExtension)
-            try FileManager.default.copyItem(at: url, to: copy)
-            return copy
+            guard fm.fileExists(atPath: url.path) else { throw SYSNetworkError.http(status: 404) }
+            try? fm.removeItem(at: partial)
+            try fm.copyItem(at: url, to: partial)
+            return partial
         }
 
-        var request = URLRequest(url: url)
-        request.timeoutInterval = timeout
+        if !fm.fileExists(atPath: partial.path) { fm.createFile(atPath: partial.path, contents: nil) }
+        let handle = try FileHandle(forWritingTo: partial)
+        defer { try? handle.close() }
+        var offset = Int64(try handle.seekToEnd())
+        var total: Int64?
+        var restarted = false
 
-        var attempt = 0
-        while true {
+        while total == nil || offset < total! {
             do {
-                let (fileURL, response) = try await session.download(for: request)
-                guard let http = response as? HTTPURLResponse else { return fileURL }
-                guard 200 ..< 300 ~= http.statusCode else {
-                    try? FileManager.default.removeItem(at: fileURL)
-                    throw SYSNetworkError.http(status: http.statusCode)
+                let (data, response) = try await load(
+                    url, etag: nil, timeout: timeout, range: "bytes=\(offset)-\(offset + sysResumePiece - 1)")
+                if response.statusCode == 206, let range = Self.contentRange(response), range.first == offset {
+                    try handle.write(contentsOf: data)
+                    offset += Int64(data.count)
+                    total = range.total
+                } else {
+                    try handle.truncate(atOffset: 0)
+                    try handle.seek(toOffset: 0)
+                    try handle.write(contentsOf: data)
+                    offset = Int64(data.count)
+                    total = offset
                 }
-                return fileURL
-            } catch let error as SYSNetworkError {
-                guard case .http(let status) = error, status >= 500, attempt < maxRetries else { throw error }
-                attempt += 1
-                try await Task.sleep(nanoseconds: Self.backoff(attempt))
-            } catch is CancellationError {
-                throw CancellationError()
-            } catch let error as URLError where error.code == .cancelled {
-                throw error
-            } catch {
-                if Self.hasNoConnection(error) { throw SYSNetworkError.offline }
-                guard attempt < maxRetries else {
-                    throw Self.isOffline(error) ? SYSNetworkError.offline : error
-                }
-                attempt += 1
-                try await Task.sleep(nanoseconds: Self.backoff(attempt))
+                progress?(offset, total ?? offset)
+            } catch SYSNetworkError.http(status: 416) {
+                guard !restarted else { throw SYSNetworkError.http(status: 416) }
+                restarted = true
+                try handle.truncate(atOffset: 0)
+                try handle.seek(toOffset: 0)
+                offset = 0
+                total = nil
             }
         }
+        return partial
+    }
+
+    private static func contentRange(_ response: HTTPURLResponse) -> (first: Int64, total: Int64)? {
+        guard let header = response.value(forHTTPHeaderField: "Content-Range"),
+              header.hasPrefix("bytes ") else { return nil }
+        let parts = header.dropFirst(6).split(whereSeparator: { $0 == "-" || $0 == "/" })
+        guard parts.count == 3, let first = Int64(parts[0]), let total = Int64(parts[2]) else { return nil }
+        return (first, total)
     }
 
     private func load(
         _ url: URL,
         etag: String?,
-        timeout: TimeInterval
+        timeout: TimeInterval,
+        range: String? = nil
     ) async throws -> (Data, HTTPURLResponse) {
+        if SYSDebugRoute.forcesOffline, !url.isFileURL { throw SYSNetworkError.offline }
         if url.isFileURL {
             guard let data = try? Data(contentsOf: url) else {
                 throw SYSNetworkError.http(status: 404)
@@ -109,6 +131,7 @@ actor SYSNetwork {
         request.timeoutInterval = timeout
         request.cachePolicy = .reloadIgnoringLocalCacheData
         if let etag { request.setValue(etag, forHTTPHeaderField: "If-None-Match") }
+        if let range { request.setValue(range, forHTTPHeaderField: "Range") }
 
         var attempt = 0
         while true {

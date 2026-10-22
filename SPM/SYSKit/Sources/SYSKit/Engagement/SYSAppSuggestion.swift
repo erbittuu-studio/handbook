@@ -30,10 +30,15 @@ enum SYSAppSuggestion {
         settings[opensKey] += 1
     }
 
+    static func isInstalled(_ app: SYSAppCatalogEntry) -> Bool {
+        guard let scheme = app.urlScheme, let url = URL(string: "\(scheme)://") else { return false }
+        return UIApplication.shared.canOpenURL(url)
+    }
+
     @discardableResult
     static func showIfDue(style: SYSAppSuggestionStyle, text: SYSAppSuggestionText, settings: SYSSettings = .shared) -> Bool {
         SYSAppCatalog.shared.load()
-        let apps = SYSAppCatalog.shared.otherApps
+        let apps = SYSAppSuggestionPolicy.notInstalled(SYSAppCatalog.shared.otherApps, isInstalled: isInstalled)
         guard !apps.isEmpty,
               SYSConnectivity.shared.isOnline,
               !SYSPromptTraffic.popupShowing,

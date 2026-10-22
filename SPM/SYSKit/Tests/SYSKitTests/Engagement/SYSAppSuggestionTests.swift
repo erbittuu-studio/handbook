@@ -12,6 +12,13 @@ final class SYSAppSuggestionPolicyTests: XCTestCase {
         SYSAppSuggestionPolicy.isDue(opens: opens, nextOpen: nextOpen, lastShown: lastShown, remindAfter: remindAfter, now: now)
     }
 
+    func testInstalledAppsAreLeftOut() {
+        let apps = [app("a"), app("b"), app("c")]
+        let left = SYSAppSuggestionPolicy.notInstalled(apps) { $0.id == "b" }
+        XCTAssertEqual(left.map(\.id), ["a", "c"])
+        XCTAssertNil(SYSAppSuggestionPolicy.next(from: SYSAppSuggestionPolicy.notInstalled(apps) { _ in true }, seen: [], opened: []))
+    }
+
     func testTheFirstPopupIsOnTheFifthOpen() {
         XCTAssertFalse(due(opens: 4))
         XCTAssertTrue(due(opens: 5))

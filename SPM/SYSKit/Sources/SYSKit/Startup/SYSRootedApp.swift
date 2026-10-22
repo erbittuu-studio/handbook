@@ -34,6 +34,7 @@ public extension SYSRootedApp {
         #endif
         return AnyView(
             ZStack { route(state) }
+                .sysConnectionIndicator()
                 .animation(SYSMotion.standard, value: state)
                 .sysOnChange(of: isHome(state)) { reached in
                     if reached {

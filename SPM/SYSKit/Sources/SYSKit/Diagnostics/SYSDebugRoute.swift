@@ -29,6 +29,18 @@ public struct SYSDebugRoute: Equatable, Sendable {
     }
 }
 
+public extension SYSDebugRoute {
+    /// `-debugOffline` makes the whole app behave as if there were no connection: nothing is fetched and the
+    /// connectivity check says offline. It exists only in debug builds, to run the offline flows in a simulator.
+    static var forcesOffline: Bool {
+        #if DEBUG
+        CommandLine.arguments.contains("-debugOffline")
+        #else
+        false
+        #endif
+    }
+}
+
 public extension SYSAppState {
     internal static func forced(by arguments: [String]) -> SYSAppState? {
         switch SYSDebugRoute.value(of: "-debugState", in: arguments) {

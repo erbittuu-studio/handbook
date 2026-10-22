@@ -246,6 +246,8 @@ def store_id_problems(ctx) -> list[str]:
     Info.plist, so an app without `SYSAppStoreID` has none of them."""
     problems = []
     for plist in sorted((ctx.root / "App" / "Resources").glob("*Info.plist")):
+        if plist.name == "GoogleService-Info.plist":  # Firebase's file, not the app's own plist
+            continue
         with plist.open("rb") as handle:
             value = plistlib.load(handle).get("SYSAppStoreID")
         if not (isinstance(value, str) and value.isdigit()):
