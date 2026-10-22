@@ -1,7 +1,7 @@
 # CI: the same file in every app. PES owns it and `update.sh` keeps it current.
 #
 # Nothing here calls another repo or needs a secret, so nothing outside the app can break it. It never starts an
-# Xcode Cloud build either: a build starts only when you run ./build.
+# Xcode Cloud build either: a build starts only when you run ./build <app> in faststore.
 #
 #   every pull request and push   the checks job, a few seconds of lint and project checks
 #   push of release/X.Y.Z         also the release checks (named X.Y.Z, newer than the last tag, changelog section)

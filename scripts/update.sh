@@ -38,6 +38,8 @@ MANAGED_DIRS=(
 # Files an earlier PES owned that the current one replaces — removed on
 # update, since carrying both means some checks run twice and some not at all.
 RETIRED=(
+  # Building moved to faststore (./build <app>), the one place that starts every app's Xcode Cloud build.
+  "build"
   "scripts/ci/validate_analytics_events.py"
   "scripts/ci/validate_config.py"
   "scripts/ci/validate_urls.py"
@@ -105,7 +107,6 @@ MANAGED=(
   "App/Config/Base.xcconfig"
   ".github/workflows/ci.yml"
   ".github/workflows/release.yml"
-  "build"
   "scripts/test-automation.sh"
   ".github/dependabot.yml"
   ".github/PULL_REQUEST_TEMPLATE.md"
@@ -119,7 +120,6 @@ MANAGED=(
 src_for() {
   case "$1" in
     .github/workflows/*)     echo "workflows/$(basename "$1")" ;;
-    build)                   echo "assets/build" ;;
     scripts/test-automation.sh) echo "assets/test-automation.sh" ;;
     .github/*)               echo "github/$(basename "$1")" ;;
     App/ci_scripts/*)        echo "ci_scripts/$(basename "$1")" ;;
@@ -210,7 +210,7 @@ for rel in "${MANAGED[@]}"; do
   if [[ $CHECK -eq 0 ]]; then
     mkdir -p "$TARGET/$(dirname "$rel")"
     render "$src" > "$TARGET/$rel"
-    [[ "$rel" == *.sh || "$rel" == "build" ]] && chmod +x "$TARGET/$rel"
+    [[ "$rel" == *.sh ]] && chmod +x "$TARGET/$rel"
     printf '%s  %s\n' "$(file_hash "$TARGET/$rel")" "$rel" >> "$MANIFEST_NEW"
   fi
 done

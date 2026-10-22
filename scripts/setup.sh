@@ -49,7 +49,6 @@ for wf in ci release; do
 done
 
 # the one command that starts an Xcode Cloud build
-copy assets/build build
 chmod +x "$TARGET/build" 2>/dev/null || true
 copy assets/test-automation.sh scripts/test-automation.sh
 chmod +x "$TARGET/scripts/test-automation.sh" 2>/dev/null || true

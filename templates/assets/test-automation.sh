@@ -79,7 +79,6 @@ unpinned=$(grep -rh "uses:" .github/workflows/ | grep -vcE "@[0-9a-f]{40} # v")
 expect 0 "every action pinned to a SHA"     test "$unpinned" = "0"
 outside=$(grep -rhE "uses: *erbittuu-studio/|secrets\.[A-Za-z_]+" .github/workflows/ | grep -vc "secrets.GITHUB_TOKEN")
 expect 0 "self-contained: no other repo, no secret" test "$outside" = "0"
-expect 0 "./build parses"                   python3 -m py_compile App/Packages/PES/ci/build.py
 
 echo ""
 echo "──────────────────────────────────"

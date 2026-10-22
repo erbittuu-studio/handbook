@@ -50,9 +50,9 @@ helps the next app too.
 
 | Where | Job |
 |---|---|
-| Your Mac | Hooks (`App/Packages/PES/hooks`) stop mistakes before a push; `./build` starts the Xcode Cloud build |
+| Your Mac | Hooks (`App/Packages/PES/hooks`) stop mistakes before a push; `./build <app>` in faststore starts the Xcode Cloud build |
 | GitHub Actions | `ci.yml` checks every pull request and push; `release.yml` tags a merged release |
-| Xcode Cloud | One workflow, `manual_release_xcode27`: archive to TestFlight. It has no start condition, so it only builds when `./build` starts it |
+| Xcode Cloud | One workflow, `manual_release_xcode27`: archive to TestFlight. It has no start condition, so it only builds when `./build <app>` in faststore starts it |
 | You | Write code, merge, test, press Submit |
 
 Each app has exactly two workflow files, `ci.yml` and `release.yml`, identical in every app. PES owns them and
@@ -65,7 +65,7 @@ break them. `templates/workflows/` holds the source.
 | Push | `pre-push` hook: allowed branch name, no `main`, no tags, the project checks | No |
 | Pull request / push | `ci.yml` `checks`: lint, secret scan, vendored dependencies, `validate.py` | No |
 | Push of `release/X.Y.Z` | the same, plus the release checks and a simulator compile (`ci.yml` `compile`) | No |
-| `./build` | pre-flight checks, then Apple builds `release/X.Y.Z` for TestFlight | **Yes, the only way** |
+| `./build <app>` (in faststore) | pre-flight checks, then Apple builds `release/X.Y.Z` for TestFlight | **Yes, the only way** |
 | Merge of a release PR | `release.yml`: the `vX.Y.Z` tag and a GitHub Release from the changelog | No |
 
 
@@ -109,7 +109,7 @@ type it declares, or for the role shared by the several it groups (`Strings.swif
 ### Shared tooling is one package
 
 `App/Packages/PES/` holds everything PES owns that is not Swift: `validate.py`, the `shared/` checks, the `ci/` helpers
-(`build.py`, `start_xcode_cloud_build.rb`, `project_value.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
+(`project_value.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
 directory, the same way it syncs SYSKit, so there is no per-file list to keep and an app cannot quietly edit one script.
 Only what a tool forces stays outside it: the workflow callers under `.github/workflows/` and Xcode Cloud's
 `App/ci_scripts/`, both of which call into the package or the handbook.
@@ -278,10 +278,10 @@ To release:
 
 1. `main` already has everything you want to ship. Branch: `release/X.Y.Z`.
 2. Add the CHANGELOG section for that version and push the branch. Nothing builds.
-3. Run `./build`. It checks you are on a clean, pushed `release/X.Y.Z` with a changelog section and a free tag, then
+3. Run `./build <app>` from the faststore folder (the apps have no build script of their own). It checks you are on a clean, pushed `release/X.Y.Z` with a changelog section and a free tag, then
    starts the Xcode Cloud workflow `manual_release_xcode27`, which archives to TestFlight. Run it again for another build.
 4. Test on a real device. Submit in App Store Connect (phased release on, manual release). If Apple rejects, fix on the
-   same branch and `./build` again; nothing is merged or tagged yet.
+   same branch and `./build <app>` again; nothing is merged or tagged yet.
 5. **Once Apple approves**, merge the PR. `release.yml` creates the `vX.Y.Z` tag and the GitHub Release, which is the
    **only** moment a tag is created. A tag means "shipped".
 6. For the store page and the website, in the faststore repo: put the new version in the app's `release.json`, merge the listing
@@ -324,7 +324,7 @@ Store text and screenshots are **not** kept in an app repo. There is no
 - The website and this handbook's app facts (`content/app.json` and each app's `config.json`) are updated from faststore by its local
   `./publish` script, after Apple approves a version. It commits in the `website` or `handbook` folder next to it; you review the
   commit and push it. Nothing in faststore holds a credential for another repo.
-- Auth: the one App Store Connect API key stays on your Mac in `PES_Apps/secrets`; `./build` and faststore's tools read it from there.
+- Auth: the one App Store Connect API key stays on your Mac in `PES_Apps/secrets`; faststore's `./build` and its other tools read it from there.
   No GitHub repo holds it, an app repo needs no secret, and Xcode Cloud needs no credentials.
 - Apple rejects: emoji in "What's New", placeholder URLs, store locales that don't exist (app languages and store languages are
   different lists). faststore's checks cover these before anything is sent.
@@ -789,8 +789,8 @@ request that title and body. The listing sent for a version is the faststore com
       Create Workflow): Environment = Xcode **Latest Release** with macOS **Latest Release** (Xcode 27.1 or later is the first final release with the iPhone Duo SDK; "Latest Beta or Release" picked an RC on a beta macOS image and every build failed in seconds on 2026-10-22), Clean; **Start Conditions: none** (manual
       only: no Branch Changes, Tag Changes or Pull Request); Actions: one **Archive - iOS** on project
       `App/App.xcodeproj`, scheme `App`, Distribution Preparation **App Store Connect** (not "TestFlight Internal
-      Testing Only", see §5). `./build` starts this workflow by name. Delete any older workflow.
-- [ ] 2FA everywhere; the App Store Connect API key in a password manager and in `PES_Apps/secrets` (used by `./build`).
+      Testing Only", see §5). faststore's `./build` starts this workflow by name. Delete any older workflow.
+- [ ] 2FA everywhere; the App Store Connect API key in a password manager and in `PES_Apps/secrets` (used by faststore's tools).
       No GitHub repo holds a copy. App repos hold no secrets, and Xcode Cloud needs none.
 - [ ] PrivacyInfo.xcprivacy present; ASC privacy labels updated in the same
       release that adds any SDK
