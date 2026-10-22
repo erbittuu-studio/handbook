@@ -39,6 +39,11 @@ cd my-app && git init -b main
 
 ## Versioning this repo
 
-Simple SemVer, see [VERSION](VERSION).
+Simple SemVer, see [VERSION](VERSION). The version moves on a schedule, not on every change.
+
+- **Day to day:** commit to `main`. No version bump, no tag, and the apps do not update.
+- **Once a month**, when the monthly release branches of the apps start: bump the minor once (1.6.0 to 1.7.0), tag it, and let every app adopt it with `scripts/update.sh`.
+- **Only if something breaks** in an app that already adopted it (a check fails, or the build stamps the wrong version): ship a patch (1.7.1).
+- An app adopts a new version only when it starts a release branch, never in the middle of a release.
 
 Current version: **1.6.0**
