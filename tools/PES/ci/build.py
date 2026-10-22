@@ -4,7 +4,7 @@
     ./build              check, then start the build
     ./build --dry-run    only the checks
 
-Nothing else starts a build: pushing never does. The Xcode Cloud workflow it starts is named manual_release and has no
+Nothing else starts a build: pushing never does. The Xcode Cloud workflow it starts is named manual_release_xcode27 and has no
 start condition of its own (settings in PLAYBOOK.md §12). The checks come first because a wasted build costs more than a
 minute of looking: you are on release/X.Y.Z, the tree is clean and pushed, the changelog has the section, the tag is
 free, and the project checks pass. The Apple key is read from the secrets folder next to the app repos
@@ -17,7 +17,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-WORKFLOW = "manual_release"
+WORKFLOW = "manual_release_xcode27"
 
 
 def find_root():

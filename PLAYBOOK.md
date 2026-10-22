@@ -52,7 +52,7 @@ helps the next app too.
 |---|---|
 | Your Mac | Hooks (`App/Packages/PES/hooks`) stop mistakes before a push; `./build` starts the Xcode Cloud build |
 | GitHub Actions | `ci.yml` checks every pull request and push; `release.yml` tags a merged release |
-| Xcode Cloud | One workflow, `manual_release`: archive to TestFlight. It has no start condition, so it only builds when `./build` starts it |
+| Xcode Cloud | One workflow, `manual_release_xcode27`: archive to TestFlight. It has no start condition, so it only builds when `./build` starts it |
 | You | Write code, merge, test, press Submit |
 
 Each app has exactly two workflow files, `ci.yml` and `release.yml`, identical in every app. PES owns them and
@@ -279,7 +279,7 @@ To release:
 1. `main` already has everything you want to ship. Branch: `release/X.Y.Z`.
 2. Add the CHANGELOG section for that version and push the branch. Nothing builds.
 3. Run `./build`. It checks you are on a clean, pushed `release/X.Y.Z` with a changelog section and a free tag, then
-   starts the Xcode Cloud workflow `manual_release`, which archives to TestFlight. Run it again for another build.
+   starts the Xcode Cloud workflow `manual_release_xcode27`, which archives to TestFlight. Run it again for another build.
 4. Test on a real device. Submit in App Store Connect (phased release on, manual release). If Apple rejects, fix on the
    same branch and `./build` again; nothing is merged or tagged yet.
 5. **Once Apple approves**, merge the PR. `release.yml` creates the `vX.Y.Z` tag and the GitHub Release, which is the
@@ -785,8 +785,8 @@ request that title and body. The listing sent for a version is the faststore com
 
 ## 12. Once per app
 
-- [ ] Xcode Cloud workflow named exactly `manual_release`, created once (by hand in Xcode or through the API) (Product, Xcode Cloud,
-      Create Workflow): Environment = Xcode **Latest Beta or Release** with macOS **Latest Beta or Release** (iPhone Duo needs the newest Xcode and SDK; plain "Latest Release" can lag behind it), Clean; **Start Conditions: none** (manual
+- [ ] Xcode Cloud workflow named exactly `manual_release_xcode27`, created once (by hand in Xcode or through the API) (Product, Xcode Cloud,
+      Create Workflow): Environment = Xcode **Latest Release** with macOS **Latest Release** (Xcode 27.1 or later is the first final release with the iPhone Duo SDK; "Latest Beta or Release" picked an RC on a beta macOS image and every build failed in seconds on 2026-10-22), Clean; **Start Conditions: none** (manual
       only: no Branch Changes, Tag Changes or Pull Request); Actions: one **Archive - iOS** on project
       `App/App.xcodeproj`, scheme `App`, Distribution Preparation **App Store Connect** (not "TestFlight Internal
       Testing Only", see §5). `./build` starts this workflow by name. Delete any older workflow.
@@ -816,7 +816,7 @@ This is the from-scratch path.
 3. **Dependencies.** Vendored-local from day one (§4).
 4. **App Store Connect.** Create the app record. The one ASC API key lives in a password manager and in
    `PES_Apps/secrets`; no GitHub secrets.
-5. **Xcode Cloud** — grant the GitHub App access first, then create the one `manual_release` workflow (§12).
+5. **Xcode Cloud** — grant the GitHub App access first, then create the one `manual_release_xcode27` workflow (§12).
 6. **Prove the automation before writing the app.** Open one throwaway PR
    touching a Swift file, a metadata JSON, and a screenshot — all checks must
    produce a run. Then a `release/0.1.0` dry run end to end (§5).
