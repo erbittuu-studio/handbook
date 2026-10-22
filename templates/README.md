@@ -9,7 +9,7 @@ the non-obvious choices.
 | `assets/` | gitignore, gitattributes, editorconfig, swiftlint, swiftformat | repo root (dot-prefixed) |
 | `github/` | PR template, issue templates, dependabot | `.github/` |
 | `workflows/` | `ci.yml` (checks on every PR and push) and `release.yml` (tag and release on merge): self-contained, identical in every app | `.github/workflows/` |
-| `ci_scripts/` | post_clone, pre_xcodebuild (branch→version, ASC→build number) | `App/ci_scripts/` |
+| `ci_scripts/` | pre_xcodebuild stub (branch→version; the work is in the synced PES package) | `App/ci_scripts/` |
 | `App/Packages/PES/ci/` | PR-check scripts | `App/Packages/PES/ci/` |
 | `docs/` | README / SECURITY / CLAUDE (AI-assistant guidance) skeletons | repo root |
 

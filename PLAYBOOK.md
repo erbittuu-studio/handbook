@@ -35,8 +35,7 @@ my-app/
 │   │                            #   place, promoted upstream (§8)
 │   ├── Vendor/                  # true third-party — never edited, never linted,
 │   │                            #   excluded by folder in .swiftlint.yml (§8)
-│   └── ci_scripts/              # must stay next to the .xcodeproj — Apple rule
-│       └── lib/                 # helpers ci_scripts call into (kept out of the three magic filenames)
+│   └── ci_scripts/              # must stay next to the .xcodeproj — Apple rule; one stub, the logic is in Packages/PES/ci
 ```
 
 `ci_scripts/` next to the xcodeproj is fixed by Apple. Everything else: App = compile, .github = automation.
@@ -109,7 +108,7 @@ type it declares, or for the role shared by the several it groups (`Strings.swif
 ### Shared tooling is one package
 
 `App/Packages/PES/` holds everything PES owns that is not Swift: `validate.py`, the `shared/` checks, the `ci/` helpers
-(`project_value.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
+(`project_value.sh`, `stamp_version.sh`, …) and the git `hooks/`. `update.sh` syncs it as a
 directory, the same way it syncs SYSKit, so there is no per-file list to keep and an app cannot quietly edit one script.
 Only what a tool forces stays outside it: the workflow callers under `.github/workflows/` and Xcode Cloud's
 `App/ci_scripts/`, both of which call into the package or the handbook.
@@ -292,7 +291,7 @@ Merging last means the newest tag always answers "what is live?", and a rejected
 
 Rollback: pause phased release, ship the next patch.
 
-`App/ci_scripts/ci_pre_xcodebuild.sh` reads the marketing version straight
+`App/ci_scripts/ci_pre_xcodebuild.sh` (a stub that calls `App/Packages/PES/ci/stamp_version.sh`) reads the marketing version straight
 from the branch name (`release/1.8.0` → `1.8.0`). The build number is Xcode
 Cloud's own — a global sequential counter per app that overwrites
 `CFBundleVersion` at export time regardless of what a script sets, so nothing

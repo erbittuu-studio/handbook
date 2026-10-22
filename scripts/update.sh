@@ -38,6 +38,11 @@ MANAGED_DIRS=(
 # Files an earlier PES owned that the current one replaces — removed on
 # update, since carrying both means some checks run twice and some not at all.
 RETIRED=(
+  # Repeated in every app and used only by hand, so they moved to faststore (./test <app>, ./hooks <app>); the
+  # Xcode Cloud post-clone script only printed the branch.
+  "scripts/test-automation.sh"
+  "scripts/setup-hooks.sh"
+  "App/ci_scripts/ci_post_clone.sh"
   # Building moved to faststore (./build <app>), the one place that starts every app's Xcode Cloud build.
   "build"
   "scripts/ci/validate_analytics_events.py"
@@ -107,10 +112,8 @@ MANAGED=(
   "App/Config/Base.xcconfig"
   ".github/workflows/ci.yml"
   ".github/workflows/release.yml"
-  "scripts/test-automation.sh"
   ".github/dependabot.yml"
   ".github/PULL_REQUEST_TEMPLATE.md"
-  "App/ci_scripts/ci_post_clone.sh"
   "App/ci_scripts/ci_pre_xcodebuild.sh"
   ".editorconfig"
   ".gitattributes"
@@ -120,7 +123,6 @@ MANAGED=(
 src_for() {
   case "$1" in
     .github/workflows/*)     echo "workflows/$(basename "$1")" ;;
-    scripts/test-automation.sh) echo "assets/test-automation.sh" ;;
     .github/*)               echo "github/$(basename "$1")" ;;
     App/ci_scripts/*)        echo "ci_scripts/$(basename "$1")" ;;
     .editorconfig)           echo "assets/editorconfig" ;;

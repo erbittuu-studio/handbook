@@ -48,13 +48,8 @@ for wf in ci release; do
   copy "workflows/$wf.yml" ".github/workflows/$wf.yml"
 done
 
-# the one command that starts an Xcode Cloud build
-chmod +x "$TARGET/build" 2>/dev/null || true
-copy assets/test-automation.sh scripts/test-automation.sh
-chmod +x "$TARGET/scripts/test-automation.sh" 2>/dev/null || true
-
 # Xcode Cloud scripts (must live beside the .xcodeproj)
-for cs in ci_post_clone ci_pre_xcodebuild; do
+for cs in ci_pre_xcodebuild; do
   copy "ci_scripts/$cs.sh" "App/ci_scripts/$cs.sh"
 done
 chmod +x "$TARGET"/App/ci_scripts/*.sh 2>/dev/null || true
