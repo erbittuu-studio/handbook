@@ -97,7 +97,10 @@ what; this says what exists.
 | `SYSHelpSection` | struct | The "Rate, share, contact" section. |
 | `SYSLessonProgress` | class | Where a learner is in each lesson (a pack of cards, a chapter, a level), so every flow agrees: - Opening a lesson sta... |
 | `SYSLessonProgressKeys` | struct | — |
-| `SYSMoreAppsSection` | struct | The portfolio list and the name, version and credit footer, in the same Settings style. |
+| `SYSLink` | struct | One web link of the app, as the served config describes it. |
+| `SYSLinksSection` | struct | The app's web links (support, privacy, terms, website) as one Settings section. |
+| `SYSLinksText` | struct | The words around the app's web links and the other-apps cards. |
+| `SYSMoreAppsSection` | struct | The portfolio's other apps as cards in Settings: icon, name, one line about the app and a Get or Open button. |
 | `SYSNotificationPrompt` | struct | When an app asks to send reminders, and what it does with the answer. |
 | `SYSNotifications` | class | Permission, scheduling and tap-routing for local notifications — not scheduling *policy*. |
 | `SYSParentalGate` | class | The state of a parental gate: ask a question, count wrong answers, and run the guarded action only after a right one. |

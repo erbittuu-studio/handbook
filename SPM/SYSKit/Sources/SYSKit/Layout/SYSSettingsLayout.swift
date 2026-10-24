@@ -12,6 +12,7 @@ public struct SYSSettingsStyle: Sendable {
     var rateTint: Color
     var shareTint: Color
     var contactTint: Color
+    var linkTint: Color
 
     public init(
         sectionTitle: Color = .secondary,
@@ -23,7 +24,8 @@ public struct SYSSettingsStyle: Sendable {
         onTint: Color = .white,
         rateTint: Color = .yellow,
         shareTint: Color = .blue,
-        contactTint: Color = .gray
+        contactTint: Color = .gray,
+        linkTint: Color = .teal
     ) {
         self.sectionTitle = sectionTitle
         self.card = card
@@ -35,6 +37,7 @@ public struct SYSSettingsStyle: Sendable {
         self.rateTint = rateTint
         self.shareTint = shareTint
         self.contactTint = contactTint
+        self.linkTint = linkTint
     }
 }
 

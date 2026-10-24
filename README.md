@@ -46,4 +46,4 @@ Simple SemVer, see [VERSION](VERSION). The version moves on a schedule, not on e
 - **Only if something breaks** in an app that already adopted it (a check fails, or the build stamps the wrong version): ship a patch (1.7.1).
 - An app adopts a new version only when it starts a release branch, never in the middle of a release.
 
-Current version: **1.6.0**
+Current version: **1.7.0**

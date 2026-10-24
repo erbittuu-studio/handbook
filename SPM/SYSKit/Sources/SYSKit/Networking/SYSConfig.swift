@@ -137,6 +137,8 @@ struct SYSConfigData: Codable {
     var flags: [String: Bool]?
     var rating: Rating?
     var urls: [String: String]?
+    var links: [SYSLinkEntry]?
+    var linksTitle: SYSLocalizedText?
     var content: Content?
     var search: Search?
     var manifests: [String]?
@@ -253,8 +255,13 @@ final class SYSConfig: @unchecked Sendable {
     }
 
     func url(_ key: String) -> URL? {
-        guard let raw = data.urls?[key] else { return nil }
-        return URL(string: raw, relativeTo: SYSHosting.contentURL(bundle: bundle))?.absoluteURL
+        data.urls?[key].flatMap(resolvedURL)
+    }
+
+    var contentID: String? { SYSHosting.contentID(bundle: bundle) }
+
+    func resolvedURL(_ raw: String) -> URL? {
+        URL(string: raw, relativeTo: SYSHosting.contentURL(bundle: bundle))?.absoluteURL
     }
 
     func value(_ key: String) -> SYSValue? { data.app?[key] }

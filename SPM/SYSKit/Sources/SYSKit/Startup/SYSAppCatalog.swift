@@ -35,6 +35,7 @@ struct SYSAppCatalogData: Codable, Equatable, Sendable {
     var version: Int?
     var baseUrl: String?
     var apps: [SYSAppCatalogEntry]?
+    var labels: [String: [String: String]]?
 }
 
 final class SYSAppCatalog: @unchecked Sendable {
@@ -80,6 +81,11 @@ final class SYSAppCatalog: @unchecked Sendable {
     var thisApp: SYSAppCatalogEntry? {
         guard let id = SYSHosting.contentID(bundle: bundle) else { return nil }
         return catalog.value?.apps?.first { $0.id == id }
+    }
+
+    func label(_ key: String, for languages: [String] = Locale.preferredLanguages, fallback: String) -> String {
+        let written = catalog.value?.labels?[key].flatMap { SYSLocale.match($0, for: languages) } ?? ""
+        return written.isEmpty ? fallback : written
     }
 
     var otherApps: [SYSAppCatalogEntry] {

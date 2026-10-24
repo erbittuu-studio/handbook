@@ -15,6 +15,7 @@ public enum SYSSymbol {
     public static let chevronBack = "chevron.left"
     public static let chevronForward = "chevron.right"
     static let openApp = "arrow.up.forward.app"
+    static let openLink = "arrow.up.right"
     public static let chevronCompactLeft = "chevron.compact.left"
     public static let chevronCompactRight = "chevron.compact.right"
     public static let chevronCompactUp = "chevron.compact.up"
