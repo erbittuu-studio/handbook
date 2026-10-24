@@ -6,7 +6,7 @@ Short on purpose. The map of where things are is in [MAP.md](MAP.md). The releas
 
 - A fact is written in one file. Every other file points to it.
 - **Never type a number that changes** (live version, ratings, downloads, counts of files or languages) into a document. Point to `faststore/aso/tracker/REPORT.md`, which is generated.
-- Generated files are never edited by hand: `REPORT.md`, `analytics.json`, `ratings.json`, `ranks.json`, `reviews.json`, `sales.json`, `state.json`, `SYSKIT-API.md`.
+- Generated files are never edited by hand: `REPORT.md`, `analytics.json`, `ratings.json`, `ranks.json`, `reviews.json`, `sales.json`, `state.json`, `SYSKIT-API.md`, `faststore/APPS.md` (run `node tools/apps-index.mjs` after a release).
 - Downloaded working files are not committed. `aso/apps/*/data/analytics/` is ignored.
 
 ## 2. Documents

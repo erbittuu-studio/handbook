@@ -19,6 +19,7 @@ One page. Find the thing, then open its own file. Rules for changing anything ar
 
 | I want to | Open or run |
 |---|---|
+| See one app's ids, versions, URL scheme, widgets and folders | `faststore/APPS.md` (generated: `node tools/apps-index.mjs`) |
 | Understand the whole system | `handbook/PLAYBOOK.md` |
 | See what is next, the live versions and the numbers | `faststore/aso/tracker/REPORT.md` |
 | Add, tick or pause a plan item | `faststore/aso/tracker/plan.json`; `node tools/aso-track.mjs done <id>` |
