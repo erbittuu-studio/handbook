@@ -8,6 +8,7 @@ One page. Find the thing, then open its own file. Rules for changing anything ar
 |---|---|---|
 | `handbook/` | The standards, the shared code (SYSKit) and the content and config the apps download | by hand, straight on `main` |
 | `faststore/` | Everything sent to the App Store and the website: listings, screenshots, events, ASO research, the plan | pull request, then you run `./push-store` and `./publish` |
+| `faststore/web/` | The same site's code, prepared inside faststore and built straight from its data. Not live until the cutover (plan item `site-cutover`) | pull request |
 | `website/` | The public site (`erbittuu-studio.web.app`). A push to `main` goes live | made by `faststore/./publish site`, you push |
 | `Prarthana/`, `ABCLearning/`, `Colorful/`, `Drawing/` | One app each | `release/X.Y.Z` branch, pull request, tag on merge |
 | `1tattooz/` | A client app, separate from ours | its own `release/X.Y.Z` branch |
