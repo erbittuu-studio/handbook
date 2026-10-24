@@ -4,7 +4,7 @@ import XCTest
 final class SYSLinksTextTests: XCTestCase {
     func testEveryLanguageHasEveryWord() {
         for (language, text) in SYSLinksText.translations {
-            let words = [text.about, text.support, text.privacy, text.terms, text.website, text.get, text.open]
+            let words = [text.about, text.more, text.support, text.privacy, text.terms, text.website, text.get, text.open]
             XCTAssertFalse(words.contains { $0.isEmpty }, "\(language) has an empty word")
         }
     }

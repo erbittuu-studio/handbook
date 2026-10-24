@@ -6,12 +6,12 @@ import SwiftUI
 /// Pass the app's parental gate in a kids app, since both buttons leave the app.
 public struct SYSMoreAppsSection: View {
     @Environment(\.sysSettingsStyle) private var style
-    private let title: String
+    private let title: String?
     private let languages: [String]
     private let gate: SYSParentalGate?
     private let catalog = SYSAppCatalog.shared
 
-    public init(title: String = "More from us", languages: [String] = Locale.preferredLanguages, gate: SYSParentalGate? = nil) {
+    public init(title: String? = nil, languages: [String] = Locale.preferredLanguages, gate: SYSParentalGate? = nil) {
         self.title = title
         self.languages = languages
         self.gate = gate
@@ -22,7 +22,7 @@ public struct SYSMoreAppsSection: View {
         let words = SYSLinksText.forLanguages(languages)
         if !apps.isEmpty {
             VStack(alignment: .leading, spacing: SYSSpace.sm) {
-                Text(title)
+                Text(title ?? words.more)
                     .font(SYSFont.callout.weight(.medium))
                     .foregroundColor(style.sectionTitle)
                     .padding(.horizontal, SYSSpace.lg)

@@ -4,6 +4,7 @@ import Foundation
 /// portfolio's languages, so the config holds only the website address; a config entry or a catalog label can still override one.
 public struct SYSLinksText: Sendable, Equatable {
     public var about: String
+    public var more: String
     public var support: String
     public var privacy: String
     public var terms: String
@@ -13,6 +14,7 @@ public struct SYSLinksText: Sendable, Equatable {
 
     public init(
         about: String = "About",
+        more: String = "More from us",
         support: String = "Support",
         privacy: String = "Privacy Policy",
         terms: String = "Terms of Use",
@@ -21,6 +23,7 @@ public struct SYSLinksText: Sendable, Equatable {
         open: String = "Open"
     ) {
         self.about = about
+        self.more = more
         self.support = support
         self.privacy = privacy
         self.terms = terms
@@ -46,24 +49,24 @@ public struct SYSLinksText: Sendable, Equatable {
 
     static let translations: [String: SYSLinksText] = [
         "en": SYSLinksText(),
-        "hi": SYSLinksText(about: "जानकारी", support: "सहायता", privacy: "गोपनीयता नीति", terms: "उपयोग की शर्तें", website: "वेबसाइट", get: "पाएँ", open: "खोलें"),
-        "gu": SYSLinksText(about: "માહિતી", support: "સહાય", privacy: "ગોપનીયતા નીતિ", terms: "ઉપયોગની શરતો", website: "વેબસાઇટ", get: "મેળવો", open: "ખોલો"),
-        "de": SYSLinksText(about: "Info", support: "Support", privacy: "Datenschutzerklärung", terms: "Nutzungsbedingungen", website: "Website", get: "Laden", open: "Öffnen"),
-        "es": SYSLinksText(about: "Acerca de", support: "Soporte", privacy: "Política de privacidad", terms: "Términos de uso", website: "Sitio web", get: "Obtener", open: "Abrir"),
-        "fr": SYSLinksText(about: "À propos", support: "Assistance", privacy: "Politique de confidentialité", terms: "Conditions d’utilisation", website: "Site web", get: "Obtenir", open: "Ouvrir"),
-        "it": SYSLinksText(about: "Informazioni", support: "Assistenza", privacy: "Informativa sulla privacy", terms: "Termini di utilizzo", website: "Sito web", get: "Ottieni", open: "Apri"),
-        "pt-BR": SYSLinksText(about: "Sobre", support: "Suporte", privacy: "Política de Privacidade", terms: "Termos de Uso", website: "Site", get: "Obter", open: "Abrir"),
-        "nl": SYSLinksText(about: "Over", support: "Ondersteuning", privacy: "Privacybeleid", terms: "Gebruiksvoorwaarden", website: "Website", get: "Laad", open: "Open"),
-        "pl": SYSLinksText(about: "O aplikacji", support: "Pomoc", privacy: "Polityka prywatności", terms: "Warunki użytkowania", website: "Strona internetowa", get: "Pobierz", open: "Otwórz"),
-        "ru": SYSLinksText(about: "О приложении", support: "Поддержка", privacy: "Политика конфиденциальности", terms: "Условия использования", website: "Сайт", get: "Загрузить", open: "Открыть"),
-        "tr": SYSLinksText(about: "Hakkında", support: "Destek", privacy: "Gizlilik Politikası", terms: "Kullanım Koşulları", website: "Web Sitesi", get: "Al", open: "Aç"),
-        "id": SYSLinksText(about: "Tentang", support: "Dukungan", privacy: "Kebijakan Privasi", terms: "Ketentuan Penggunaan", website: "Situs Web", get: "Dapatkan", open: "Buka"),
-        "vi": SYSLinksText(about: "Giới thiệu", support: "Hỗ trợ", privacy: "Chính sách quyền riêng tư", terms: "Điều khoản sử dụng", website: "Trang web", get: "Tải", open: "Mở"),
-        "th": SYSLinksText(about: "เกี่ยวกับ", support: "การสนับสนุน", privacy: "นโยบายความเป็นส่วนตัว", terms: "เงื่อนไขการใช้งาน", website: "เว็บไซต์", get: "รับ", open: "เปิด"),
-        "ja": SYSLinksText(about: "情報", support: "サポート", privacy: "プライバシーポリシー", terms: "利用規約", website: "ウェブサイト", get: "入手", open: "開く"),
-        "ko": SYSLinksText(about: "정보", support: "지원", privacy: "개인정보 처리방침", terms: "이용약관", website: "웹사이트", get: "받기", open: "열기"),
-        "zh-Hans": SYSLinksText(about: "关于", support: "支持", privacy: "隐私政策", terms: "使用条款", website: "网站", get: "获取", open: "打开"),
-        "zh-Hant": SYSLinksText(about: "關於", support: "支援", privacy: "隱私權政策", terms: "使用條款", website: "網站", get: "取得", open: "開啟"),
-        "ar": SYSLinksText(about: "حول", support: "الدعم", privacy: "سياسة الخصوصية", terms: "شروط الاستخدام", website: "الموقع الإلكتروني", get: "احصل", open: "فتح")
+        "hi": SYSLinksText(about: "जानकारी", more: "हमारी और ऐप्स", support: "सहायता", privacy: "गोपनीयता नीति", terms: "उपयोग की शर्तें", website: "वेबसाइट", get: "पाएँ", open: "खोलें"),
+        "gu": SYSLinksText(about: "માહિતી", more: "અમારી અન્ય એપ્સ", support: "સહાય", privacy: "ગોપનીયતા નીતિ", terms: "ઉપયોગની શરતો", website: "વેબસાઇટ", get: "મેળવો", open: "ખોલો"),
+        "de": SYSLinksText(about: "Info", more: "Mehr von uns", support: "Support", privacy: "Datenschutzerklärung", terms: "Nutzungsbedingungen", website: "Website", get: "Laden", open: "Öffnen"),
+        "es": SYSLinksText(about: "Acerca de", more: "Más de nosotros", support: "Soporte", privacy: "Política de privacidad", terms: "Términos de uso", website: "Sitio web", get: "Obtener", open: "Abrir"),
+        "fr": SYSLinksText(about: "À propos", more: "Plus de nous", support: "Assistance", privacy: "Politique de confidentialité", terms: "Conditions d’utilisation", website: "Site web", get: "Obtenir", open: "Ouvrir"),
+        "it": SYSLinksText(about: "Informazioni", more: "Altro da noi", support: "Assistenza", privacy: "Informativa sulla privacy", terms: "Termini di utilizzo", website: "Sito web", get: "Ottieni", open: "Apri"),
+        "pt-BR": SYSLinksText(about: "Sobre", more: "Mais de nós", support: "Suporte", privacy: "Política de Privacidade", terms: "Termos de Uso", website: "Site", get: "Obter", open: "Abrir"),
+        "nl": SYSLinksText(about: "Over", more: "Meer van ons", support: "Ondersteuning", privacy: "Privacybeleid", terms: "Gebruiksvoorwaarden", website: "Website", get: "Laad", open: "Open"),
+        "pl": SYSLinksText(about: "O aplikacji", more: "Więcej od nas", support: "Pomoc", privacy: "Polityka prywatności", terms: "Warunki użytkowania", website: "Strona internetowa", get: "Pobierz", open: "Otwórz"),
+        "ru": SYSLinksText(about: "О приложении", more: "Ещё от нас", support: "Поддержка", privacy: "Политика конфиденциальности", terms: "Условия использования", website: "Сайт", get: "Загрузить", open: "Открыть"),
+        "tr": SYSLinksText(about: "Hakkında", more: "Bizden daha fazlası", support: "Destek", privacy: "Gizlilik Politikası", terms: "Kullanım Koşulları", website: "Web Sitesi", get: "Al", open: "Aç"),
+        "id": SYSLinksText(about: "Tentang", more: "Lainnya dari kami", support: "Dukungan", privacy: "Kebijakan Privasi", terms: "Ketentuan Penggunaan", website: "Situs Web", get: "Dapatkan", open: "Buka"),
+        "vi": SYSLinksText(about: "Giới thiệu", more: "Thêm từ chúng tôi", support: "Hỗ trợ", privacy: "Chính sách quyền riêng tư", terms: "Điều khoản sử dụng", website: "Trang web", get: "Tải", open: "Mở"),
+        "th": SYSLinksText(about: "เกี่ยวกับ", more: "เพิ่มเติมจากเรา", support: "การสนับสนุน", privacy: "นโยบายความเป็นส่วนตัว", terms: "เงื่อนไขการใช้งาน", website: "เว็บไซต์", get: "รับ", open: "เปิด"),
+        "ja": SYSLinksText(about: "情報", more: "ほかのアプリ", support: "サポート", privacy: "プライバシーポリシー", terms: "利用規約", website: "ウェブサイト", get: "入手", open: "開く"),
+        "ko": SYSLinksText(about: "정보", more: "더 많은 앱", support: "지원", privacy: "개인정보 처리방침", terms: "이용약관", website: "웹사이트", get: "받기", open: "열기"),
+        "zh-Hans": SYSLinksText(about: "关于", more: "更多应用", support: "支持", privacy: "隐私政策", terms: "使用条款", website: "网站", get: "获取", open: "打开"),
+        "zh-Hant": SYSLinksText(about: "關於", more: "更多應用程式", support: "支援", privacy: "隱私權政策", terms: "使用條款", website: "網站", get: "取得", open: "開啟"),
+        "ar": SYSLinksText(about: "حول", more: "المزيد منا", support: "الدعم", privacy: "سياسة الخصوصية", terms: "شروط الاستخدام", website: "الموقع الإلكتروني", get: "احصل", open: "فتح")
     ]
 }
