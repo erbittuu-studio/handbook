@@ -22,6 +22,7 @@ Short on purpose. The map of where things are is in [MAP.md](MAP.md). The releas
 
 - Only `faststore/aso/tracker/plan.json` holds dates and open items.
 - An item has `id` (kebab-case), `date` (`YYYY-MM-DD` or `null`), `who` (`you`, `me` or `you and me`), `what` (one paragraph) and `status`: **`open`**, **`done`** or **`paused`**.
+- Every open or paused item also has `app` (an app short name, several separated by ", ", or `all`) and `kind`: `store`, `release`, `content`, `fix`, `read`, `idea`, `admin` or `rule`. An idea is an item of kind `idea`, paused while the focus is downloads. `aso/tracker/REPORT.md` and `APPS.md` read these two fields.
 - Finish with `node tools/aso-track.mjs done <id>`. Pause by setting `status: "paused"` and starting `what` with the reason and the date. A paused item is listed apart in the report, so it never looks due.
 - A standing decision of the owner is also an item (for example `focus-downloads`), so it is read at the start of every session.
 
