@@ -13,6 +13,8 @@ production.
 
 | File | When I open it |
 |---|---|
+| [MAP.md](MAP.md) | To find where something is and which command to run |
+| [RULES.md](RULES.md) | Before moving, renaming or deleting anything: the structure rules and the list of names that must never change |
 | [PLAYBOOK.md](PLAYBOOK.md) | To remember how the system works — repo layout, CI/CD, releases, store automation. One read covers everything |
 | [decisions/](decisions/) | When choosing between tools or Firebase services |
 | [templates/](templates/) | Ready files that `scripts/setup.sh` copies into a new repo |
