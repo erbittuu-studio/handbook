@@ -49,10 +49,8 @@ Live apps, Apple or the public site depend on these exact names.
 
 | What | Why |
 |---|---|
-| Apple IDs `1547752865`, `1597421237`, `1597789030`, `1597899453` and the folders named by them | Folder names are how every tool finds an app |
-| Bundle IDs `com.make4india.drawing`, `.junglebook`, `.scanr`, `.hinduprayer`, and their `.homeWidget` and `.watchkitapp` extensions; app groups `group.com.make4india.<app>.home` | Store identity, signing and shared data |
-| URL schemes `abclearning://`, `colorful://`, `drawingbook://`, `prarthana://` and their paths (`pack/<id>`, `page/<id>`, `drawing/<uuid>`, `new`, `resume`, `ideas`, `festival/<id>`, `calendar`, `jaap`, `wisdom`) | Widgets, events, notes and shortcuts open them |
-| Widget `kind` names `PrarthanaWidget`, `PrarthanaFestivalWidget`, `PrarthanaJaapWidget`, `PrarthanaTodayWidget`, `ABCWordWidget`, `ColorfulPictureWidget`, `DrawingContinueWidget` | Changing one removes the widget a person already placed |
+| Every value in `faststore/data/studio.json` and `faststore/data/apps/<id>/identity.json`: Apple IDs and the folders named by them, bundle IDs and their widget and watch extensions, app groups, URL schemes, widget `kind` names | Store identity, signing, shared data, and what widgets and links open. `node tools/studio-check.mjs` compares every copy with them |
+| The deep link paths (`pack/<id>`, `page/<id>`, `drawing/<uuid>`, `new`, `resume`, `ideas`, `festival/<id>`, `calendar`, `jaap`, `wisdom`) | Widgets, events, notes and shortcuts open them |
 | `handbook/content/<id>/config.json`, `handbook/content/<id>/content/manifest.json`, the packs, and `handbook/content/app.json` | The apps download these from GitHub raw. Add keys, never rename |
 | Config keys `urls.website`, `urls.support`, `urls.privacy`, `urls.terms` | Apps work out their links from them |
 | Website routes `/apps`, `/apps/<id>`, `/apps/<id>/support`, `/apps/<id>/privacy`, `/apps/<id>/terms` | Apps, the store pages and Apple reviewers open these |
