@@ -63,7 +63,7 @@ break them. `templates/workflows/` holds the source.
 | Commit | `commit-msg` hook: `type: what` | No |
 | Push | `pre-push` hook: allowed branch name, no `main`, no tags, the project checks | No |
 | Pull request / push | `ci.yml` `checks`: lint, secret scan, vendored dependencies, `validate.py` | No |
-| Push of `release/X.Y.Z` | the same, plus the release checks and a simulator compile (`ci.yml` `compile`) | No |
+| Push of `release/X.Y.Z` | the same, plus the release checks | No |
 | `./build <app>` (in faststore) | pre-flight checks, then Apple builds `release/X.Y.Z` for TestFlight | **Yes, the only way** |
 | Merge of a release PR | `release.yml`: the `vX.Y.Z` tag and a GitHub Release from the changelog | No |
 
@@ -93,7 +93,6 @@ a red check as "don't merge this".
 | Vendored dependencies | `ci.yml` | A remote Swift package or a `Package.resolved` |
 | `validate.py` (all PES checks) | `ci.yml`, `pre-push` hook | App Store compliance, URLs that 404, build settings, localization, SYSKit adoption, files over 10 MB |
 | `release_branch` | `validate.py`, on a `release/X.Y.Z` branch only | Not X.Y.Z, not newer than the latest tag, no changelog section |
-| Simulator compile | `ci.yml` `compile`, release branches only | A compile error, found before Apple's long build |
 
 
 ### File names

@@ -5,7 +5,9 @@
 #
 #   every pull request and push   the checks job, a few seconds of lint and project checks
 #   push of release/X.Y.Z         also the release checks (named X.Y.Z, newer than the last tag, changelog section)
-#                                 and a simulator compile, so a broken build is found before Apple's long one
+#
+# There is no compile job on purpose: GitHub's macOS runners have Xcode 26 and the project needs the iOS 27 SDK, so it
+# only skipped itself while billing ten minutes for each one. The compile is checked by Xcode Cloud (./build) and on your Mac.
 name: CI
 
 on:
@@ -70,27 +72,3 @@ jobs:
 
       - name: Project checks
         run: python3 App/Packages/PES/validate.py
-
-  compile:
-    if: github.event_name == 'push' && startsWith(github.ref_name, 'release/')
-    runs-on: macos-15
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - name: Build for the simulator
-        run: |
-          XCODE=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
-          sudo xcode-select -s "$XCODE/Contents/Developer"
-          MAJOR=$(xcodebuild -version | awk 'NR==1 {print $2}' | cut -d. -f1)
-          if [ "$MAJOR" -lt 27 ]; then
-            echo "::notice::this runner has Xcode $MAJOR; the project needs the iOS 27 SDK (Xcode 27 or later), so the compile check is skipped"
-            exit 0
-          fi
-          xcodebuild \
-            -project "$(bash App/Packages/PES/ci/project_value.sh app.project)" \
-            -scheme "$(bash App/Packages/PES/ci/project_value.sh app.scheme)" \
-            -configuration Debug \
-            -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGNING_ALLOWED=NO \
-            build
