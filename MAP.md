@@ -8,8 +8,7 @@ One page. Find the thing, then open its own file. Rules for changing anything ar
 |---|---|---|
 | `handbook/` | The standards, the shared code (SYSKit) and the content and config the apps download | by hand, straight on `main` |
 | `faststore/` | Everything sent to the App Store and the website: listings, screenshots, events, ASO research, the plan | pull request, then you run `./push-store` and `./publish` |
-| `faststore/web/` | The same site's code, prepared inside faststore and built straight from its data. Not live until the cutover (plan item `site-cutover`) | pull request |
-| `website/` | The public site (`erbittuu-studio.web.app`). A push to `main` goes live | made by `faststore/./publish site`, you push |
+| `faststore/web/` | The public site (`erbittuu-studio.web.app`): its code, built straight from faststore's data. `web/site deploy` publishes it to Firebase | pull request, then you run the deploy |
 | `Prarthana/`, `ABCLearning/`, `Colorful/`, `Drawing/` | One app each | `release/X.Y.Z` branch, pull request, tag on merge |
 | `1tattooz/` | A client app, separate from ours | its own `release/X.Y.Z` branch |
 | `nomination-assets/` | Pictures for featuring nominations, sent by hand | you |
@@ -33,7 +32,7 @@ One page. Find the thing, then open its own file. Rules for changing anything ar
 | Know an app's own rules | `<App>/CLAUDE.md` |
 | Change shared app code | edit in ABC's `App/Packages/SYSKit`, then `handbook/scripts/promote.sh ../ABCLearning --apply`, then `scripts/update.sh ../<app>` |
 | Change what the apps download (config, links, catalog) | `handbook/content/<id>/config.json` and `handbook/content/app.json` (see the frozen list in RULES.md) |
-| Change the website pages | `faststore/data/` then `./publish site --preview` |
+| Change the website pages | `faststore/data/`, `./publish site --preview`, then `faststore/web/site deploy` |
 | Check the analytics | `node tools/aso-analytics.mjs pull`; read `REPORT.md` |
 | Send featuring nominations | `faststore/aso/nominations-2026-11.md` and `nomination-assets/` |
 

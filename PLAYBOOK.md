@@ -285,7 +285,7 @@ To release:
    **only** moment a tag is created. A tag means "shipped".
 6. For the store page and the website, in the faststore repo: put the new version in the app's `release.json`, merge the listing
    change and run `./push-store` (it shows the changes and asks you to confirm), then once Apple has approved run `./publish site` and
-   `./publish handbook`, review the commits they make in the website and handbook folders, and push them.
+   `./publish handbook`, review the commits they make in the faststore and handbook folders, push them, and deploy the site with `faststore/web/site deploy`.
 
 Merging last means the newest tag always answers "what is live?", and a rejected build never leaves a tag behind.
 
