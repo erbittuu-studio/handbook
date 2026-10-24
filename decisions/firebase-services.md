@@ -25,8 +25,8 @@ localized content, "what's new" feeds.
 **Pros:** zero backend, zero rules, zero cost, trivially cacheable/CDN'd,
 versionable in Git, works offline by shipping a bundled fallback.
 **Cons:** full-file fetch (mitigate with HTTP caching/ETag); schema changes
-need coordination with shipped clients (version the path — see
-[versioning.md](../standards/versioning.md)); no personalization.
+need coordination with shipped clients (version the path, and only add keys, never rename them: see
+[RULES.md](../RULES.md)); no personalization.
 **Alternatives:** Remote Config (if it's really just parameters), Firestore
 (if it's really per-user).
 
