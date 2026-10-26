@@ -1,0 +1,11 @@
+.DS_Store
+*.swp
+
+# Swift build artefacts from SPM/ — never committed
+.build/
+.swiftpm/
+*.xcodeproj/xcuserdata/
+
+# Plaintext content source — publish.py encrypts it into content/*/content/
+# (and festivals/); RawPacks/ itself must never reach the public repo.
+content/*/RawPacks/
