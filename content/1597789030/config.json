@@ -3,7 +3,7 @@
   "updatedAt": "2026-08-31T00:00:00Z",
   "update": {
     "minimumVersion": "1.0.0",
-    "recommendedVersion": "1.10.0"
+    "recommendedVersion": "1.11.0"
   },
   "maintenance": {
     "enabled": false
