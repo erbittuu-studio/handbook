@@ -9,3 +9,11 @@
 # Plaintext content source — publish.py encrypts it into content/*/content/
 # (and festivals/); RawPacks/ itself must never reach the public repo.
 content/*/RawPacks/
+
+# Working files that stay on the owner machine and are never published
+/CLAUDE.md
+content/*/build.py
+content/*/crypto.py
+content/*/steps/
+content/*/README.md
+content/*/SVGFormat/
