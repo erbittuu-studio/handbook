@@ -1,19 +1,19 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-11T17:14:52.397828Z",
+  "generatedAt": "2026-11-11T17:21:32.675573Z",
   "items": [
     {
       "id": "2026",
-      "bundle": "packs/e1011bfbb264.json",
-      "bytes": 297117,
-      "sha256": "e1011bfbb264734adb6f67fd56c15db4dd4d441db51a779d75e99fd3f47ca104",
+      "bundle": "packs/34c7d2cec696.json",
+      "bytes": 298506,
+      "sha256": "34c7d2cec69692058b29afa153f020e60ef758da729282a9eb04813fe7ab937b",
       "required": true
     },
     {
       "id": "2027",
-      "bundle": "packs/140eace98c24.json",
-      "bytes": 299746,
-      "sha256": "140eace98c2424f4331320c153646f9cad94fb013842146c2b80855320318d44",
+      "bundle": "packs/cea0c3da55d0.json",
+      "bytes": 301135,
+      "sha256": "cea0c3da55d07ee8a495e5302cbcd28d9368cfe47a4f2423aaf1a1f9836ad433",
       "required": true
     }
   ]
