@@ -45,6 +45,6 @@
       "stotra"
     ]
   },
-  "manifests": ["content", "festivals"],
+  "manifests": ["content", "festivals", "festivals-multi"],
   "app": {}
 }
