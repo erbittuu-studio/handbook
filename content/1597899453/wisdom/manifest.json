@@ -1,0 +1,13 @@
+{
+  "manifestVersion": 1,
+  "generatedAt": "2026-11-12T20:21:45.350360Z",
+  "items": [
+    {
+      "id": "quotes",
+      "bundle": "packs/81d9946055d3.json",
+      "bytes": 43568,
+      "sha256": "81d9946055d34cde35c12d109c1e175cd9a5e0990e10d85c71f5ed9922ee00f9",
+      "required": true
+    }
+  ]
+}
