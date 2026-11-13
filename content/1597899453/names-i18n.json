@@ -530,5 +530,97 @@
       "hi": "दैनिक प्रार्थनाएँ",
       "gu": "દૈનિક પ્રાર્થનાઓ"
     }
+  },
+  "sections": {
+    "opening": {
+      "en": "Opening Doha",
+      "hi": "आरंभ दोहा",
+      "gu": "પ્રારંભ દોહા"
+    },
+    "chaupai": {
+      "en": "Chaupai",
+      "hi": "चौपाई",
+      "gu": "ચોપાઈ"
+    },
+    "closing": {
+      "en": "Closing Doha",
+      "hi": "समापन दोहा",
+      "gu": "સમાપન દોહા"
+    },
+    "doha_end": {
+      "en": "Closing Doha",
+      "hi": "समापन दोहा",
+      "gu": "સમાપન દોહા"
+    },
+    "doha_closing": {
+      "en": "Closing Doha",
+      "hi": "समापन दोहा",
+      "gu": "સમાપન દોહા"
+    },
+    "main": {
+      "en": "Main",
+      "hi": "मुख्य पाठ",
+      "gu": "મુખ્ય પાઠ"
+    },
+    "shloka": {
+      "en": "Shloka",
+      "hi": "श्लोक",
+      "gu": "શ્લોક"
+    },
+    "dhyan": {
+      "en": "Dhyan",
+      "hi": "ध्यान",
+      "gu": "ધ્યાન"
+    },
+    "namalu": {
+      "en": "Names",
+      "hi": "नामावली",
+      "gu": "નામાવલી"
+    },
+    "stotram": {
+      "en": "Stotram",
+      "hi": "स्तोत्रम्",
+      "gu": "સ્તોત્રમ્"
+    },
+    "doha": {
+      "en": "Doha",
+      "hi": "दोहा",
+      "gu": "દોહા"
+    },
+    "phalashruti": {
+      "en": "Phalashruti",
+      "hi": "फलश्रुति",
+      "gu": "ફળશ્રુતિ"
+    },
+    "stuti": {
+      "en": "Stuti",
+      "hi": "स्तुति",
+      "gu": "સ્તુતિ"
+    },
+    "aarti": {
+      "en": "Aarti",
+      "hi": "आरती",
+      "gu": "આરતી"
+    },
+    "vandana": {
+      "en": "Vandana",
+      "hi": "वंदना",
+      "gu": "વંદના"
+    },
+    "mantra": {
+      "en": "Mantra",
+      "hi": "मंत्र",
+      "gu": "મંત્ર"
+    },
+    "sortha": {
+      "en": "Sortha",
+      "hi": "सोरठा",
+      "gu": "સોરઠા"
+    },
+    "kavach": {
+      "en": "Kavach",
+      "hi": "कवच",
+      "gu": "કવચ"
+    }
   }
 }
