@@ -14,7 +14,7 @@
     "showAds": false
   },
   "manifestVersion": 1,
-  "generatedAt": "2026-11-13T10:26:36.028988Z",
+  "generatedAt": "2026-11-13T10:38:28.784945Z",
   "items": [
     {
       "id": "achyutam_keshavam",
@@ -1864,6 +1864,153 @@
       "om_sahana_vavatu"
     ]
   },
+  "greetings": {
+    "morning": [
+      {
+        "en": "Start your day with devotion",
+        "hi": "भक्ति के साथ अपने दिन की शुरुआत करें",
+        "gu": "ભક્તિ સાથે તમારા દિવસની શરૂઆત કરો"
+      },
+      {
+        "en": "Begin with gratitude and peace",
+        "hi": "कृतज्ञता और शांति के साथ आरंभ करें",
+        "gu": "કૃતજ્ઞતા અને શાંતિ સાથે શરૂઆત કરો"
+      },
+      {
+        "en": "A blessed morning awaits you",
+        "hi": "एक शुभ प्रभात आपकी प्रतीक्षा कर रहा है",
+        "gu": "એક શુભ પ્રભાત તમારી રાહ જુએ છે"
+      },
+      {
+        "en": "Rise with faith in your heart",
+        "hi": "हृदय में श्रद्धा लेकर उठें",
+        "gu": "હૃદયમાં શ્રદ્ધા સાથે ઊઠો"
+      },
+      {
+        "en": "Embrace the new day with prayer",
+        "hi": "प्रार्थना के साथ नए दिन का स्वागत करें",
+        "gu": "પ્રાર્થના સાથે નવા દિવસનું સ્વાગત કરો"
+      }
+    ],
+    "afternoon": [
+      {
+        "en": "Take a moment for peace",
+        "hi": "शांति के लिए एक पल निकालें",
+        "gu": "શાંતિ માટે એક ક્ષણ કાઢો"
+      },
+      {
+        "en": "Pause and reconnect within",
+        "hi": "ठहरें और अपने भीतर से जुड़ें",
+        "gu": "થોભો અને અંદરથી જોડાઓ"
+      },
+      {
+        "en": "Find calm in the day's flow",
+        "hi": "दिन की भागदौड़ में शांति खोजें",
+        "gu": "દિવસના પ્રવાહમાં શાંતિ શોધો"
+      },
+      {
+        "en": "A mindful moment for you",
+        "hi": "आपके लिए एक सजग पल",
+        "gu": "તમારા માટે એક સભાન ક્ષણ"
+      },
+      {
+        "en": "Center yourself with devotion",
+        "hi": "भक्ति से स्वयं को केंद्रित करें",
+        "gu": "ભક્તિથી પોતાને કેન્દ્રિત કરો"
+      }
+    ],
+    "evening": [
+      {
+        "en": "Unwind with prayers",
+        "hi": "प्रार्थना के साथ मन को विश्राम दें",
+        "gu": "પ્રાર્થના સાથે મનને વિરામ આપો"
+      },
+      {
+        "en": "Reflect on today's blessings",
+        "hi": "आज के आशीर्वादों पर विचार करें",
+        "gu": "આજના આશીર્વાદો પર વિચાર કરો"
+      },
+      {
+        "en": "Let peace fill your heart",
+        "hi": "शांति से अपना हृदय भरने दें",
+        "gu": "શાંતિને તમારા હૃદયમાં ભરાવા દો"
+      },
+      {
+        "en": "A serene evening to you",
+        "hi": "आपको एक शांत संध्या की शुभकामनाएँ",
+        "gu": "તમને શાંત સંધ્યાની શુભેચ્છા"
+      },
+      {
+        "en": "Wind down with gratitude",
+        "hi": "कृतज्ञता के साथ दिन को विराम दें",
+        "gu": "કૃતજ્ઞતા સાથે દિવસને વિરામ આપો"
+      }
+    ],
+    "night": [
+      {
+        "en": "End your day peacefully",
+        "hi": "अपना दिन शांति से समाप्त करें",
+        "gu": "તમારો દિવસ શાંતિથી પૂર્ણ કરો"
+      },
+      {
+        "en": "Rest with a grateful heart",
+        "hi": "कृतज्ञ हृदय से विश्राम करें",
+        "gu": "કૃતજ્ઞ હૃદયથી આરામ કરો"
+      },
+      {
+        "en": "Sleep in divine protection",
+        "hi": "दिव्य सुरक्षा में सोएँ",
+        "gu": "દિવ્ય રક્ષણમાં સૂઓ"
+      },
+      {
+        "en": "Close the day with blessings",
+        "hi": "आशीर्वाद के साथ दिन समाप्त करें",
+        "gu": "આશીર્વાદ સાથે દિવસ પૂર્ણ કરો"
+      },
+      {
+        "en": "Peaceful dreams await you",
+        "hi": "शांतिपूर्ण स्वप्न आपकी प्रतीक्षा कर रहे हैं",
+        "gu": "શાંતિપૂર્ણ સપનાં તમારી રાહ જુએ છે"
+      }
+    ]
+  },
+  "reminders": [
+    {
+      "en": "A moment of prayer brings peace to your day",
+      "hi": "प्रार्थना का एक पल आपके दिन में शांति लाता है",
+      "gu": "પ્રાર્થનાની એક ક્ષણ તમારા દિવસમાં શાંતિ લાવે છે"
+    },
+    {
+      "en": "Take a few minutes for devotion and inner peace",
+      "hi": "भक्ति और आंतरिक शांति के लिए कुछ मिनट निकालें",
+      "gu": "ભક્તિ અને આંતરિક શાંતિ માટે થોડી મિનિટો લો"
+    },
+    {
+      "en": "Begin your day with divine blessings",
+      "hi": "दिव्य आशीर्वाद के साथ अपना दिन शुरू करें",
+      "gu": "દિવ્ય આશીર્વાદ સાથે તમારો દિવસ શરૂ કરો"
+    },
+    {
+      "en": "Connect with the divine through sacred prayers",
+      "hi": "पवित्र प्रार्थनाओं के माध्यम से दिव्य से जुड़ें",
+      "gu": "પવિત્ર પ્રાર્થનાઓ દ્વારા દિવ્ય સાથે જોડાઓ"
+    },
+    {
+      "en": "Nourish your soul with sacred verses today",
+      "hi": "आज पवित्र श्लोकों से अपनी आत्मा को पोषित करें",
+      "gu": "આજે પવિત્ર શ્લોકો વડે તમારા આત્માને પોષો"
+    },
+    {
+      "en": "Find strength and peace through daily prayer",
+      "hi": "दैनिक प्रार्थना से शक्ति और शांति पाएं",
+      "gu": "દૈનિક પ્રાર્થના દ્વારા શક્તિ અને શાંતિ મેળવો"
+    },
+    {
+      "en": "Your daily spiritual practice awaits you",
+      "hi": "आपकी दैनिक आध्यात्मिक साधना आपका इंतजार कर रही है",
+      "gu": "તમારી દૈનિક આધ્યાત્મિક સાધના તમારી રાહ જોઈ રહી છે"
+    }
+  ],
   "sections": {
     "opening": {
       "en": "Opening Doha",
